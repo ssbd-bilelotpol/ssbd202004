@@ -12,6 +12,10 @@
             <name>Jacek Stańczyk</name>
             <id>itdev1</id>
         </developer>
+	<developer>
+	    <name>Stefan Żaryn</name>
+	    <id>216940</id>
+	</developer>
     </developers>
     
     <properties>
