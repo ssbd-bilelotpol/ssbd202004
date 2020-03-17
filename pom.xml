@@ -16,6 +16,18 @@
             <name>Jakub Zygmunt</name>
             <id>216938</id>
         </developer>
+        <developer>
+            <name>Jakub Nozderka</name>
+            <id>216850</id>
+        </developer>
+        <developer>
+            <name>Stefan Żaryn</name>
+            <id>216940</id>
+        </developer>
+        <developer>
+            <name>Konrad Stępniak</name>
+            <id>216892</id>
+        </developer>
     </developers>
     
     <properties>
