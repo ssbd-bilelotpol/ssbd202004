@@ -12,6 +12,10 @@
             <name>Jacek Stańczyk</name>
             <id>itdev1</id>
         </developer>
+        <developer>
+            <name>Konrad Stępniak</name>
+            <id>216892</id>
+        </developer>
     </developers>
     
     <properties>
