@@ -12,6 +12,10 @@
             <name>Jacek Stańczyk</name>
             <id>itdev1</id>
         </developer>
+        <developer>
+            <name>Jakub Zygmunt</name>
+            <id>216938</id>
+        </developer>
     </developers>
     
     <properties>
