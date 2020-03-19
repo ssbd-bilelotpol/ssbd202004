@@ -24,7 +24,7 @@ public class AppExceptionHandler extends HttpServlet {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
 
-        if (requestUri.startsWith("/api")) {
+        if (requestUri.equals("/api") || requestUri.startsWith("/api/")) {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
 
