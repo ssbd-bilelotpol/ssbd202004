@@ -8,4 +8,8 @@
             30
         </session-timeout>
     </session-config>
+
+    <error-page>
+        <location>/exception_handler</location>
+    </error-page>
 </web-app>
