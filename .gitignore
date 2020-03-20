@@ -5,6 +5,7 @@ target/
 libs/
 tmp/
 node_modules/
+.vscode/
  
 # OS Files #
 .DS_Store
