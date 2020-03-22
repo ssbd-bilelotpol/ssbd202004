@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
@@ -10,7 +11,7 @@ import java.math.BigInteger;
 
 @Entity
 @Table(name = "Benefit")
-public class Benefit {
+public class Benefit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "SeatClass")
-public abstract class SeatClass {
+public abstract class SeatClass implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

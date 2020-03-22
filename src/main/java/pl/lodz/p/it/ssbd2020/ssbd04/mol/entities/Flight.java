@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Flight")
-public class Flight {
+public class Flight implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

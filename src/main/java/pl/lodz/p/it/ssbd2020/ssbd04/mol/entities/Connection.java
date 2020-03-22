@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Connection")
-public class Connection {
+public class Connection implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
