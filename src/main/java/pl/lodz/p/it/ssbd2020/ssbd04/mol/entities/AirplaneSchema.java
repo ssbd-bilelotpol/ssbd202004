@@ -18,6 +18,8 @@ public class AirplaneSchema {
 
     private BigInteger version;
 
+    public AirplaneSchema() {}
+
     public AirplaneSchema(Integer rows, Integer cols, BigInteger version) {
         this.rows = rows;
         this.cols = cols;

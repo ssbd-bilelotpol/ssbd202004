@@ -17,11 +17,14 @@ public class Benefit {
 
     private BigInteger version;
 
+    public Benefit() {}
+
     public Benefit(String name, String description, BigInteger version) {
         this.name = name;
         this.description = description;
         this.version = version;
     }
+
 
     public Long getId() {
         return id;

@@ -22,6 +22,8 @@ public class Airport {
 
     private BigInteger version;
 
+    public Airport() {}
+
     public Airport(String code, String name, String country, String city, List<Connection> connections, BigInteger version) {
         this.code = code;
         this.name = name;

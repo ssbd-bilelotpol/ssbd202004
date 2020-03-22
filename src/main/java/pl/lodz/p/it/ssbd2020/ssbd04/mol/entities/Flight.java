@@ -24,6 +24,8 @@ public class Flight {
 
     private BigInteger version;
 
+    public Flight() {}
+
     public Flight(String flightCode, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime, LocalDateTime endDatetime, BigInteger version) {
         this.flightCode = flightCode;
         this.connection = connection;

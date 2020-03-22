@@ -19,6 +19,8 @@ public abstract class SeatClass {
 
     private BigInteger version;
 
+    public SeatClass() {}
+
     public SeatClass(float price, List<Benefit> listOfBenefits, BigInteger version) {
         this.price = price;
         this.listOfBenefits = listOfBenefits;

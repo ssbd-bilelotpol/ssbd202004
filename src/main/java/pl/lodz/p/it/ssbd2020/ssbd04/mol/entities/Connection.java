@@ -24,6 +24,8 @@ public class Connection {
 
     private BigInteger version;
 
+    public Connection() {}
+
     public Connection(String destination, String source, List<Flight> flights, float basePrice, Airport airport, BigInteger version) {
         this.destination = destination;
         this.source = source;
