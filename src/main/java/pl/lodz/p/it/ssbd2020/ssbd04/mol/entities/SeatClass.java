@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * Informacje o klasie siedzenia i związanymi z nią benefitami
+ */
+
 @Entity
 @Table(name = "SeatClass")
 public abstract class SeatClass {

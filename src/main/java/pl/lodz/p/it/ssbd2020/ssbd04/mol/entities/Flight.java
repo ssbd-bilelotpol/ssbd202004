@@ -4,6 +4,11 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
+/**
+ * Informacje o konkretnym locie, połączeniu, którego jest częścią, kodzie lotu, samolocie oraz dacie początku i końca
+ * przelotu
+ */
+
 @Entity
 @Table(name = "Flight")
 public class Flight {

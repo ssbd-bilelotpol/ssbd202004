@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * Klasa lotniska. Posiada informacje o nazwe, kodzie lotniska, mieście i państwie, w którym się znajduje
+ */
+
 @Entity
 @Table(name = "Airport")
 public class Airport {

@@ -4,6 +4,10 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 import javax.persistence.*;
 import java.math.BigInteger;
 
+/**
+ * Informacje o możliwych do wykupienia benefitach
+ */
+
 @Entity
 @Table(name = "Benefit")
 public class Benefit {

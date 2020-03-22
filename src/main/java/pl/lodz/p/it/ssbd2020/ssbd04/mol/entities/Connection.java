@@ -4,6 +4,11 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * Informacje o połączeniu między dwoma miejscami, lotach, które te połączenie obsługują, lotnisku, z którego
+ * te loty odlatują oraz bazowej cenie połączenia
+ */
+
 @Entity
 @Table(name = "Connection")
 public class Connection {

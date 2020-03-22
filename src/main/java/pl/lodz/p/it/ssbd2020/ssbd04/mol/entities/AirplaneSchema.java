@@ -1,12 +1,16 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+
+/**
+ * Opis struktury samolotu (liczba kolumn i rzędów)
+ */
 
 @Entity
 @Table(name = "AirplaneSchema")
-public class AirplaneSchema {
+public class AirplaneSchema implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
