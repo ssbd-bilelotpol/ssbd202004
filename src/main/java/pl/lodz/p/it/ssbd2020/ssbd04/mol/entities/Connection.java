@@ -1,20 +1,36 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
+import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 
+@Entity
+@Table(name = "Connection")
 public class Connection {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", updatable = false, nullable = false)
     private long id;
     private String destination;
     private String source;
+
+    @OneToMany(targetEntity = Flight.class)
     private List<Flight> flights;
     private float basePrice;
 
-    public Connection(long id, String destination, String source, List<Flight> flights, float basePrice) {
-        this.id = id;
+    @ManyToOne(targetEntity = Airport.class)
+    private Airport airport;
+
+    private BigInteger version;
+
+    public Connection(String destination, String source, List<Flight> flights, float basePrice, Airport airport, BigInteger version) {
         this.destination = destination;
         this.source = source;
         this.flights = flights;
         this.basePrice = basePrice;
+        this.airport = airport;
+        this.version = version;
     }
 
     public long getId() {
@@ -55,5 +71,21 @@ public class Connection {
 
     public void setBasePrice(float basePrice) {
         this.basePrice = basePrice;
+    }
+
+    public Airport getAirport() {
+        return airport;
+    }
+
+    public void setAirport(Airport airport) {
+        this.airport = airport;
+    }
+
+    public BigInteger getVersion() {
+        return version;
+    }
+
+    public void setVersion(BigInteger version) {
+        this.version = version;
     }
 }

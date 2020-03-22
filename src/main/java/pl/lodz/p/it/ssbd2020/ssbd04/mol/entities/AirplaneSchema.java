@@ -1,37 +1,58 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
-public class AirplaneSchema {
-    private long id;
-    private int rows;
-    private int cols;
+import javax.persistence.*;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
 
-    public AirplaneSchema(long id, int rows, int cols) {
-        this.id = id;
+@Entity
+@Table(name = "AirplaneSchema")
+public class AirplaneSchema {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    private Integer rows;
+    private Integer cols;
+
+    private BigInteger version;
+
+    public AirplaneSchema(Integer rows, Integer cols, BigInteger version) {
         this.rows = rows;
         this.cols = cols;
+        this.version = version;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getRows() {
+    public Integer getRows() {
         return rows;
     }
 
-    public void setRows(int rows) {
+    public void setRows(Integer rows) {
         this.rows = rows;
     }
 
-    public int getCols() {
+    public Integer getCols() {
         return cols;
     }
 
-    public void setCols(int cols) {
+    public void setCols(Integer cols) {
         this.cols = cols;
+    }
+
+    public BigInteger getVersion() {
+        return version;
+    }
+
+    public void setVersion(BigInteger version) {
+        this.version = version;
     }
 }

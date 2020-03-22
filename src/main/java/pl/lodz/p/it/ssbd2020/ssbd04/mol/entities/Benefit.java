@@ -1,21 +1,33 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
+
+import javax.persistence.*;
+import java.math.BigInteger;
+
+@Entity
+@Table(name = "Benefit")
 public class Benefit {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
     private String name;
     private String description;
 
-    public Benefit(String id, String name, String description) {
-        this.id = id;
+    private BigInteger version;
+
+    public Benefit(String name, String description, BigInteger version) {
         this.name = name;
         this.description = description;
+        this.version = version;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -33,5 +45,13 @@ public class Benefit {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigInteger getVersion() {
+        return version;
+    }
+
+    public void setVersion(BigInteger version) {
+        this.version = version;
     }
 }
