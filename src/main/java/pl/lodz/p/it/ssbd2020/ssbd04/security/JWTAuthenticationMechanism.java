@@ -34,7 +34,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
             return context.doNothing();
         }
 
-        return context.responseUnauthorized();
+        return context.responseNotFound();
     }
 
     private JWT extractToken(HttpServletRequest request) {

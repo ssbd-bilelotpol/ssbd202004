@@ -2,8 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.utils;
 
 
 import javax.enterprise.context.ApplicationScoped;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
@@ -13,7 +11,7 @@ public class Config implements Serializable {
     private Properties p = new Properties();
 
     public Config() {
-        p.setProperty("jwt.secretKey", "alamaKota");
+        p.setProperty("jwt.secretKey", "alamakota");
         p.setProperty("jwt.validity", "15");
     }
 
