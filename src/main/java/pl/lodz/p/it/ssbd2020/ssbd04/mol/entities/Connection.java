@@ -2,8 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Informacje o połączeniu między dwoma miejscami, lotach, które te połączenie obsługują, lotnisku, z którego
@@ -15,29 +15,23 @@ import java.util.List;
 public class Connection implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
     private String destination;
     private String source;
 
-    @OneToMany(targetEntity = Flight.class)
-    private List<Flight> flights;
-    private float basePrice;
+    private Float basePrice;
 
-    @ManyToOne(targetEntity = Airport.class)
-    private Airport airport;
-
-    private BigInteger version;
+    @Version
+    private Long version;
 
     public Connection() {}
 
-    public Connection(String destination, String source, List<Flight> flights, float basePrice, Airport airport, BigInteger version) {
+    public Connection(String destination, String source, Float basePrice, Long version) {
         this.destination = destination;
         this.source = source;
-        this.flights = flights;
         this.basePrice = basePrice;
-        this.airport = airport;
         this.version = version;
     }
 
@@ -65,14 +59,6 @@ public class Connection implements Serializable {
         this.source = source;
     }
 
-    public List<Flight> getFlights() {
-        return flights;
-    }
-
-    public void setFlights(List<Flight> flights) {
-        this.flights = flights;
-    }
-
     public float getBasePrice() {
         return basePrice;
     }
@@ -81,19 +67,27 @@ public class Connection implements Serializable {
         this.basePrice = basePrice;
     }
 
-    public Airport getAirport() {
-        return airport;
-    }
-
-    public void setAirport(Airport airport) {
-        this.airport = airport;
-    }
-
-    public BigInteger getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(Long version) {
         this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Connection)) return false;
+        Connection that = (Connection) o;
+        return Objects.equals(destination, that.destination) &&
+                Objects.equals(source, that.source) &&
+                Objects.equals(basePrice, that.basePrice) &&
+                Objects.equals(version, that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(destination, source, basePrice, version);
     }
 }

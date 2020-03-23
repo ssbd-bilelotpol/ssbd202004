@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * Informacje o numerze siedzenia i jego umiejscowieniu na planie samolotu
@@ -13,7 +13,7 @@ import java.math.BigInteger;
 public class Seat implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Integer col;
@@ -21,19 +21,20 @@ public class Seat implements Serializable {
     private Integer number;
 
     @OneToOne(targetEntity = SeatClass.class)
-    private SeatClass _class;
+    private SeatClass seatClass;
 
-    private BigInteger version;
+    @Version
+    private Long version;
 
 
     public Seat() {
     }
 
-    public Seat(Integer col, Integer row, Integer number, SeatClass _class, BigInteger version){
+    public Seat(Integer col, Integer row, Integer number, SeatClass seatClass, Long version){
         this.col = col;
         this.row = row;
         this.number = number;
-        this._class = _class;
+        this.seatClass = seatClass;
         this.version = version;
     }
 
@@ -69,19 +70,36 @@ public class Seat implements Serializable {
         this.number = number;
     }
 
-    public SeatClass get_class() {
-        return _class;
+    public SeatClass getSeatClass() {
+        return seatClass;
     }
 
-    public void set_class(SeatClass _class) {
-        this._class = _class;
+    public void setSeatClass(SeatClass _class) {
+        this.seatClass = _class;
     }
 
-    public BigInteger getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(Long version) {
         this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Seat)) return false;
+        Seat seat = (Seat) o;
+        return Objects.equals(col, seat.col) &&
+                Objects.equals(row, seat.row) &&
+                Objects.equals(number, seat.number) &&
+                Objects.equals(seatClass, seat.seatClass) &&
+                Objects.equals(version, seat.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(col, row, number, seatClass, version);
     }
 }

@@ -2,8 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Klasa lotniska. Posiada informacje o nazwe, kodzie lotniska, mieście i państwie, w którym się znajduje
@@ -14,7 +14,7 @@ import java.util.List;
 public class Airport implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     private String code;
@@ -25,11 +25,12 @@ public class Airport implements Serializable {
     @OneToMany(targetEntity = Connection.class)
     private List<Connection> connections;
 
-    private BigInteger version;
+    @Version
+    private Long version;
 
     public Airport() {}
 
-    public Airport(String code, String name, String country, String city, List<Connection> connections, BigInteger version) {
+    public Airport(String code, String name, String country, String city, List<Connection> connections, Long version) {
         this.code = code;
         this.name = name;
         this.country = country;
@@ -86,11 +87,29 @@ public class Airport implements Serializable {
         this.connections = connections;
     }
 
-    public BigInteger getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(Long version) {
         this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Airport)) return false;
+        Airport airport = (Airport) o;
+        return Objects.equals(code, airport.code) &&
+                Objects.equals(name, airport.name) &&
+                Objects.equals(country, airport.country) &&
+                Objects.equals(city, airport.city) &&
+                Objects.equals(connections, airport.connections) &&
+                Objects.equals(version, airport.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name, country, city, connections, version);
     }
 }

@@ -2,8 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Informacje o konkretnym locie, połączeniu, którego jest częścią, kodzie lotu, samolocie oraz dacie początku i końca
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Flight implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
     private String flightCode;
@@ -25,14 +25,16 @@ public class Flight implements Serializable {
 
     @ManyToOne(targetEntity = AirplaneSchema.class)
     private AirplaneSchema airplaneSchema;
+
     private LocalDateTime startDatetime;
     private LocalDateTime endDatetime;
 
-    private BigInteger version;
+    @Version
+    private Long version;
 
     public Flight() {}
 
-    public Flight(String flightCode, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime, LocalDateTime endDatetime, BigInteger version) {
+    public Flight(String flightCode, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime, LocalDateTime endDatetime, Long version) {
         this.flightCode = flightCode;
         this.connection = connection;
         this.airplaneSchema = airplaneSchema;
@@ -89,11 +91,29 @@ public class Flight implements Serializable {
         this.endDatetime = endDatetime;
     }
 
-    public BigInteger getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(Long version) {
         this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Flight)) return false;
+        Flight flight = (Flight) o;
+        return Objects.equals(flightCode, flight.flightCode) &&
+                Objects.equals(connection, flight.connection) &&
+                Objects.equals(airplaneSchema, flight.airplaneSchema) &&
+                Objects.equals(startDatetime, flight.startDatetime) &&
+                Objects.equals(endDatetime, flight.endDatetime) &&
+                Objects.equals(version, flight.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(flightCode, connection, airplaneSchema, startDatetime, endDatetime, version);
     }
 }

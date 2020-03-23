@@ -3,7 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * Informacje o możliwych do wykupienia benefitach
@@ -14,17 +14,18 @@ import java.math.BigInteger;
 public class Benefit implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     private String name;
     private String description;
 
-    private BigInteger version;
+    @Version
+    private Long version;
 
     public Benefit() {}
 
-    public Benefit(String name, String description, BigInteger version) {
+    public Benefit(String name, String description, Long version) {
         this.name = name;
         this.description = description;
         this.version = version;
@@ -55,11 +56,26 @@ public class Benefit implements Serializable {
         this.description = description;
     }
 
-    public BigInteger getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(Long version) {
         this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Benefit)) return false;
+        Benefit benefit = (Benefit) o;
+        return Objects.equals(name, benefit.name) &&
+                Objects.equals(description, benefit.description) &&
+                Objects.equals(version, benefit.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, version);
     }
 }

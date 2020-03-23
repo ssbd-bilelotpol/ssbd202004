@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ import java.util.List;
 public abstract class SeatClass implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
     private float price;
@@ -22,11 +21,12 @@ public abstract class SeatClass implements Serializable {
     @OneToMany(targetEntity = Benefit.class)
     private List<Benefit> listOfBenefits;
 
-    private BigInteger version;
+    @Version
+    private Long version;
 
     public SeatClass() {}
 
-    public SeatClass(float price, List<Benefit> listOfBenefits, BigInteger version) {
+    public SeatClass(float price, List<Benefit> listOfBenefits, Long version) {
         this.price = price;
         this.listOfBenefits = listOfBenefits;
         this.version = version;
@@ -56,11 +56,12 @@ public abstract class SeatClass implements Serializable {
         this.listOfBenefits = listOfBenefits;
     }
 
-    public BigInteger getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
+
 }
