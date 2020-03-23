@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,7 +18,10 @@ public class AirplaneSchema implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @NotNull
     private Integer rows;
+
+    @NotNull
     private Integer cols;
 
     @Version
@@ -25,7 +29,7 @@ public class AirplaneSchema implements Serializable {
 
     public AirplaneSchema() {}
 
-    public AirplaneSchema(Integer rows, Integer cols, Long version) {
+    public AirplaneSchema(@NotNull Integer rows, @NotNull Integer cols, Long version) {
         this.rows = rows;
         this.cols = cols;
         this.version = version;

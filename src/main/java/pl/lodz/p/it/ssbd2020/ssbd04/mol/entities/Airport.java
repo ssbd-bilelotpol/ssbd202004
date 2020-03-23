@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -17,25 +18,29 @@ public class Airport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
-    private String code;
-    private String name;
-    private String country;
-    private String city;
 
-    @OneToMany(targetEntity = Connection.class)
-    private List<Connection> connections;
+    @NotNull
+    private String code;
+
+    @NotNull
+    private String name;
+
+    @NotNull
+    private String country;
+
+    @NotNull
+    private String city;
 
     @Version
     private Long version;
 
     public Airport() {}
 
-    public Airport(String code, String name, String country, String city, List<Connection> connections, Long version) {
+    public Airport(String code, String name, String country, String city, Long version) {
         this.code = code;
         this.name = name;
         this.country = country;
         this.city = city;
-        this.connections = connections;
         this.version = version;
     }
 
@@ -79,14 +84,6 @@ public class Airport implements Serializable {
         this.city = city;
     }
 
-    public List<Connection> getConnections() {
-        return connections;
-    }
-
-    public void setConnections(List<Connection> connections) {
-        this.connections = connections;
-    }
-
     public Long getVersion() {
         return version;
     }
@@ -104,12 +101,11 @@ public class Airport implements Serializable {
                 Objects.equals(name, airport.name) &&
                 Objects.equals(country, airport.country) &&
                 Objects.equals(city, airport.city) &&
-                Objects.equals(connections, airport.connections) &&
                 Objects.equals(version, airport.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, country, city, connections, version);
+        return Objects.hash(code, name, country, city, version);
     }
 }

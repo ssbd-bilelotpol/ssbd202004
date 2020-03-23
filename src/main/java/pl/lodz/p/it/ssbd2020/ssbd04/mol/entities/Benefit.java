@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,7 +18,11 @@ public class Benefit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String description;
 
     @Version

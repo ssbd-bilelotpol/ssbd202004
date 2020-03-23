@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -21,12 +22,17 @@ public class Flight implements Serializable {
     private String flightCode;
 
     @ManyToOne(targetEntity = Connection.class)
+    @NotNull
     private Connection connection;
 
     @ManyToOne(targetEntity = AirplaneSchema.class)
+    @NotNull
     private AirplaneSchema airplaneSchema;
 
+    @NotNull
     private LocalDateTime startDatetime;
+
+    @NotNull
     private LocalDateTime endDatetime;
 
     @Version

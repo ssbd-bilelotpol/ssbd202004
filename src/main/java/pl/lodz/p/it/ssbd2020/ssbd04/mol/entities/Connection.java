@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -18,9 +19,14 @@ public class Connection implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
-    private String destination;
-    private String source;
 
+    @ManyToOne
+    private Airport destination;
+
+    @ManyToOne
+    private Airport source;
+
+    @NotNull
     private Float basePrice;
 
     @Version
@@ -28,11 +34,35 @@ public class Connection implements Serializable {
 
     public Connection() {}
 
-    public Connection(String destination, String source, Float basePrice, Long version) {
-        this.destination = destination;
+    public Connection(Airport source, Airport destination, Float basePrice, Long version) {
         this.source = source;
+        this.destination = destination;
         this.basePrice = basePrice;
         this.version = version;
+    }
+
+    public Airport getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Airport destination) {
+        this.destination = destination;
+    }
+
+    public Airport getSource() {
+        return source;
+    }
+
+    public void setSource(Airport source) {
+        this.source = source;
+    }
+
+    public void setBasePrice(Float basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public Float getBasePrice() {
+        return basePrice;
     }
 
     public long getId() {
@@ -41,30 +71,6 @@ public class Connection implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public float getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(float basePrice) {
-        this.basePrice = basePrice;
     }
 
     public Long getVersion() {

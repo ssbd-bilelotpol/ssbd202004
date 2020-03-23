@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,11 +17,17 @@ public class Seat implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Integer col;
+
+    @NotNull
     private Integer row;
+
+    @NotNull
     private Integer number;
 
     @OneToOne(targetEntity = SeatClass.class)
+    @NotNull
     private SeatClass seatClass;
 
     @Version
