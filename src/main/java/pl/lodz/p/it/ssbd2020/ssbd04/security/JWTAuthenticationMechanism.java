@@ -12,6 +12,8 @@ import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticatio
 import javax.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpRequest;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +22,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
 
     private static final Logger LOGGER = Logger.getLogger(JWTAuthenticationMechanism.class.getName());
     private final static String AUTHORIZATION_HEADER = "Authorization";
+    private final static String ROLE_HEADER = "Authorization-Role";
     private final static String BEARER = "Bearer ";
 
     @Inject
@@ -29,12 +32,24 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
         JWT jwt = extractToken(request);
         if (jwt != null) {
-            return context.notifyContainerAboutLogin(jwt.getPrincipal(), jwt.getAuthorities());
+            return applyCredentials(jwt, extractRole(request), context);
         } else if (!context.isProtected()) {
             return context.doNothing();
         }
 
         return context.responseNotFound();
+    }
+
+    private AuthenticationStatus applyCredentials(JWT jwt, String role, HttpMessageContext context) {
+        if (jwt.getAuthorities().contains(role)) {
+            return context.notifyContainerAboutLogin(jwt.getPrincipal(), Collections.singleton(role));
+        }
+
+        return context.responseUnauthorized();
+    }
+
+    private String extractRole(HttpServletRequest request) {
+        return request.getHeader(ROLE_HEADER);
     }
 
     private JWT extractToken(HttpServletRequest request) {
