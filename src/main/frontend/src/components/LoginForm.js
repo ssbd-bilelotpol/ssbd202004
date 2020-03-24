@@ -6,10 +6,10 @@ import {TextField} from 'formik-material-ui';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import * as Yup from 'yup';
 import {connect} from "react-redux";
-import {login} from "../actions/auth";
+import {loginAction} from "../actions/auth";
 
 const LoginSchema = Yup.object().shape({
-   login: Yup.string()
+    username: Yup.string()
        .required('Required'),
     password: Yup.string()
         .required('Required')
@@ -34,12 +34,12 @@ const LoginForm = ({dispatch}) => {
     return (
         <Formik
             initialValues={{
-                login: '',
+                username: '',
                 password: '',
             }}
             validationSchema={LoginSchema}
             onSubmit={(values, {setSubmitting}) => {
-                dispatch(login(values.login, values.password))
+                dispatch(loginAction(values.username, values.password))
                     .then(() => setSubmitting(false));
             }}
         >
@@ -48,8 +48,8 @@ const LoginForm = ({dispatch}) => {
                     <div>
                         <Field
                             component={TextField}
-                            name="login"
-                            label="Login"
+                            name="username"
+                            label="Username"
                         />
                     </div>
                     <div>

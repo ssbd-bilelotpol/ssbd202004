@@ -1,18 +1,41 @@
-import {ACTION_LOGIN_BEGIN, ACTION_LOGIN_FAILURE, ACTION_LOGIN_SUCCESS} from "../actions/auth";
+import {
+    ACTION_CLOSE_AUTH_MODAL,
+    ACTION_LOGIN_BEGIN,
+    ACTION_LOGIN_FAILURE,
+    ACTION_LOGIN_SUCCESS,
+    ACTION_LOGOUT,
+    ACTION_OPEN_AUTH_MODAL
+} from "../actions/auth";
 
-const accessToken = localStorage.getItem("accessToken");
-const initialState = accessToken ? {
-    accessToken,
+const user = JSON.parse(localStorage.getItem("user"));
+const clearState = {
+    principal: '',
+    authorities: '',
+    token: '',
+    loggingIn: false,
+    loggedIn: false,
+    openModal: false
+};
+
+const initialState = user ? {
+    ...user,
+    openModal: false,
     loggedIn: true,
     loggingIn: false
-} : {
-    accessToken: '',
-    loggingIn: false,
-    loggedIn: false
-};
+} : clearState;
 
 export default function auth(state = initialState, action) {
     switch (action.type) {
+        case ACTION_OPEN_AUTH_MODAL:
+            return {
+                ...state,
+                openModal: true
+            };
+        case ACTION_CLOSE_AUTH_MODAL:
+            return {
+                ...state,
+                openModal: false
+            };
         case ACTION_LOGIN_BEGIN:
             return {
                 ...state,
@@ -23,8 +46,9 @@ export default function auth(state = initialState, action) {
             return {
                 ...state,
                 loggingIn: false,
+                openModal: false,
                 loggedIn: true,
-                accessToken: action.payload.accessToken
+                ...action.payload
             };
         case ACTION_LOGIN_FAILURE:
             return {
@@ -32,6 +56,10 @@ export default function auth(state = initialState, action) {
                 loggingIn: false,
                 loggedIn: false,
                 error: action.error
+            };
+        case ACTION_LOGOUT:
+            return {
+                ...clearState
             };
         default:
             return state;

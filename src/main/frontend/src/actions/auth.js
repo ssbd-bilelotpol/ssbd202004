@@ -3,16 +3,34 @@ import axios from 'axios';
 export const ACTION_LOGIN_BEGIN = 'LOGIN_BEGIN';
 export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const ACTION_LOGOUT = 'LOGOUT';
+export const ACTION_OPEN_AUTH_MODAL = 'OPEN_AUTH_MODAL';
+export const ACTION_CLOSE_AUTH_MODAL = 'CLOSE_AUTH_MODAL';
 
-export const login = (login, password) => dispatch => {
+export const openAuthModalAction = () => ({
+    type: ACTION_OPEN_AUTH_MODAL
+});
+
+export const closeAuthModalAction = () => ({
+    type: ACTION_CLOSE_AUTH_MODAL
+});
+
+export const logoutAction = () => dispatch => {
+    localStorage.removeItem("user");
+    dispatch({
+        type: ACTION_LOGOUT
+    });
+};
+
+export const loginAction = (username, password) => dispatch => {
     const begin = () => ({
         type: ACTION_LOGIN_BEGIN,
     });
 
-    const success = (accessToken) => ({
+    const success = (user) => ({
         type: ACTION_LOGIN_SUCCESS,
         payload: {
-            accessToken
+            ...user
         }
     });
 
@@ -23,12 +41,11 @@ export const login = (login, password) => dispatch => {
 
     dispatch(begin());
     return axios.post("http://localhost:8080/api/auth", {
-        username: login,
+        username,
         password
     }).then(response => {
-        const { token } = response.data;
-        localStorage.setItem("accessToken", token);
-        dispatch(success(token))
+        localStorage.setItem("user", JSON.stringify(response.data));
+        dispatch(success(response.data));
     }).catch(err => {
         if (err.response) {
             dispatch(failure(err.response.data.message));

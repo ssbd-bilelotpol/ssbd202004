@@ -13,11 +13,11 @@ public class JWT {
         this.token = token;
     }
 
-    String getPrincipal() {
+    public String getPrincipal() {
         return principal;
     }
 
-    Set<String> getAuthorities() {
+    public Set<String> getAuthorities() {
         return authorities;
     }
 

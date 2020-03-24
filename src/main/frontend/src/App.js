@@ -8,7 +8,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import LoginModal from "./components/LoginModal";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {closeAuthModalAction, logoutAction, openAuthModalAction} from "./actions/auth";
 
 
 const useStyles = makeStyles(theme => ({
@@ -19,15 +20,20 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
   const loggedIn = useSelector(state => state.auth.loggedIn);
+  const open = useSelector(state => state.auth.openModal);
+  const dispatch = useDispatch();
   const handleOpen = () => {
-    setOpen(true);
+    dispatch(openAuthModalAction());
   };
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(closeAuthModalAction());
+  };
+
+  const logout = () => {
+    dispatch(logoutAction());
   };
 
   return (
@@ -41,9 +47,10 @@ function App() {
             Bilelotpol
           </Typography>
           {!loggedIn && <Button color="inherit" onClick={handleOpen}>Login</Button>}
+          {loggedIn && <Button color="inherit" onClick={logout}>Logout</Button>}
         </Toolbar>
       </AppBar>
-      <LoginModal open={open && !loggedIn} handleClose={handleClose}/>
+      <LoginModal open={open} handleClose={handleClose}/>
     </div>
   );
 }
