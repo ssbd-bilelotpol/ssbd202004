@@ -31,9 +31,8 @@ const useStyles = makeStyles((theme) => ({
     }
 ));
 
-export default function LoginModal(props) {
+const LoginModal = ({open, handleClose}) => {
     const classes = useStyles();
-    const {open, handleClose} = props;
 
     return <Modal
         aria-labelledby="login-modal-title"
@@ -55,4 +54,6 @@ export default function LoginModal(props) {
             </div>
         </Fade>
     </Modal>
-}
+};
+
+export default LoginModal;
