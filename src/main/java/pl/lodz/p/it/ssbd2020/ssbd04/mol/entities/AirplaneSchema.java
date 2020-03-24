@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,14 +25,21 @@ public class AirplaneSchema implements Serializable {
     @NotNull
     private Integer cols;
 
+    @NotNull
+    @OneToMany(targetEntity = Seat.class)
+    @JoinTable(inverseJoinColumns = @JoinColumn(name = "seat_id"),
+    joinColumns = @JoinColumn(name = "airplaneschema_id"))
+    private List<Seat> seatList;
+
     @Version
     private Long version;
 
     public AirplaneSchema() {}
 
-    public AirplaneSchema(@NotNull Integer rows, @NotNull Integer cols, Long version) {
+    public AirplaneSchema(@NotNull Integer rows, @NotNull Integer cols, @NotNull List<Seat> seatList, Long version) {
         this.rows = rows;
         this.cols = cols;
+        this.seatList = seatList;
         this.version = version;
     }
 
@@ -59,6 +67,14 @@ public class AirplaneSchema implements Serializable {
         this.cols = cols;
     }
 
+    public List<Seat> getSeatList() {
+        return seatList;
+    }
+
+    public void setSeatList(List<Seat> seatList) {
+        this.seatList = seatList;
+    }
+
     public Long getVersion() {
         return version;
     }
@@ -74,11 +90,12 @@ public class AirplaneSchema implements Serializable {
         AirplaneSchema that = (AirplaneSchema) o;
         return Objects.equals(rows, that.rows) &&
                 Objects.equals(cols, that.cols) &&
+                Objects.equals(seatList, that.seatList) &&
                 Objects.equals(version, that.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rows, cols, version);
+        return Objects.hash(rows, cols, seatList, version);
     }
 }
