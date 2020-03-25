@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -11,24 +12,23 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "Airport")
 public class Airport implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String code;
 
-    @NotNull
+    @Column(nullable = false, length = 32)
     private String name;
 
-    @NotNull
+    @Column(nullable = false, length = 32)
     private String country;
 
-    @NotNull
+    @Column(nullable = false, length = 32)
     private String city;
 
     @Version
@@ -46,10 +46,6 @@ public class Airport implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCode() {

@@ -5,40 +5,37 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
 /**
  * Informacje o konkretnym locie, połączeniu, którego jest częścią, kodzie lotu, samolocie oraz dacie początku i końca
  * przelotu
  */
 
 @Entity
-@Table(name = "Flight")
 public class Flight implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private long id;
+    @Column(name = "id", updatable = false)
+    private Long id;
     private String flightCode;
 
-    @ManyToOne(targetEntity = Connection.class)
-    @NotNull
+    @ManyToOne
     private Connection connection;
 
-    @ManyToOne(targetEntity = AirplaneSchema.class)
-    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     private AirplaneSchema airplaneSchema;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDateTime startDatetime;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDateTime endDatetime;
 
     @Version
     private Long version;
 
-        public Flight() {
-        }
+    public Flight() {}
 
     public Flight(String flightCode, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime, LocalDateTime endDatetime, Long version) {
         this.flightCode = flightCode;
@@ -49,74 +46,73 @@ public class Flight implements Serializable {
         this.version = version;
     }
 
-    public long getId () {
-            return id;
-        }
+    public Long getId() {
+        return id;
+    }
 
-        public void setId ( long id){
-            this.id = id;
-        }
+    public String getFlightCode() {
+        return flightCode;
+    }
 
-        public String getFlightCode () {
-            return flightCode;
-        }
+    public void setFlightCode(String flightCode) {
+        this.flightCode = flightCode;
+    }
 
-        public void setFlightCode (String flightCode){
-            this.flightCode = flightCode;
-        }
+    public Connection getConnection() {
+        return connection;
+    }
 
-        public Connection getConnection () {
-            return connection;
-        }
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
 
-        public void setConnection (Connection connection){
-            this.connection = connection;
-        }
+    public AirplaneSchema getAirplaneSchema() {
+        return airplaneSchema;
+    }
 
-        public AirplaneSchema getAirplaneSchema () {
-            return airplaneSchema;
-        }
+    public void setAirplaneSchema(AirplaneSchema airplaneSchema) {
+        this.airplaneSchema = airplaneSchema;
+    }
 
-        public void setAirplaneSchema (AirplaneSchema airplaneSchema){
-            this.airplaneSchema = airplaneSchema;
-        }
+    public LocalDateTime getStartDatetime() {
+        return startDatetime;
+    }
 
-        public LocalDateTime getStartDatetime () {
-            return startDatetime;
-        }
+    public void setStartDatetime(LocalDateTime startDatetime) {
+        this.startDatetime = startDatetime;
+    }
 
-        public void setStartDatetime (LocalDateTime startDatetime){
-            this.startDatetime = startDatetime;
-        }
+    public LocalDateTime getEndDatetime() {
+        return endDatetime;
+    }
 
-        public LocalDateTime getEndDatetime () {
-            return endDatetime;
-        }
+    public void setEndDatetime(LocalDateTime endDatetime) {
+        this.endDatetime = endDatetime;
+    }
 
-        public void setEndDatetime (LocalDateTime endDatetime){
-            this.endDatetime = endDatetime;
-        }
+    public Long getVersion() {
+        return version;
+    }
 
-        public Long getVersion () {
-            return version;
-        }
-
-        public void setVersion (Long version){
-            this.version = version;
-        }
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Flight)) return false;
-
         Flight flight = (Flight) o;
-
-        return Objects.equals(flightCode, flight.flightCode);
+        return Objects.equals(flightCode, flight.flightCode) &&
+                Objects.equals(connection, flight.connection) &&
+                Objects.equals(airplaneSchema, flight.airplaneSchema) &&
+                Objects.equals(startDatetime, flight.startDatetime) &&
+                Objects.equals(endDatetime, flight.endDatetime) &&
+                Objects.equals(version, flight.version);
     }
 
     @Override
     public int hashCode() {
-        return flightCode != null ? flightCode.hashCode() : 0;
+        return Objects.hash(flightCode, connection, airplaneSchema, startDatetime, endDatetime, version);
     }
 }

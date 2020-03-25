@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,16 +13,12 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "Connection")
 public class Connection implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private long id;
-
-    @NotNull
-    private BigDecimal basePrice;
+    @Column(name = "id", updatable = false)
+    private Long id;
 
     @ManyToOne
     private Airport destination;
@@ -29,19 +26,20 @@ public class Connection implements Serializable {
     @ManyToOne
     private Airport source;
 
+    @Column(nullable = false)
+    private BigDecimal basePrice;
 
     @Version
     private Long version;
 
     public Connection() {}
 
-    public Connection(@NotNull BigDecimal basePrice, Airport destination, Airport source, Long version) {
-        this.basePrice = basePrice;
-        this.destination = destination;
+    public Connection(Airport source, Airport destination, BigDecimal basePrice, Long version) {
         this.source = source;
+        this.destination = destination;
+        this.basePrice = basePrice;
         this.version = version;
     }
-
 
     public Airport getDestination() {
         return destination;
@@ -59,20 +57,16 @@ public class Connection implements Serializable {
         this.source = source;
     }
 
-    public BigDecimal getBasePrice() {
-        return basePrice;
-    }
-
     public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
     }
 
-    public long getId() {
-        return id;
+    public BigDecimal getBasePrice() {
+        return basePrice;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public Long getVersion() {
