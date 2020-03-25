@@ -31,7 +31,6 @@ public class Seat implements Serializable {
     private Integer number;
 
     @OneToOne(targetEntity = SeatClass.class)
-    @Column(nullable = false)
     private SeatClass seatClass;
 
     @Version

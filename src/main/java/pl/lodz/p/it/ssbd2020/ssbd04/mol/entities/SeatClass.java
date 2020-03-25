@@ -22,7 +22,6 @@ public abstract class SeatClass implements Serializable {
     private Float price;
 
     @OneToMany(targetEntity = Benefit.class)
-    @Column(nullable = false)
     private List<Benefit> listOfBenefits;
 
     @Version

@@ -20,11 +20,9 @@ public class Connection implements Serializable {
     private Long id;
 
     @ManyToOne
-    @Column(nullable = false)
     private Airport destination;
 
     @ManyToOne
-    @Column(nullable = false)
     private Airport source;
 
     @Column(nullable = false)
