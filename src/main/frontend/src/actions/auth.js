@@ -40,7 +40,7 @@ export const loginAction = (username, password) => dispatch => {
     });
 
     dispatch(begin());
-    return axios.post("http://localhost:8080/api/auth", {
+    return axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
         username,
         password
     }).then(response => {

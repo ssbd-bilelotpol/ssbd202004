@@ -19,12 +19,12 @@ const useStyles = makeStyles(theme => ({
 const AuthTest = () => {
     const classes = useStyles();
 
-    const server = "http://localhost:8080";
+    const server = `${process.env.REACT_APP_API_URL}`;
     const urls = [
-        "/api/security/client",
-        "/api/security/clientManager",
-        "/api/security/resourceManager",
-        "/api/security/admin"
+        "/security/client",
+        "/security/clientManager",
+        "/security/resourceManager",
+        "/security/admin"
     ];
 
     const [state, setState] = React.useState(urls.map(() => 'Unknown'));
