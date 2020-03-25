@@ -33,8 +33,7 @@ public class AirplaneSchema implements Serializable {
 
     @Column(nullable = false)
     @OneToMany
-    @JoinTable(inverseJoinColumns = @JoinColumn(name = "seat_id"),
-    joinColumns = @JoinColumn(name = "airplane_schema_id"))
+    @JoinColumn(name = "schema_id")
     private Set<Seat> seatList;
 
     @Version
