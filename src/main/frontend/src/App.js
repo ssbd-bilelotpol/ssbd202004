@@ -25,8 +25,8 @@ function App() {
 
     const loggedIn = useSelector(state => state.auth.loggedIn);
     const open = useSelector(state => state.auth.openModal);
-    const principal = useSelector(state => state.auth.principal);
-    const authorities = useSelector(state => state.auth.authorities);
+    const user = useSelector(state => state.auth.user);
+
     const dispatch = useDispatch();
     const handleOpen = () => {
         dispatch(openAuthModalAction());
@@ -56,9 +56,9 @@ function App() {
             </AppBar>
             <Container>
                 {loggedIn && <>
-                    <Typography variant="h2">Welcome {principal}!</Typography>
+                    <Typography variant="h2">Welcome {user.principal}!</Typography>
                     <ul>
-                        {authorities.map(auth => <li key={auth}>{auth}</li>)}
+                        {user.authorities.map(auth => <li key={auth}>{auth}</li>)}
                     </ul>
                 </>}
                 <AuthTest/>

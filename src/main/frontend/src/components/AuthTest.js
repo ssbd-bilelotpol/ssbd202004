@@ -27,15 +27,14 @@ const AuthTest = () => {
     ];
 
     const [state, setState] = React.useState(urls.map(() => 'Unknown'));
-    const token = useSelector(state => state.auth.token);
-    const authorities = useSelector(state => state.auth.authorities);
+    const user = useSelector(state => state.auth.user);
 
     const test = () => {
         Promise.all(urls.map(url => {
             return fetch(`${server}${url}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Authorization-Role': authorities && authorities[0]
+                    'Authorization': `Bearer ${user.token}`,
+                    'Authorization-Role': user.authorities && user.authorities[0]
                 }
             })
                 .then((response) => {

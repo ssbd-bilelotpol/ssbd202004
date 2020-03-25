@@ -6,19 +6,30 @@ import {
     ACTION_LOGOUT,
     ACTION_OPEN_AUTH_MODAL
 } from "../actions/auth";
+import jwtDecode from 'jwt-decode';
 
-const user = JSON.parse(localStorage.getItem("user"));
+
+let user = JSON.parse(localStorage.getItem("user"));
+if (user && user.token) {
+    const token = jwtDecode(user.token);
+    if (token.exp < Date.now() / 1000) {
+        user = '';
+    }
+}
+
 const clearState = {
-    principal: '',
-    authorities: '',
-    token: '',
+    user: {
+        principal: '',
+        authorities: '',
+        token: ''
+    },
     loggingIn: false,
     loggedIn: false,
     openModal: false
 };
 
 const initialState = user ? {
-    ...user,
+    user,
     openModal: false,
     loggedIn: true,
     loggingIn: false
@@ -48,7 +59,9 @@ export default function auth(state = initialState, action) {
                 loggingIn: false,
                 openModal: false,
                 loggedIn: true,
-                ...action.payload
+                user: {
+                    ...action.payload
+                }
             };
         case ACTION_LOGIN_FAILURE:
             return {
