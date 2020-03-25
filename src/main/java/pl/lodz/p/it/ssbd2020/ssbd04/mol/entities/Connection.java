@@ -1,0 +1,95 @@
+package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Objects;
+
+/**
+ * Informacje o połączeniu między dwoma miejscami, lotach, które te połączenie obsługują, lotnisku, z którego
+ * te loty odlatują oraz bazowej cenie połączenia
+ */
+
+@Entity
+public class Connection implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
+    private Long id;
+
+    @ManyToOne
+    private Airport destination;
+
+    @ManyToOne
+    private Airport source;
+
+    @Column(nullable = false)
+    private BigDecimal basePrice;
+
+    @Version
+    private Long version;
+
+    public Connection() {}
+
+    public Connection(Airport source, Airport destination, BigDecimal basePrice, Long version) {
+        this.source = source;
+        this.destination = destination;
+        this.basePrice = basePrice;
+        this.version = version;
+    }
+
+    public Airport getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Airport destination) {
+        this.destination = destination;
+    }
+
+    public Airport getSource() {
+        return source;
+    }
+
+    public void setSource(Airport source) {
+        this.source = source;
+    }
+
+    public void setBasePrice(BigDecimal basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public BigDecimal getBasePrice() {
+        return basePrice;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Connection)) return false;
+        Connection that = (Connection) o;
+        return Objects.equals(destination, that.destination) &&
+                Objects.equals(source, that.source) &&
+                Objects.equals(basePrice, that.basePrice) &&
+                Objects.equals(version, that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(destination, source, basePrice, version);
+    }
+}
