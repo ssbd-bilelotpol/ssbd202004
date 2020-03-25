@@ -18,19 +18,20 @@ public abstract class SeatClass implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
-    private float price;
+    @Column(nullable = false)
+    private Float price;
 
     @OneToMany(targetEntity = Benefit.class)
-    @NotNull
+    @Column(nullable = false)
     private List<Benefit> listOfBenefits;
 
     @Version
+    @Column(nullable = false)
     private Long version;
 
     public SeatClass() {}
 
-    public SeatClass(float price, List<Benefit> listOfBenefits, Long version) {
+    public SeatClass(Float price, List<Benefit> listOfBenefits, Long version) {
         this.price = price;
         this.listOfBenefits = listOfBenefits;
         this.version = version;
@@ -40,11 +41,11 @@ public abstract class SeatClass implements Serializable {
         return id;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

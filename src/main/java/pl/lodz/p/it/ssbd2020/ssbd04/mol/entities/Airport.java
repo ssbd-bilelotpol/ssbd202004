@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -18,19 +19,20 @@ public class Airport implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String code;
 
-    @NotNull
+    @Column(nullable = false, length = 32)
     private String name;
 
-    @NotNull
+    @Column(nullable = false, length = 32)
     private String country;
 
-    @NotNull
+    @Column(nullable = false, length = 32)
     private String city;
 
     @Version
+    @Column(nullable = false)
     private Long version;
 
     public Airport() {}

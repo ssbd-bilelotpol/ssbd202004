@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
@@ -19,15 +20,19 @@ public class Connection implements Serializable {
     private Long id;
 
     @ManyToOne
+    @Column(nullable = false)
     private Airport destination;
 
     @ManyToOne
+    @Column(nullable = false)
     private Airport source;
 
-    @NotNull
+    @Column(nullable = false)
+    @Min(value = 0L)
     private Float basePrice;
 
     @Version
+    @Column(nullable = false)
     private Long version;
 
     public Connection() {}

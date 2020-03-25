@@ -18,13 +18,14 @@ public class Benefit implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false, length = 64)
     private String name;
 
-    @NotNull
+    @Column(nullable = false, length = 128)
     private String description;
 
     @Version
+    @Column(nullable = false)
     private Long version;
 
     public Benefit() {}

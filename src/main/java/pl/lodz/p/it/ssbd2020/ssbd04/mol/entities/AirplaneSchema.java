@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -19,19 +20,22 @@ public class AirplaneSchema implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
+    @Min(value = 0L)
     private Integer rows;
 
-    @NotNull
+    @Column(nullable = false)
+    @Min(value = 0L)
     private Integer cols;
 
-    @NotNull
+    @Column(nullable = false)
     @OneToMany(targetEntity = Seat.class)
     @JoinTable(inverseJoinColumns = @JoinColumn(name = "seat_id"),
     joinColumns = @JoinColumn(name = "airplaneschema_id"))
     private List<Seat> seatList;
 
     @Version
+    @Column(nullable = false)
     private Long version;
 
     public AirplaneSchema() {}

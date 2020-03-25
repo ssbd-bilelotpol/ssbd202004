@@ -21,20 +21,21 @@ public class Flight implements Serializable {
     private String flightCode;
 
     @ManyToOne(targetEntity = Connection.class)
-    @NotNull
+    @Column(nullable = false)
     private Connection connection;
 
     @ManyToOne(targetEntity = AirplaneSchema.class, fetch = FetchType.LAZY)
-    @NotNull
+    @Column(nullable = false)
     private AirplaneSchema airplaneSchema;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDateTime startDatetime;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDateTime endDatetime;
 
     @Version
+    @Column(nullable = false)
     private Long version;
 
     public Flight() {}

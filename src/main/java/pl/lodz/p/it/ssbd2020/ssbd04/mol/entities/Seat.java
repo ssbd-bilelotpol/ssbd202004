@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,20 +18,24 @@ public class Seat implements Serializable {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
+    @Min(value = 0L)
     private Integer col;
 
-    @NotNull
+    @Column(nullable = false)
+    @Min(value = 0L)
     private Integer row;
 
-    @NotNull
+    @Column(nullable = false)
+    @Min(value = 0L)
     private Integer number;
 
     @OneToOne(targetEntity = SeatClass.class)
-    @NotNull
+    @Column(nullable = false)
     private SeatClass seatClass;
 
     @Version
+    @Column(nullable = false)
     private Long version;
 
 
