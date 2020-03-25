@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -16,7 +17,7 @@ public class Connection implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @ManyToOne
@@ -26,16 +27,14 @@ public class Connection implements Serializable {
     private Airport source;
 
     @Column(nullable = false)
-    @Min(value = 0L)
-    private Float basePrice;
+    private BigDecimal basePrice;
 
     @Version
-    @Column(nullable = false)
     private Long version;
 
     public Connection() {}
 
-    public Connection(Airport source, Airport destination, Float basePrice, Long version) {
+    public Connection(Airport source, Airport destination, BigDecimal basePrice, Long version) {
         this.source = source;
         this.destination = destination;
         this.basePrice = basePrice;
@@ -58,11 +57,11 @@ public class Connection implements Serializable {
         this.source = source;
     }
 
-    public void setBasePrice(Float basePrice) {
+    public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
     }
 
-    public Float getBasePrice() {
+    public BigDecimal getBasePrice() {
         return basePrice;
     }
 

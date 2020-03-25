@@ -1,46 +1,48 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Opis struktury samolotu (liczba kolumn i rzędów)
  */
 
 @Entity
-@Table(name = "AirplaneSchema")
+@Table(name = "airplane_schema")
 public class AirplaneSchema implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(nullable = false)
-    @Min(value = 0L)
+    @Min(value = 1L)
     private Integer rows;
 
     @Column(nullable = false)
-    @Min(value = 0L)
+    @Min(value = 1L)
     private Integer cols;
 
     @Column(nullable = false)
-    @OneToMany(targetEntity = Seat.class)
+    @OneToMany
     @JoinTable(inverseJoinColumns = @JoinColumn(name = "seat_id"),
-    joinColumns = @JoinColumn(name = "airplaneschema_id"))
-    private List<Seat> seatList;
+    joinColumns = @JoinColumn(name = "airplane_schema_id"))
+    private Set<Seat> seatList;
 
     @Version
-    @Column(nullable = false)
     private Long version;
 
     public AirplaneSchema() {}
 
-    public AirplaneSchema(@NotNull Integer rows, @NotNull Integer cols, @NotNull List<Seat> seatList, Long version) {
+    public AirplaneSchema(@NotNull Integer rows, @NotNull Integer cols, Set<Seat> seatList, Long version) {
         this.rows = rows;
         this.cols = cols;
         this.seatList = seatList;
@@ -67,11 +69,11 @@ public class AirplaneSchema implements Serializable {
         this.cols = cols;
     }
 
-    public List<Seat> getSeatList() {
+    public Set<Seat> getSeatList() {
         return seatList;
     }
 
-    public void setSeatList(List<Seat> seatList) {
+    public void setSeatList(Set<Seat> seatList) {
         this.seatList = seatList;
     }
 

@@ -16,14 +16,14 @@ public class Flight implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
     private String flightCode;
 
-    @ManyToOne(targetEntity = Connection.class)
+    @ManyToOne
     private Connection connection;
 
-    @ManyToOne(targetEntity = AirplaneSchema.class, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private AirplaneSchema airplaneSchema;
 
     @Column(nullable = false)
@@ -33,7 +33,6 @@ public class Flight implements Serializable {
     private LocalDateTime endDatetime;
 
     @Version
-    @Column(nullable = false)
     private Long version;
 
     public Flight() {}

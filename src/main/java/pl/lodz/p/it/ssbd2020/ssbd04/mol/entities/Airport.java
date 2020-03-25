@@ -16,7 +16,7 @@ public class Airport implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -32,7 +32,6 @@ public class Airport implements Serializable {
     private String city;
 
     @Version
-    @Column(nullable = false)
     private Long version;
 
     public Airport() {}
