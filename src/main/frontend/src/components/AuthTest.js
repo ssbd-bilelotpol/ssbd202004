@@ -4,7 +4,6 @@ import ListItem from "@material-ui/core/ListItem";
 import {ListItemText} from "@material-ui/core";
 import List from "@material-ui/core/List";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import axios from "axios";
 import {useSelector} from "react-redux";
 
 const useStyles = makeStyles(theme => ({
@@ -32,27 +31,28 @@ const AuthTest = () => {
     const authorities = useSelector(state => state.auth.authorities);
 
     const test = () => {
-        axios.all(urls.map(url => {
-            return axios.get(`${server}${url}`, {
+        Promise.all(urls.map(url => {
+            return fetch(`${server}${url}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Authorization-Role': authorities && authorities[0]
                 }
             })
-                .then(() => 'Authorized')
-                .catch(err => {
-                    if (err.response) {
-                        if (err.response.status === 403) {
-                            return 'Forbidden';
-                        } else if (err.response.status === 404) {
-                            return 'Not found';
-                        } else if (err.response.status === 401) {
-                            return 'Unauthorized';
-                        }
-                        return 'Unknown error';
-                    } else {
-                        return 'No connection';
+                .then((response) => {
+                    if (response.ok) {
+                        return 'Authorized';
                     }
+
+                    if (response.status === 403) {
+                        return 'Forbidden';
+                    } else if (response.status === 404) {
+                        return 'Not found';
+                    } else if (response.status === 401) {
+                        return 'Unauthorized';
+                    }
+                })
+                .catch(() => {
+                    return 'No connection';
                 });
         })).then(result => {
             setState(result);

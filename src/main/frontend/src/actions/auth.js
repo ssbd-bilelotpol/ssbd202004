@@ -40,17 +40,25 @@ export const loginAction = (username, password) => dispatch => {
     });
 
     dispatch(begin());
-    return axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
-        username,
-        password
-    }).then(response => {
-        localStorage.setItem("user", JSON.stringify(response.data));
-        dispatch(success(response.data));
-    }).catch(err => {
-        if (err.response) {
-            dispatch(failure(err.response.data.message));
-        } else {
-            dispatch(failure('Service is unavailable'));
+    return fetch(`${process.env.REACT_APP_API_URL}/auth`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username,
+            password
+        })
+    }).then(res => {
+        if (!res.ok) {
+            dispatch(failure('Incorrect login or password'));
+            throw new Error('Incorrect login or password');
         }
+        return res.json()
+    }).then(user => {
+        localStorage.setItem("user", JSON.stringify(user));
+        dispatch(success(user));
+    }).catch(() => {
+        dispatch(failure('Service is unavailable'));
     });
 };
