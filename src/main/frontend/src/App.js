@@ -11,6 +11,7 @@ import LoginModal from "./components/LoginModal";
 import {useDispatch, useSelector} from "react-redux";
 import {closeAuthModalAction, logoutAction, openAuthModalAction} from "./actions/auth";
 import Container from "@material-ui/core/Container";
+import AuthTest from "./components/AuthTest";
 
 
 const useStyles = makeStyles(theme => ({
@@ -53,13 +54,15 @@ function App() {
                     {loggedIn && <Button color="inherit" onClick={logout}>Logout</Button>}
                 </Toolbar>
             </AppBar>
-            {loggedIn && <Container>
-                <h2>Welcome {principal}!</h2>
-                <ul>
-                    {authorities.map(auth => <li key={auth}>{auth}</li>)}
-                </ul>
+            <Container>
+                {loggedIn && <>
+                    <Typography variant="h2">Welcome {principal}!</Typography>
+                    <ul>
+                        {authorities.map(auth => <li key={auth}>{auth}</li>)}
+                    </ul>
+                </>}
+                <AuthTest/>
             </Container>
-            }
             <LoginModal open={open} handleClose={handleClose}/>
         </div>
     );

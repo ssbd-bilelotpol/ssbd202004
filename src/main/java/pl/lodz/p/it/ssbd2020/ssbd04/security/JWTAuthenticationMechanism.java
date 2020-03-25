@@ -32,12 +32,21 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
         JWT jwt = extractToken(request);
         if (jwt != null) {
-            return applyCredentials(jwt, extractRole(request), context);
+            return applyCredentials(jwt, extractRole(request), CORS(context));
         } else if (!context.isProtected()) {
-            return context.doNothing();
+            return CORS(context).doNothing();
         }
 
-        return context.responseNotFound();
+        return CORS(context).responseNotFound();
+    }
+
+    private HttpMessageContext CORS(HttpMessageContext context) {
+        context.getResponse().setHeader("Access-Control-Allow-Origin", "*");
+        context.getResponse().setHeader("Access-Control-Allow-Headers", "*");
+        context.getResponse().setHeader("Access-Control-Allow-Credentials", "true");
+        context.getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+        context.getResponse().setHeader("Access-Control-Max-Age", "1209600");
+        return context;
     }
 
     private AuthenticationStatus applyCredentials(JWT jwt, String role, HttpMessageContext context) {

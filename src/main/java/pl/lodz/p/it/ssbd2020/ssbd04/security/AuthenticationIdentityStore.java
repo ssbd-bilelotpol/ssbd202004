@@ -24,7 +24,10 @@ public class AuthenticationIdentityStore implements IdentityStore {
     @PostConstruct
     public void init() {
         callerToPassword = new HashMap<>();
-        callerToPassword.put("ks", "1234");
+        callerToPassword.put("admin", "1234");
+        callerToPassword.put("resourceManager", "1234");
+        callerToPassword.put("clientManager", "1234");
+        callerToPassword.put("client", "1234");
     }
 
     private boolean isValid(UsernamePasswordCredential usernamePassword) {

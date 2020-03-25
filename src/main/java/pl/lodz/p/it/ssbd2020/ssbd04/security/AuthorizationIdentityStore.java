@@ -21,7 +21,10 @@ public class AuthorizationIdentityStore implements IdentityStore {
     @PostConstruct
     public void init() {
         groupsPerCaller = new HashMap<>();
-        groupsPerCaller.put("ks", new HashSet<>(asList(Role.Admin, Role.ResourceManager)));
+        groupsPerCaller.put("admin", singleton(Role.Admin));
+        groupsPerCaller.put("resourceManager", singleton(Role.ResourceManager));
+        groupsPerCaller.put("clientManager", singleton(Role.ClientManager));
+        groupsPerCaller.put("client", singleton(Role.Client));
     }
 
     @Override
