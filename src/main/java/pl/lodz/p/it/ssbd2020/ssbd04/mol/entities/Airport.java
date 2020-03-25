@@ -11,7 +11,6 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "Airport")
 public class Airport implements Serializable {
 
     @Id
@@ -46,10 +45,6 @@ public class Airport implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCode() {

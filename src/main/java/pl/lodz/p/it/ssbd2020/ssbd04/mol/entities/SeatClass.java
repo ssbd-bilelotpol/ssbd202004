@@ -16,7 +16,7 @@ public abstract class SeatClass implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private long id;
+    private Long id;
 
     @NotNull
     private float price;
@@ -36,12 +36,8 @@ public abstract class SeatClass implements Serializable {
         this.version = version;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public float getPrice() {

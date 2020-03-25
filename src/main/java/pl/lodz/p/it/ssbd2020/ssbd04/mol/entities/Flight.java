@@ -12,20 +12,19 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "Flight")
 public class Flight implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private long id;
+    private Long id;
     private String flightCode;
 
     @ManyToOne(targetEntity = Connection.class)
     @NotNull
     private Connection connection;
 
-    @ManyToOne(targetEntity = AirplaneSchema.class)
+    @ManyToOne(targetEntity = AirplaneSchema.class, fetch = FetchType.LAZY)
     @NotNull
     private AirplaneSchema airplaneSchema;
 
@@ -49,12 +48,8 @@ public class Flight implements Serializable {
         this.version = version;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getFlightCode() {

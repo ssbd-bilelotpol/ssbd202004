@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,13 +11,12 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "Connection")
 public class Connection implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private long id;
+    private Long id;
 
     @ManyToOne
     private Airport destination;
@@ -65,12 +63,8 @@ public class Connection implements Serializable {
         return basePrice;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Long getVersion() {

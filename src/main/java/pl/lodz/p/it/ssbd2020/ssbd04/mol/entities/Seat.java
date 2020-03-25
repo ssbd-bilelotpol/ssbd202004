@@ -10,11 +10,11 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "Seat")
 public class Seat implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @NotNull
@@ -47,10 +47,6 @@ public class Seat implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getCol() {

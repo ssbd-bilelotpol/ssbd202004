@@ -11,7 +11,6 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "Benefit")
 public class Benefit implements Serializable {
 
     @Id
@@ -39,10 +38,6 @@ public class Benefit implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
