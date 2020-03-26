@@ -27,7 +27,7 @@ public class JWTProvider {
 
     @PostConstruct
     private void init() {
-        this.tokenValidity = TimeUnit.MINUTES.toMillis(config.getLong(config.JWT_VALIDITY_KEY));
+        this.tokenValidity = TimeUnit.MINUTES.toMillis(config.getJWTValidity());
     }
 
     public JWT create(CredentialValidationResult result) {
@@ -36,7 +36,7 @@ public class JWTProvider {
         String base64 = Jwts.builder()
                 .setSubject(principal)
                 .claim(AUTHORITIES_SECTION, String.join(",", authorities))
-                .signWith(SignatureAlgorithm.HS512, config.get(config.JWT_SECRET_KEY))
+                .signWith(SignatureAlgorithm.HS512, config.getJWTSecretKey())
                 .setExpiration(new Date((new Date()).getTime() + tokenValidity))
                 .compact();
 
@@ -45,7 +45,7 @@ public class JWTProvider {
 
     public JWT load(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(config.get(config.JWT_SECRET_KEY))
+                .setSigningKey(config.getJWTSecretKey())
                 .parseClaimsJws(token)
                 .getBody();
 
