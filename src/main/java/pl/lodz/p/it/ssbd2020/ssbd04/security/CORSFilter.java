@@ -16,7 +16,7 @@ public class CORSFilter implements ContainerResponseFilter {
     @Override
     public void filter(final ContainerRequestContext requestContext,
                        final ContainerResponseContext cres) {
-        cres.getHeaders().add("Access-Control-Allow-Origin", config.get(Config.FRONTEND_URL));
+        cres.getHeaders().add("Access-Control-Allow-Origin", config.get(config.FRONTEND_URL));
         cres.getHeaders().add("Access-Control-Allow-Headers", "*");
         cres.getHeaders().add("Access-Control-Allow-Credentials", "true");
         cres.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");

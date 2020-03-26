@@ -44,7 +44,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     }
 
     private HttpMessageContext CORS(HttpMessageContext context) {
-        context.getResponse().setHeader("Access-Control-Allow-Origin", config.get(Config.FRONTEND_URL));
+        context.getResponse().setHeader("Access-Control-Allow-Origin", config.get(config.FRONTEND_URL));
         context.getResponse().setHeader("Access-Control-Allow-Headers", "*");
         context.getResponse().setHeader("Access-Control-Allow-Credentials", "true");
         context.getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
