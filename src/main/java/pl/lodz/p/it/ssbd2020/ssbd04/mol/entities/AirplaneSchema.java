@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,7 +38,8 @@ public class AirplaneSchema implements Serializable {
     @Version
     private Long version;
 
-    public AirplaneSchema() {}
+    public AirplaneSchema() {
+    }
 
     public AirplaneSchema(@NotNull Integer rows, @NotNull Integer cols, Set<Seat> seatList, Long version) {
         this.rows = rows;

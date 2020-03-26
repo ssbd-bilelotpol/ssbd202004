@@ -1,7 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
