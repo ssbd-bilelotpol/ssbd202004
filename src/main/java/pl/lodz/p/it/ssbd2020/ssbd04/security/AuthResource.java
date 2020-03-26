@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -13,8 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.INVALID;
-import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.NOT_VALIDATED;
+import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 
 @Path("/auth")
 public class AuthResource {
@@ -30,28 +28,28 @@ public class AuthResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response auth(LoginData loginData) {
         CredentialValidationResult result = identityStoreHandler.validate(loginData.toCredential());
-        if (result.getStatus() == NOT_VALIDATED || result.getStatus() == INVALID) {
+        if (result.getStatus() != VALID) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
         return Response.ok().entity(jwtProvider.create(result)).build();
     }
 
-     public static class LoginData {
+    public static class LoginData {
         @NotNull
         private String username;
         @NotNull
         private String password;
 
-         public void setUsername(String username) {
-             this.username = username;
-         }
+        public void setUsername(String username) {
+            this.username = username;
+        }
 
-         public void setPassword(String password) {
-             this.password = password;
-         }
+        public void setPassword(String password) {
+            this.password = password;
+        }
 
-         private UsernamePasswordCredential toCredential() {
+        private UsernamePasswordCredential toCredential() {
             return new UsernamePasswordCredential(username, password);
         }
     }

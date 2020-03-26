@@ -3,23 +3,18 @@ package pl.lodz.p.it.ssbd2020.ssbd04.utils;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
-import java.util.Properties;
 
 @ApplicationScoped
 public class Config implements Serializable {
-
-    private Properties p = new Properties();
-
-    public Config() {
-        p.setProperty("jwt.secretKey", "alamakota");
-        p.setProperty("jwt.validity", "15");
-    }
+    public static final String FRONTEND_URL = "FRONTEND_URL";
+    public static final String JWT_SECRET_KEY = "JWT_SECRET_KEY";
+    public static final String JWT_VALIDITY_KEY = "JWT_VALIDITY";
 
     public String get(String key) {
-        return p.getProperty(key);
+        return System.getenv(key);
     }
 
     public long getLong(String key) {
-        return Long.parseLong(p.getProperty(key));
+        return Long.parseLong(get(key));
     }
 }

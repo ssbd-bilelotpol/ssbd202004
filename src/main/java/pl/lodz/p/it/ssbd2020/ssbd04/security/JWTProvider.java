@@ -12,15 +12,13 @@ import javax.inject.Inject;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @RequestScoped
 public class JWTProvider {
     private static final String AUTHORITIES_SECTION = "auth";
-    private static final String JWT_SECRET_KEY = "jwt.secretKey";
-    private static final String JWT_VALIDITY_KEY = "jwt.validity";
 
     private long tokenValidity;
 
@@ -29,7 +27,7 @@ public class JWTProvider {
 
     @PostConstruct
     private void init() {
-        this.tokenValidity = TimeUnit.MINUTES.toMillis(config.getLong(JWT_VALIDITY_KEY));
+        this.tokenValidity = TimeUnit.MINUTES.toMillis(config.getLong(Config.JWT_VALIDITY_KEY));
     }
 
     public JWT create(CredentialValidationResult result) {
@@ -38,7 +36,7 @@ public class JWTProvider {
         String base64 = Jwts.builder()
                 .setSubject(principal)
                 .claim(AUTHORITIES_SECTION, String.join(",", authorities))
-                .signWith(SignatureAlgorithm.HS512, config.get(JWT_SECRET_KEY))
+                .signWith(SignatureAlgorithm.HS512, config.get(Config.JWT_SECRET_KEY))
                 .setExpiration(new Date((new Date()).getTime() + tokenValidity))
                 .compact();
 
@@ -47,13 +45,12 @@ public class JWTProvider {
 
     public JWT load(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(config.get(JWT_SECRET_KEY))
+                .setSigningKey(config.get(Config.JWT_SECRET_KEY))
                 .parseClaimsJws(token)
                 .getBody();
 
         String principal = claims.getSubject();
-        Set<String> authorities = Arrays.stream(claims.get(AUTHORITIES_SECTION).toString().split(","))
-                .collect(Collectors.toSet());
+        Set<String> authorities = new HashSet<>(Arrays.asList(claims.get(AUTHORITIES_SECTION).toString().split(",")));
 
         return new JWT(principal, authorities, token);
     }

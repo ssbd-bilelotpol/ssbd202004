@@ -1,10 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,7 +31,8 @@ public class Airport implements Serializable {
     @Version
     private Long version;
 
-    public Airport() {}
+    public Airport() {
+    }
 
     public Airport(String code, String name, String country, String city, Long version) {
         this.code = code;

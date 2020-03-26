@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export const ACTION_LOGIN_BEGIN = 'LOGIN_BEGIN';
 export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_LOGIN_FAILURE = 'LOGIN_FAILURE';

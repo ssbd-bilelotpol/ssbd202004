@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -12,7 +13,6 @@ import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticatio
 import javax.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.http.HttpRequest;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +28,9 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     @Inject
     JWTProvider jwtProvider;
 
+    @Inject
+    Config config;
+
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
         JWT jwt = extractToken(request);
@@ -41,7 +44,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     }
 
     private HttpMessageContext CORS(HttpMessageContext context) {
-        context.getResponse().setHeader("Access-Control-Allow-Origin", "*");
+        context.getResponse().setHeader("Access-Control-Allow-Origin", config.get(Config.FRONTEND_URL));
         context.getResponse().setHeader("Access-Control-Allow-Headers", "*");
         context.getResponse().setHeader("Access-Control-Allow-Credentials", "true");
         context.getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");

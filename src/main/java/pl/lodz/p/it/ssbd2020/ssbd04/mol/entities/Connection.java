@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -32,7 +30,8 @@ public class Connection implements Serializable {
     @Version
     private Long version;
 
-    public Connection() {}
+    public Connection() {
+    }
 
     public Connection(Airport source, Airport destination, BigDecimal basePrice, Long version) {
         this.source = source;

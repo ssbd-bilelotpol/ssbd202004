@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -35,7 +34,8 @@ public class Flight implements Serializable {
     @Version
     private Long version;
 
-    public Flight() {}
+    public Flight() {
+    }
 
     public Flight(String flightCode, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime, LocalDateTime endDatetime, Long version) {
         this.flightCode = flightCode;
