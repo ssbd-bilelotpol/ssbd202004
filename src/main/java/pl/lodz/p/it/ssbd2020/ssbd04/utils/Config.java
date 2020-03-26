@@ -37,8 +37,12 @@ public class Config implements Serializable {
         }
     }
 
-    public String get(String key) {
+    private String get(String key) {
         return properties.getProperty(key);
+    }
+
+    private long getLong(String key) {
+        return Long.parseLong(get(key));
     }
 
     public String getFrontendURL() {
@@ -51,9 +55,5 @@ public class Config implements Serializable {
 
     public Long getJWTValidity() {
         return getLong(JWT_VALIDITY_KEY);
-    }
-
-    public long getLong(String key) {
-        return Long.parseLong(get(key));
     }
 }
