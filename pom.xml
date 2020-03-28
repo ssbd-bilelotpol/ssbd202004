@@ -40,9 +40,13 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-        <jakartaee>8.0</jakartaee>
         <frontend.directory>src/main/frontend</frontend.directory>
         <frontend.directory.output>${frontend.directory}/build</frontend.directory.output>
+        <jakartaee>8.0</jakartaee>
+        <hibernateVer>5.4.12.Final</hibernateVer>        
+        <hibernateValidatorVer>6.1.2.Final</hibernateValidatorVer>
+        <jsonWebTokenVer>0.9.1</jsonWebTokenVer>
+        <hibernateJpaModelGenVer>5.4.12.Final</hibernateJpaModelGenVer>
     </properties>
 
     <dependencies>
@@ -52,10 +56,30 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+        
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jsonWebTokenVer}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernateVer}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernateValidatorVer}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${hibernateJpaModelGenVer}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

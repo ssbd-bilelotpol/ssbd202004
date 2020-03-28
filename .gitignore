@@ -80,6 +80,7 @@ local.properties
 .settings/
 .loadpath
 **/config.properties
+**/payara-resources.xml
 
 # External tool builders
 .externalToolBuilders/
@@ -96,3 +97,5 @@ local.properties
 # Testing environment specific
 derby.log
 .env
+
+**/yarn.lock

@@ -1,7 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-    <!-- Define Persistence Unit -->
-    <persistence-unit name="my_persistence_unit">
-        
+<persistence version="2.2" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <persistence-unit name="ssbd04mokPU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/ssbd04mokDS</jta-data-source>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AdminAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.CustomerServiceAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ManagerAccessLevel</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="ssbd04molPU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/ssbd04molDS</jta-data-source>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Airport</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Connection</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.SeatClass</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="ssbd04mobPU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/ssbd04mobDS</jta-data-source>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Airport</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Connection</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.SeatClass</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Ticket</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
     </persistence-unit>
 </persistence>
