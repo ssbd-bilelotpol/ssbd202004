@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -18,13 +20,17 @@ public class Connection implements Serializable {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "destination_id", nullable = false)
     private Airport destination;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "source_id", nullable = false)
     private Airport source;
 
-    @Column(nullable = false)
+    @Digits(integer = 7, fraction = 2)
+    @NotNull
+    @Column(precision = 7, scale = 2, nullable = false)
     private BigDecimal basePrice;
 
     @Version
@@ -33,11 +39,10 @@ public class Connection implements Serializable {
     public Connection() {
     }
 
-    public Connection(Airport source, Airport destination, BigDecimal basePrice, Long version) {
-        this.source = source;
+    public Connection(Airport destination, Airport source, @Digits(integer = 7, fraction = 2) @NotNull BigDecimal basePrice) {
         this.destination = destination;
+        this.source = source;
         this.basePrice = basePrice;
-        this.version = version;
     }
 
     public Airport getDestination() {
@@ -66,14 +71,6 @@ public class Connection implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     @Override

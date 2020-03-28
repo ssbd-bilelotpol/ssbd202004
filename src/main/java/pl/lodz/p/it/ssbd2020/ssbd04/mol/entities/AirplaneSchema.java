@@ -4,7 +4,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -23,16 +22,16 @@ public class AirplaneSchema implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    @Min(value = 1L)
+    @Min(value = 1)
     private Integer rows;
 
     @Column(nullable = false)
-    @Min(value = 1L)
+    @Min(value = 1)
     private Integer cols;
 
     @Column(nullable = false)
-    @OneToMany
-    @JoinColumn(name = "schema_id")
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JoinColumn(name = "schema_id", nullable = false)
     private Set<Seat> seatList;
 
     @Version
@@ -41,11 +40,10 @@ public class AirplaneSchema implements Serializable {
     public AirplaneSchema() {
     }
 
-    public AirplaneSchema(@NotNull Integer rows, @NotNull Integer cols, Set<Seat> seatList, Long version) {
+    public AirplaneSchema(@Min(value = 1L) Integer rows, @Min(value = 1L) Integer cols, Set<Seat> seatList) {
         this.rows = rows;
         this.cols = cols;
         this.seatList = seatList;
-        this.version = version;
     }
 
     public Long getId() {
@@ -74,14 +72,6 @@ public class AirplaneSchema implements Serializable {
 
     public void setSeatList(Set<Seat> seatList) {
         this.seatList = seatList;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     @Override

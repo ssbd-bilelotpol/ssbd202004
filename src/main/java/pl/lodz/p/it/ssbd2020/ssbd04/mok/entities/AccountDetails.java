@@ -14,18 +14,19 @@ import java.io.Serializable;
 public class AccountDetails implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_details_generator")
+    @SequenceGenerator(name = "account_details_generator", sequenceName = "account_details_seq", allocationSize = 10)
     @Column(updatable = false)
     private Long id;
 
     @NotNull
     @Size(min = 1, max = 30)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String firstName;
 
     @NotNull
     @Size(min = 1, max = 30)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String lastName;
 
     @NotNull
@@ -36,7 +37,7 @@ public class AccountDetails implements Serializable {
 
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String phoneNumber;
 
     @Version
@@ -45,12 +46,13 @@ public class AccountDetails implements Serializable {
     public AccountDetails() {
     }
 
-    public AccountDetails(@NotNull @Size(min = 1, max = 30) String firstName, @NotNull @Size(min = 1, max = 30) String lastName, @NotNull @Size(max = 255) @Email String email, @NotNull @Size(max = 50) String phoneNumber, Long version) {
+    public AccountDetails(@NotNull @Size(min = 1, max = 30) String firstName,
+                          @NotNull @Size(min = 1, max = 30) String lastName, @NotNull @Size(min = 1, max = 255)
+                          @Email String email, @NotNull @Size(min = 1, max = 50) String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.version = version;
     }
 
     public Long getId() {
@@ -87,13 +89,5 @@ public class AccountDetails implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 }

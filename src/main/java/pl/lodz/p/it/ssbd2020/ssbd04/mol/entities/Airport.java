@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -19,12 +21,18 @@ public class Airport implements Serializable {
     @Column(nullable = false)
     private String code;
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
     private String name;
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
     private String country;
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
     private String city;
 
@@ -34,12 +42,12 @@ public class Airport implements Serializable {
     public Airport() {
     }
 
-    public Airport(String code, String name, String country, String city, Long version) {
+    public Airport(String code, @NotNull @Size(min = 2, max = 32) String name, @NotNull @Size(min = 2, max = 32)
+            String country, @NotNull @Size(min = 2, max = 32) String city) {
         this.code = code;
         this.name = name;
         this.country = country;
         this.city = city;
-        this.version = version;
     }
 
     public Long getId() {
@@ -76,14 +84,6 @@ public class Airport implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     @Override

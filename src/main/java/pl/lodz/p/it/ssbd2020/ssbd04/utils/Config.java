@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.utils;
 
 
-import pl.lodz.p.it.ssbd2020.ssbd04.security.JWTAuthenticationMechanism;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import java.io.FileNotFoundException;
@@ -10,9 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
-import java.util.logging.Logger;
-
-import static java.util.logging.Level.INFO;
 
 @ApplicationScoped
 public class Config implements Serializable {

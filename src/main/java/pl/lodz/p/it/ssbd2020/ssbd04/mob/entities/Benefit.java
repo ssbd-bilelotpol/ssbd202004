@@ -19,7 +19,7 @@ public class Benefit implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 128)
     @Size(min = 1, max = 128)
     private String name;
 
@@ -34,12 +34,10 @@ public class Benefit implements Serializable {
     public Benefit() {
     }
 
-    public Benefit(String name, String description, Long version) {
+    public Benefit(@NotNull @Size(min = 1, max = 128) String name, @NotNull @Size(min = 5, max = 255) String description) {
         this.name = name;
         this.description = description;
-        this.version = version;
     }
-
 
     public Long getId() {
         return id;
@@ -59,14 +57,6 @@ public class Benefit implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     @Override

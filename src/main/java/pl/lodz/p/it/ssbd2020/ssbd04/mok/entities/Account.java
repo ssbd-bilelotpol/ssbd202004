@@ -16,18 +16,19 @@ import java.util.Set;
 public class Account implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_generator")
+    @SequenceGenerator(name = "account_generator", sequenceName = "account_seq", allocationSize = 10)
     @Column(updatable = false)
     private Long id;
 
     @NotNull
     @Size(min = 3, max = 30)
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 30)
     private String login;
 
     @NotNull
     @Size(min = 50, max = 60)
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 60)
     private String password;
 
     @NotNull
@@ -38,18 +39,11 @@ public class Account implements Serializable {
     @Column(nullable = false)
     private Boolean confirm;
 
-    @ManyToMany
-    @JoinTable(
-            name = "account_account_access_level",
-            joinColumns = @JoinColumn(name = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_access_level_id"),
-            uniqueConstraints = @UniqueConstraint(
-                    columnNames = {"account_id", "account_access_level_id"}
-            )
-    )
+    @OneToMany
+    @JoinColumn(name = "account_id")
     private Set<AccountAccessLevel> accountAccessLevel;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "account_details_id", unique = true, updatable = false)
     private AccountDetails accountDetails;
 
@@ -59,14 +53,15 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public Account(@NotNull @Size(min = 1, max = 30) String login, @NotNull @Size(min = 60, max = 60) String password, @NotNull Boolean active, @NotNull Boolean confirm, Set<AccountAccessLevel> accountAccessLevel, AccountDetails accountDetails, Long version) {
+    public Account(@NotNull @Size(min = 3, max = 30) String login, @NotNull @Size(min = 50, max = 60) String password,
+                   @NotNull Boolean active, @NotNull Boolean confirm, Set<AccountAccessLevel> accountAccessLevel,
+                   AccountDetails accountDetails) {
         this.login = login;
         this.password = password;
         this.active = active;
         this.confirm = confirm;
         this.accountAccessLevel = accountAccessLevel;
         this.accountDetails = accountDetails;
-        this.version = version;
     }
 
     public Long getId() {
@@ -110,14 +105,6 @@ public class Account implements Serializable {
 
     public void setAccountDetails(AccountDetails accountDetails) {
         this.accountDetails = accountDetails;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public Boolean getConfirm() {

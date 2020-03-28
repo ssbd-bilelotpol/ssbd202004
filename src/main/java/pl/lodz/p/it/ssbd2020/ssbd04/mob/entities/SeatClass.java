@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -22,14 +23,15 @@ public class SeatClass implements Serializable {
 
     @NotNull
     @Size(min = 2, max = 30)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 30)
     private String name;
 
+    @Digits(integer = 7, fraction = 2)
     @NotNull
-    @Column(nullable = false)
+    @Column(precision = 7, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "seat_class_benefits",
             joinColumns = @JoinColumn(name = "seat_class_id"),
@@ -46,11 +48,10 @@ public class SeatClass implements Serializable {
     public SeatClass() {
     }
 
-    public SeatClass(@NotNull @Size(min = 2, max = 30) String name, @NotNull BigDecimal price, Set<Benefit> listOfBenefits, Long version) {
+    public SeatClass(@NotNull @Size(min = 2, max = 30) String name, @Digits(integer = 7, fraction = 2) @NotNull BigDecimal price, Set<Benefit> listOfBenefits) {
         this.name = name;
         this.price = price;
         this.listOfBenefits = listOfBenefits;
-        this.version = version;
     }
 
     public long getId() {
@@ -71,14 +72,6 @@ public class SeatClass implements Serializable {
 
     public void setListOfBenefits(Set<Benefit> listOfBenefits) {
         this.listOfBenefits = listOfBenefits;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public void setId(Long id) {

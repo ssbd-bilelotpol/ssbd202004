@@ -1,7 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -14,15 +18,27 @@ import java.util.Objects;
 public class Flight implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_generator")
+    @SequenceGenerator(name = "flight_generator", sequenceName = "flight_seq", allocationSize = 10)
     @Column(name = "id", updatable = false)
     private Long id;
+
+    @NotNull
+    @Column(nullable = false, unique = true, length = 30, updatable = false)
+    @Size(min = 5, max = 30)
     private String flightCode;
 
-    @ManyToOne
+    @Digits(integer = 7, fraction = 2)
+    @NotNull
+    @Column(precision = 7, scale = 2, nullable = false)
+    private BigDecimal price;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "connection_id", nullable = false)
     private Connection connection;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "airplane_schema_id", nullable = false)
     private AirplaneSchema airplaneSchema;
 
     @Column(nullable = false)
@@ -37,13 +53,15 @@ public class Flight implements Serializable {
     public Flight() {
     }
 
-    public Flight(String flightCode, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime, LocalDateTime endDatetime, Long version) {
+    public Flight(@NotNull @Size(min = 5, max = 30) String flightCode, @Digits(integer = 7, fraction = 2)
+    @NotNull BigDecimal price, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime,
+                  LocalDateTime endDatetime) {
         this.flightCode = flightCode;
+        this.price = price;
         this.connection = connection;
         this.airplaneSchema = airplaneSchema;
         this.startDatetime = startDatetime;
         this.endDatetime = endDatetime;
-        this.version = version;
     }
 
     public Long getId() {
@@ -90,12 +108,12 @@ public class Flight implements Serializable {
         this.endDatetime = endDatetime;
     }
 
-    public Long getVersion() {
-        return version;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     @Override

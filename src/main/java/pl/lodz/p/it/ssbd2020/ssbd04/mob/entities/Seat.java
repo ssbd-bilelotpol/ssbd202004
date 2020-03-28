@@ -38,14 +38,12 @@ public class Seat implements Serializable {
     public Seat() {
     }
 
-    public Seat(Integer col, Integer row, Integer number, SeatClass seatClass, Long version) {
+    public Seat(@NotNull Integer col, @NotNull Integer row, @NotNull Integer number, SeatClass seatClass) {
         this.col = col;
         this.row = row;
         this.number = number;
         this.seatClass = seatClass;
-        this.version = version;
     }
-
 
     public Long getId() {
         return id;
@@ -81,14 +79,6 @@ public class Seat implements Serializable {
 
     public void setSeatClass(SeatClass seatClass) {
         this.seatClass = seatClass;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     @Override
