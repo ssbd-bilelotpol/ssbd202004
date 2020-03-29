@@ -1,4 +1,5 @@
 import {
+    ACTION_CHANGE_ROLE,
     ACTION_CLOSE_AUTH_MODAL,
     ACTION_LOGIN_BEGIN,
     ACTION_LOGIN_FAILURE,
@@ -8,12 +9,11 @@ import {
 } from "../actions/auth";
 import jwtDecode from 'jwt-decode';
 
-
 let user = JSON.parse(localStorage.getItem("user"));
 if (user && user.token) {
     const token = jwtDecode(user.token);
     if (token.exp < Date.now() / 1000) {
-        user = '';
+        user = {};
     }
 }
 
@@ -21,7 +21,8 @@ const clearState = {
     user: {
         principal: '',
         authorities: '',
-        token: ''
+        token: '',
+        role: ''
     },
     loggingIn: false,
     loggedIn: false,
@@ -45,7 +46,8 @@ export default function auth(state = initialState, action) {
         case ACTION_CLOSE_AUTH_MODAL:
             return {
                 ...state,
-                openModal: false
+                openModal: false,
+                error: ''
             };
         case ACTION_LOGIN_BEGIN:
             return {
@@ -73,6 +75,14 @@ export default function auth(state = initialState, action) {
         case ACTION_LOGOUT:
             return {
                 ...clearState
+            };
+        case ACTION_CHANGE_ROLE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    role: action.payload.role
+                }
             };
         default:
             return state;

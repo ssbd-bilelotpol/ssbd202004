@@ -47,6 +47,7 @@
         <hibernateValidatorVer>6.1.2.Final</hibernateValidatorVer>
         <jsonWebTokenVer>0.9.1</jsonWebTokenVer>
         <hibernateJpaModelGenVer>5.4.12.Final</hibernateJpaModelGenVer>
+        <bCryptVer>0.9.0</bCryptVer>
     </properties>
 
     <dependencies>
@@ -80,6 +81,12 @@
             <artifactId>hibernate-jpamodelgen</artifactId>
             <version>${hibernateJpaModelGenVer}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>${bCryptVer}</version>
         </dependency>
     </dependencies>
 

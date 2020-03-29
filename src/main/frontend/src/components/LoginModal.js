@@ -48,8 +48,8 @@ const LoginModal = ({open, handleClose}) => {
     >
         <Fade in={open}>
             <div className={classes.paper}>
-                <h2 id="login-modal-title">Login</h2>
-                <p id="login-modal-description">Enter data to log in</p>
+                <h2 id="login-modal-title">Logowanie</h2>
+                <p id="login-modal-description">Wprowadź dane logowania</p>
                 <LoginForm/>
             </div>
         </Fade>

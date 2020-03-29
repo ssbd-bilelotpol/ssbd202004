@@ -1,9 +1,12 @@
+import {rolePriority} from "../constants";
+
 export const ACTION_LOGIN_BEGIN = 'LOGIN_BEGIN';
 export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const ACTION_LOGOUT = 'LOGOUT';
 export const ACTION_OPEN_AUTH_MODAL = 'OPEN_AUTH_MODAL';
 export const ACTION_CLOSE_AUTH_MODAL = 'CLOSE_AUTH_MODAL';
+export const ACTION_CHANGE_ROLE = 'CHANGE_ROLE';
 
 export const openAuthModalAction = () => ({
     type: ACTION_OPEN_AUTH_MODAL
@@ -11,6 +14,13 @@ export const openAuthModalAction = () => ({
 
 export const closeAuthModalAction = () => ({
     type: ACTION_CLOSE_AUTH_MODAL
+});
+
+export const changeRoleAction = (role) => ({
+    type: ACTION_CHANGE_ROLE,
+    payload: {
+        role
+    }
 });
 
 export const logoutAction = () => dispatch => {
@@ -49,14 +59,25 @@ export const loginAction = (username, password) => dispatch => {
         })
     }).then(res => {
         if (!res.ok) {
-            dispatch(failure('Incorrect login or password'));
-            throw new Error('Incorrect login or password');
+            const err = new Error('Nieprawidłowy login lub hasło');
+            err.custom = true;
+            throw err;
         }
         return res.json()
-    }).then(user => {
+    }).then(u => {
+        u.authorities.sort((a, b) => (rolePriority[a] - rolePriority[b]));
+        const user = {
+            ...u,
+            role: u.authorities[0]
+        };
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(success(user));
-    }).catch(() => {
-        dispatch(failure('Service is unavailable'));
+    }).catch((err) => {
+        if (err.custom) {
+            dispatch(failure(err.message));
+        } else {
+            dispatch(failure('Brak połączenia z serwerem'));
+        }
+
     });
 };

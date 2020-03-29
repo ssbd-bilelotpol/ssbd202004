@@ -1,37 +1,41 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.persistence.AuthFacade;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStore;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static javax.security.enterprise.identitystore.IdentityStore.ValidationType.PROVIDE_GROUPS;
 
-@RequestScoped
+@Stateless
 public class AuthorizationIdentityStore implements IdentityStore {
-    private Map<String, Set<String>> groupsPerCaller;
+    private Map<String, String> mapper;
 
-    @PostConstruct
-    public void init() {
-        groupsPerCaller = new HashMap<>();
-        groupsPerCaller.put("admin", singleton(Role.Admin));
-        groupsPerCaller.put("resourceManager", singleton(Role.ResourceManager));
-        groupsPerCaller.put("clientManager", singleton(Role.ClientManager));
-        groupsPerCaller.put("client", singleton(Role.Client));
+    public AuthorizationIdentityStore() {
+         mapper = Map.of(
+                "client", Role.Client,
+                "customer_service", Role.CustomerService,
+                "manager", Role.Manager,
+                "admin", Role.Admin
+        );
     }
+
+    @Inject
+    AuthFacade authFacade;
 
     @Override
     public Set<String> getCallerGroups(CredentialValidationResult validationResult) {
-        Set<String> result = groupsPerCaller.get(validationResult.getCallerPrincipal().getName());
-        if (result == null) {
-            result = emptySet();
-        }
-        return result;
+        return authFacade.findByLogin(
+                validationResult.getCallerPrincipal().getName()
+        ).getAccountAccessLevel().stream()
+                .map(accountAccessLevel -> mapper.get(accountAccessLevel.getName()) )
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override

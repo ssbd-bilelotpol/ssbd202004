@@ -8,15 +8,21 @@ import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import LoginModal from "./components/LoginModal";
 import {useDispatch, useSelector} from "react-redux";
-import {closeAuthModalAction, logoutAction, openAuthModalAction} from "./actions/auth";
+import {changeRoleAction, closeAuthModalAction, logoutAction, openAuthModalAction} from "./actions/auth";
 import Container from "@material-ui/core/Container";
 import AuthTest from "./components/AuthTest";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import {roles, translations} from "./constants";
 
 
 const useStyles = makeStyles(theme => ({
     title: {
         flexGrow: 1
     },
+    select: {
+        minWidth: 120,
+    }
 }));
 
 function App() {
@@ -39,6 +45,10 @@ function App() {
         dispatch(logoutAction());
     };
 
+    const handleRoleChange = (event) => {
+        dispatch(changeRoleAction(event.target.value));
+    };
+
     return (
         <div className="App">
             <AppBar position="static">
@@ -49,16 +59,26 @@ function App() {
                     <Typography variant="h6" className={classes.title}>
                         Bilelotpol
                     </Typography>
-                    {!loggedIn && <Button color="inherit" onClick={handleOpen}>Login</Button>}
-                    {loggedIn && <Button color="inherit" onClick={logout}>Logout</Button>}
+                    {
+                        loggedIn && user.authorities.length > 1 &&
+                        <Select
+                            className={classes.select}
+                            value={user.role}
+                            onChange={handleRoleChange}
+                            label="Rola"
+                        >
+                            {user.authorities.map(authority => <MenuItem key={authority}
+                                value={authority}>{translations.roles[authority]}</MenuItem>)}
+                        </Select>
+                    }
+                    {!loggedIn && <Button color="inherit" onClick={handleOpen}>Zaloguj się</Button>}
+                    {loggedIn && <Button color="inherit" onClick={logout}>Wyloguj się</Button>}
                 </Toolbar>
             </AppBar>
             <Container>
                 {loggedIn && <>
-                    <Typography variant="h2">Welcome {user.principal}!</Typography>
-                    <ul>
-                        {user.authorities.map(auth => <li key={auth}>{auth}</li>)}
-                    </ul>
+                    <Typography variant="h2">Dzień dobry, {user.principal}!</Typography>
+                    <Button variant="contained" color="secondary">{`Tylko dla ${translations.roles[user.role]}`}</Button>
                 </>}
                 <AuthTest/>
             </Container>

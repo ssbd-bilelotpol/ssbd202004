@@ -63,7 +63,7 @@ const AuthTest = () => {
     };
 
     return <div className={classes.root}>
-        <Button variant="outlined" color="primary" onClick={handleTest}>Perform access test</Button>
+        <Button variant="outlined" color="primary" onClick={handleTest}>Sprawdź poziom dostępu</Button>
         <List>
             {urls.map((url, idx) => <ListItem key={url}>
                 <ListItemText primary={url} secondary={state[idx]} secondaryTypographyProps={{color: state[idx] !== 'Authorized' ? "secondary" : "primary"}}/>

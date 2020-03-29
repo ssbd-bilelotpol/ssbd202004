@@ -7,7 +7,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("api")
-@DeclareRoles({Role.Admin, Role.ResourceManager, Role.ClientManager, Role.Client})
+@DeclareRoles({Role.Admin, Role.Manager, Role.CustomerService, Role.Client})
 public class JAXRSConfiguration extends Application {
 
 }

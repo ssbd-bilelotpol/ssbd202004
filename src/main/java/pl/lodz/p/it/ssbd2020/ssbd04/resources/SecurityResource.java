@@ -20,7 +20,7 @@ public class SecurityResource {
     }
 
     @GET
-    @RolesAllowed({Role.ResourceManager})
+    @RolesAllowed({Role.Manager})
     @Path("/resourceManager")
     public Response resourceManager() {
         return Response
@@ -29,7 +29,7 @@ public class SecurityResource {
     }
 
     @GET
-    @RolesAllowed({Role.ClientManager})
+    @RolesAllowed({Role.CustomerService})
     @Path("/clientManager")
     public Response clientManager() {
         return Response

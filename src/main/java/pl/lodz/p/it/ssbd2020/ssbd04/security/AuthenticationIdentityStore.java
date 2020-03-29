@@ -1,13 +1,15 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
-import javax.annotation.PostConstruct;
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.persistence.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.persistence.AuthFacade;
+
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStore;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import static java.util.Collections.singleton;
@@ -18,20 +20,19 @@ import static javax.security.enterprise.identitystore.IdentityStore.ValidationTy
 
 @RequestScoped
 public class AuthenticationIdentityStore implements IdentityStore {
-
-    private Map<String, String> callerToPassword;
-
-    @PostConstruct
-    public void init() {
-        callerToPassword = new HashMap<>();
-        callerToPassword.put("admin", "1234");
-        callerToPassword.put("resourceManager", "1234");
-        callerToPassword.put("clientManager", "1234");
-        callerToPassword.put("client", "1234");
-    }
+    @Inject
+    AuthFacade authFacade;
 
     private boolean isValid(UsernamePasswordCredential usernamePassword) {
-        return usernamePassword.getPassword().compareTo(callerToPassword.get(usernamePassword.getCaller()));
+        Account account = authFacade.findByLogin(usernamePassword.getCaller());
+        if (account == null) {
+            return false;
+        }
+
+        return BCrypt.verifyer().verify(
+                        usernamePassword.getPassword().getValue(),
+                        account.getPassword()
+                ).verified;
     }
 
     @Override

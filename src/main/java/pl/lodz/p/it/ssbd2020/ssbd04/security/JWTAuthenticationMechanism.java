@@ -5,6 +5,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
 
+import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.AuthenticationException;
@@ -35,7 +36,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
         JWT jwt = extractToken(request);
         if (jwt != null) {
-            return applyCredentials(jwt, extractRole(request), CORS(context));
+            return CORS(context).notifyContainerAboutLogin(jwt.getPrincipal(), jwt.getAuthorities());
         } else if (!context.isProtected()) {
             return CORS(context).doNothing();
         }
@@ -50,18 +51,6 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
         context.getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
         context.getResponse().setHeader("Access-Control-Max-Age", "1209600");
         return context;
-    }
-
-    private AuthenticationStatus applyCredentials(JWT jwt, String role, HttpMessageContext context) {
-        if (jwt.getAuthorities().contains(role)) {
-            return context.notifyContainerAboutLogin(jwt.getPrincipal(), Collections.singleton(role));
-        }
-
-        return context.responseUnauthorized();
-    }
-
-    private String extractRole(HttpServletRequest request) {
-        return request.getHeader(ROLE_HEADER);
     }
 
     private JWT extractToken(HttpServletRequest request) {

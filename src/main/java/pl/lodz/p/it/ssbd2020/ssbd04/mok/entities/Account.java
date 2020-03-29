@@ -28,7 +28,7 @@ public class Account implements Serializable {
 
     @NotNull
     @Size(min = 50, max = 60)
-    @Column(unique = true, nullable = false, length = 60)
+    @Column(nullable = false, length = 60)
     private String password;
 
     @NotNull
