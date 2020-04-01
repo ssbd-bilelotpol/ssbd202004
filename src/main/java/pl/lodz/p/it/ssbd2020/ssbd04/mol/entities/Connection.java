@@ -20,17 +20,17 @@ public class Connection implements Serializable {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "destination_id", nullable = false)
     private Airport destination;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "source_id", nullable = false)
     private Airport source;
 
     @Digits(integer = 7, fraction = 2)
     @NotNull
-    @Column(precision = 7, scale = 2, nullable = false)
+    @Column(precision = 7, scale = 2, nullable = false, name = "base_price")
     private BigDecimal basePrice;
 
     @Version

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,9 +40,9 @@ public class Account implements Serializable {
     @Column(nullable = false)
     private Boolean confirm;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "account_id")
-    private Set<AccountAccessLevel> accountAccessLevel;
+    private Set<AccountAccessLevel> accountAccessLevel = new HashSet<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "account_details_id", unique = true, updatable = false)

@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -24,13 +26,13 @@ public class Seat implements Serializable {
     @Column(nullable = false)
     private Integer row;
 
-    @NotNull
-    @Column(nullable = false)
-    private Integer number;
-
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "seat_class_id", nullable = false)
     private SeatClass seatClass;
+
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "airplane_schema_id", nullable = false)
+    private AirplaneSchema airplaneSchema;
 
     @Version
     private Long version;
@@ -38,11 +40,11 @@ public class Seat implements Serializable {
     public Seat() {
     }
 
-    public Seat(@NotNull Integer col, @NotNull Integer row, @NotNull Integer number, SeatClass seatClass) {
+    public Seat(@NotNull Integer col, @NotNull Integer row, SeatClass seatClass, AirplaneSchema airplaneSchema) {
         this.col = col;
         this.row = row;
-        this.number = number;
         this.seatClass = seatClass;
+        this.airplaneSchema = airplaneSchema;
     }
 
     public Long getId() {
@@ -65,20 +67,20 @@ public class Seat implements Serializable {
         this.row = row;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
     public SeatClass getSeatClass() {
         return seatClass;
     }
 
     public void setSeatClass(SeatClass seatClass) {
         this.seatClass = seatClass;
+    }
+
+    public AirplaneSchema getAirplaneSchema() {
+        return airplaneSchema;
+    }
+
+    public void setAirplaneSchema(AirplaneSchema airplaneSchema) {
+        this.airplaneSchema = airplaneSchema;
     }
 
     @Override

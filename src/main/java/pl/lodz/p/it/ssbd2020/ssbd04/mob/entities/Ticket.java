@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight;
 
 import javax.persistence.*;
@@ -9,6 +8,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -23,40 +24,24 @@ public class Ticket implements Serializable {
     @Column(updatable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "flight_id", nullable = false, updatable = false)
     private Flight flight;
 
     @Digits(integer = 7, fraction = 2)
     @NotNull
-    @Column(precision = 7, scale = 2, nullable = false)
+    @Column(precision = 7, scale = 2, nullable = false, name = "total_price")
     private BigDecimal totalPrice;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ticket_seats",
-            joinColumns = @JoinColumn(name = "ticket_id"),
-            inverseJoinColumns = @JoinColumn(name = "seat_id"),
-            uniqueConstraints = @UniqueConstraint(
-                    columnNames = {"ticket_id", "seat_id"}
-            )
-    )
-    private Set<Seat> seats;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JoinTable(
-            name = "ticket_account_details",
-            joinColumns = @JoinColumn(name = "ticket_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_details_id"),
-            uniqueConstraints = @UniqueConstraint(
-                    columnNames = {"ticket_id", "account_details_id"}
-            )
-    )
-    private Set<AccountDetails> accountDetails;
-
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
+
+    @Column(nullable = false)
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            orphanRemoval = true,
+            mappedBy = "ticket")
+    private Set<Passenger> passenger = new HashSet<>();
 
     @Version
     private Long version;
@@ -64,13 +49,12 @@ public class Ticket implements Serializable {
     public Ticket() {
     }
 
-    public Ticket(Flight flight, @Digits(integer = 7, fraction = 2) @NotNull BigDecimal totalPrice, Set<Seat> seats,
-                  Set<AccountDetails> accountDetails, Account account) {
+    public Ticket(Flight flight, @Digits(integer = 7, fraction = 2) @NotNull BigDecimal totalPrice, Account account,
+                  Set<Passenger> passenger) {
         this.flight = flight;
         this.totalPrice = totalPrice;
-        this.seats = seats;
-        this.accountDetails = accountDetails;
         this.account = account;
+        this.passenger = passenger;
     }
 
     public Long getId() {
@@ -85,28 +69,12 @@ public class Ticket implements Serializable {
         this.flight = flight;
     }
 
-    public Set<AccountDetails> getAccountDetails() {
-        return accountDetails;
-    }
-
-    public void setAccountDetails(Set<AccountDetails> accountDetails) {
-        this.accountDetails = accountDetails;
-    }
-
     public Account getAccount() {
         return account;
     }
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    public Set<Seat> getSeats() {
-        return seats;
-    }
-
-    public void setSeats(Set<Seat> seats) {
-        this.seats = seats;
     }
 
     public void setId(Long id) {
@@ -121,6 +89,14 @@ public class Ticket implements Serializable {
         this.totalPrice = totalPrice;
     }
 
+    public Set<Passenger> getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(Set<Passenger> passenger) {
+        this.passenger = passenger;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -128,16 +104,18 @@ public class Ticket implements Serializable {
 
         Ticket ticket = (Ticket) o;
 
-        if (!flight.equals(ticket.flight)) return false;
-        if (!seats.equals(ticket.seats)) return false;
-        return account.equals(ticket.account);
+        if (!Objects.equals(flight, ticket.flight)) return false;
+        if (!Objects.equals(totalPrice, ticket.totalPrice)) return false;
+        if (!Objects.equals(account, ticket.account)) return false;
+        return Objects.equals(passenger, ticket.passenger);
     }
 
     @Override
     public int hashCode() {
-        int result = flight.hashCode();
-        result = 31 * result + seats.hashCode();
-        result = 31 * result + account.hashCode();
+        int result = flight != null ? flight.hashCode() : 0;
+        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
+        result = 31 * result + (account != null ? account.hashCode() : 0);
+        result = 31 * result + (passenger != null ? passenger.hashCode() : 0);
         return result;
     }
 }

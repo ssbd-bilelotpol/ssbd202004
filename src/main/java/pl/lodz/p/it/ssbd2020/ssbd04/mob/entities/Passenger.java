@@ -1,22 +1,24 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.mok.entities;
+package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
+
+
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
- * Klasa encyjna zawierająca informacje o szczegółach konta
+ * Klasa encyjna zawierająca informacje o szczegółach pasażera
  */
 @Entity
-@Table(name = "account_details")
-public class AccountDetails implements Serializable {
+public class Passenger implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_details_generator")
-    @SequenceGenerator(name = "account_details_generator", sequenceName = "account_details_seq", allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_generator")
+    @SequenceGenerator(name = "passenger_generator", sequenceName = "passenger_seq", allocationSize = 10)
     @Column(updatable = false)
     private Long id;
 
@@ -41,19 +43,28 @@ public class AccountDetails implements Serializable {
     @Column(nullable = false, length = 15, name = "phone_number")
     private String phoneNumber;
 
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "seat_id", nullable = false)
+    private Seat seat;
+
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "ticket_id", nullable = false)
+    private Ticket ticket;
+
     @Version
     private Long version;
 
-    public AccountDetails() {
+    public Passenger() {
     }
 
-    public AccountDetails(@NotNull @Size(min = 1, max = 30) String firstName,
-                          @NotNull @Size(min = 1, max = 30) String lastName, @NotNull @Size(min = 1, max = 255)
-                          @Email String email, @NotNull @Size(min = 1, max = 50) String phoneNumber) {
+    public Passenger(@NotNull @Size(min = 1, max = 30) String firstName, @NotNull @Size(min = 1, max = 30) String lastName,
+                     @NotNull @Size(min = 1, max = 255) @Email String email, @NotNull @Size(min = 1, max = 50) String phoneNumber,
+                     Seat seat) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.seat = seat;
     }
 
     public Long getId() {
@@ -92,18 +103,11 @@ public class AccountDetails implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AccountDetails)) return false;
-
-        AccountDetails that = (AccountDetails) o;
-
-        return Objects.equals(email, that.email);
+    public Seat getSeat() {
+        return seat;
     }
 
-    @Override
-    public int hashCode() {
-        return email != null ? email.hashCode() : 0;
+    public void setSeat(Seat seat) {
+        this.seat = seat;
     }
 }

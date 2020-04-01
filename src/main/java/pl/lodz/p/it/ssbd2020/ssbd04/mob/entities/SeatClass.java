@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class SeatClass implements Serializable {
     @Column(precision = 7, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "seat_class_benefits",
             joinColumns = @JoinColumn(name = "seat_class_id"),
@@ -40,7 +41,7 @@ public class SeatClass implements Serializable {
                     columnNames = {"seat_class_id", "benefit_id"}
             )
     )
-    private Set<Benefit> listOfBenefits;
+    private Set<Benefit> benefits = new HashSet<>();
 
     @Version
     private Long version;
@@ -48,10 +49,10 @@ public class SeatClass implements Serializable {
     public SeatClass() {
     }
 
-    public SeatClass(@NotNull @Size(min = 2, max = 30) String name, @Digits(integer = 7, fraction = 2) @NotNull BigDecimal price, Set<Benefit> listOfBenefits) {
+    public SeatClass(@NotNull @Size(min = 2, max = 30) String name, @Digits(integer = 7, fraction = 2) @NotNull BigDecimal price, Set<Benefit> benefits) {
         this.name = name;
         this.price = price;
-        this.listOfBenefits = listOfBenefits;
+        this.benefits = benefits;
     }
 
     public long getId() {
@@ -66,12 +67,12 @@ public class SeatClass implements Serializable {
         this.price = price;
     }
 
-    public Set<Benefit> getListOfBenefits() {
-        return listOfBenefits;
+    public Set<Benefit> getBenefits() {
+        return benefits;
     }
 
-    public void setListOfBenefits(Set<Benefit> listOfBenefits) {
-        this.listOfBenefits = listOfBenefits;
+    public void setBenefits(Set<Benefit> listOfBenefits) {
+        this.benefits = listOfBenefits;
     }
 
     public void setId(Long id) {

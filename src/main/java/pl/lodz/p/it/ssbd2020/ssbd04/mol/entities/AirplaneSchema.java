@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,9 +31,9 @@ public class AirplaneSchema implements Serializable {
     private Integer cols;
 
     @Column(nullable = false)
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JoinColumn(name = "schema_id", nullable = false)
-    private Set<Seat> seatList;
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            orphanRemoval = true, mappedBy = "airplaneSchema")
+    private Set<Seat> seatList = new HashSet<>();
 
     @Version
     private Long version;

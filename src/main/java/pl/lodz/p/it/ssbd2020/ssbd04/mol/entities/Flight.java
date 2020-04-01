@@ -24,7 +24,7 @@ public class Flight implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(nullable = false, unique = true, length = 30, updatable = false)
+    @Column(nullable = false, unique = true, length = 30, updatable = false, name = "flight_code")
     @Size(min = 5, max = 30)
     private String flightCode;
 
@@ -33,19 +33,23 @@ public class Flight implements Serializable {
     @Column(precision = 7, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "connection_id", nullable = false)
     private Connection connection;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "airplane_schema_id", nullable = false)
     private AirplaneSchema airplaneSchema;
 
-    @Column(nullable = false)
-    private LocalDateTime startDatetime;
+    @Column(nullable = false, name = "start_date_time")
+    private LocalDateTime startDateTime;
 
-    @Column(nullable = false)
-    private LocalDateTime endDatetime;
+    @Column(nullable = false, name = "end_date_time")
+    private LocalDateTime endDateTime;
+
+    @Column(nullable = false, length = 64)
+    @Enumerated(EnumType.STRING)
+    private FlightStatus status;
 
     @Version
     private Long version;
@@ -53,15 +57,17 @@ public class Flight implements Serializable {
     public Flight() {
     }
 
-    public Flight(@NotNull @Size(min = 5, max = 30) String flightCode, @Digits(integer = 7, fraction = 2)
-    @NotNull BigDecimal price, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime startDatetime,
-                  LocalDateTime endDatetime) {
+    public Flight(@NotNull @Size(min = 5, max = 30) String flightCode,
+                  @Digits(integer = 7, fraction = 2) @NotNull BigDecimal price, Connection connection,
+                  AirplaneSchema airplaneSchema, LocalDateTime startDateTime, LocalDateTime endDateTime,
+                  FlightStatus status) {
         this.flightCode = flightCode;
         this.price = price;
         this.connection = connection;
         this.airplaneSchema = airplaneSchema;
-        this.startDatetime = startDatetime;
-        this.endDatetime = endDatetime;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.status = status;
     }
 
     public Long getId() {
@@ -92,20 +98,20 @@ public class Flight implements Serializable {
         this.airplaneSchema = airplaneSchema;
     }
 
-    public LocalDateTime getStartDatetime() {
-        return startDatetime;
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setStartDatetime(LocalDateTime startDatetime) {
-        this.startDatetime = startDatetime;
+    public void setStartDateTime(LocalDateTime startDatetime) {
+        this.startDateTime = startDatetime;
     }
 
-    public LocalDateTime getEndDatetime() {
-        return endDatetime;
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
     }
 
-    public void setEndDatetime(LocalDateTime endDatetime) {
-        this.endDatetime = endDatetime;
+    public void setEndDateTime(LocalDateTime endDatetime) {
+        this.endDateTime = endDatetime;
     }
 
     public BigDecimal getPrice() {
@@ -116,6 +122,14 @@ public class Flight implements Serializable {
         this.price = price;
     }
 
+    public FlightStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(FlightStatus status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -124,13 +138,13 @@ public class Flight implements Serializable {
         return Objects.equals(flightCode, flight.flightCode) &&
                 Objects.equals(connection, flight.connection) &&
                 Objects.equals(airplaneSchema, flight.airplaneSchema) &&
-                Objects.equals(startDatetime, flight.startDatetime) &&
-                Objects.equals(endDatetime, flight.endDatetime) &&
+                Objects.equals(startDateTime, flight.startDateTime) &&
+                Objects.equals(endDateTime, flight.endDateTime) &&
                 Objects.equals(version, flight.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(flightCode, connection, airplaneSchema, startDatetime, endDatetime, version);
+        return Objects.hash(flightCode, connection, airplaneSchema, startDateTime, endDateTime, version);
     }
 }
