@@ -16,6 +16,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Zajmuje się tworzeniem i parsowaniem JWT.
+ */
 @RequestScoped
 public class JWTProvider {
     private static final String AUTHORITIES_SECTION = "auth";
@@ -30,6 +33,12 @@ public class JWTProvider {
         this.tokenValidity = TimeUnit.MINUTES.toMillis(config.getJWTValidity());
     }
 
+    /**
+     * Tworzy nowy JWT na podstawie danych klienta po poprawnej autoryzacji.
+     * Czas ważności tokenu i klucz, którym jest podpisywany pochodzi z obiektu zawierającego konfigurację aplikacji.
+     * @param result
+     * @return
+     */
     public JWT create(CredentialValidationResult result) {
         String principal = result.getCallerPrincipal().getName();
         Set<String> authorities = result.getCallerGroups();
@@ -43,6 +52,12 @@ public class JWTProvider {
         return new JWT(principal, authorities, base64);
     }
 
+
+    /**
+     * Parsuje, weryfikuje podpis i tworzy obiekt reprezentujący JWT.
+     * @param token JWT w formacie base64
+     * @return obiekt JWT
+     */
     public JWT load(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(config.getJWTSecretKey())

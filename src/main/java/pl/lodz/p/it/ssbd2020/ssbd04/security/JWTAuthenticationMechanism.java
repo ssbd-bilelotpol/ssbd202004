@@ -1,11 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
-
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
-
-import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.AuthenticationException;
@@ -14,10 +11,13 @@ import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticatio
 import javax.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Implementuje mechanizm uwierzytelniający i autoryzujący
+ * na podstawie JWT wysyłanego w każdym nadchodzącym żądaniu.
+ */
 @RequestScoped
 public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
 
@@ -27,11 +27,22 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     private final static String BEARER = "Bearer ";
 
     @Inject
-    JWTProvider jwtProvider;
+    private JWTProvider jwtProvider;
 
     @Inject
-    Config config;
+    private Config config;
 
+    /**
+     * Pobiera JWT z nagłówka żądania, a następnie:
+     * jeśli zasób jest chroniony i żądanie nie zawiera nagłówka, bądź nagłówek jest niepoprawny to zwraca 404 NotFound,
+     * jeśli zasób jest chroniony i żądanie posiada poprawny nagłówek, deleguje sprawdzanie uprawnień do kontenera,
+     * jeśli zasób nie jest chroniony, token nie jest sprawdzany.
+     * @param request
+     * @param response
+     * @param context
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
         JWT jwt = extractToken(request);

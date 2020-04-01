@@ -5,6 +5,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+/**
+ * Służy do pobierania danych użytkownika w mechanizmach autoryzacji i uwierzytelnienia.
+ */
 @Stateless
 public class AuthFacade {
     @PersistenceContext(unitName = "ssbd04authPU")

@@ -13,21 +13,20 @@ import java.util.stream.Collectors;
 import static java.util.Collections.singleton;
 import static javax.security.enterprise.identitystore.IdentityStore.ValidationType.PROVIDE_GROUPS;
 
+/**
+ * Zajmuje się autoryzacją klienta na podstawie grup przesłanych w tokenie JWT.
+ */
 @Stateless
 public class AuthorizationIdentityStore implements IdentityStore {
-    private Map<String, String> mapper;
-
-    public AuthorizationIdentityStore() {
-         mapper = Map.of(
-                "client", Role.Client,
-                "customer_service", Role.CustomerService,
-                "manager", Role.Manager,
-                "admin", Role.Admin
+    private Map<String, String> mapper = Map.of(
+            "client", Role.Client,
+            "customer_service", Role.CustomerService,
+            "manager", Role.Manager,
+            "admin", Role.Admin
         );
-    }
 
     @Inject
-    AuthFacade authFacade;
+    private AuthFacade authFacade;
 
     @Override
     public Set<String> getCallerGroups(CredentialValidationResult validationResult) {

@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.security;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.persistence.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.persistence.AuthFacade;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
@@ -11,17 +10,18 @@ import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStore;
 import java.util.Set;
-
 import static java.util.Collections.singleton;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.NOT_VALIDATED_RESULT;
 import static javax.security.enterprise.identitystore.IdentityStore.ValidationType.VALIDATE;
 
-
+/**
+ * Mechanizm uwierzytelniający klienta na podstawie JWT wysyłanego w nagłówku.
+ */
 @RequestScoped
 public class AuthenticationIdentityStore implements IdentityStore {
     @Inject
-    AuthFacade authFacade;
+    private AuthFacade authFacade;
 
     private boolean isValid(UsernamePasswordCredential usernamePassword) {
         Account account = authFacade.findByLogin(usernamePassword.getCaller());

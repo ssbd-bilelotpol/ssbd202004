@@ -9,12 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Obsługuje żądania, które nie pochodzą z interfejsu web aplikacji.
+ * W przypadku odwołań do /api zwraca komunikat o błędzie,
+ * a dla każdego innego przekierowuje żądanie do routera znajdującego się w aplikacji React.
+ * Klasa potrzebna ze względu na specyfike wdrożenia aplikacji (frontend, backend) w jednym archiwum WAR.
+ */
 @WebServlet("/exception_handler")
 public class AppExceptionHandler extends HttpServlet {
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processError(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processError(request, response);
     }

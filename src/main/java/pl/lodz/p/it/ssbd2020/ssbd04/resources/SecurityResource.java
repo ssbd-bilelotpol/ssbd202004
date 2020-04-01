@@ -7,6 +7,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+/**
+ * Testowy zasób służący do prezentacji działania mechanizmu autoryzacji.
+ */
 @Path("/security")
 public class SecurityResource {
 

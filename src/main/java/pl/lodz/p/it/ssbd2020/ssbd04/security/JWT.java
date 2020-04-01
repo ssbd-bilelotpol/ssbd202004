@@ -2,6 +2,10 @@ package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 import java.util.Set;
 
+/**
+ * Służy do przechowywania danych uzyskanych po uwierzytelnieniu i autoryzacji.
+ * Obiekty tej klasy są deserializowane i wysyłane klientowi.
+ */
 public class JWT {
     private final String principal;
     private final Set<String> authorities;

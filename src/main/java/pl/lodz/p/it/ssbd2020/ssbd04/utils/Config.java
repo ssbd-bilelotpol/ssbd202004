@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.utils;
 
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import java.io.FileNotFoundException;
@@ -9,6 +8,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
+/**
+ * Reprezentuje dane konfiguracyjne aplikacji.
+ * Wczytuje dane z pliku "config.properties" znajdującego się w folderze "resources".
+ */
 @ApplicationScoped
 public class Config implements Serializable {
     private final String FRONTEND_URL = "frontend.url";

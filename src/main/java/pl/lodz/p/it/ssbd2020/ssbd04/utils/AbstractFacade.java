@@ -6,7 +6,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.Query;
 
-
+/**
+ * Klasa abstrakcyjna definiująca główne operacje wykonywane na encjach
+ * przez zarządcę encji w kontekście trwałości.
+ * Wymaga zdefiniowania własnego zarządcy encji z definicją jednostki trwałości.
+ * @param <T> klasa encyjna
+ */
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;

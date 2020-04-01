@@ -15,6 +15,10 @@ import javax.ws.rs.core.Response;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 
 @Path("/auth")
+/**
+ * Zasób zajmujący się uwierzytelnianiem klienta na podstawie danych uwierzytelniających.
+ * Po poprawnym uwierzytelnieniu zwracany jest JWT.
+ */
 public class AuthResource {
 
     @Inject
@@ -23,6 +27,13 @@ public class AuthResource {
     @Inject
     private JWTProvider jwtProvider;
 
+    /**
+     * Obsługuje uwierzytelnianie.
+     * @param loginData Obiekt, który jest deserializowany na podstawie danych w formacie JSON od klienta.
+     * @return
+     * Gdy uwierzytelnienie się powiedzie, zwraca kod odpowiedzi 200 i token JWT.
+     * W przeciwnym wypadku zwraca 401 Unauthorized.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -35,6 +46,9 @@ public class AuthResource {
         return Response.ok().entity(jwtProvider.create(result)).build();
     }
 
+    /**
+     * Klasa przenosząca dane uwierzytelniające.
+     */
     public static class LoginData {
         @NotNull
         private String username;

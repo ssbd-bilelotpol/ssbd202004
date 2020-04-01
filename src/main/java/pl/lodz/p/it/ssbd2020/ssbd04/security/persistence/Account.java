@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * Reprezentuje konto użytkownika wykorzystywane do uwierzytelnienia i autoryzacji.
+ */
 @Entity
 public class Account implements Serializable {
     @Id
