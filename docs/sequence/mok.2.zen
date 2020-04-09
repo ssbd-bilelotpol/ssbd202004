@@ -1,0 +1,30 @@
+Guest
+LoginPage
+AuthResource
+IdentityStoreHandler
+AuthenticationIdentityStore
+AuthorizationIdentityStore
+@Starter(Guest)
+
+if (validAuthData) {
+  successMessage = LoginPage.auth(login, password) {
+    jwtToken = AuthResource.auth(login, password) {
+      success = IdentityStoreHandler.validate(account) {
+        // RO, Read Committed
+        while(1) {
+          principal = AuthenticationIdentityStore.validate(login, password)
+          groups = AuthorizationIdentityStore.validate(login, password)
+        }
+      }
+    }
+  }
+} else {
+  errorMessage = LoginPage.auth(login, password) {
+    errorResponse = AuthResource.auth(login, password) {
+      // RO, Read Committed
+      while(1) {
+        invalidData = AuthenticationIdentityStore.validate(login, password)
+      }
+    }
+  }
+}

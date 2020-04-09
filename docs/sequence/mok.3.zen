@@ -1,0 +1,30 @@
+AccountPanelPage
+AccountController
+AccountService
+AccountFacade
+Administrator
+@Starter(Administrator)
+
+if(availableAccounts) {
+  displayAccounts = AccountPanelPage.findAccounts(query) {
+    successAccountsResponse = AccountController.get(query) {
+      // RO, Read Committed
+      while(1) {
+        accounts = AccountService.find(query) {
+          accounts = AccountFacade.find(query)
+        }
+      }
+    }
+  }
+} else if(accountsNotFound) {
+  displayNotFound = AccountPanelPage.findAccounts(query) {
+    successAccountsResponse = AccountController.get(query) {
+      // RO, Read Committed
+      while(1) {
+        notFound = AccountService.find(query) {
+          notFound = AccountFacade.find(query)
+        }
+      }
+    }
+  }
+}

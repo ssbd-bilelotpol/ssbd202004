@@ -1,0 +1,33 @@
+Administrator
+AccountDetailsPage
+AccountController
+AccountService
+AccountFacade
+Account
+@Starter(Administrator)
+
+if (activeAccount) {
+  displaySuccess = AccountDetailsPage.blockAcccount(account) {
+    successResponse = AccountController.blockAccount(accountId) {
+      // RW, Read Comitted
+      while(1) {
+        success = AccountService.blockAccount(accountId) {
+          account = AccountFacade.findById(accountId)
+          Account.setActive(false)
+          AccountFacade.save(account)
+        }
+      }
+    }
+  }
+} else if (accountNotFound) {
+  displayError = AccountDetailsPage.blockAcccount(account) {
+    errorResponse = AccountController.blockAccount(accountId) {
+      // RW, Read Comitted
+      while(1) {
+        notFound = AccountService.blockAccount(accountId) {
+          notFound = AccountFacade.findById(accountId)
+        }
+      }
+    }
+  }  
+}

@@ -1,0 +1,80 @@
+Guest
+LoginPage
+ResetPage
+AccountController
+AccountService
+AccountFacade
+EmailSender
+Account
+ResetPasswordToken
+@Starter(Guest)
+
+if(emailExists) {
+  displaySuccess = LoginPage.resetPassword() {
+    response = AccountController.resetPassword(email) {
+      // RW, Read Committed
+      while(1) {
+        account = AccountService.findByEmail(email) {
+          account = AccountFacade.findByEmail(email)
+        }
+        new ResetPasswordToken()
+        Account.addResetToken(token)
+        success = AccountService.save(account) {
+          success = AccountFacade.save(account)
+        }
+      }
+      EmailSender.sendResetMail()
+    }
+  }
+} else {
+  displaySuccess = LoginPage.resetPassword() {
+    response = AccountController.resetPassword(email) {
+      // RW, Read Committed
+      while(1) {
+        notFound = AccountService.findByEmail(email) {
+          notFound = AccountFacade.findByEmail(email)
+        }
+      }
+    }
+  }
+}
+if (validData) {
+  displaySuccess = ResetPage.resetPassword() {
+    response = AccountController.resetPasswordLink(password, email, token) {
+      // RW, Read Committed
+      while(1) {
+        account = AccountService.findByEmail(email) {
+          account = AccountFacade.findByEmail(email)
+        }
+        
+        success = AccountService.changePassword(account, password) {
+          Account.setPassword(password)
+          ResetPasswordToken.delete
+          AccountFacade.save(account)
+        }
+      }
+    }
+  }
+} else if (accountNotFound) {
+  displayError = ResetPage.resetPassword() {
+    response = AccountController.resetPasswordLink(password, email, token) {
+      // RW, Read Committed
+      while(1) {
+        notFound = AccountService.findByEmail(email) {
+          notFound = AccountFacade.findByEmail(email)
+        }
+      }
+    }
+  }
+} else if (invalidToken) {
+  displayError = ResetPage.resetPassword() {
+    errorResponse = AccountController.resetPasswordLink(password, email, token) {
+      // RW, Read Committed
+      while(1) {
+        account = AccountService.findByEmail(email) {
+          account = AccountFacade.findByEmail(email)
+        }
+      }
+    }
+  }
+}

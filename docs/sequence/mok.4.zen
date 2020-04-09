@@ -1,0 +1,47 @@
+LoggedIn
+EditAccountPage
+AccountController
+AccountService
+AccountFacade
+@Starter(LoggedIn)
+
+displayAccountData = EditAccountPage.enter() {
+  accountDto = AccountController.get(accountId) {
+    // RO, Read Committed
+    while(1) {
+      account = AccountService.findById(accountId) {
+        account = AccountFacade.findById(accountId)
+      }
+    }
+  }
+}
+
+if (validData) {
+  displaySuccessMessage = EditAccountPage.save(accountForm) {
+    successResponse = AccountController.patch(accountDto) {
+      // RW, Read Committed  
+      while (1) {
+        account = AccountService.findById(accountId)
+      
+      Account.setData(accountDto)
+        success = AccountService.edit(account) {
+          success = AccountFacade.edit(account)
+        }
+      }
+    }
+  }
+} else if(accountNotFound)
+  displayErrorMessage = EditAccountPage.save(accountForm) {
+    errorResponse = AccountController.patch(accountDto) {
+      // RW, Read Committed  
+      while (1) {
+        notFound = AccountService.findById(accountId)
+      }
+    }
+  }
+
+} else if(invalidAccountData) {
+  displayErrorMessage = EditAccountPage.save(accountForm) {
+    errorResponse = AccountController.patch(accountDto) 
+  } 
+}

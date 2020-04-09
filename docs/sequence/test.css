@@ -1,0 +1,7 @@
+#diagram .starter .participant {
+     border-radius: 50%;
+ }
+
+#diagram .fragment.loop .header {
+    display: none;
+}

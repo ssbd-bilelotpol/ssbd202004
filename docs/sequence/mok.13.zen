@@ -1,0 +1,33 @@
+Administrator
+AccountDetailsPage
+AccountController
+AccountService
+AccountFacade
+Account
+@Starter(Administrator)
+
+if (validAccount) {
+  displaySuccess = AccountDetailsPage.unlockAcccount(account) {
+    successResponse = AccountController.unlockAccount(accountId) {
+      // RW, Read Comitted
+      while(1) {
+        success = AccountService.unlockAccount(accountId) {
+          account = AccountFacade.findById(accountId)
+          Account.setActive(true)
+          AccountFacade.save(account)
+        }
+      }
+    }
+  }
+} else if (accountNotFound) {
+  displayError = AccountDetailsPage.unlockAcccount(account) {
+    errorResponse = AccountController.unlockAccount(accountId) {
+      // RW, Read Comitted
+      while(1) {
+        notFound = AccountService.unlockAccount(accountId) {
+          notFound = AccountFacade.findById(accountId)
+        }
+      }
+    }
+  }  
+}

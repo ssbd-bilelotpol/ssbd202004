@@ -1,0 +1,19 @@
+LoggedIn
+HeaderSection
+AccountController
+Logger
+@Starter(LoggedIn)
+
+if (hasRole) {
+  changeUI = HeaderSection.changeRole(role) {
+    successResponse =  AccountController.changeRole(role) {
+      Logger.log(changedRoleSuccess)
+    }
+  }
+} else {
+  displayError = HeaderSection.changeRole(role) {
+    errorResponse =  AccountController.changeRole(role) {
+      Logger.log(changedRoleError)
+    }
+  }
+}

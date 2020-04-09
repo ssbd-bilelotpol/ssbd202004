@@ -1,0 +1,71 @@
+Guest
+RegisterPage
+ConfirmPage
+AccountController
+AccountService
+AccountFacade
+Account
+ClientAccessLevel
+AccountDetails
+VerificationToken
+@Starter(Guest)
+if (validAccountData) {
+  displaySuccess = RegisterPage.register(account) {
+    successResponse = AccountController.register(account) {
+      new Account()
+      new AccountDetails()
+      // RW, Read Committed
+      while(1) {
+        success = AccountService.register(account) {
+          new ClientAccessLevel()
+          new VerificationToken()
+          success = AccountFacade.create(account)
+        }
+      }
+      MailSender.sendConfirmationMail()
+    }
+  }
+} else if (loginExists) {
+  displayError = RegisterPage.register(account) {
+    errorAccountExists = AccountController.register(account) {
+      // RW, Read Committed
+      while(1) {
+        error = AccountService.register(account) {
+          accountExists = AccountFacade.create(account)
+        }
+      }
+    }
+  }
+} else if (invalidData) {
+  displayError = RegisterPage.register(account) {
+    errorInvalidData = AccountController.register(account)
+  }
+}
+if (validConfirmToken) {
+  displaySuccess = ConfirmPage.confirm(accountId, token) {
+    successResponse = AccountController.confirm(accountId, token) {
+      // RW, Read Committed
+      while(1) {
+        account = AccountService.findById(accountId) {
+          account = AccountFacade.findById(accountId)
+        }
+        success = AccountService.confirm(account) {
+          Account.setConfirm(true)
+          VerificationToken."<<delete>>"
+        }
+      }
+      
+    }
+  }
+} else if(invalidAccountOrToken) {
+  displayError = ConfirmPage.confirm(accountId, token) {
+    invalidAccountOrToken = AccountController.confirm(accountId, token) {
+      // RW, Read Committed
+      while(1) {
+        account = AccountService.findById(accountId) {
+          account = AccountFacade.findById(accountId)
+        }
+      }
+    }
+  }
+}
