@@ -1,0 +1,33 @@
+CustomerServiceOrClient
+TicketsPanelPage
+TicketController
+TicketService
+TicketFacade
+Ticket
+@Starter(CustomerServiceOrClient)
+if(validData) {
+  displaySuccess = TicketsPanelPage.returnTicket(ticket) {
+    successResponse = TicketController.returnTicket(ticket) {
+      //RW, Read Committed
+      while(1) {
+        success = TicketService.returnTicket(ticketId) {
+          ticket = TicketFacade.findById(ticketId)
+          Ticket.setReturned()
+          success = TicketFacade.edit(ticket)
+        }
+      }
+    }
+  }
+}
+else if(deadlineExceeded) {
+  displayError = TicketsPanelPage.returnTicket(ticket) {
+    errorDeadlineExceeded = TicketController.returnTicket(ticket) {
+      //RW, Read Committed
+      while(1) {
+        error = TicketService.returnTicket(ticketId) {
+          ticket = TicketFacade.findById(ticketId)
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+Client
+BuyTicketPage
+TicketController
+TicketService
+TicketFacade
+Ticket
+AirplaneSchemaController
+AirplaneSchemaService
+AirplaneSchemaFacade
+@Starter(Client)
+buyTicketForm = BuyTicketPage.buyTicket(flight) {
+  //RO, Read Committed
+  while(1) {
+    airplaneSchema = AirplaneSchemaController.getAirplaneSchema(schemaId) {
+      airplaneSchema = AirplaneSchemaService.find(schemaId) {
+        airplaneSchema = AirplaneSchemaFacade.find(schemaId)
+      }
+    }
+    takenSeats = TicketController.getTakenSeats(flightId) {
+      takenSeats = TicketService.getTakenSeats(flightId)
+    }
+  }
+}
+if(validData) {
+  displaySuccess = BuyTicketPage.buyTicket(ticketDto) {
+    successResponse = TicketController.buyTicket(ticketDto) {
+      //RW, Read Committed
+      while(1) {
+        airplaneSchema = AirplaneSchemaController.getAirplaneSchema(schemaId) {
+          airplaneSchema = AirplaneSchemaService.find(schemaId) {
+            airplaneSchema = AirplaneSchemaFacade.find(schemaId)
+          }
+        }
+        takenSeats = TicketService.getTakenSeats(flightId)
+        success = TicketService.buyTicket(ticketDto) {
+          new Ticket
+          Ticket.setData(ticketDto)
+          success = TicketFacade.add(ticket)
+        }
+      }
+    }
+  }
+}
+else if(seatAlreadyTaken) {
+  displayError = BuyTicketPage.buyTicket(ticketDto) {
+    errorSeatAlreadyTaken = TicketController.buyTicket(ticketDto) {
+      //RW, Read Committed
+      while(1) {
+        takenSeats = TicketService.getTakenSeats(flightId)
+      }
+    }
+  }
+}
+else if(invalidData) {
+  displayError = BuyTicketPage.buyTicket(ticketDto) {
+    errorInvalidData = TicketController.buyTicket(ticketDto)
+  }
+}
+if(paymentApproved) {
+  displaySuccess = PaymentSite.pay(paymentId)
+}
+else if(paymentDisapproved) {
+  displayError = PaymentSite.pay(paymentId)
+}
+

@@ -1,0 +1,63 @@
+CustomerService
+EditTicketPage
+TicketController
+TicketService
+TicketFacade
+Ticket
+@Starter(CustomerService)
+displayTicketForm = EditTicketPage.edit(ticket) {
+  successTicketResponse = TicketController.get(tickedId) {
+    ticket = TicketService.find(tickedId) {
+      ticket = TicketFacade.find(tickedId)
+    }
+  }
+}
+if(validData) {
+  displaySuccess = EditTicketPage.save(ticketDto) {
+    successResponse = TicketController.patch(ticketDto) {
+      //RW, Read Committed
+      while(1) {
+        ticket = TicketService.find(tickedId) {
+          ticket = TicketFacade.find(tickedId)
+        }
+        Ticket.setData(ticketDto)
+        success = TicketService.edit(ticket) {
+          success = TicketFacade.edit(ticket)
+        }
+      }
+    }
+  }
+}
+else if(ticketDeletedByOtherUser) {
+  displayError = EditTicketPage.save(ticket) {
+    errorTicketDeletedByOtherUser = TicketController.patch(editedTicket) {
+      //RW, Read Committed
+      while(1) {
+        ticket = TicketService.find(tickedId) {
+          ticket = TicketFacade.find(tickedId)
+        }
+        Ticket.setData(ticketDto)
+        success = TicketService.edit(ticket) {
+          success = TicketFacade.edit(ticket)
+        }
+      }
+    }
+  }
+}
+else if(ticketNotFound) {
+  displayError = EditTicketPage.save(ticket) {
+    errorNotFound = TicketController.patch(editedTicket) {
+      //RW, Read Committed
+      while(1) {
+        error = TicketService.find(tickedId) {
+          notFound = TicketFacade.find(tickedId)
+        }
+      }
+    }
+  }
+}
+else if(invalidData) {
+  displayError = EditTicketPage.save(ticket) {
+    errorInvalidData = TicketController.patch(editedTicket) 
+  }
+}
