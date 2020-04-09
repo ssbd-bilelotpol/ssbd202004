@@ -1,0 +1,51 @@
+FlightModifyPage
+FlightController
+FlightService
+FlightFacade
+MailSender
+
+@Starter(Manager)
+  displayFlightForm = FlightModifyPage.choose(flightId) {
+  flight = FlightController.get(flightId) {
+    // RO, Read Committed
+    while(1) {
+      flight = FlightService.find(flightId) {
+        flight = FlightFacade.find(flightId)
+      }
+    }
+  }
+}
+if(validOperation){
+
+  displaySuccess = FlightModifyPage.cancel(flightDto) {
+    success = FlightController.cancel(flightDto) {
+      // RW, Read Committed
+      while(1) {
+        flight = FlightService.find(flightId) {
+          flight = FlightFacade.find(flightId)
+        }
+        Flight.setStatus(flightDto)
+        success = FlightService.edit(flight) {
+          success = FlightFacade.edit(flight)
+        }
+      }
+            success = MailSender.sendMailToCustomers(flightDto)
+    }
+  }  
+}
+if(flightDeleted){
+    displayError = FlightModifyPage.cancel(flightDto) {
+    error = FlightController.cancel(flightDto) {
+      // RW, Read Committed
+      while(1) {
+        flight = FlightService.find(flightId) {
+          flight = FlightFacade.find(flightId)
+        }
+      Flight.setStatus(flightDto)
+        error = FlightService.edit(flight) {
+          error = FlightFacade.edit(flight)
+        }
+      }
+    }
+  } 
+}

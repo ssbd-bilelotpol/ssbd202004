@@ -1,0 +1,53 @@
+AiportAddPage
+AirportController
+AirportService
+AirportFacade
+Airport
+
+@Starter(Manager)
+
+if(validData){
+  displaySuccess =  
+  AiportAddPage.addAirport(airportDto){
+  
+  success =
+  AirportController.addAirport(airportDto){
+    airport = Airport."<<create>>";
+    // RW, Read Committed
+    while(1){
+
+      success =
+        AirportService.addAirport(airport){
+        success = 
+          AirportFacade.add(airport)
+        }
+      }
+    }
+  }
+}
+else if(invalidData){
+  displayError =
+    AiportAddPage.addAirport(airportDto){
+      error = 
+        AirportController.addAirport(airportDto){}
+  }
+}
+else if(codeExists){
+  displayError =  
+  AiportAddPage.addAirport(airportDto){
+  
+  error =
+  AirportController.addAirport(airportDto){
+    airport = Airport."<<create>>";
+    // RW, Read Committed
+    while(1){
+
+      error =
+        AirportService.addAirport(airport){
+        error = 
+          AirportFacade.add(airport)
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+FlightSearchPage
+FlightController
+FlightService
+FlightFacade
+
+@Starter(GuestOrManager)
+
+if(validData){
+  displayFlights =  
+  FlightSearchPage.findFlights(query){
+  
+  flights =
+  FlightController.findFlights(query){
+    // RO, Read Committed
+    while(1){
+      flights =
+        FlightService.findFlights(query){
+        flights = 
+          FlightFacade.find(query)
+        }
+      }
+    }
+  }
+}
+else if(invalidData){
+  displayError =
+    FlightSearchPage.findFlights(query){
+    
+      error = 
+        FlightController.findFlights(query){}
+  }
+}
+else if(noResults){
+  displayNoResults =  
+  FlightSearchPage.findFlights(query){
+  
+  emptyList =
+  FlightController.findFlights(query){
+    // RO, Read Committed
+    while(1){
+      emptyList =
+        FlightService.findFlights(query){
+        emptyList = 
+          FlightFacade.find(query)
+        }
+      }
+    }
+  }
+}

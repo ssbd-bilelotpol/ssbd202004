@@ -1,0 +1,71 @@
+ConnectionPanelPage
+ConnectionController
+ConnectionService
+ConnectionFacade
+
+@Starter(Manager)
+
+if(validOperation){
+
+  displaySuccess =  
+  ConnectionPanelPage.deleteConnection(ConnectionId){
+  success =
+  ConnectionController.deleteConnection(ConnectionId){
+        // RO, Read Committed
+    while(1){
+      connection =
+        ConnectionService.find(connectionId){
+        connection = 
+          ConnectionFacade.find(connectionId)
+        }
+      success =
+        ConnectionService.deleteConnection(connection){
+        success = 
+          ConnectionFacade.delete(connection)
+        }
+      }
+    }
+  }
+}
+else if(connectionAssociatedWithFlights){
+  displayError =  
+  ConnectionPanelPage.deleteConnection(connectionId){
+  error =
+  ConnectionController.deleteConnection(connectionId){
+    // RW, Read Committed
+    while(1){
+      connection =
+        ConnectionService.find(connectionId){
+        connection = 
+          ConnectionFacade.find(connectionId)
+        }
+      error =
+        ConnectionService.deleteConnection(connection){
+        error = 
+          ConnectionFacade.delete(connection)
+        }
+      }
+    }
+  }
+}
+else if(connectionDeleted){
+  displayError =  
+  ConnectionPanelPage.modifyConnection(ConnectionId){
+  error =
+  ConnectionController.modifyConnection(ConnectionId){
+        // RW, Read Committed
+    while(1){
+      connection =
+        ConnectionService.find(connectionId){
+        connection = 
+          ConnectionFacade.find(connectionId)
+        }
+      error =
+        ConnectionService.modifyConnection(connection){
+        error = 
+          ConnectionFacade.delete(connection)
+        }
+      }
+    }
+  }
+}

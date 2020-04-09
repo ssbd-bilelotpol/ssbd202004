@@ -1,0 +1,70 @@
+AiportPanelPage
+AirportController
+AirportService
+AirportFacade
+
+@Starter(Manager)
+if(validOperation){
+   displaySuccess =  
+  AiportPanelPage.deleteAirport(airportId){
+  success =
+  AirportController.deleteAirport(airportId){
+    // RW, Read Committed
+    while(1){
+      airport =
+        AirportService.find(airportId){
+        airport = 
+          AirportFacade.find(airportId)
+        }
+      success =
+        AirportService.deleteAirport(airport){
+        success = 
+          AirportFacade.delete(airport)
+        }
+      }
+    }
+  }
+}
+ 
+else if(airportAssociatedWithFlights){
+  displayError =  
+  AiportPanelPage.deleteAirport(airportId){
+  error =
+  AirportController.deleteAirport(airportId){
+    // RW, Read Committed
+    while(1){
+      airport =
+        AirportService.find(airportId){
+        airport = 
+          AirportFacade.find(airportId)
+        }
+      error =
+        AirportService.deleteAirport(airport){
+        error = 
+          AirportFacade.delete(airport)
+        }
+      }
+    }
+  }
+}
+else if(airportDeleted){
+  displayError =  
+  AiportPanelPage.modifyAirport(airportId){
+  error =
+  AirportController.modifyAirport(airportId){
+    // RW, Read Committed
+    while(1){
+      airport =
+        AirportService.find(airportId){
+        airport = 
+          AirportFacade.find(airportId)
+        }
+      error =
+        AirportService.modifyAirport(airport){
+        error = 
+          AirportFacade.delete(airport)
+        }
+      }
+    }
+  }
+}

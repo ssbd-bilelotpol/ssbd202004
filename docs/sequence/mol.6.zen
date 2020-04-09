@@ -1,0 +1,84 @@
+ConnectiontAddPage
+ConnectionController
+ConnectionService
+ConnectionFacade
+AirportFacade
+Connection
+
+@Starter(Manager)
+
+if(validData){
+  displaySuccess =  
+  ConnectiontAddPage.addConnection(connectionDto){
+  
+  success =
+  ConnectionController.addConnection(connectionDto){
+
+    // RW, Read Committed
+    while(1){
+      destinationinationAirport =                AirportFacade.find(destinationAirportId)
+      targetAirport = AirportFacade.find(targetAirportId)
+      Connection = Connection."<<create>>";
+      success =
+        ConnectionService.addConnection(Connection){
+        success = 
+          ConnectionFacade.add(Connection)
+        }
+      }
+    }
+  }
+}
+else if(invalidData){
+  displayError =
+    ConnectiontAddPage.addConnection(connectionDto){
+      error = 
+        ConnectionController.addConnection(connectionDto){}
+  }
+}
+else if(connectionExists){
+  displayError =  
+  ConnectiontAddPage.addConnection(connectionDto){
+  
+  error =
+  ConnectionController.addConnection(connectionDto){
+    // RW, Read Committed
+    while(1){
+      destinationinationAirport =            AirportFacade.find(destinationAirportId)
+      targetAirport = AirportFacade.find(targetAirportId)
+      Connection = Connection."<<create>>";
+      error =
+        ConnectionService.addConnection(Connection){
+        error = 
+          ConnectionFacade.add(Connection)
+        }
+      }
+    }
+  }
+}
+else if(targetAiportNoExists){
+  displayError=  
+  ConnectiontAddPage.addConnection(connectionDto){
+  
+  error =
+  ConnectionController.addConnection(connectionDto){
+    // RW, Read Committed
+    while(1){ 
+      destinationinationAirport = AirportFacade.find(destinationAirportId)
+      error = AirportFacade.find(targetAirportId)
+      }
+    }
+  }
+}
+else if(destinationAiportNoExists){
+  displayError=  
+  ConnectiontAddPage.addConnection(connectionDto){
+  
+  error =
+  ConnectionController.addConnection(connectionDto){
+    // RW, Read Committed
+    while(1){    
+      error = AirportFacade.find(destinationAirportId)
+      }
+    }
+  }
+}

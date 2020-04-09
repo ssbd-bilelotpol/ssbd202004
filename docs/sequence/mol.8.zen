@@ -1,0 +1,72 @@
+ConnectionEditPage
+ConnectionController
+ConnectionService
+ConnectionFacade
+
+@Starter(Manager)
+  displayConnectionForm = ConnectionEditPage.choose(connectionId) {
+  connectionDto = ConnectionController.get(connectionId) {
+    // RO, Read Committed
+    while(1) {
+      connectionDto = ConnectionService.find(connectionId) {
+        connectionDto = ConnectionFacade.find(connectionId)
+      }
+    }
+  }
+}
+if(validData){
+  displaySuccess = ConnectionEditPage.save(connectionDto) {
+    success = ConnectionController.patch(connectionDto) {
+      // RW, Read Committed
+      while(1) {
+        connection = ConnectionService.find(connectionId) {
+          connection = ConnectionFacade.find(connectionId)
+        }
+      Connection.setData(connectionDto)
+        success = ConnectionService.edit(connection) {
+          success = ConnectionFacade.edit(connection)
+        }
+      }
+    }
+  }
+}
+else if(invalidData) {
+  displayError =  
+  ConnectionEditPage.save(connectionDto){
+  error =
+  ConnectionController.patch(connectionDto){
+
+    }
+  }
+}
+else if(codeExists){
+displayError = ConnectionEditPage.save(connectionDto) {
+    error = ConnectionController.patch(connectionDto) {
+      // RW, Read Committed
+      while(1) {
+        connection = ConnectionService.find(connectionId) {
+          connection = ConnectionFacade.find(connectionId)
+        }
+      Connection.setData(connectionDto)
+        error = ConnectionService.edit(connection) {
+          error = ConnectionFacade.edit(connection)
+        }
+      }
+    }
+  }
+}
+else if(ConnectionDeleted){
+displayError= ConnectionEditPage.save(connectionDto) {
+    error = ConnectionController.patch(connectionDto) {
+      // RW, Read Committed
+      while(1) {
+        connection = ConnectionService.find(connectionId) {
+          connection = ConnectionFacade.find(connectionId)
+        }
+      Connection.setData(connectionDto)
+        error = ConnectionService.edit(connection) {
+          error = ConnectionFacade.edit(connection)
+        }
+      }
+    }
+}

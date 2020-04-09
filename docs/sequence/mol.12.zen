@@ -1,0 +1,76 @@
+FlightPanelPage
+FlightEditPage
+FlightController
+FlightService
+FlightFacade
+
+@Starter(Manager)
+
+
+  displayFlightForm = FlightEditPage.choose(flightId) {
+  flight = FlightController.get(flightId) {
+    // RO, Read Committed
+    while(1) {
+      flight = FlightService.find(flightId) {
+        flight = FlightFacade.find(flightId)
+      }
+    }
+  }
+}
+if(validData){
+
+  displaySuccess = FlightEditPage.save(flightDto) {
+    success = FlightController.patch(flightDto) {
+      // RW, Read Committed
+      while(1) {
+        flight = FlightService.find(flightId) {
+          flight = FlightFacade.find(flightId)
+        }
+      Flight.setData(flightDto)
+        success = FlightService.edit(flight) {
+          success = FlightFacade.edit(flight)
+        }
+      }
+    }
+  }  
+}
+else if(invalidData){
+  displayError =  
+  FlightEditPage.save(params){
+  error =
+  FlightController.patch(params){
+
+    }
+  }
+}
+else if(codeExists){
+displayError = FlightEditPage.save(flightDto) {
+    error = FlightController.patch(flightDto) {
+      // RW, Read Committed
+      while(1) {
+        flight = FlightService.find(flightId) {
+          flight = FlightFacade.find(flightId)
+        }
+      Flight.setData(flightDto)
+        error = FlightService.edit(flight) {
+          error = FlightFacade.edit(flight)
+        }
+      }
+    }
+  }
+}
+else if(flightDeleted){
+displayError = FlightEditPage.save(flightDto) {
+    error = FlightController.patch(flightDto) {
+      // RW, Read Committed
+      while(1) {
+        flight = FlightService.find(flightId) {
+          flight = FlightFacade.find(flightId)
+        }
+      Flight.setData(flightDto)
+        error = FlightService.edit(flight) {
+          error = FlightFacade.edit(flight)
+        }
+      }
+    }
+}

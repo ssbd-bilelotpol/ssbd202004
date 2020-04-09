@@ -1,0 +1,48 @@
+AiportSearchPage
+AirportController
+AirportService
+AirportFacade
+
+@Starter(GuestOrManager)
+if(validData){
+  displayAirports =  
+  AiportSearchPage.findAirports(query){
+  
+  airports =
+  AirportController.findAirports(query){
+    // RO, Read Committed
+    while(1){
+      airports =
+        AirportService.findAirports(query){
+        airports = 
+          AirportFacade.find(query)
+        }
+      }
+    }
+  }
+  }
+else if(invalidData){
+  displayError =
+    AiportSearchPage.findAirports(query){
+    
+      error = 
+        AirportController.findAirports(query){}
+  }
+}
+else if(noResults){
+  displayNoResults =  
+  AiportSearchPage.findAirports(query){
+  
+  emptyList =
+  AirportController.findAirports(query){
+    // RO, Read Committed
+    while(1){
+      emptyList =
+        AirportService.findAirports(query){
+        emptyList = 
+          AirportFacade.find(query)
+        }
+      }
+    }
+  }
+}

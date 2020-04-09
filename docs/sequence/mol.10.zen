@@ -1,0 +1,58 @@
+FlightAddPage
+FlightController
+FlightService
+ConnectionFacade
+AirplaneSchemaFacade
+Flight
+FlightFacade
+
+
+@Starter(Manager)
+
+if(validData){
+  displaySuccess =  
+  FlightAddPage.addFlight(flightDto){
+  
+  success =
+  FlightController.addFlight(flightDto){
+    // RW, Read Committed
+    while(1){
+      connection = ConnectionFacade.find(connectionId)
+      airplaneSchema = AirplaneSchemaFacade.find(airplaneSchemaId)
+      flight = Flight."<<create>>";
+      success =
+        FlightService.addFlight(flight){
+        success = 
+          FlightFacade.add(flight)
+        }
+      }
+    }
+  }
+}
+else if(invalidData){
+  displayError =
+    FlightAddPage.addFlight(flightDto){
+      error = 
+        FlightController.addFlight(flightDto){}
+  }
+}
+else if(flightExists){
+  displayError =  
+  FlightAddPage.addFlight(flightDto){
+  
+  error =
+  FlightController.addFlight(flightDto){
+    // RW, Read Committed
+    while(1){
+      connection = ConnectionFacade.find(connectionId)
+      airplaneSchema = AirplaneSchemaFacade.find(airplaneSchemaId)
+      flight = Flight."<<create>>";
+        error =
+        FlightService.addFlight(flight){
+        error = 
+          FlightFacade.add(flight)
+        }
+      }
+    }
+  }
+}
