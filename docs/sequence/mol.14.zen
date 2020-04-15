@@ -1,0 +1,54 @@
+Manager 
+SeatClassInfoPage
+SeatClassController
+SeatClassService
+SeatClassFacade
+
+@Starter(Manager)
+
+displaySeatClass = SeatClassInfoPage.getSeatClass(id) {
+  seatClass = SeatClassController.findA(id) {
+    // RO, Read Committed
+    while (1) {
+      seatClass = SeatClassService.find(id) {
+        seatClass = SeatClassFacade.find(id)
+      }
+    }
+  }
+}
+
+if (successfulyDeleted) {
+  redirectToConnectionsPage = SeatClassInfoPage.remove(seatClass) {
+    success = SeatClassController.remove(seatClass) {
+      new SeatClass(delete)
+      // RW, Read Committed
+      while (1) {
+        success = SeatClassService.remove(seatClass) {
+          success = SeatClassFacade.remove(seatClass)
+        }
+      }
+    }
+  }
+} else if (seatClassIsUsed) {
+  displayMessage = SeatClassInfoPage.remove(seatClass) {
+    seatClassIsUsedError = SeatClassController.remove(seatClass) {
+      // RW, Read Committed
+      while (1) {
+        seatClassIsUsedError = SeatClassService.remove(seatClass) {
+          seatClassIsUsedError = SeatClassFacade.remove(seatClass)
+        }
+      }
+    }
+  }
+} else if (seatClassAlreadyDeleted) {
+    displayMessage = SeatClassInfoPage.remove(seatClass) {
+    seatClassAlreadyDeletedError = SeatClassController.remove(seatClass) {
+      // RW, Read Committed
+      while (1) {
+        seatClassAlreadyDeletedError = SeatClassService.remove(seatClass) {
+          seatClassAlreadyDeletedError = SeatClassFacade.remove(seatClass)
+        }
+      }
+    }
+  }
+}

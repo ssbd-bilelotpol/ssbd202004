@@ -1,0 +1,31 @@
+Manager
+AirplaneSchemasPage
+AirplaneSchemaController
+AirplaneSchemaService
+AirplaneSchemaFacade
+
+@Starter(Manager) 
+
+if (airplaneSchemasExist) {
+  displayAirplaneSchemas = AirplaneSchemasPage.getAirplaneSchemas() {
+    airplaneSchemas = AirplaneSchemaController.findAll() {
+      //RO, Read Committed
+      while (1) {
+        airplaneSchemas = AirplaneSchemaService.findAll() {
+          airplaneSchemas = AirplaneSchemaFacade.findAll()
+        }
+      }
+    }
+  }
+} else if (noAirplaneSchemas) {
+    displayMessage = AirplaneSchemasPage.getAirplaneSchemas() {
+    noAirplaneSchemasError = AirplaneSchemaController.findAll() {
+      //RO, Read Committed
+      while (1) {
+        noAirplaneSchemasError = AirplaneSchemaService.findAll() {
+          noAirplaneSchemasError = AirplaneSchemaFacade.findAll()
+        }
+      }
+    }
+  }
+}

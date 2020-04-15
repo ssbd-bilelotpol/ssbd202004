@@ -1,0 +1,44 @@
+Manager
+AirplaneSchemaInfoPage
+AirplaneSchemaController
+AirplaneSchemaService
+AirplaneSchemaFacade
+
+
+@Starter(Manager)
+
+displayAirplaneSchema = AirplaneSchemaInfoPage.getAirplaneSchema() {
+  airplaneSchema = AirplaneSchemaController.find(id) {
+    //RO, Read Committed
+    while (1) {
+      airplaneSchema = AirplaneSchemaService.find(id) {
+        airplaneSchema = AirplaneSchemaFacade.find(id)
+      }
+    }
+  }
+}
+
+
+if (seatsSelected && seatClassesSelected && validData) {
+  displayMessage = AirplaneSchemaInfoPage.enter() {
+    seatClasses = SeatClassController.findAll() {
+      //RO, Read Committed 
+      while (1) {
+        seatClasses = SeatClassService.findAll() {
+          seatClasses = SeatClassFacade.findAll()
+        }
+      }
+    }
+    
+    success = AirplaneSchemaController.edit(airplaneSchemaDto) {
+      //RW, Read Committed
+      while (1) {
+        success = AirplaneSchemaService.edit(airplaneSchema) {
+          success = AirplaneSchemaFacade.edit(airplaneSchema)
+        }
+      }
+    }
+  }
+} else if (invalidData) {
+  displayError = AirplaneSchemaInfoPage.enter()
+}

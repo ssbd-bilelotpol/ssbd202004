@@ -1,0 +1,36 @@
+Manager
+AddSeatClassPage
+SeatClassController
+SeatClassService
+SeatClassFacade
+
+@Starter(Manager)
+
+if (validData) {
+  redirectToSeatClassesPage = AddSeatClassPage.add(seatClass) {
+    success = SeatClassController.add(seatClass) {
+      new SeatClass
+      // RW, Read Committed
+      while(1) {
+        success = SeatClassService.create(seatClass) {
+          success = SeatClassFacade.create(seatClass)
+        }
+      }
+    }
+  }
+} else if (invalidData) {
+  displayMessage = AddSeatClassPage.add(seatClass) {
+    invalidDataError = SeatClassController.add(seatClass)
+  }
+} else if (seatClassNameExists) {
+  displayMessage = AddSeatClassPage.add(seatClass) {
+    seatClassNameExistsError = SeatClassController.add(seatClass) {
+      // RW, Read Committed
+      while (1) {
+        seatClassNameExistsError = SeatClassService.create(seatClass) {
+          seatClassNameExistsError = SeatClassFacade.create(seatClass)
+        }
+      }
+    }
+  }
+}

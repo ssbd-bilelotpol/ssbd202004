@@ -1,0 +1,56 @@
+Manager
+AirplaneSchemaInfoPage
+AirplaneSchemaController
+AirplaneSchemaService
+AirplaneSchemaFacade
+
+AirplaneSchema
+
+@Starter(Manager) 
+
+displayAirplaneSchema = AirplaneSchemaInfoPage.getAirplaneSchema() {
+  airplaneSchema = AirplaneSchemaController.find(id) {
+    //RO, Read Committed
+    while (1) {
+      airplaneSchema = AirplaneSchemaService.find(id) {
+        airplaneSchema = AirplaneSchemaFacade.find(id)
+      }
+    }
+  }
+}
+
+if (removeSuccessful) {
+  displayMessage = AirplaneSchemaInfoPage.remove(airplaneSchema) {
+    success = AirplaneSchemaController.remove(airplaneSchema) {
+      //RW, Read Committed
+      while (1) {
+        new AirplaneSchema(delete)
+        success = AirplaneSchemaService.remove(airplaneSchema) {
+          success = AirplaneSchemaFacade.remove(airplaneSchema)
+        }
+      }
+    }
+  }
+} else if (airplaneSchemaDeleted) {
+  displayMessage = AirplaneSchemaInfoPage.remove(airplaneSchema) {
+    airplaneSchemaDeletedError = AirplaneSchemaController.remove(airplaneSchema) {
+      //RW, Read Committed
+      while (1) {
+        airplaneSchemaDeletedError = AirplaneSchemaService.remove(airplaneSchema) {
+          airplaneSchemaDeletedError = AirplaneSchemaFacade.remove(airplaneSchema)
+        }
+      }
+    }
+  }
+} else if (flightsUse) {
+  displayMessage = AirplaneSchemaInfoPage.remove(airplaneSchema) {
+    airplaneSchemaInUseError = AirplaneSchemaController.remove(airplaneSchema) {
+      //RW, Read Committed
+      while (1) {
+        airplaneSchemaInUseError = AirplaneSchemaService.remove(airplaneSchema) {
+          airplaneSchemaInUseError = AirplaneSchemaFacade.remove(airplaneSchema)
+        }
+      }
+    }
+  }
+}
