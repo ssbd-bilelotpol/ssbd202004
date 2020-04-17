@@ -7,17 +7,8 @@ import {
     ACTION_LOGOUT,
     ACTION_OPEN_AUTH_MODAL
 } from "../actions/auth";
-import jwtDecode from 'jwt-decode';
 
-let user = JSON.parse(localStorage.getItem("user"));
-if (user && user.token) {
-    const token = jwtDecode(user.token);
-    if (token.exp < Date.now() / 1000) {
-        user = {};
-    }
-}
-
-const clearState = {
+const initialState = {
     user: {
         principal: '',
         authorities: '',
@@ -29,12 +20,6 @@ const clearState = {
     openModal: false
 };
 
-const initialState = user ? {
-    user,
-    openModal: false,
-    loggedIn: true,
-    loggingIn: false
-} : clearState;
 
 export default function auth(state = initialState, action) {
     switch (action.type) {
@@ -74,7 +59,7 @@ export default function auth(state = initialState, action) {
             };
         case ACTION_LOGOUT:
             return {
-                ...clearState
+                ...initialState
             };
         case ACTION_CHANGE_ROLE:
             return {

@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
@@ -12,6 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 
 @Path("/auth")
@@ -20,6 +26,10 @@ import static javax.security.enterprise.identitystore.CredentialValidationResult
  * Po poprawnym uwierzytelnieniu zwracany jest JWT.
  */
 public class AuthResource {
+    private static final Logger LOGGER = Logger.getLogger(AuthResource.class.getName());
+
+    @Inject
+    private SecurityContext securityContext;
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;
@@ -44,6 +54,20 @@ public class AuthResource {
         }
 
         return Response.ok().entity(jwtProvider.create(result)).build();
+    }
+
+    @POST
+    @Path("/change-role")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({Role.Admin, Role.Manager, Role.Client, Role.CustomerService})
+    public Response changeRole(String role) {
+        if (securityContext.isCallerInRole(role)) {
+            LOGGER.log(Level.INFO, "User " + securityContext.getCallerPrincipal().getName() + " changed role to " + role);
+            return Response.ok().build();
+        } else {
+            LOGGER.log(Level.WARNING, "User " + securityContext.getCallerPrincipal().getName() + " tried changing role to " + role);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
     }
 
     /**

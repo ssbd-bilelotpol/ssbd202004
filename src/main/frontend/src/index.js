@@ -10,12 +10,38 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ThemeProvider} from "@material-ui/styles";
+import jwtDecode from "jwt-decode";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(
+
+let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+if (user && user.token) {
+    const token = jwtDecode(user.token);
+    if (token.exp < Date.now() / 1000) {
+        user = null;
+    }
+}
+
+const initialState = {
+    auth: {
+        user,
+        loggedIn: !!user.principal
+    }
+};
+
+const store = createStore(rootReducer, initialState, composeEnhancers(
   applyMiddleware(thunk)
 ));
 
+export function getStore() {
+    return store;
+}
+
+store.subscribe(() => {
+   if (store.getState().auth.user !== null) {
+       localStorage.setItem('user', JSON.stringify(store.getState().auth.user));
+   }
+});
 
 const theme = createMuiTheme({
     palette: {

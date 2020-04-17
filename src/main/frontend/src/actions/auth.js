@@ -1,4 +1,5 @@
 import {rolePriority} from "../constants";
+import {changeRoleApi, loginApi} from "../api";
 
 export const ACTION_LOGIN_BEGIN = 'LOGIN_BEGIN';
 export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -16,12 +17,32 @@ export const closeAuthModalAction = () => ({
     type: ACTION_CLOSE_AUTH_MODAL
 });
 
-export const changeRoleAction = (role) => ({
-    type: ACTION_CHANGE_ROLE,
-    payload: {
-        role
-    }
-});
+export const changeRoleAction = (role) => dispatch => {
+
+    const change = (role) => ({
+        type: ACTION_CHANGE_ROLE,
+        payload: {
+            role
+        }
+    });
+
+     return changeRoleApi(role).then(res => {
+         if (!res.ok) {
+             const err = new Error("Błąd dostępu");
+             err.custom = true;
+             throw err;
+         }
+     }).then( () => {
+         dispatch(change(role));
+     }).catch( err => {
+         console.log(err.message);
+         if (err.custom) {
+             // dispatch(failure(err.message));
+         } else {
+             // dispatch(failure("Brak połączenia z serwerem"));
+         }
+     });
+};
 
 export const logoutAction = () => dispatch => {
     localStorage.removeItem("user");
@@ -48,16 +69,7 @@ export const loginAction = (username, password) => dispatch => {
     });
 
     dispatch(begin());
-    return fetch(`${process.env.REACT_APP_API_URL}/auth`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username,
-            password
-        })
-    }).then(res => {
+    return loginApi(username, password).then(res => {
         if (!res.ok) {
             const err = new Error('Nieprawidłowy login lub hasło');
             err.custom = true;
@@ -70,7 +82,6 @@ export const loginAction = (username, password) => dispatch => {
             ...u,
             role: u.authorities[0]
         };
-        localStorage.setItem("user", JSON.stringify(user));
         dispatch(success(user));
     }).catch((err) => {
         if (err.custom) {

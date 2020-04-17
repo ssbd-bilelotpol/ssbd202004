@@ -13,7 +13,7 @@ import Container from "@material-ui/core/Container";
 import AuthTest from "./components/AuthTest";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import {roles, translations} from "./constants";
+import {translations} from "./constants";
 
 
 const useStyles = makeStyles(theme => ({

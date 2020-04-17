@@ -34,7 +34,6 @@ const AuthTest = () => {
             return fetch(`${server}${url}`, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
-                    'Authorization-Role': user.authorities && user.authorities[0]
                 }
             })
                 .then((response) => {
