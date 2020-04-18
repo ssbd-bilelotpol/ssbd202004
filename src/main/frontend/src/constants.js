@@ -1,8 +1,8 @@
 export const roles = {
-    admin: "ADMIN",
-    manager: "MANAGER",
-    customerService: "CUSTOMER_SERVICE",
-    client: "CLIENT"
+    admin: "admin",
+    manager: "manager",
+    customerService: "customer_service",
+    client: "client"
 };
 
 export const rolePriority = {

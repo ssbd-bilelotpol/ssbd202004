@@ -1,20 +1,25 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
 
 
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Seat;
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Klasa encyjna zawierająca informacje o szczegółach pasażera
  */
 @Entity
-public class Passenger implements Serializable {
+@Table(indexes = {
+        @Index(name = "passenger_seat_fk", columnList = "seat_id"),
+        @Index(name = "passenger_ticket_fk", columnList = "ticket_id")
+})
+public class Passenger extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_generator")
@@ -35,7 +40,7 @@ public class Passenger implements Serializable {
     @NotNull
     @Size(min = 3, max = 255)
     @Email
-    @Column(unique = true, updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private String email;
 
     @NotNull
@@ -43,16 +48,15 @@ public class Passenger implements Serializable {
     @Column(nullable = false, length = 15, name = "phone_number")
     private String phoneNumber;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "seat_id", nullable = false)
+    @JoinColumn(name = "seat_id", nullable = false, foreignKey = @ForeignKey(name = "passenger_seat_fk"))
     private Seat seat;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "ticket_id", nullable = false)
+    @JoinColumn(name = "ticket_id", nullable = false, foreignKey = @ForeignKey(name = "passenger_ticket_fk"))
     private Ticket ticket;
-
-    @Version
-    private Long version;
 
     public Passenger() {
     }
@@ -109,5 +113,23 @@ public class Passenger implements Serializable {
 
     public void setSeat(Seat seat) {
         this.seat = seat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Passenger)) return false;
+        Passenger passenger = (Passenger) o;
+        return firstName.equals(passenger.firstName) &&
+                lastName.equals(passenger.lastName) &&
+                email.equals(passenger.email) &&
+                phoneNumber.equals(passenger.phoneNumber) &&
+                seat.equals(passenger.seat) &&
+                ticket.equals(passenger.ticket);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, email, phoneNumber, seat, ticket);
     }
 }

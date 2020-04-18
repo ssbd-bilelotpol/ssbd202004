@@ -1,4 +1,7 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
+package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
+
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit;
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -14,8 +17,14 @@ import java.util.Set;
  * Informacje o klasie siedzenia i związanymi z nią benefitami
  */
 @Entity
-@Table(name = "seat_class")
-public class SeatClass implements Serializable {
+@Table(
+        name = "seat_class",
+        uniqueConstraints = {
+                @UniqueConstraint(name = SeatClass.CONSTRAINT_NAME, columnNames = "name")
+        }
+)
+public class SeatClass extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_NAME = "seat_class_name_unique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +33,7 @@ public class SeatClass implements Serializable {
 
     @NotNull
     @Size(min = 2, max = 30)
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(nullable = false, length = 30)
     private String name;
 
     @Digits(integer = 7, fraction = 2)
@@ -38,13 +47,11 @@ public class SeatClass implements Serializable {
             joinColumns = @JoinColumn(name = "seat_class_id"),
             inverseJoinColumns = @JoinColumn(name = "benefit_id"),
             uniqueConstraints = @UniqueConstraint(
-                    columnNames = {"seat_class_id", "benefit_id"}
+                    columnNames = {"seat_class_id", "benefit_id"},
+                    name = "seat_class_benefit_seat_benefit_unique"
             )
     )
     private Set<Benefit> benefits = new HashSet<>();
-
-    @Version
-    private Long version;
 
     public SeatClass() {
     }
@@ -91,14 +98,12 @@ public class SeatClass implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SeatClass)) return false;
-
         SeatClass seatClass = (SeatClass) o;
-
-        return Objects.equals(name, seatClass.name);
+        return name.equals(seatClass.name);
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        return Objects.hash(name);
     }
 }

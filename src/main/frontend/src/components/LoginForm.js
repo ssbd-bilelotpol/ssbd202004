@@ -52,6 +52,7 @@ const LoginForm = ({dispatch}) => {
                             component={TextField}
                             name="username"
                             label="Nazwa użytkownika"
+                            required
                         />
                     </div>
                     <div>
@@ -60,6 +61,7 @@ const LoginForm = ({dispatch}) => {
                             type="password"
                             label="Hasło"
                             name="password"
+                            required
                         />
                         {isSubmitting && <LinearProgress/>}
                     </div>

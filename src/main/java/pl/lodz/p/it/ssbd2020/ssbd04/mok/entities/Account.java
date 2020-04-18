@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,11 +11,21 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account.CONSTRAINT_LOGIN;
+
 /**
  * Klasa encyjna zawierająca informacje o koncie użytkownika
  */
 @Entity
-public class Account implements Serializable {
+@Table(
+        indexes = {@Index(name = "account_account_details_fk", columnList = "account_details_id")},
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "login", name = CONSTRAINT_LOGIN),
+                @UniqueConstraint(columnNames = "account_details_id", name = "account_account_details_id_unique")
+        }
+)
+public class Account extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_LOGIN = "account_login_unique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_generator")
@@ -24,7 +35,7 @@ public class Account implements Serializable {
 
     @NotNull
     @Size(min = 3, max = 30)
-    @Column(unique = true, nullable = false, length = 30)
+    @Column(nullable = false, length = 30)
     private String login;
 
     @NotNull
@@ -40,16 +51,14 @@ public class Account implements Serializable {
     @Column(nullable = false)
     private Boolean confirm;
 
-    @OneToMany(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "account_id")
+    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(name = "account_id", nullable = false, foreignKey = @ForeignKey(name = "account_account_access_level_fk"))
     private Set<AccountAccessLevel> accountAccessLevel = new HashSet<>();
 
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "account_details_id", unique = true, updatable = false)
+    @JoinColumn(name = "account_details_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "account_account_details_fk"))
     private AccountDetails accountDetails;
-
-    @Version
-    private Long version;
 
     public Account() {
     }
@@ -82,6 +91,7 @@ public class Account implements Serializable {
     }
 
     public void setPassword(String password) {
+        this.password = password;
     }
 
     public Boolean getActive() {
@@ -129,5 +139,15 @@ public class Account implements Serializable {
     @Override
     public int hashCode() {
         return login != null ? login.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", active=" + active +
+                ", confirm=" + confirm +
+                '}';
     }
 }

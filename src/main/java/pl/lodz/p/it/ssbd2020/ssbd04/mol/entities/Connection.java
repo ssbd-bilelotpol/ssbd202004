@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -13,28 +15,33 @@ import java.util.Objects;
  */
 
 @Entity
-public class Connection implements Serializable {
+@Table(
+        indexes = {
+                @Index(name = "connection_airport_dst_fk", columnList = "destination_id"),
+                @Index(name = "connection_airport_src_fk", columnList = "source_id")
+        }
+)
+public class Connection extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "destination_id", nullable = false)
+    @JoinColumn(name = "destination_id", nullable = false, foreignKey = @ForeignKey(name = "connection_airport_dst_fk"))
     private Airport destination;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "source_id", nullable = false)
+    @JoinColumn(name = "source_id", nullable = false, foreignKey = @ForeignKey(name = "connection_airport_src_fk"))
     private Airport source;
 
     @Digits(integer = 7, fraction = 2)
     @NotNull
     @Column(precision = 7, scale = 2, nullable = false, name = "base_price")
     private BigDecimal basePrice;
-
-    @Version
-    private Long version;
 
     public Connection() {
     }
@@ -78,14 +85,13 @@ public class Connection implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Connection)) return false;
         Connection that = (Connection) o;
-        return Objects.equals(destination, that.destination) &&
-                Objects.equals(source, that.source) &&
-                Objects.equals(basePrice, that.basePrice) &&
-                Objects.equals(version, that.version);
+        return destination.equals(that.destination) &&
+                source.equals(that.source) &&
+                basePrice.equals(that.basePrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(destination, source, basePrice, version);
+        return Objects.hash(destination, source, basePrice);
     }
 }

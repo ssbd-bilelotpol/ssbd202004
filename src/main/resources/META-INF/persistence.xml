@@ -7,6 +7,8 @@
         <jta-data-source>java:app/jdbc/ssbd04mokDS</jta-data-source>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.RegisterToken</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AdminAccessLevel</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel</class>
@@ -31,8 +33,8 @@
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Connection</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.SeatClass</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Seat</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.SeatClass</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
@@ -56,29 +58,14 @@
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Passenger</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.SeatClass</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Seat</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.SeatClass</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Ticket</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.cache.use_second_level_cache" value="false"/>
-        </properties>
-    </persistence-unit>
-    <persistence-unit name="ssbd04authPU" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:app/jdbc/ssbd04authDS</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.security.persistence.Account</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.security.persistence.AccountAccessLevel</class>
-        <exclude-unlisted-classes>true</exclude-unlisted-classes>
-        <properties>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="none"/>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.cache.use_second_level_cache" value="false"/>

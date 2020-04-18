@@ -1,9 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Seat;
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "airplane_schema")
-public class AirplaneSchema implements Serializable {
+public class AirplaneSchema extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +31,11 @@ public class AirplaneSchema implements Serializable {
     @Min(value = 1)
     private Integer cols;
 
+    @NotNull
     @Column(nullable = false)
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
             orphanRemoval = true, mappedBy = "airplaneSchema")
     private Set<Seat> seatList = new HashSet<>();
-
-    @Version
-    private Long version;
 
     public AirplaneSchema() {
     }
@@ -78,16 +77,15 @@ public class AirplaneSchema implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AirplaneSchema)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         AirplaneSchema that = (AirplaneSchema) o;
-        return Objects.equals(rows, that.rows) &&
-                Objects.equals(cols, that.cols) &&
-                Objects.equals(seatList, that.seatList) &&
-                Objects.equals(version, that.version);
+        return rows.equals(that.rows) &&
+                cols.equals(that.cols) &&
+                Objects.equals(seatList, that.seatList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rows, cols, seatList, version);
+        return Objects.hash(rows, cols, seatList);
     }
 }

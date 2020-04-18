@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.entities;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -7,12 +9,18 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails.CONSTRAINT_EMAIL;
+
 /**
  * Klasa encyjna zawierająca informacje o szczegółach konta
  */
 @Entity
-@Table(name = "account_details")
-public class AccountDetails implements Serializable {
+@Table(
+        name = "account_details",
+        uniqueConstraints = @UniqueConstraint(name = CONSTRAINT_EMAIL, columnNames = "email")
+)
+public class AccountDetails extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_EMAIL = "account_details_email_unique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_details_generator")
@@ -33,16 +41,13 @@ public class AccountDetails implements Serializable {
     @NotNull
     @Size(min = 3, max = 255)
     @Email
-    @Column(unique = true, updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private String email;
 
     @NotNull
     @Size(min = 9, max = 15)
     @Column(nullable = false, length = 15, name = "phone_number")
     private String phoneNumber;
-
-    @Version
-    private Long version;
 
     public AccountDetails() {
     }

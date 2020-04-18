@@ -1,6 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
+package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema;
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,7 +11,13 @@ import java.util.Objects;
  * Informacje o numerze siedzenia i jego umiejscowieniu na planie samolotu
  */
 @Entity
-public class Seat implements Serializable {
+@Table(
+        indexes = {
+                @Index(name = "seat_seat_class_fk", columnList = "seat_class_id"),
+                @Index(name = "seat_airplane_schema_fk", columnList = "airplane_schema_id")
+        }
+)
+public class Seat extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,16 +32,15 @@ public class Seat implements Serializable {
     @Column(nullable = false)
     private Integer row;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "seat_class_id", nullable = false)
+    @JoinColumn(name = "seat_class_id", nullable = false, foreignKey = @ForeignKey(name = "seat_seat_class_fk"))
     private SeatClass seatClass;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "airplane_schema_id", nullable = false)
+    @JoinColumn(name = "airplane_schema_id", nullable = false, foreignKey = @ForeignKey(name = "seat_airplane_schema_fk"))
     private AirplaneSchema airplaneSchema;
-
-    @Version
-    private Long version;
 
     public Seat() {
     }
@@ -87,17 +92,15 @@ public class Seat implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Seat)) return false;
-
         Seat seat = (Seat) o;
-
-        if (!Objects.equals(col, seat.col)) return false;
-        return Objects.equals(row, seat.row);
+        return col.equals(seat.col) &&
+                row.equals(seat.row) &&
+                seatClass.equals(seat.seatClass) &&
+                airplaneSchema.equals(seat.airplaneSchema);
     }
 
     @Override
     public int hashCode() {
-        int result = col != null ? col.hashCode() : 0;
-        result = 31 * result + (row != null ? row.hashCode() : 0);
-        return result;
+        return Objects.hash(col, row, seatClass, airplaneSchema);
     }
 }

@@ -1,16 +1,16 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.mok.facades;
+package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Seat;
 
 
 @Stateless
-public class AccountDetailsFacade extends AbstractFacade<AccountDetails> {
+public class SeatFacade extends AbstractFacade<Seat> {
 
-    @PersistenceContext(unitName = "ssbd04mokPU")
+    @PersistenceContext(unitName = "ssbd04molPU")
     private EntityManager em;
 
     @Override
@@ -18,8 +18,8 @@ public class AccountDetailsFacade extends AbstractFacade<AccountDetails> {
         return em;
     }
 
-    public AccountDetailsFacade() {
-        super(AccountDetails.class);
+    public SeatFacade() {
+        super(Seat.class);
     }
     
 }

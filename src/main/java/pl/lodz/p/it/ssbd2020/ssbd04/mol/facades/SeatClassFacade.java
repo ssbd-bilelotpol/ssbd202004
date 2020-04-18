@@ -1,16 +1,16 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.mob.facades;
+package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.SeatClass;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.SeatClass;
 
 
 @Stateless
 public class SeatClassFacade extends AbstractFacade<SeatClass> {
 
-    @PersistenceContext(unitName = "ssbd04mobPU")
+    @PersistenceContext(unitName = "ssbd04molPU")
     private EntityManager em;
 
     @Override

@@ -1,7 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.utils;
 
+import org.hibernate.exception.ConstraintViolationException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.Query;
@@ -14,7 +18,7 @@ import javax.persistence.Query;
  */
 public abstract class AbstractFacade<T> {
 
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -22,19 +26,43 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
-        getEntityManager().persist(entity);
+    public void create(T entity) throws AppBaseException {
+        try {
+            getEntityManager().persist(entity);
+            getEntityManager().flush();
+        } catch (PersistenceException e) {
+            if (!(e.getCause() instanceof ConstraintViolationException)) {
+                throw AppBaseException.databaseOperation(e);
+            }
+            throw (ConstraintViolationException) e.getCause();
+        }
     }
 
-    public void edit(T entity) {
-        getEntityManager().merge(entity);
+    public void edit(T entity) throws AppBaseException {
+        try {
+            getEntityManager().merge(entity);
+            getEntityManager().flush();
+        } catch (PersistenceException e) {
+            if (!(e.getCause() instanceof ConstraintViolationException)) {
+                throw AppBaseException.databaseOperation(e);
+            }
+            throw (ConstraintViolationException) e.getCause();
+        }
     }
 
-    public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+    public void remove(T entity) throws AppBaseException {
+        try {
+            getEntityManager().remove(getEntityManager().merge(entity));
+            getEntityManager().flush();
+        } catch (PersistenceException e) {
+            if (!(e.getCause() instanceof ConstraintViolationException)) {
+                throw AppBaseException.databaseOperation(e);
+            }
+            throw (ConstraintViolationException) e.getCause();
+        }
     }
 
-    public T find(Long id) {
+    public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
 

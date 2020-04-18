@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>pl.lodz.p.it.ssbd2020</groupId>
     <artifactId>ssbd04</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>ssbd04-0.0.4</name>
+    <name>ssbd04-0.0.5</name>
 
     <developers>
         <developer>
@@ -48,6 +48,7 @@
         <jsonWebTokenVer>0.9.1</jsonWebTokenVer>
         <hibernateJpaModelGenVer>5.4.12.Final</hibernateJpaModelGenVer>
         <bCryptVer>0.9.0</bCryptVer>
+        <unirestVer>3.7.02</unirestVer>
     </properties>
 
     <dependencies>
@@ -87,6 +88,12 @@
             <groupId>at.favre.lib</groupId>
             <artifactId>bcrypt</artifactId>
             <version>${bCryptVer}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>${unirestVer}</version>
         </dependency>
     </dependencies>
 

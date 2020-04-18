@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight;
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -16,7 +17,13 @@ import java.util.Set;
  * Klasa encyjna odpowiedzialna za przechowywanie informacji o sprzedaży biletu
  */
 @Entity
-public class Ticket implements Serializable {
+@Table(
+        indexes = {
+                @Index(name = "ticket_flight_fk", columnList = "flight_id"),
+                @Index(name = "ticket_account_fk", columnList = "account_id")
+        }
+)
+public class Ticket extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_generator")
@@ -24,8 +31,9 @@ public class Ticket implements Serializable {
     @Column(updatable = false)
     private Long id;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "flight_id", nullable = false, updatable = false)
+    @JoinColumn(name = "flight_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "ticket_flight_fk"))
     private Flight flight;
 
     @Digits(integer = 7, fraction = 2)
@@ -33,8 +41,9 @@ public class Ticket implements Serializable {
     @Column(precision = 7, scale = 2, nullable = false, name = "total_price")
     private BigDecimal totalPrice;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id", nullable = false, foreignKey = @ForeignKey(name = "ticket_account_fk"))
     private Account account;
 
     @Column(nullable = false)
@@ -42,9 +51,6 @@ public class Ticket implements Serializable {
             orphanRemoval = true,
             mappedBy = "ticket")
     private Set<Passenger> passenger = new HashSet<>();
-
-    @Version
-    private Long version;
 
     public Ticket() {
     }
@@ -101,21 +107,15 @@ public class Ticket implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Ticket)) return false;
-
         Ticket ticket = (Ticket) o;
-
-        if (!Objects.equals(flight, ticket.flight)) return false;
-        if (!Objects.equals(totalPrice, ticket.totalPrice)) return false;
-        if (!Objects.equals(account, ticket.account)) return false;
-        return Objects.equals(passenger, ticket.passenger);
+        return flight.equals(ticket.flight) &&
+                totalPrice.equals(ticket.totalPrice) &&
+                account.equals(ticket.account) &&
+                passenger.equals(ticket.passenger);
     }
 
     @Override
     public int hashCode() {
-        int result = flight != null ? flight.hashCode() : 0;
-        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
-        result = 31 * result + (account != null ? account.hashCode() : 0);
-        result = 31 * result + (passenger != null ? passenger.hashCode() : 0);
-        return result;
+        return Objects.hash(flight, totalPrice, account, passenger);
     }
 }

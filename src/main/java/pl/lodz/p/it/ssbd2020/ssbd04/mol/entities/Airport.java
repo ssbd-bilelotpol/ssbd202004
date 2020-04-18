@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,7 +13,7 @@ import java.util.Objects;
  */
 
 @Entity
-public class Airport implements Serializable {
+public class Airport extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +37,6 @@ public class Airport implements Serializable {
     @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
     private String city;
-
-    @Version
-    private Long version;
 
     public Airport() {
     }
@@ -89,17 +88,13 @@ public class Airport implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Airport)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Airport airport = (Airport) o;
-        return Objects.equals(code, airport.code) &&
-                Objects.equals(name, airport.name) &&
-                Objects.equals(country, airport.country) &&
-                Objects.equals(city, airport.city) &&
-                Objects.equals(version, airport.version);
+        return code.equals(airport.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, country, city, version);
+        return Objects.hash(code);
     }
 }

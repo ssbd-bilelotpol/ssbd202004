@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.entities;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,7 +13,7 @@ import java.util.Objects;
  * Informacje o możliwych do wykupienia benefitach
  */
 @Entity
-public class Benefit implements Serializable {
+public class Benefit extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +29,6 @@ public class Benefit implements Serializable {
     @Column(nullable = false)
     @Size(min = 5, max = 255)
     private String description;
-
-    @Version
-    private Long version;
 
     public Benefit() {
     }
@@ -64,13 +63,12 @@ public class Benefit implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Benefit)) return false;
         Benefit benefit = (Benefit) o;
-        return Objects.equals(name, benefit.name) &&
-                Objects.equals(description, benefit.description) &&
-                Objects.equals(version, benefit.version);
+        return name.equals(benefit.name) &&
+                description.equals(benefit.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, version);
+        return Objects.hash(name, description);
     }
 }

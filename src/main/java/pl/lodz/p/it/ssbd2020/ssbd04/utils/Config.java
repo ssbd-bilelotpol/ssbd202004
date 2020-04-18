@@ -18,8 +18,11 @@ public class Config implements Serializable {
     private final String JWT_SECRET_KEY = "jwt.secretKey";
     private final String JWT_VALIDITY_KEY = "jwt.validity";
     private static final String CONFIG_FILE = "config.properties";
+    private static final String MAIL_API_KEY = "mail.apiKey";
+    private static final String MAIL_API_SERVER = "mail.apiServer";
+    private static final String MAIL_SENDER = "mail.sender";
 
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
     @PostConstruct
     private void init() {
@@ -53,5 +56,17 @@ public class Config implements Serializable {
 
     public Long getJWTValidity() {
         return getLong(JWT_VALIDITY_KEY);
+    }
+
+    public String getMailApiKey() {
+        return get(MAIL_API_KEY);
+    }
+
+    public String getMailSender() {
+        return get(MAIL_SENDER);
+    }
+
+    public String getApiServer() {
+        return get(MAIL_API_SERVER);
     }
 }

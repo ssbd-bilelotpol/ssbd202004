@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.entities;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -13,9 +15,18 @@ import java.util.Objects;
  * Informacje o konkretnym locie, połączeniu, którego jest częścią, kodzie lotu, samolocie oraz dacie początku i końca
  * przelotu
  */
-
 @Entity
-public class Flight implements Serializable {
+@Table(
+        indexes = {
+                @Index(name = "flight_connection_fk", columnList = "connection_id"),
+                @Index(name = "flight_airplane_schema_fk", columnList = "airplane_schema_id")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(name = Flight.CONSTRAINT_FLIGHT_CODE, columnNames = "flight_code")
+        }
+)
+public class Flight extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_FLIGHT_CODE = "flight_flight_code_unique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_generator")
@@ -24,7 +35,7 @@ public class Flight implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(nullable = false, unique = true, length = 30, updatable = false, name = "flight_code")
+    @Column(nullable = false, length = 30, updatable = false, name = "flight_code")
     @Size(min = 5, max = 30)
     private String flightCode;
 
@@ -33,12 +44,14 @@ public class Flight implements Serializable {
     @Column(precision = 7, scale = 2, nullable = false)
     private BigDecimal price;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "connection_id", nullable = false)
+    @JoinColumn(name = "connection_id", nullable = false, foreignKey = @ForeignKey(name = "flight_connection_fk"))
     private Connection connection;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "airplane_schema_id", nullable = false)
+    @JoinColumn(name = "airplane_schema_id", nullable = false, foreignKey = @ForeignKey(name = "flight_airplane_schema_fk"))
     private AirplaneSchema airplaneSchema;
 
     @Column(nullable = false, name = "start_date_time")
@@ -50,9 +63,6 @@ public class Flight implements Serializable {
     @Column(nullable = false, length = 64)
     @Enumerated(EnumType.STRING)
     private FlightStatus status;
-
-    @Version
-    private Long version;
 
     public Flight() {
     }
@@ -133,18 +143,14 @@ public class Flight implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Flight)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Flight flight = (Flight) o;
-        return Objects.equals(flightCode, flight.flightCode) &&
-                Objects.equals(connection, flight.connection) &&
-                Objects.equals(airplaneSchema, flight.airplaneSchema) &&
-                Objects.equals(startDateTime, flight.startDateTime) &&
-                Objects.equals(endDateTime, flight.endDateTime) &&
-                Objects.equals(version, flight.version);
+        return flightCode.equals(flight.flightCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(flightCode, connection, airplaneSchema, startDateTime, endDateTime, version);
+        return Objects.hash(flightCode);
     }
 }
