@@ -43,7 +43,7 @@ public class Ticket extends AbstractEntity implements Serializable {
 
     @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "account_id", nullable = false, foreignKey = @ForeignKey(name = "ticket_account_fk"))
+    @JoinColumn(name = "account_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "ticket_account_fk"))
     private Account account;
 
     @Column(nullable = false)

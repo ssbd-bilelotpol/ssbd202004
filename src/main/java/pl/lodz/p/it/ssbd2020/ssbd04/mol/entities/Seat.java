@@ -39,7 +39,7 @@ public class Seat extends AbstractEntity implements Serializable {
 
     @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "airplane_schema_id", nullable = false, foreignKey = @ForeignKey(name = "seat_airplane_schema_fk"))
+    @JoinColumn(name = "airplane_schema_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "seat_airplane_schema_fk"))
     private AirplaneSchema airplaneSchema;
 
     public Seat() {

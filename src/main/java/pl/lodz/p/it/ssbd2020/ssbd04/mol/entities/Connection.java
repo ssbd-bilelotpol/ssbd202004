@@ -30,12 +30,12 @@ public class Connection extends AbstractEntity implements Serializable {
 
     @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "destination_id", nullable = false, foreignKey = @ForeignKey(name = "connection_airport_dst_fk"))
+    @JoinColumn(name = "destination_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "connection_airport_dst_fk"))
     private Airport destination;
 
     @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "source_id", nullable = false, foreignKey = @ForeignKey(name = "connection_airport_src_fk"))
+    @JoinColumn(name = "source_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "connection_airport_src_fk"))
     private Airport source;
 
     @Digits(integer = 7, fraction = 2)

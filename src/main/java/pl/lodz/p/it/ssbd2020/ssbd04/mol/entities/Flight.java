@@ -46,7 +46,7 @@ public class Flight extends AbstractEntity implements Serializable {
 
     @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "connection_id", nullable = false, foreignKey = @ForeignKey(name = "flight_connection_fk"))
+    @JoinColumn(name = "connection_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "flight_connection_fk"))
     private Connection connection;
 
     @NotNull
