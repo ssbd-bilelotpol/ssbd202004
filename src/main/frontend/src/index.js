@@ -25,7 +25,7 @@ if (user && user.token) {
 const initialState = {
     auth: {
         user,
-        loggedIn: !!user.principal
+        loggedIn: user && !!user.principal
     }
 };
 

@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GroupRoleMapper;
 
 @Path("/auth")
 /**
@@ -60,7 +61,8 @@ public class AuthResource {
     @Path("/change-role")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({Role.Admin, Role.Manager, Role.Client, Role.CustomerService})
-    public Response changeRole(String role) {
+    public Response changeRole(String group) {
+        String role = GroupRoleMapper.get(group);
         if (securityContext.isCallerInRole(role)) {
             LOGGER.log(Level.INFO, "User " + securityContext.getCallerPrincipal().getName() + " changed role to " + role);
             return Response.ok().build();
