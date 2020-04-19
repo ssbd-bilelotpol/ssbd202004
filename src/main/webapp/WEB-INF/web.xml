@@ -28,6 +28,7 @@
     <error-page>
         <location>/exception_handler</location>
     </error-page>
+    
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>API</web-resource-name>

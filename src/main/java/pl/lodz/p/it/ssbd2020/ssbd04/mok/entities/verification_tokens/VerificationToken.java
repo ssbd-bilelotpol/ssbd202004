@@ -40,7 +40,8 @@ public abstract class VerificationToken extends AbstractEntity implements Serial
     @JoinColumn(name = "account_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "verification_token_account_fk"))
     private Account account;
 
-    public VerificationToken() {}
+    public VerificationToken() {
+    }
 
     public VerificationToken(LocalDateTime expireDateTime, Account account) {
         this.expireDateTime = expireDateTime;

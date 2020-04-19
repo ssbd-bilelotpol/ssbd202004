@@ -14,7 +14,8 @@ import java.util.UUID;
 @Entity
 @DiscriminatorValue("register")
 public class RegisterToken extends VerificationToken implements Serializable {
-    public RegisterToken() {}
+    public RegisterToken() {
+    }
 
     public RegisterToken(LocalDateTime expireDateTime, Account account) {
         super(expireDateTime, account);

@@ -332,11 +332,11 @@ ALTER TABLE ONLY verification_token
 
 -- Foreign Keys
 
-ALTER TABLE ONLY account_access_level
-    ADD CONSTRAINT account_account_access_level_fk FOREIGN KEY (account_id) REFERENCES account (id);
-
 ALTER TABLE ONLY account
     ADD CONSTRAINT account_account_details_fk FOREIGN KEY (account_details_id) REFERENCES account_details (id);
+
+ALTER TABLE ONLY account_access_level
+    ADD CONSTRAINT account_account_access_level_fk FOREIGN KEY (account_id) REFERENCES account (id);
 
 ALTER TABLE ONLY connection
     ADD CONSTRAINT connection_airport_dst_fk FOREIGN KEY (destination_id) REFERENCES airport (id);
@@ -345,10 +345,10 @@ ALTER TABLE ONLY connection
     ADD CONSTRAINT connection_airport_src_fk FOREIGN KEY (source_id) REFERENCES airport (id);
 
 ALTER TABLE ONLY seat_class_benefits
-    ADD CONSTRAINT fk3lga659ldtxnhgwikt0jhrl4a FOREIGN KEY (seat_class_id) REFERENCES seat_class (id);
+    ADD CONSTRAINT seat_class_fk FOREIGN KEY (seat_class_id) REFERENCES seat_class (id);
 
 ALTER TABLE ONLY seat_class_benefits
-    ADD CONSTRAINT fk7orfx4rveblhdueabqxl5rb42 FOREIGN KEY (benefit_id) REFERENCES benefit (id);
+    ADD CONSTRAINT benefit_fk FOREIGN KEY (benefit_id) REFERENCES benefit (id);
 
 ALTER TABLE ONLY flight
     ADD CONSTRAINT flight_airplane_schema_fk FOREIGN KEY (airplane_schema_id) REFERENCES airplane_schema (id);
@@ -374,12 +374,15 @@ ALTER TABLE ONLY ticket
 ALTER TABLE ONLY ticket
     ADD CONSTRAINT ticket_flight_fk FOREIGN KEY (flight_id) REFERENCES flight (id);
 
+ALTER TABLE ONLY verification_token
+    ADD CONSTRAINT verification_token_account_fk FOREIGN KEY (account_id) REFERENCES account (id);
+
 
 -- Indexes
 
-CREATE INDEX account_account_access_level_fk ON account_access_level USING btree (account_id);
-
 CREATE INDEX account_account_details_fk ON account USING btree (account_details_id);
+
+CREATE INDEX account_account_access_level_fk ON account_access_level USING btree (account_id);
 
 CREATE INDEX connection_airport_dst_fk ON connection USING btree (destination_id);
 
@@ -396,6 +399,10 @@ CREATE INDEX passenger_ticket_fk ON passenger USING btree (ticket_id);
 CREATE INDEX seat_airplane_schema_fk ON seat USING btree (airplane_schema_id);
 
 CREATE INDEX seat_seat_class_fk ON seat USING btree (seat_class_id);
+
+CREATE INDEX benefit_fk ON seat_class_benefits USING btree (benefit_id);
+
+CREATE INDEX seat_class_fk ON seat_class_benefits USING btree (seat_class_id);
 
 CREATE INDEX ticket_account_fk ON ticket USING btree (account_id);
 

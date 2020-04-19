@@ -44,8 +44,12 @@ public class SeatClass extends AbstractEntity implements Serializable {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "seat_class_benefits",
-            joinColumns = @JoinColumn(name = "seat_class_id"),
-            inverseJoinColumns = @JoinColumn(name = "benefit_id"),
+            joinColumns = @JoinColumn(name = "seat_class_id", foreignKey = @ForeignKey(name = "seat_class_id")),
+            inverseJoinColumns = @JoinColumn(name = "benefit_id", foreignKey = @ForeignKey(name = "benefit_id")),
+            indexes = {
+                @Index(name = "benefit_fk", columnList = "benefit_id"),
+                @Index(name = "seat_class_fk", columnList = "seat_class_id")
+            },
             uniqueConstraints = @UniqueConstraint(
                     columnNames = {"seat_class_id", "benefit_id"},
                     name = "seat_class_benefit_seat_benefit_unique"
