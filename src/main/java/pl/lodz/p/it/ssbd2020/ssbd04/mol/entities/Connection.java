@@ -21,6 +21,7 @@ import java.util.Objects;
                 @Index(name = "connection_airport_src_fk", columnList = "source_id")
         }
 )
+@SecondaryTable(name = "connection_stats", pkJoinColumns = @PrimaryKeyJoinColumn(name = "connection_id", referencedColumnName = "id"))
 public class Connection extends AbstractEntity implements Serializable {
 
     @Id
@@ -42,6 +43,10 @@ public class Connection extends AbstractEntity implements Serializable {
     @NotNull
     @Column(precision = 7, scale = 2, nullable = false, name = "base_price")
     private BigDecimal basePrice;
+
+    @Digits(integer = 7, fraction = 2)
+    @Column(table = "connection_stats", name = "profit", precision = 7, scale = 2)
+    private BigDecimal profit;
 
     public Connection() {
     }
@@ -74,6 +79,14 @@ public class Connection extends AbstractEntity implements Serializable {
 
     public BigDecimal getBasePrice() {
         return basePrice;
+    }
+
+    public BigDecimal getProfit() {
+        return profit;
+    }
+
+    public void setProfit(BigDecimal profit) {
+        this.profit = profit;
     }
 
     public Long getId() {
