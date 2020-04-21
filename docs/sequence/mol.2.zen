@@ -1,5 +1,6 @@
 AiportAddPage
 AirportController
+AirportEndpoint
 AirportService
 AirportFacade
 Airport
@@ -12,10 +13,12 @@ if(validData){
   
   success =
   AirportController.addAirport(airportDto){
-    airport = Airport."<<create>>";
+      success =
+  AirportEndpoint.addAirport(airportDto){
     // RW, Read Committed
     while(1){
-
+      airport = Airport."<<create>>";
+      
       success =
         AirportService.addAirport(airport){
         success = 
@@ -23,6 +26,7 @@ if(validData){
         }
       }
     }
+  }
   }
 }
 else if(invalidData){
@@ -38,10 +42,12 @@ else if(codeExists){
   
   error =
   AirportController.addAirport(airportDto){
-    airport = Airport."<<create>>";
+    error =
+  AirportEndpoint.addAirport(airportDto){
     // RW, Read Committed
     while(1){
-
+    airport = Airpoert."<<create>>";
+    
       error =
         AirportService.addAirport(airport){
         error = 
@@ -49,5 +55,6 @@ else if(codeExists){
         }
       }
     }
+  }
   }
 }

@@ -1,6 +1,7 @@
 FlightPanelPage
 FlightEditPage
 FlightController
+FlightEndpoint
 FlightService
 FlightFacade
 
@@ -9,6 +10,7 @@ FlightFacade
 
   displayFlightForm = FlightEditPage.choose(flightId) {
   flight = FlightController.get(flightId) {
+      flight = FlightEndpoint.get(flightId) {
     // RO, Read Committed
     while(1) {
       flight = FlightService.find(flightId) {
@@ -16,11 +18,13 @@ FlightFacade
       }
     }
   }
+  }
 }
 if(validData){
 
   displaySuccess = FlightEditPage.save(flightDto) {
     success = FlightController.patch(flightDto) {
+          success = FlightEndpoint.patch(flightDto) {
       // RW, Read Committed
       while(1) {
         flight = FlightService.find(flightId) {
@@ -31,6 +35,7 @@ if(validData){
           success = FlightFacade.edit(flight)
         }
       }
+    }
     }
   }  
 }
@@ -46,6 +51,7 @@ else if(invalidData){
 else if(codeExists){
 displayError = FlightEditPage.save(flightDto) {
     error = FlightController.patch(flightDto) {
+          error = FlightEndpoint.patch(flightDto) {
       // RW, Read Committed
       while(1) {
         flight = FlightService.find(flightId) {
@@ -56,12 +62,14 @@ displayError = FlightEditPage.save(flightDto) {
           error = FlightFacade.edit(flight)
         }
       }
+          }
     }
   }
 }
 else if(flightDeleted){
 displayError = FlightEditPage.save(flightDto) {
     error = FlightController.patch(flightDto) {
+          error = FlightEndpoint.patch(flightDto) {
       // RW, Read Committed
       while(1) {
         flight = FlightService.find(flightId) {
@@ -72,5 +80,7 @@ displayError = FlightEditPage.save(flightDto) {
           error = FlightFacade.edit(flight)
         }
       }
+          }
     }
+}
 }

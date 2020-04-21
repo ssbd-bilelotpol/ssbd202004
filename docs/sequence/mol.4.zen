@@ -1,22 +1,26 @@
 AirportEditPage
 AirportController
+AirportEndpoint
 AirportService
 AirportFacade
 
 @Starter(Manager)
   displayAirportForm = AirportEditPage.choose(airportId) {
   airportDto = AirportController.get(airportId) {
+      airportDto = AirportEndpoint.get(airportId) {
     // RO, Read Committed
     while(1) {
       airportDto = AirportService.find(airportId) {
         airportDto = AirportFacade.find(airportId)
       }
     }
+      }
   }
 }
 if(validData){
   displaySuccess = AirportEditPage.save(airportDto) {
     success = AirportController.patch(airportDto) {
+          success = AirportEndpoint.patch(airportDto) {
       // RW, Read Committed
       while(1) {
         airport = AirportService.find(airportId) {
@@ -27,6 +31,7 @@ if(validData){
           success = AirportFacade.edit(airport)
         }
       }
+    }
     }
   }
 }
@@ -42,6 +47,7 @@ else if(invalidData) {
 else if(codeExists){
 displayError = AirportEditPage.save(airportDto) {
     error = AirportController.patch(airportDto) {
+          error = AirportEndpoint.patch(airportDto) {
       // RW, Read Committed
       while(1) {
         airport = AirportService.find(airportId) {
@@ -69,4 +75,6 @@ displayError= AirportEditPage.save(airportDto) {
         }
       }
     }
+    }
+}
 }

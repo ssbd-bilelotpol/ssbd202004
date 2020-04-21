@@ -1,20 +1,24 @@
 Manager
 AirplaneSchemaInfoPage
 AirplaneSchemaController
+AirplaneSchemaEndpoint
 AirplaneSchemaService
 AirplaneSchemaFacade
+Seat
 
 
 @Starter(Manager)
 
 displayAirplaneSchema = AirplaneSchemaInfoPage.getAirplaneSchema() {
   airplaneSchema = AirplaneSchemaController.find(id) {
+      airplaneSchema = AirplaneSchemaEndpoint.find(id) {
     //RO, Read Committed
     while (1) {
       airplaneSchema = AirplaneSchemaService.find(id) {
         airplaneSchema = AirplaneSchemaFacade.find(id)
       }
     }
+      }
   }
 }
 
@@ -22,21 +26,27 @@ displayAirplaneSchema = AirplaneSchemaInfoPage.getAirplaneSchema() {
 if (seatsSelected && seatClassesSelected && validData) {
   displayMessage = AirplaneSchemaInfoPage.enter() {
     seatClasses = SeatClassController.findAll() {
+          seatClasses = SeatClassEndpoint.findAll() {
       //RO, Read Committed 
       while (1) {
         seatClasses = SeatClassService.findAll() {
           seatClasses = SeatClassFacade.findAll()
         }
       }
+          }
     }
     
     success = AirplaneSchemaController.edit(airplaneSchemaDto) {
+          success = AirplaneSchemaEndpoint.edit(airplaneSchemaDto) {
       //RW, Read Committed
       while (1) {
         success = AirplaneSchemaService.edit(airplaneSchema) {
-          success = AirplaneSchemaFacade.edit(airplaneSchema)
+          success = AirplaneSchemaFacade.edit(airplaneSchema){
+            Seat."<<cascade merge>>"
+          }
         }
       }
+          }
     }
   }
 } else if (invalidData) {

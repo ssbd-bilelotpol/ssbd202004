@@ -1,9 +1,10 @@
 Manager
 AirplaneSchemaInfoPage
 AirplaneSchemaController
+AirplaneSchemaEndpoint
 AirplaneSchemaService
 AirplaneSchemaFacade
-
+Seat
 AirplaneSchema
 
 @Starter(Manager)
@@ -11,6 +12,7 @@ AirplaneSchema
 if (seatClassesExist && validData) {
   success = AirplaneSchemaInfoPage.enter() {
     seatClasses = SeatClassController.findAll() {
+          seatClasses = SeatClassEndpoint.findAll() {
       //RO, Read Committed
       while (1) {
         seatClasses = SeatClassService.findAll() {
@@ -18,25 +20,32 @@ if (seatClassesExist && validData) {
         }
       }
     }
+    }
   }
   
   successResponse = AirplaneSchemaController.create(airplaneSchema) {
-    new AirplaneSchema()
+      successResponse = AirplaneSchemaEndpoint.create(airplaneSchema) {
     //RW, Read Committed
     while (1) {
+    airplaneSchema = AirplaneSchema."<<create>>";
       success = AirplaneSchemaService.create(airplaneSchema) {
-        success = AirplaneSchemaFacade.create(airplaneSchema)
+        success = AirplaneSchemaFacade.create(airplaneSchema){
+          Seat."<<cascade persist>>"
+        }
       }
     }
+      }
   }
 } else if (noSeatClasses) {
   displayError = SeatClassController.findAll() {
+      displayError = SeatClassEndpoint.findAll() {
     //RO, Read Committed
     while (1) {
       noSeatClassesError = SeatClassService.findAll() {
         noSeatClassesError = SeatClassFacade.findAll()
       }
     }
+      }
   }
 } else if (invalidData) {
   displayError = AirplaneSchemaInfoPage.enter()

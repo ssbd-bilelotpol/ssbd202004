@@ -1,5 +1,6 @@
 AiportPanelPage
 AirportController
+AirportEndpoint
 AirportService
 AirportFacade
 
@@ -9,6 +10,8 @@ if(validOperation){
   AiportPanelPage.deleteAirport(airportId){
   success =
   AirportController.deleteAirport(airportId){
+      success =
+  AirportEndpoint.deleteAirport(airportId){
     // RW, Read Committed
     while(1){
       airport =
@@ -24,6 +27,7 @@ if(validOperation){
       }
     }
   }
+   }
 }
  
 else if(airportAssociatedWithFlights){
@@ -31,6 +35,8 @@ else if(airportAssociatedWithFlights){
   AiportPanelPage.deleteAirport(airportId){
   error =
   AirportController.deleteAirport(airportId){
+      error =
+  AirportEndpoint.deleteAirport(airportId){
     // RW, Read Committed
     while(1){
       airport =
@@ -46,12 +52,15 @@ else if(airportAssociatedWithFlights){
       }
     }
   }
+  }
 }
 else if(airportDeleted){
   displayError =  
   AiportPanelPage.modifyAirport(airportId){
   error =
   AirportController.modifyAirport(airportId){
+      error =
+  AirportEndpoint.modifyAirport(airportId){
     // RW, Read Committed
     while(1){
       airport =
@@ -66,5 +75,6 @@ else if(airportDeleted){
         }
       }
     }
+  }
   }
 }

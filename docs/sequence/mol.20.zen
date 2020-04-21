@@ -1,6 +1,7 @@
 Manager
 AirplaneSchemasPage
 AirplaneSchemaController
+AirplaneSchemaEndpoint
 AirplaneSchemaService
 AirplaneSchemaFacade
 
@@ -9,23 +10,27 @@ AirplaneSchemaFacade
 if (airplaneSchemasExist) {
   displayAirplaneSchemas = AirplaneSchemasPage.getAirplaneSchemas() {
     airplaneSchemas = AirplaneSchemaController.findAll() {
+          airplaneSchemas = AirplaneSchemaEndpoint.findAll() {
       //RO, Read Committed
       while (1) {
         airplaneSchemas = AirplaneSchemaService.findAll() {
           airplaneSchemas = AirplaneSchemaFacade.findAll()
         }
       }
+          }
     }
   }
 } else if (noAirplaneSchemas) {
     displayMessage = AirplaneSchemasPage.getAirplaneSchemas() {
     noAirplaneSchemasError = AirplaneSchemaController.findAll() {
+          noAirplaneSchemasError = AirplaneSchemaEndpoint.findAll() {
       //RO, Read Committed
       while (1) {
         noAirplaneSchemasError = AirplaneSchemaService.findAll() {
           noAirplaneSchemasError = AirplaneSchemaFacade.findAll()
         }
       }
+    }
     }
   }
 }

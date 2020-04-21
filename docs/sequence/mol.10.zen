@@ -1,5 +1,6 @@
 FlightAddPage
 FlightController
+FlightEndpoint
 FlightService
 ConnectionFacade
 AirplaneSchemaFacade
@@ -15,6 +16,8 @@ if(validData){
   
   success =
   FlightController.addFlight(flightDto){
+      success =
+  FlightEndpoint.addFlight(flightDto){
     // RW, Read Committed
     while(1){
       connection = ConnectionFacade.find(connectionId)
@@ -27,6 +30,7 @@ if(validData){
         }
       }
     }
+  }
   }
 }
 else if(invalidData){
@@ -42,6 +46,8 @@ else if(flightExists){
   
   error =
   FlightController.addFlight(flightDto){
+      error =
+  FlightEndpoint.addFlight(flightDto){
     // RW, Read Committed
     while(1){
       connection = ConnectionFacade.find(connectionId)
@@ -54,5 +60,6 @@ else if(flightExists){
         }
       }
     }
+  }
   }
 }

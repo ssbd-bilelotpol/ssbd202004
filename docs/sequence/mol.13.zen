@@ -1,21 +1,27 @@
 Manager
 AddSeatClassPage
 SeatClassController
+SeatClassEndpoint
 SeatClassService
 SeatClassFacade
+SeatClass
 
 @Starter(Manager)
 
 if (validData) {
   redirectToSeatClassesPage = AddSeatClassPage.add(seatClass) {
     success = SeatClassController.add(seatClass) {
-      new SeatClass
+          success = SeatClassEndpoint.add(seatClass) {
+      seatClass = SeatClass."<<create>>";
       // RW, Read Committed
       while(1) {
         success = SeatClassService.create(seatClass) {
-          success = SeatClassFacade.create(seatClass)
+          success = SeatClassFacade.create(seatClass){
+            Benefit."<<cascade persist>>"
+          }
         }
       }
+          }
     }
   }
 } else if (invalidData) {
@@ -25,12 +31,14 @@ if (validData) {
 } else if (seatClassNameExists) {
   displayMessage = AddSeatClassPage.add(seatClass) {
     seatClassNameExistsError = SeatClassController.add(seatClass) {
+          seatClassNameExistsError = SeatClassEndpoint.add(seatClass) {
       // RW, Read Committed
       while (1) {
         seatClassNameExistsError = SeatClassService.create(seatClass) {
           seatClassNameExistsError = SeatClassFacade.create(seatClass)
         }
       }
+    }
     }
   }
 }

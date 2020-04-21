@@ -1,5 +1,6 @@
 ConnectionSearchPage
 ConnectionController
+ConnectionEndpoint
 ConnectionService
 Connection
 ConnectionFacade
@@ -13,6 +14,8 @@ if(validData){
   
   connections =
   ConnectionController.findConnections(connectionDto){
+      connections =
+  ConnectionEndpoint.findConnections(connectionDto){
     // RO, Read Committed
     while(1){
       connection = Connection."<<create>>";
@@ -23,6 +26,7 @@ if(validData){
         }
       }
     }
+  }
   }
 }
 else if(invalidData){
@@ -39,6 +43,8 @@ else if(noResults){
   
   emptyList =
   ConnectionController.findConnections(connectionDto){
+      emptyList =
+  ConnectionEndpoint.findConnections(connectionDto){
     // RO, Read Committed
     while(1){
       connection = Connection."<<create>>";
@@ -49,5 +55,6 @@ else if(noResults){
         }
       }
     }
+  }
   }
 }

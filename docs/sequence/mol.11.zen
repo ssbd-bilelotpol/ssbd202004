@@ -1,5 +1,6 @@
 FlightModifyPage
 FlightController
+FlightEndpoint
 FlightService
 FlightFacade
 MailSender
@@ -7,11 +8,13 @@ MailSender
 @Starter(Manager)
   displayFlightForm = FlightModifyPage.choose(flightId) {
   flight = FlightController.get(flightId) {
+      flight = FlightEndpoint.get(flightId) {
     // RO, Read Committed
     while(1) {
       flight = FlightService.find(flightId) {
         flight = FlightFacade.find(flightId)
       }
+    }
     }
   }
 }
@@ -19,6 +22,7 @@ if(validOperation){
 
   displaySuccess = FlightModifyPage.cancel(flightDto) {
     success = FlightController.cancel(flightDto) {
+          success = FlightEndpoint.cancel(flightDto) {
       // RW, Read Committed
       while(1) {
         flight = FlightService.find(flightId) {
@@ -31,11 +35,13 @@ if(validOperation){
       }
             success = MailSender.sendMailToCustomers(flightDto)
     }
+    }
   }  
 }
 if(flightDeleted){
     displayError = FlightModifyPage.cancel(flightDto) {
     error = FlightController.cancel(flightDto) {
+          error = FlightEndpoint.cancel(flightDto) {
       // RW, Read Committed
       while(1) {
         flight = FlightService.find(flightId) {
@@ -46,6 +52,7 @@ if(flightDeleted){
           error = FlightFacade.edit(flight)
         }
       }
+    }
     }
   } 
 }

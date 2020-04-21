@@ -1,5 +1,6 @@
 ConnectionPanelPage
 ConnectionController
+ConnectionEndpoint
 ConnectionService
 ConnectionFacade
 
@@ -8,10 +9,12 @@ ConnectionFacade
 if(validOperation){
 
   displaySuccess =  
-  ConnectionPanelPage.deleteConnection(ConnectionId){
+  ConnectionPanelPage.deleteConnection(connectionId){
   success =
-  ConnectionController.deleteConnection(ConnectionId){
-        // RO, Read Committed
+  ConnectionController.deleteConnection(connectionId){
+      success =
+  ConnectionEndpoint.deleteConnection(connectionId){
+        // RW, Read Committed
     while(1){
       connection =
         ConnectionService.find(connectionId){
@@ -24,6 +27,7 @@ if(validOperation){
           ConnectionFacade.delete(connection)
         }
       }
+      }
     }
   }
 }
@@ -32,6 +36,8 @@ else if(connectionAssociatedWithFlights){
   ConnectionPanelPage.deleteConnection(connectionId){
   error =
   ConnectionController.deleteConnection(connectionId){
+      error =
+  ConnectionEndpoint.deleteConnection(connectionId){
     // RW, Read Committed
     while(1){
       connection =
@@ -45,14 +51,17 @@ else if(connectionAssociatedWithFlights){
           ConnectionFacade.delete(connection)
         }
       }
+      }
     }
   }
 }
 else if(connectionDeleted){
   displayError =  
-  ConnectionPanelPage.modifyConnection(ConnectionId){
+  ConnectionPanelPage.deleteConnection(ConnectionId){
   error =
-  ConnectionController.modifyConnection(ConnectionId){
+  ConnectionController.deleteConnection(ConnectionId){
+      error =
+  ConnectionEndpoint.deleteConnection(ConnectionId){
         // RW, Read Committed
     while(1){
       connection =
@@ -61,10 +70,11 @@ else if(connectionDeleted){
           ConnectionFacade.find(connectionId)
         }
       error =
-        ConnectionService.modifyConnection(connection){
+        ConnectionService.deleteConnection(connection){
         error = 
           ConnectionFacade.delete(connection)
         }
+      }
       }
     }
   }

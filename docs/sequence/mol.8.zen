@@ -1,22 +1,26 @@
 ConnectionEditPage
 ConnectionController
+ConnectionEndpoint
 ConnectionService
 ConnectionFacade
 
 @Starter(Manager)
   displayConnectionForm = ConnectionEditPage.choose(connectionId) {
   connectionDto = ConnectionController.get(connectionId) {
+      connectionDto = ConnectionEndpoint.get(connectionId) {
     // RO, Read Committed
     while(1) {
       connectionDto = ConnectionService.find(connectionId) {
         connectionDto = ConnectionFacade.find(connectionId)
       }
     }
+    }
   }
 }
 if(validData){
   displaySuccess = ConnectionEditPage.save(connectionDto) {
     success = ConnectionController.patch(connectionDto) {
+          success = ConnectionEndpoint.patch(connectionDto) {
       // RW, Read Committed
       while(1) {
         connection = ConnectionService.find(connectionId) {
@@ -27,6 +31,7 @@ if(validData){
           success = ConnectionFacade.edit(connection)
         }
       }
+    }
     }
   }
 }
@@ -42,6 +47,7 @@ else if(invalidData) {
 else if(codeExists){
 displayError = ConnectionEditPage.save(connectionDto) {
     error = ConnectionController.patch(connectionDto) {
+          error = ConnectionEndpoint.patch(connectionDto) {
       // RW, Read Committed
       while(1) {
         connection = ConnectionService.find(connectionId) {
@@ -52,12 +58,14 @@ displayError = ConnectionEditPage.save(connectionDto) {
           error = ConnectionFacade.edit(connection)
         }
       }
+          }
     }
   }
 }
 else if(ConnectionDeleted){
 displayError= ConnectionEditPage.save(connectionDto) {
     error = ConnectionController.patch(connectionDto) {
+          error = ConnectionEndpoint.patch(connectionDto) {
       // RW, Read Committed
       while(1) {
         connection = ConnectionService.find(connectionId) {
@@ -69,4 +77,6 @@ displayError= ConnectionEditPage.save(connectionDto) {
         }
       }
     }
+    }
+}
 }

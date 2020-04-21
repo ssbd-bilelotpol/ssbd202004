@@ -1,5 +1,6 @@
 FlightSearchPage
 FlightController
+FlightEndpoint
 FlightService
 FlightFacade
 
@@ -11,6 +12,8 @@ if(validData){
   
   flights =
   FlightController.findFlights(query){
+      flights =
+  FlightEndpoint.findFlights(query){
     // RO, Read Committed
     while(1){
       flights =
@@ -20,6 +23,7 @@ if(validData){
         }
       }
     }
+  }
   }
 }
 else if(invalidData){
@@ -36,6 +40,8 @@ else if(noResults){
   
   emptyList =
   FlightController.findFlights(query){
+      emptyList =
+  FlightEndpoint.findFlights(query){
     // RO, Read Committed
     while(1){
       emptyList =
@@ -45,5 +51,6 @@ else if(noResults){
         }
       }
     }
+  }
   }
 }

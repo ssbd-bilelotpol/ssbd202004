@@ -1,6 +1,7 @@
 Manager
 AirplaneSchemaInfoPage
 AirplaneSchemaController
+AirplaneSchemaEndpoint
 AirplaneSchemaService
 AirplaneSchemaFacade
 
@@ -10,18 +11,21 @@ AirplaneSchema
 
 displayAirplaneSchema = AirplaneSchemaInfoPage.getAirplaneSchema() {
   airplaneSchema = AirplaneSchemaController.find(id) {
+      airplaneSchema = AirplaneSchemaEndpoint.find(id) {
     //RO, Read Committed
     while (1) {
       airplaneSchema = AirplaneSchemaService.find(id) {
         airplaneSchema = AirplaneSchemaFacade.find(id)
       }
     }
+      }
   }
 }
 
 if (removeSuccessful) {
   displayMessage = AirplaneSchemaInfoPage.remove(airplaneSchema) {
     success = AirplaneSchemaController.remove(airplaneSchema) {
+          success = AirplaneSchemaEndpoint.remove(airplaneSchema) {
       //RW, Read Committed
       while (1) {
         new AirplaneSchema(delete)
@@ -29,11 +33,13 @@ if (removeSuccessful) {
           success = AirplaneSchemaFacade.remove(airplaneSchema)
         }
       }
+          }
     }
   }
 } else if (airplaneSchemaDeleted) {
   displayMessage = AirplaneSchemaInfoPage.remove(airplaneSchema) {
     airplaneSchemaDeletedError = AirplaneSchemaController.remove(airplaneSchema) {
+      airplaneSchemaDeletedError = AirplaneSchemaEndpoint.remove(airplaneSchema) {
       //RW, Read Committed
       while (1) {
         airplaneSchemaDeletedError = AirplaneSchemaService.remove(airplaneSchema) {
@@ -41,16 +47,19 @@ if (removeSuccessful) {
         }
       }
     }
+    }
   }
 } else if (flightsUse) {
   displayMessage = AirplaneSchemaInfoPage.remove(airplaneSchema) {
     airplaneSchemaInUseError = AirplaneSchemaController.remove(airplaneSchema) {
+          airplaneSchemaInUseError = AirplaneSchemaEndpoint.remove(airplaneSchema) {
       //RW, Read Committed
       while (1) {
         airplaneSchemaInUseError = AirplaneSchemaService.remove(airplaneSchema) {
           airplaneSchemaInUseError = AirplaneSchemaFacade.remove(airplaneSchema)
         }
       }
+          }
     }
   }
 }
