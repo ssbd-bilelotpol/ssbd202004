@@ -21,6 +21,7 @@ public class Config implements Serializable {
     private static final String MAIL_API_KEY = "mail.apiKey";
     private static final String MAIL_API_SERVER = "mail.apiServer";
     private static final String MAIL_SENDER = "mail.sender";
+    private static final String ETAG_SECRET_KEY = "etag.secretKey";
 
     private final Properties properties = new Properties();
 
@@ -68,5 +69,9 @@ public class Config implements Serializable {
 
     public String getApiServer() {
         return get(MAIL_API_SERVER);
+    }
+
+    public String getEtagSecretKey() {
+        return get(ETAG_SECRET_KEY);
     }
 }

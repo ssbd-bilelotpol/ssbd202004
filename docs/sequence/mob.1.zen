@@ -1,65 +1,77 @@
 Client
 BuyTicketPage
 TicketController
-TicketService
-TicketFacade
-Ticket
-AirplaneSchemaController
+TicketEndpoint
 AirplaneSchemaService
 AirplaneSchemaFacade
+TicketController
+TicketEndpoint
+TicketService
+TicketFacade
+Passenger
+Ticket
 @Starter(Client)
 buyTicketForm = BuyTicketPage.buyTicket(flight) {
-  //RO, Read Committed
+
+      airplaneSchemaAndSeats = TicketController.getAirplaneSchemaAndSeats(schemaId, flightId){
+
+
+              airplaneSchemaAndSeats = TicketEndpoint.getAirplaneSchemaAndSeats(schemaId, flightId) {
+                                                  //RO, Read Committed
   while(1) {
-    airplaneSchema = AirplaneSchemaController.getAirplaneSchema(schemaId) {
+
       airplaneSchema = AirplaneSchemaService.find(schemaId) {
         airplaneSchema = AirplaneSchemaFacade.find(schemaId)
       }
-    }
-    takenSeats = TicketController.getTakenSeats(flightId) {
-      takenSeats = TicketService.getTakenSeats(flightId)
-    }
+     
+      takenSeats = TicketService.getTakenSeats(flightId){
+        takenSeats = TicketFacade.getTakenSeats(flightId)
+      }
+    
   }
+              }
+      }
 }
 if(validData) {
   displaySuccess = BuyTicketPage.buyTicket(ticketDto) {
     successResponse = TicketController.buyTicket(ticketDto) {
-      //RW, Read Committed
+
+        success = TicketEndpoint.buyTicket(ticketDto){
+                      //RW, Read Committed
       while(1) {
-        airplaneSchema = AirplaneSchemaController.getAirplaneSchema(schemaId) {
-          airplaneSchema = AirplaneSchemaService.find(schemaId) {
-            airplaneSchema = AirplaneSchemaFacade.find(schemaId)
-          }
-        }
-        takenSeats = TicketService.getTakenSeats(flightId)
         success = TicketService.buyTicket(ticketDto) {
           new Ticket
           Ticket.setData(ticketDto)
-          success = TicketFacade.add(ticket)
+          success = TicketFacade.add(ticket){
+            Passenger."<<cascade persist>>"
+          }
         }
       }
+        }
     }
   }
 }
 else if(seatAlreadyTaken) {
   displayError = BuyTicketPage.buyTicket(ticketDto) {
     errorSeatAlreadyTaken = TicketController.buyTicket(ticketDto) {
-      //RW, Read Committed
+        error = TicketEndpoint.buyTicket(ticketDto){
+                //RW, Read Committed
       while(1) {
-        takenSeats = TicketService.getTakenSeats(flightId)
+        error = TicketService.buyTicket(ticketDto) {
+          new Ticket
+          Ticket.setData(ticketDto)
+          error = TicketFacade.add(ticket){
+            Passenger."<<cascade persist>>"
+          }
+        }
       }
+      }
+        }
     }
   }
-}
 else if(invalidData) {
   displayError = BuyTicketPage.buyTicket(ticketDto) {
-    errorInvalidData = TicketController.buyTicket(ticketDto)
+    error = TicketController.buyTicket(ticketDto)
   }
-}
-if(paymentApproved) {
-  displaySuccess = PaymentSite.pay(paymentId)
-}
-else if(paymentDisapproved) {
-  displayError = PaymentSite.pay(paymentId)
 }
 

@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.RegisterToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken;
 

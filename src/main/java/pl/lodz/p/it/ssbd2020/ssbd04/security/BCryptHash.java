@@ -6,7 +6,7 @@ import javax.security.enterprise.identitystore.PasswordHash;
 import java.util.Map;
 
 /**
- * Adapter umożliwiający wykoryzstanie algorytmu BCrypt w IdentityStore
+ * Adapter umożliwiający wykorzystanie algorytmu BCrypt w IdentityStore
  */
 public class BCryptHash implements PasswordHash {
     private int numRounds;

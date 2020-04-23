@@ -29,6 +29,7 @@ public class CleanerService {
     /**
      * Zadanie uruchamiane codziennie o północy, które usuwa wygasłe żetony.
      * Jeśli żeton jest używany do potwierdzenia rejestracji, usuwa wraz z nim konto.
+     *
      * @param timer
      */
     @Schedule

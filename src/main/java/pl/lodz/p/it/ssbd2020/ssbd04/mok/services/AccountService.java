@@ -2,14 +2,11 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mok.services;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.VerificationTokenException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.RegisterToken;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.VerificationTokenFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -18,11 +15,9 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.singleton;
 
@@ -42,6 +37,7 @@ public class AccountService {
 
     /**
      * Rejestruje konto, przypisując do niego dane personalne i wysyła żeton potwierdzający na email.
+     *
      * @param account
      * @param accountDetails
      * @throws AppBaseException
@@ -60,6 +56,7 @@ public class AccountService {
 
     /**
      * Potwierdza konto na podstawie otrzymanego żetonu.
+     *
      * @param tokenId
      * @throws AppBaseException
      */
@@ -69,4 +66,15 @@ public class AccountService {
         account.setConfirm(true);
         accountFacade.edit(account);
     }
+    
+    public Account findByLogin(String login) throws AppBaseException {
+        return accountFacade.findByLogin(login);
+    }
+
+    public void editAccountAccessLevel(Account account, Set<AccountAccessLevel> accountAccessLevels) throws AppBaseException {
+        account.getAccountAccessLevel().retainAll(accountAccessLevels);
+        account.getAccountAccessLevel().addAll(accountAccessLevels);
+        accountFacade.edit(account);
+    }
+
 }

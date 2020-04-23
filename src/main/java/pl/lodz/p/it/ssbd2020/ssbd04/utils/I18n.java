@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.utils;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,14 @@ public class I18n {
     public static final String REST_VALIDATION_ERROR = "error.rest.validation";
     public static final String DATABASE_OPTIMISTIC_LOCK = "error.database.optimisticLock";
     public static final String DATABASE_OPERATION = "error.database.operation";
+    public static final String MESSAGE_SIGNER_OPERATION = "error.messageSigner.operation";
+    public static final String ETAG_WRONG_VALUE = "error.request.etagWrongValue";
+    public static final String ETAG_NOT_MODIFIED = "error.request.notModified";
     public static final String ACCOUNT_LOGIN_EXISTS = "error.account.loginExists";
+    public static final String ACCOUNT_NOT_FOUND = "error.account.notFound";
+    public static final String ACCOUNT_ACCESS_LEVEL_NOT_FOUND = "error.accountAccessLevel.notFound";
+    public static final String ACCOUNT_ACCESS_LEVEL_ALREADY_ASSIGNED = "error.accountAccessLevel.alreadyAssigned";
+    public static final String ACCOUNT_ACCESS_LEVEL_EXISTS = "error.account.accountAccessLevelExists";
     public static final String ACCOUNT_EMAIL_EXISTS = "error.account.emailExists";
     public static final String ACCOUNT_REGISTER_INVALID_TOKEN = "error.account.register.invalidToken";
     public static final String ACCOUNT_REGISTER_ALREADY_CONFIRMED = "error.account.register.alreadyConfirmed";

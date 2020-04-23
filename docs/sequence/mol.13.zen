@@ -11,7 +11,10 @@ SeatClass
 if (validData) {
   redirectToSeatClassesPage = AddSeatClassPage.add(seatClass) {
     success = SeatClassController.add(seatClass) {
+<<<<<<< HEAD
+=======
           success = SeatClassEndpoint.add(seatClass) {
+>>>>>>> b4001312a8182237e44675c0a0d3805ac24eb58d
       seatClass = SeatClass."<<create>>";
       // RW, Read Committed
       while(1) {

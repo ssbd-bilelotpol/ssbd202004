@@ -3,17 +3,19 @@ package pl.lodz.p.it.ssbd2020.ssbd04.utils;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 
-import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Klasa abstrakcyjna definiująca główne operacje wykonywane na encjach
  * przez zarządcę encji w kontekście trwałości.
  * Wymaga zdefiniowania własnego zarządcy encji z definicją jednostki trwałości.
+ *
  * @param <T> klasa encyjna
  */
 public abstract class AbstractFacade<T> {
@@ -42,6 +44,8 @@ public abstract class AbstractFacade<T> {
         try {
             getEntityManager().merge(entity);
             getEntityManager().flush();
+        } catch (OptimisticLockException e) {
+            throw AppBaseException.optimisticLock(e);
         } catch (PersistenceException e) {
             if (!(e.getCause() instanceof ConstraintViolationException)) {
                 throw AppBaseException.databaseOperation(e);
@@ -79,5 +83,5 @@ public abstract class AbstractFacade<T> {
         Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }

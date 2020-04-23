@@ -15,6 +15,8 @@ public class AbstractEntity {
 
     @Column(name = "modification_date_time")
     private LocalDateTime modificationDateTime;
+    @Version
+    private Long version;
 
     @PrePersist
     private void prePersist() {
@@ -25,9 +27,6 @@ public class AbstractEntity {
     private void preUpdate() {
         modificationDateTime = LocalDateTime.now();
     }
-
-    @Version
-    private Long version;
 
     public LocalDateTime getCreationDateTime() {
         return creationDateTime;

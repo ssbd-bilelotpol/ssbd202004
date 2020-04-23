@@ -32,12 +32,13 @@ public class VerificationTokenService {
 
     @Inject
     private Config config;
-    
+
     @Inject
     private I18n i18n;
 
     /**
      * Tworzy nowy żeton i wysyła go na email odpowiadający kontu.
+     *
      * @param account
      * @throws AppBaseException
      */
@@ -53,6 +54,7 @@ public class VerificationTokenService {
      * Nie jest sprawdzany czas wygaśnięcia tokenu,
      * by nie tworzyć okienka pomiędzy punktem kiedy wygasł, a kiedy zostanie usunięty.
      * Usuwanie jest dokonywane przez CleanerService.
+     *
      * @param tokenId
      * @return
      * @throws AppBaseException gdy token wygasł, bądź konto zostało już potwierdzone.
@@ -72,7 +74,7 @@ public class VerificationTokenService {
 
     private void sendRegisterEmail(VerificationToken token) throws AppBaseException {
         HttpResponse<JsonNode> request = Unirest.post(config.getApiServer() + "/messages")
-			.basicAuth("api", config.getMailApiKey())
+                .basicAuth("api", config.getMailApiKey())
                 .queryString("from", String.format("%s <%s>", i18n.getMessage(I18n.ACCOUNT_REGISTRATION), config.getMailSender()))
                 .queryString("to", token.getAccount().getAccountDetails().getEmail())
                 .queryString("subject", i18n.getMessage(I18n.ACCOUNT_REGISTER_MAIL_TITLE))

@@ -9,4 +9,10 @@ import java.io.Serializable;
  */
 @Entity
 @DiscriminatorValue("client")
-public class ClientAccessLevel extends AccountAccessLevel implements Serializable { }
+public class ClientAccessLevel extends AccountAccessLevel implements Serializable {
+
+    @Override
+    public String getType() {
+        return "client";
+    }
+}

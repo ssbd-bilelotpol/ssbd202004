@@ -16,6 +16,10 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account.CONSTRAINT_LOGIN
 /**
  * Klasa encyjna zawierająca informacje o koncie użytkownika
  */
+@NamedQueries({
+        @NamedQuery(name = "Account.findByLogin",
+                query = "SELECT account FROM Account account WHERE account.login = :login")
+})
 @Entity
 @Table(
         indexes = {@Index(name = "account_account_details_fk", columnList = "account_details_id")},
@@ -51,7 +55,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(nullable = false)
     private Boolean confirm;
 
-    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinColumn(name = "account_id", nullable = false, foreignKey = @ForeignKey(name = "account_account_access_level_fk"))
     private Set<AccountAccessLevel> accountAccessLevel = new HashSet<>();
 

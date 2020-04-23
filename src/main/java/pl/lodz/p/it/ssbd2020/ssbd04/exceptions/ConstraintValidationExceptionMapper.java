@@ -7,7 +7,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static pl.lodz.p.it.ssbd2020.ssbd04.utils.I18n.REST_VALIDATION_ERROR;

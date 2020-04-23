@@ -1,29 +1,35 @@
 CustomerService
 TicketsForAccountPage
 TicketController
+TicketEndpoint
 TicketService
 TicketFacade
 @Starter(CustomerService)
 if(anyTicketExists) {
   displaySuccess = TicketsForAccountPage.getTickets(account) {
     successResponse = TicketController.getTickets(accountId) {
-      //RO, Read Committed
+        success = TicketEndpoint.getTickets(accountId){
+                //RO, Read Committed
       while(1) {
         tickets = TicketService.getTickets(accountId) {
           tickets = TicketFacade.getTickets(accountId)
         }
       }
+        }
     }
   }
 }
 else if(noTickets) {
-  displayError = TicketsForAccountPage.getTickets(account) {
-    errorNoTickets = TicketController.getTickets(accountId) {
+  displayEmptyList = TicketsForAccountPage.getTickets(account) {
+    emptyList = TicketController.getTickets(accountId) {
+      emptyList = TicketEndpoint.getTickets(accountId){
+        
       //RO, Read Committed
       while(1) {
-        error = TicketService.getTickets(accountId) {
-          noTickets = TicketFacade.getTickets(accountId)
+        emptyList = TicketService.getTickets(accountId) {
+          emptyList = TicketFacade.getTickets(accountId)
         }
+      }
       }
     }
   }

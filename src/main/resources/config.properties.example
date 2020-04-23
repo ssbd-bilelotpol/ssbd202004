@@ -1,4 +1,5 @@
 jwt.secretKey=heksagon
+etag.secretKey=heksagon
 jwt.validity=15
 frontend.url=http://localhost:3000
 mail.apiKey=1234556

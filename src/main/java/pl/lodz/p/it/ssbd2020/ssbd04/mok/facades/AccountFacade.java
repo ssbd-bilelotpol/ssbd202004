@@ -1,10 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.facades;
 
 import org.hibernate.exception.ConstraintViolationException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountAccessLevelException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractFacade;
 
@@ -13,8 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 
 
 @Stateless
@@ -24,17 +25,18 @@ public class AccountFacade extends AbstractFacade<Account> {
     @PersistenceContext(unitName = "ssbd04mokPU")
     private EntityManager em;
 
+    public AccountFacade() {
+        super(Account.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public AccountFacade() {
-        super(Account.class);
-    }
-
     /**
      * Zapisuje konto w bazie danych i sprawdza, czy nie naruszono unikalności loginu i hasła.
+     *
      * @param account
      * @throws AppBaseException
      */
@@ -46,7 +48,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         } catch (ConstraintViolationException e) {
             if (e.getConstraintName().equals(Account.CONSTRAINT_LOGIN)) {
                 throw AccountException.loginExists(e, account);
-            } else if (e.getConstraintName().equals(AccountDetails.CONSTRAINT_EMAIL)){
+            } else if (e.getConstraintName().equals(AccountDetails.CONSTRAINT_EMAIL)) {
                 throw AccountException.emailExists(e, account);
             }
             throw AppBaseException.databaseOperation(e);
@@ -57,5 +59,33 @@ public class AccountFacade extends AbstractFacade<Account> {
     @PermitAll
     public void remove(Account entity) throws AppBaseException {
         super.remove(entity);
+    }
+
+    public Account findByLogin(String login) throws AppBaseException {
+        try {
+            TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Account.findByLogin", Account.class);
+            accountTypedQuery.setParameter("login", login);
+            return accountTypedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw AccountException.noExists(e);
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
+
+    @Override
+    public void edit(Account entity) throws AppBaseException {
+        try {
+            super.edit(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(Account.CONSTRAINT_LOGIN)) {
+                throw AccountException.loginExists(e, entity);
+            } else if (e.getConstraintName().equals(AccountDetails.CONSTRAINT_EMAIL)) {
+                throw AccountException.emailExists(e, entity);
+            } else if (e.getConstraintName().equals(AccountAccessLevel.CONSTRAINT_UNIQUE_ACCOUNT_ACCESS_LEVEL)) {
+                throw AccountAccessLevelException.alreadyAssigned(e);
+            }
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 }
