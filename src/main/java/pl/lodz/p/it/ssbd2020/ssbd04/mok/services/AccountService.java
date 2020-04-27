@@ -66,7 +66,8 @@ public class AccountService {
         account.setConfirm(true);
         accountFacade.edit(account);
     }
-    
+
+    @PermitAll
     public Account findByLogin(String login) throws AppBaseException {
         return accountFacade.findByLogin(login);
     }

@@ -74,6 +74,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     @Override
+    @PermitAll
     public void edit(Account entity) throws AppBaseException {
         try {
             super.edit(entity);

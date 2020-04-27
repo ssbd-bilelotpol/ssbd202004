@@ -1,0 +1,52 @@
+import { errors, roles } from '../constants';
+
+export default {
+    pl: {
+        translation: {
+            [roles.admin]: 'Administrator',
+            [roles.manager]: 'Menedżer',
+            [roles.customerService]: 'Obsługa klienta',
+            [roles.client]: 'Klient',
+            [errors.api.connection]: 'Błąd połączenia z serwerem',
+            'error.auth.incorrectLoginOrPassword': 'Nieprawidłowy login lub hasło',
+            'error.rest.validation': 'Podano dane w niewłaściwym formacie.',
+            'error.database.optimisticLock': 'Dane zostały zmodyfikowane.',
+            'error.database.operation':
+                'Wystąpił błąd podczas wykonywania operacji w bazie danych.',
+            'error.account.loginExists': 'Podany login już istnieje.',
+            'error.account.emailExists': 'Podany adres e-mail jest już wykorzystany.',
+            'error.account.register.invalidToken': 'Link został już wykorzystany.',
+            'error.account.register.alreadyConfirmed': 'Konto zostało już potwierdzone.',
+            'error.account.register.mailFailure': 'Nie udało wysłać się e-maila potwierdzającego.',
+            Schedule: 'Planuj',
+            'My reservations': 'Moje rezerwacje',
+            'Sign in': 'Zaloguj się',
+            'One way': 'W jedną stronę',
+            'Return trip': 'W dwie strony',
+            Departure: 'Wylot',
+            Destination: 'Cel podróży',
+            Search: 'Wyszukaj',
+            Or: 'Lub',
+            'Sign up': 'Zarejestruj się',
+            Login: 'Login',
+            Password: 'Hasło',
+            'Sign in error': 'Błąd logowania',
+            'E-mail': 'E-mail',
+            'First name': 'Imię',
+            'Last name': 'Nazwisko',
+            'Phone number': 'Numer telefonu',
+            'Signing up error': 'Błąd rejestracji',
+            Logout: 'Wyloguj',
+            'Edit profile': 'Edytuj profil',
+            'Signed up successfully': 'Rejestracja przebiegła pomyślnie',
+            sentConfirmationLink:
+                'Link potwierdzający został wysłany na podany <1>adres e-mail</1>',
+            'Account activation': 'Aktywacja konta',
+            'Account activated': 'Konto zostało aktywowane',
+            'Just one second': 'Tylko chwilę...',
+            'Account activation in progress': 'Trwa aktywowanie konta',
+            'There was an error while activating the account':
+                'Wystąpił błąd podczas aktywowania konta',
+        },
+    },
+};

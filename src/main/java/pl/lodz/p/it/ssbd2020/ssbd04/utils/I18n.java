@@ -18,6 +18,7 @@ public class I18n {
     public static final String MESSAGE_SIGNER_OPERATION = "error.messageSigner.operation";
     public static final String ETAG_WRONG_VALUE = "error.request.etagWrongValue";
     public static final String ETAG_NOT_MODIFIED = "error.request.notModified";
+    public static final String AUTH_INCORRECT_LOGIN_OR_PASSWORD = "error.auth.incorrectLoginOrPassword";
     public static final String ACCOUNT_LOGIN_EXISTS = "error.account.loginExists";
     public static final String ACCOUNT_NOT_FOUND = "error.account.notFound";
     public static final String ACCOUNT_ACCESS_LEVEL_NOT_FOUND = "error.accountAccessLevel.notFound";

@@ -23,7 +23,6 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
 
     private static final Logger LOGGER = Logger.getLogger(JWTAuthenticationMechanism.class.getName());
     private final static String AUTHORIZATION_HEADER = "Authorization";
-    private final static String ROLE_HEADER = "Authorization-Role";
     private final static String BEARER = "Bearer ";
 
     @Inject

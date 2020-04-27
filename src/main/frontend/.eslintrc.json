@@ -1,0 +1,15 @@
+{
+    "extends": ["airbnb", "prettier", "prettier/react"],
+    "plugins": ["prettier"],
+    "rules": {
+        "prettier/prettier": ["error"],
+        "react/prop-types": "off",
+        "no-shadow": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/jsx-wrap-multilines": "off"
+    },
+    "env": {
+        "browser": true,
+        "es6": true
+    }
+}
