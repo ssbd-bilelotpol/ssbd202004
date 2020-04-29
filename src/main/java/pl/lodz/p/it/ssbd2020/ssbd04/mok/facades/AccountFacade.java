@@ -61,6 +61,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         super.remove(entity);
     }
 
+    @PermitAll
     public Account findByLogin(String login) throws AppBaseException {
         try {
             TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Account.findByLogin", Account.class);
@@ -79,12 +80,13 @@ public class AccountFacade extends AbstractFacade<Account> {
         try {
             super.edit(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Account.CONSTRAINT_LOGIN)) {
-                throw AccountException.loginExists(e, entity);
-            } else if (e.getConstraintName().equals(AccountDetails.CONSTRAINT_EMAIL)) {
-                throw AccountException.emailExists(e, entity);
-            } else if (e.getConstraintName().equals(AccountAccessLevel.CONSTRAINT_UNIQUE_ACCOUNT_ACCESS_LEVEL)) {
-                throw AccountAccessLevelException.alreadyAssigned(e);
+            switch (e.getConstraintName()) {
+                case Account.CONSTRAINT_LOGIN:
+                    throw AccountException.loginExists(e, entity);
+                case AccountDetails.CONSTRAINT_EMAIL:
+                    throw AccountException.emailExists(e, entity);
+                case AccountAccessLevel.CONSTRAINT_UNIQUE_ACCOUNT_ACCESS_LEVEL:
+                    throw AccountAccessLevelException.alreadyAssigned(e);
             }
             throw AppBaseException.databaseOperation(e);
         }

@@ -4,7 +4,7 @@ import TopMenu from '../TopMenu';
 const ManagerApp = () => {
     return (
         <>
-            <TopMenu backgroundColor="#FF2564" />
+            <TopMenu backgroundColor="#2e9ba8" />
             <h1>Manager App</h1>
         </>
     );

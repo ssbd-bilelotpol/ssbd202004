@@ -9,7 +9,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.core.EntityTag;
 import java.io.Serializable;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -41,10 +40,10 @@ public class MessageSigner implements Serializable {
         return Base64.encodeBase64String(hmac.doFinal(message.getBytes()));
     }
 
-    public EntityTag sign(Signable signable) {
+    public String sign(Signable signable) {
         String encodedMessage = Base64.encodeBase64String(signable.createMessage().getBytes());
         String signature = Base64.encodeBase64String(hmac.doFinal(encodedMessage.getBytes()));
-        return new EntityTag(encodedMessage + "." + signature);
+        return encodedMessage + "." + signature;
     }
 
 }

@@ -4,7 +4,7 @@ import TopMenu from '../TopMenu';
 const CustomerServiceApp = () => {
     return (
         <>
-            <TopMenu backgroundColor="#2564FF" />
+            <TopMenu backgroundColor="#3b866e" />
             <h1>Customer Service</h1>
         </>
     );

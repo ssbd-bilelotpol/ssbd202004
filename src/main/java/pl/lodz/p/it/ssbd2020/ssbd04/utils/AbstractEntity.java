@@ -15,6 +15,7 @@ public class AbstractEntity {
 
     @Column(name = "modification_date_time")
     private LocalDateTime modificationDateTime;
+
     @Version
     private Long version;
 

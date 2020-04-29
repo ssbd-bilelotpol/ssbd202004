@@ -5,6 +5,13 @@ export const roles = {
     client: 'client',
 };
 
+export const roleColors = {
+    admin: '#b52738',
+    manager: '#2e9ba8',
+    customer_service: '#3b866e',
+    client: '',
+};
+
 export const errors = {
     api: {
         connection: 'error.rest.connection',
@@ -24,5 +31,22 @@ export const urls = {
         [roles.manager]: '/manager',
         [roles.customerService]: '/customer-service',
         [roles.client]: '/',
+    },
+    pages: {
+        admin: {
+            accounts: {
+                edit: '/admin/accounts/:login/edit',
+            },
+        },
+        panel: {
+            root: '/panel',
+            dashboard: '/panel/dashboard',
+            reservations: '/panel/reservations',
+        },
+        user: {
+            root: '/user',
+            settings: '/user/settings',
+        },
+        confirm: '/confirm/:token',
     },
 };

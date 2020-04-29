@@ -19,6 +19,10 @@ public class AppBaseException extends Exception {
         super(message);
     }
 
+    public static AppBaseException optimisticLock() {
+        return new AppBaseException(DATABASE_OPTIMISTIC_LOCK);
+    }
+
     public static AppBaseException optimisticLock(OptimisticLockException e) {
         return new AppBaseException(DATABASE_OPTIMISTIC_LOCK, e);
     }

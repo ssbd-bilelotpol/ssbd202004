@@ -1,4 +1,3 @@
-import { changeRoleApi, loginApi } from '../api';
 import {
     ACTION_CHANGE_ROLE,
     ACTION_LOGIN_BEGIN,
@@ -6,6 +5,7 @@ import {
     ACTION_LOGIN_SUCCESS,
     ACTION_LOGOUT,
 } from './index';
+import { changeRoleApi, loginApi } from '../api/auth';
 
 export const changeRoleAction = (role) => async (dispatch) => {
     const change = (role) => ({

@@ -4,8 +4,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Trans, useTranslation } from 'react-i18next';
-import { registerApi } from '../../api';
 import AsteriskInput from '../controls/AsteriskInput';
+import { registerApi } from '../../api/auth';
 
 const RegisterSchema = Yup.object().shape({
     login: Yup.string().required().min(3).max(30),

@@ -1,7 +1,7 @@
-import { errors, rolePriority } from '../constants';
+import { errors } from '../constants';
 import store from '../store';
 
-async function api(url, config) {
+export async function api(url, config) {
     const { token } = store.getState().auth.user;
     let response;
     try {
@@ -23,33 +23,33 @@ async function api(url, config) {
     }
 
     const text = await response.text();
-    return text.length > 0 && JSON.parse(text);
+    return (
+        text.length > 0 && {
+            content: JSON.parse(text),
+            etag: response.headers.get('ETag'),
+        }
+    );
 }
 
-async function post(url, body) {
+export async function get(url) {
+    return api(url, {
+        method: 'GET',
+    });
+}
+
+export async function post(url, body) {
     return api(url, {
         method: 'POST',
         body: body && JSON.stringify(body),
-    });
+    }).then((result) => result.content);
 }
 
-export const changeRoleApi = (role) => post(`/auth/change-role/${role}`);
-
-export const registerApi = (user) => post(`/accounts`, user);
-
-export const confirmApi = (tokenId) => post(`/accounts/confirm/${tokenId}`);
-
-export const loginApi = async (username, password) => {
-    const user = await post(`/auth`, {
-        username,
-        password,
-    });
-    user.authorities.sort((a, b) => rolePriority[a] - rolePriority[b]);
-    user.roles = user.authorities;
-    user.authorities = undefined;
-
-    return {
-        ...user,
-        role: user.roles[0],
-    };
-};
+export async function put(url, body, etag) {
+    return api(url, {
+        method: 'PUT',
+        body: body && JSON.stringify(body),
+        headers: {
+            'If-Match': etag,
+        },
+    }).then((result) => result.content);
+}

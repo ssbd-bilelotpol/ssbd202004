@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Request;
+import javax.ws.rs.core.HttpHeaders;
 
 /**
  * Klasa abstrakcyjna definująca sposób sprawdzania wersji dostarczanego zasobu do endpointa
@@ -16,9 +16,11 @@ public class AbstractEndpoint {
     protected MessageSigner messageSigner;
 
     @Context
-    protected Request request;
+    private HttpHeaders httpHeaders;
 
     protected boolean verifyEtag(Signable signable) {
-        return request.evaluatePreconditions(messageSigner.sign(signable)) != null;
+        String sent = httpHeaders.getRequestHeader("If-Match").get(0).replaceAll("\"", "");
+        String expected = messageSigner.sign(signable);
+        return sent.equals(expected);
     }
 }

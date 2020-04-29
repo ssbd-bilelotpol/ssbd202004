@@ -12,6 +12,7 @@ import Register from './login/Register';
 const HeaderSegment = styled(({ clouds, backgroundColor, ...rest }) => <Segment {...rest} />)`
     &&& {
         padding-top: 0;
+        padding-bottom: 0;
         ${(props) =>
             props.clouds
                 ? css`
@@ -117,7 +118,9 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
                                     }
                                 >
                                     <Dropdown.Menu>
-                                        <Dropdown.Item>{t('Edit profile')}</Dropdown.Item>
+                                        <Dropdown.Item as={Link} to={urls.pages.user.settings}>
+                                            {t('Settings')}
+                                        </Dropdown.Item>
                                         <Dropdown.Item onClick={handleLogout}>
                                             {t('Logout')}
                                         </Dropdown.Item>

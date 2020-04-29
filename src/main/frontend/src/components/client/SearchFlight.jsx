@@ -32,6 +32,7 @@ const GrowingField = styled(Form.Field)`
 const SearchContainer = styled(Container)`
     &&& {
         padding-top: 50px;
+        padding-bottom: 1em;
     }
 `;
 

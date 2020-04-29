@@ -18,10 +18,9 @@ public class EtagFilter implements ContainerRequestFilter {
     @Inject
     private MessageSigner messageSigner;
 
-
     @Override
     public void filter(ContainerRequestContext requestContext) {
-        String header = requestContext.getHeaderString("If-None-Match");
+        String header = requestContext.getHeaderString("If-Match");
         if (header == null || header.isEmpty() || !header.contains(".")) {
             requestContext.abortWith(Response.status(Response.Status.BAD_REQUEST)
                     .entity(I18n.ETAG_WRONG_VALUE)

@@ -17,7 +17,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.singleton;
 
@@ -76,6 +75,25 @@ public class AccountService {
         account.getAccountAccessLevel().retainAll(accountAccessLevels);
         account.getAccountAccessLevel().addAll(accountAccessLevels);
         accountFacade.edit(account);
+    }
+
+    /**
+     * Modyfikuje dane szczegółowe wybranego konta.
+     *
+     * @param account    konto dla którego dane są zmieniane
+     * @param newDetails nowe dane szczegółowe w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu
+     * @return konto z uwzględnioną zmianą danych szczegółowych
+     * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się
+     */
+    @PermitAll
+    public Account editAccountDetails(Account account, AccountDetails newDetails) throws AppBaseException {
+        AccountDetails currentDetails = account.getAccountDetails();
+        currentDetails.setFirstName(newDetails.getFirstName());
+        currentDetails.setLastName(newDetails.getLastName());
+        currentDetails.setPhoneNumber(newDetails.getPhoneNumber());
+
+        accountFacade.edit(account);
+        return account;
     }
 
 }

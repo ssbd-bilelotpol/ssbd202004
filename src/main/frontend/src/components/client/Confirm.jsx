@@ -3,7 +3,7 @@ import { Button, Header, Icon, Message, Container, Segment } from 'semantic-ui-r
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
-import { confirmApi } from '../../api';
+import { confirmApi } from '../../api/auth';
 
 const ReturnButton = () => {
     const { t } = useTranslation();

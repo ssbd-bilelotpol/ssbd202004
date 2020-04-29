@@ -1,20 +1,21 @@
 import React from 'react';
 import { Icon, Menu, Container } from 'semantic-ui-react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Confirm from './Confirm';
 import TopMenu from '../TopMenu';
 import SearchFlight from './SearchFlight';
+import { urls } from '../../constants';
+import ClientDashboard from './ClientDashboard';
 
 const MenuItems = () => {
     const { t } = useTranslation();
     return (
         <>
-            <Menu.Item as="a" active>
+            <Menu.Item as="a">
                 <Icon name="plane" />
                 {t('Schedule')}
             </Menu.Item>
-            <Menu.Item as="a">
+            <Menu.Item as={NavLink} to={urls.pages.panel.reservations}>
                 <Icon name="calendar" />
                 {t('My reservations')}
             </Menu.Item>
@@ -39,8 +40,8 @@ const ClientApp = () => {
 
             <Container>
                 <Switch>
-                    <Route path={`${path}confirm/:token`}>
-                        <Confirm />
+                    <Route path={urls.pages.panel.root}>
+                        <ClientDashboard />
                     </Route>
                 </Switch>
             </Container>

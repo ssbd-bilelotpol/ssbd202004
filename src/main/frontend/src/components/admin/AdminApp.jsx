@@ -1,11 +1,27 @@
 import React from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 import TopMenu from '../TopMenu';
+import { urls } from '../../constants';
+import AdminDashboard from './AdminDashboard';
 
 const AdminApp = () => {
+    const { path } = useRouteMatch();
     return (
         <>
-            <TopMenu backgroundColor="#101010" />
-            <h1>Admin App</h1>
+            <Switch>
+                <Route path={path}>
+                    <TopMenu backgroundColor="#b52738" />
+                </Route>
+            </Switch>
+
+            <Container>
+                <Switch>
+                    <Route path={urls.roles.admin}>
+                        <AdminDashboard />
+                    </Route>
+                </Switch>
+            </Container>
         </>
     );
 };

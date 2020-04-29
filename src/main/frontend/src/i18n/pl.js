@@ -37,7 +37,7 @@ export default {
             'Phone number': 'Numer telefonu',
             'Signing up error': 'Błąd rejestracji',
             Logout: 'Wyloguj',
-            'Edit profile': 'Edytuj profil',
+            Settings: 'Ustawienia',
             'Signed up successfully': 'Rejestracja przebiegła pomyślnie',
             sentConfirmationLink:
                 'Link potwierdzający został wysłany na podany <1>adres e-mail</1>',
@@ -47,6 +47,10 @@ export default {
             'Account activation in progress': 'Trwa aktywowanie konta',
             'There was an error while activating the account':
                 'Wystąpił błąd podczas aktywowania konta',
+            'Failed to retrieve data': 'Wystąpił błąd podczas pobierania danych',
+            'Failed to save changes': 'Wystąpił błąd podczas zapisywania zmian',
+            'Changes successfully saved.': 'Zmiany zostały zapisane pomyślnie',
+            Save: 'Zapisz',
         },
     },
 };
