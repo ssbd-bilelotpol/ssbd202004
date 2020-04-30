@@ -15,8 +15,8 @@ export const changeRoleAction = (role) => async (dispatch) => {
         },
     });
 
-    await changeRoleApi(role);
     dispatch(change(role));
+    await changeRoleApi(role);
 };
 
 export const logoutAction = () => (dispatch) => {
