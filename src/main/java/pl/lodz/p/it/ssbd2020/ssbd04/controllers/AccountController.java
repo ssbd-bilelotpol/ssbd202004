@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.List;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania kont.
@@ -60,6 +61,18 @@ public class AccountController {
         accountDetails.setPhoneNumber(accountRegisterDto.getPhoneNumber());
 
         accountEndpoint.register(account, accountDetails);
+    }
+
+    /**
+     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
+     * 
+     * @return lista konta wraz z danymi szczegółowymi.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed(Role.Admin)
+    public List<AccountDto> getAllAccounts() {
+        return accountEndpoint.getAllAccounts();
     }
 
     /**

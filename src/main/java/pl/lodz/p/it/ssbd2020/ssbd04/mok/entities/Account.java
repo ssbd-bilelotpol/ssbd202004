@@ -62,7 +62,7 @@ public class Account extends AbstractEntity implements Serializable {
     private Set<AccountAccessLevel> accountAccessLevel = new HashSet<>();
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "account_details_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "account_account_details_fk"))
     private AccountDetails accountDetails;
 

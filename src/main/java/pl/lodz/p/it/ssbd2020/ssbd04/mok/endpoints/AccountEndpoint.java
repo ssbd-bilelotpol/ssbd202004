@@ -20,11 +20,15 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
- * i jest granicą transakcji aplikacyjnej dla hierarchii klas Account i AccountAccessLevel
+ * i jest granicą transakcji aplikacyjnej dla hierarchii klas Account i AccountAccessLevel.
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -66,10 +70,10 @@ public class AccountEndpoint extends AbstractEndpoint {
     }
 
     /**
-     * Zwraca dane konta inicjującego żądanie
+     * Zwraca dane konta inicjującego żądanie.
      *
-     * @return konto inicjujące żądanie
-     * @throws AppBaseException gdy nie udało się pobrać danych konta
+     * @return konto inicjujące żądanie.
+     * @throws AppBaseException gdy nie udało się pobrać danych konta.
      */
     @RolesAllowed(Role.Client)
     public AccountDto retrieveOwnAccountDetails() throws AppBaseException {
@@ -160,5 +164,21 @@ public class AccountEndpoint extends AbstractEndpoint {
      */
     public void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException {
         accountService.resetPassword(passwordResetDto);
+    }
+
+    /**
+     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
+     * 
+     * @return lista wszystkich kont wraz z danymi szczegółowymi.
+     */
+    @RolesAllowed(Role.Admin)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<AccountDto> getAllAccounts() {
+        List<AccountDto> accounts = new ArrayList<>();
+        accountService.getAll().forEach((account) -> {
+            AccountDto accountDto = new AccountDto(account);
+            accounts.add(accountDto);
+        });
+        return accounts;
     }
 }

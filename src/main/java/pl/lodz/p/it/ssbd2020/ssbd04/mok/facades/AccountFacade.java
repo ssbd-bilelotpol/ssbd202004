@@ -22,6 +22,7 @@ import javax.persistence.*;
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed(Role.Admin)
 public class AccountFacade extends AbstractFacade<Account> {
+    
     @PersistenceContext(unitName = "ssbd04mokPU")
     private EntityManager em;
 

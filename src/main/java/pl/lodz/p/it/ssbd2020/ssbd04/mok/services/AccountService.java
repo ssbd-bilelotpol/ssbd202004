@@ -23,6 +23,8 @@ import java.util.UUID;
 
 import static java.util.Collections.singleton;
 
+import java.util.List;
+
 /**
  * Przetwarzanie logiki biznesowej Kont.
  */
@@ -83,10 +85,10 @@ public class AccountService {
     /**
      * Modyfikuje dane szczegółowe wybranego konta.
      *
-     * @param account    konto dla którego dane są zmieniane
-     * @param newDetails nowe dane szczegółowe w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu
-     * @return konto z uwzględnioną zmianą danych szczegółowych
-     * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się
+     * @param account konto dla którego dane są zmieniane.
+     * @param newDetails nowe dane szczegółowe w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu.
+     * @return konto z uwzględnioną zmianą danych szczegółowych.
+     * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
     @PermitAll
     public Account editAccountDetails(Account account, AccountDetails newDetails) throws AppBaseException {
@@ -108,6 +110,16 @@ public class AccountService {
     @PermitAll
     public Account findByEmail(String email) throws AppBaseException {
         return accountFacade.findByEmail(email);
+    }
+
+    /**
+    * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
+    * 
+    * @return lista wszystkich kont wraz z danymi szczegółowymi.
+    */
+    @RolesAllowed(Role.Admin)
+    public List<Account> getAll() {
+        return accountFacade.findAll();
     }
 
     /**

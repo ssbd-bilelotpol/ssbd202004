@@ -82,6 +82,11 @@ local.properties
 **/config.properties
 **/payara-resources.xml
 
+######################
+# VS Code
+######################
+.factorypath
+
 # External tool builders
 .externalToolBuilders/
  

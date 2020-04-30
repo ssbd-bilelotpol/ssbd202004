@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, NavLink } from 'react-router-dom';
 import { Card, Container, Menu, Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { urls } from '../../constants';
 import EditAccount from './accounts/EditAccount';
+import FilterableUsersTable from './UsersList';
 
 const DashboardContainer = styled(Container)`
     &&& {
@@ -26,7 +27,11 @@ const AdminDashboard = () => {
                         <Menu.Item>
                             <Menu.Header>Accounts</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item name="List accounts" />
+                                <Menu.Item
+                                    name="List accounts"
+                                    as={NavLink}
+                                    to={urls.pages.admin.accounts.list}
+                                />
                             </Menu.Menu>
                         </Menu.Item>
 
@@ -75,6 +80,9 @@ const AdminDashboard = () => {
                         <Switch>
                             <Route path={urls.pages.admin.accounts.edit}>
                                 <EditAccount />
+                            </Route>
+                            <Route path={urls.pages.admin.accounts.list}>
+                                <FilterableUsersTable />
                             </Route>
                         </Switch>
                     </ContentCard>

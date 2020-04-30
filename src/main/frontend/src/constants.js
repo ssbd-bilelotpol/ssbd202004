@@ -36,6 +36,7 @@ export const urls = {
         admin: {
             accounts: {
                 edit: '/admin/accounts/:login/edit',
+                list: '/admin/accounts/list',
             },
         },
         panel: {
