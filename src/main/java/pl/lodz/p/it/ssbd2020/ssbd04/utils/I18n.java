@@ -28,8 +28,15 @@ public class I18n {
     public static final String ACCOUNT_REGISTER_INVALID_TOKEN = "error.account.register.invalidToken";
     public static final String ACCOUNT_REGISTER_ALREADY_CONFIRMED = "error.account.register.alreadyConfirmed";
     public static final String ACCOUNT_REGISTER_MAIL_FAILURE = "error.account.register.mailFailure";
+    public static final String ACCOUNT_NOT_ACTIVE = "error.account.notActive";
+    public static final String ACCOUNT_NOT_CONFIRMED = "error.account.notConfirmed";
+    public static final String TOKEN_EXPIRED = "error.token.expired";
+
     public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
     public static final String ACCOUNT_REGISTRATION = "account.registration";
+    public static final String ACCOUNT_PASS_RESET_MAIL_TITLE = "account.passwordReset.mail.title";
+    public static final String ACCOUNT_PASSWORD_RESET = "account.passwordReset";
+
 
     @Inject
     HttpServletRequest request;

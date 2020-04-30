@@ -74,6 +74,19 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
     }
 
+    @PermitAll
+    public Account findByEmail(String email) throws AppBaseException {
+        try {
+            TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Account.findByEmail", Account.class);
+            accountTypedQuery.setParameter("email", email);
+            return accountTypedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw AccountException.noExists(e);
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
+
     @Override
     @PermitAll
     public void edit(Account entity) throws AppBaseException {

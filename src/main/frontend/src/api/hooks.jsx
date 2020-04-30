@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { get } from './index';
 
 export const useGet = (url) => {
@@ -7,7 +7,7 @@ export const useGet = (url) => {
     const [etag, setETag] = useState();
     const [loading, setLoading] = useState(true);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const result = await get(url);
             setData(result.content);
@@ -16,11 +16,11 @@ export const useGet = (url) => {
             setError(e);
         }
         setLoading(false);
-    };
+    }, [url]);
 
     useEffect(() => {
         fetchData();
-    }, [url]);
+    }, [url, fetchData]);
 
     return { data, etag, error, loading, refetch: fetchData };
 };

@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountEditDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountRegisterDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
@@ -16,11 +18,13 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania kont.
@@ -29,6 +33,7 @@ import java.util.UUID;
 @Path("/accounts")
 @PermitAll
 public class AccountController {
+    private static final Logger LOGGER = Logger.getLogger(AccountController.class.getName());
 
     @Inject
     private AccountEndpoint accountEndpoint;
@@ -147,6 +152,34 @@ public class AccountController {
                 .entity(accountDto)
                 .tag(messageSigner.sign(accountDto))
                 .build();
+    }
+
+    /**
+     * Jeżeli użytkownik o podanym emailu istnieje, to wysyła do niego email resetujący hasło.
+     * Jeżeli nie istnieje to nic się nie dzieje, a metoda nie wyrzuca z tego powodu wyjątku.
+     * @param email email użytkownika
+     * @throws AppBaseException w przypadku innych błędów niż brak użytkownika z podanym emailem
+     */
+    @POST
+    @Path("/{email}/password/reset")
+    public void requestPasswordReset(@NotNull @Valid @Email @PathParam("email") String email) throws AppBaseException {
+        try {
+            accountEndpoint.sendResetPasswordToken(email);
+        } catch(AccountException e) {
+            LOGGER.info(e.toString());
+        }
+    }
+
+    /**
+     * Ustawia nowe hasło dla użytkownika przypisanego do przekazywanego tokenu
+     * @param passwordResetDto nowe hasło oraz token do resetowania
+     * @throws AppBaseException gdy operacja się nie powiedzie
+     */
+    @POST
+    @Path("/password/reset")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void resetPassword(@Valid PasswordResetDto passwordResetDto) throws AppBaseException {
+        accountEndpoint.resetPassword(passwordResetDto);
     }
 
 }

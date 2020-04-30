@@ -48,5 +48,6 @@ export const urls = {
             settings: '/user/settings',
         },
         confirm: '/confirm/:token',
+        resetPassword: '/resetPassword/:token',
     },
 };

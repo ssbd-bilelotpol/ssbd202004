@@ -77,7 +77,7 @@ const Confirm = () => {
     }, [makeCancellable, token]);
 
     return (
-        <Segment style={{ padding: '2em 0em' }} vertical>
+        <Segment padded="very" vertical>
             <Container text>
                 <Header as="h3" style={{ fontSize: '2em' }}>
                     {t('Account activation')}

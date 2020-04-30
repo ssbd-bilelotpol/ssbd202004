@@ -1,12 +1,15 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.services;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.IdentityStore;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -61,7 +64,7 @@ public class AccountService {
      */
     @PermitAll
     public void confirm(UUID tokenId) throws AppBaseException {
-        Account account = verificationTokenService.confirm(tokenId);
+        Account account = verificationTokenService.confirmRegistration(tokenId);
         account.setConfirm(true);
         accountFacade.edit(account);
     }
@@ -94,6 +97,41 @@ public class AccountService {
 
         accountFacade.edit(account);
         return account;
+    }
+
+    /**
+     * Wyszukuje konto na podstawie adresu email.
+     * @param email email przypisany do konta
+     * @return konto o podanym emailu
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
+    @PermitAll
+    public Account findByEmail(String email) throws AppBaseException {
+        return accountFacade.findByEmail(email);
+    }
+
+    /**
+     * Zmienia hasło dla konta
+     * @param account konto, dla którego zmienione ma zostać hasło
+     * @param password nowe hasło
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
+    public void changePassword(Account account, String password) throws AppBaseException {
+        account.setPassword(BCrypt.withDefaults().hashToString(12, password.toCharArray()));
+        accountFacade.edit(account);
+    }
+
+    /**
+     * Sprawdza poprawność tokenu resetującego hasło, usuwa go, a następnie zmienia hasło konta.
+     * @param passwordResetDto token resetujący i nowe hasło
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
+    @PermitAll
+    public void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException {
+        Account account = verificationTokenService.confirmPasswordReset(UUID.fromString(passwordResetDto.getToken()));
+        if (!account.getActive())
+            throw AccountException.notActive(account);
+        changePassword(account, passwordResetDto.getPassword());
     }
 
 }

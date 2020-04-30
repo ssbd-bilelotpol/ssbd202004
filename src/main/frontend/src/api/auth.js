@@ -21,3 +21,9 @@ export const loginApi = async (username, password) => {
         role: user.roles[0],
     };
 };
+
+export const requestPasswordResetApi = (email) =>
+    post(`/accounts/${encodeURIComponent(email)}/password/reset`);
+
+export const resetPasswordApi = (password, token) =>
+    post('/accounts/password/reset', { password, token });

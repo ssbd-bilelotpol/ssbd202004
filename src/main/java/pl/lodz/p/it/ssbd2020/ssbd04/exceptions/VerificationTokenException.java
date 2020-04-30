@@ -38,4 +38,8 @@ public class VerificationTokenException extends AppBaseException {
     public static VerificationTokenException mailFailure(VerificationToken verificationToken) {
         return new VerificationTokenException(ACCOUNT_REGISTER_MAIL_FAILURE, verificationToken);
     }
+
+    public static VerificationTokenException expired(VerificationToken verificationToken) {
+        return new VerificationTokenException(TOKEN_EXPIRED, verificationToken);
+    }
 }

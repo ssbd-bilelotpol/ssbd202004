@@ -40,4 +40,12 @@ public class AccountException extends AppBaseException {
     public static AccountException noExists(Throwable cause) {
         return new AccountException(ACCOUNT_NOT_FOUND, cause);
     }
+
+    public static AccountException notActive(Account account) {
+        return new AccountException(ACCOUNT_NOT_ACTIVE, account);
+    }
+
+    public static AccountException notConfirmed(Account account) {
+        return new AccountException(ACCOUNT_NOT_CONFIRMED, account);
+    }
 }

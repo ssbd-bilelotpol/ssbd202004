@@ -18,7 +18,9 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account.CONSTRAINT_LOGIN
  */
 @NamedQueries({
         @NamedQuery(name = "Account.findByLogin",
-                query = "SELECT account FROM Account account WHERE account.login = :login")
+                query = "SELECT account FROM Account account WHERE account.login = :login"),
+        @NamedQuery(name = "Account.findByEmail",
+                query = "SELECT account FROM Account account JOIN account.accountDetails ad WHERE ad.email = :email")
 })
 @Entity
 @Table(

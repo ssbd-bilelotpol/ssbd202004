@@ -8,6 +8,7 @@ import CustomerServiceApp from './components/customerService/CustomerServiceApp'
 import ClientApp from './components/client/ClientApp';
 import UserApp from './components/user/UserApp';
 import Confirm from './components/client/Confirm';
+import PasswordReset from './components/client/PasswordReset';
 
 const App = () => {
     return (
@@ -15,6 +16,9 @@ const App = () => {
             <Switch>
                 <Route path={urls.pages.confirm}>
                     <Confirm />
+                </Route>
+                <Route path={urls.pages.resetPassword}>
+                    <PasswordReset />
                 </Route>
                 <ProtectedRoute role={roles.admin} path={urls.roles[roles.admin]}>
                     <AdminApp />

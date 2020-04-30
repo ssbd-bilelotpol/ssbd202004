@@ -9,6 +9,7 @@
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.RegisterToken</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.ResetPasswordToken</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AdminAccessLevel</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel</class>

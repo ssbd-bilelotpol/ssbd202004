@@ -1,0 +1,10 @@
+prettyPrint: true
+cacheTTL: 0
+openAPI:
+  info:
+    version: '1.0'
+    title: Bilelotpol API
+    description: 'This is a dev-environment-only API definition for Bilelotpol. If you''re seeing this in
+    prod environment, please contact horseburger@bilelotpol.pl'
+  servers:
+    - url: https://localhost:8181

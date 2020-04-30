@@ -1,4 +1,5 @@
 import { errors, roles } from '../constants';
+import translations from './pl/resource.json';
 
 export default {
     pl: {
@@ -18,39 +19,9 @@ export default {
             'error.account.register.invalidToken': 'Link został już wykorzystany.',
             'error.account.register.alreadyConfirmed': 'Konto zostało już potwierdzone.',
             'error.account.register.mailFailure': 'Nie udało wysłać się e-maila potwierdzającego.',
-            Schedule: 'Planuj',
-            'My reservations': 'Moje rezerwacje',
-            'Sign in': 'Zaloguj się',
-            'One way': 'W jedną stronę',
-            'Return trip': 'W dwie strony',
-            Departure: 'Wylot',
-            Destination: 'Cel podróży',
-            Search: 'Wyszukaj',
-            Or: 'Lub',
-            'Sign up': 'Zarejestruj się',
-            Login: 'Login',
-            Password: 'Hasło',
-            'Sign in error': 'Błąd logowania',
-            'E-mail': 'E-mail',
-            'First name': 'Imię',
-            'Last name': 'Nazwisko',
-            'Phone number': 'Numer telefonu',
-            'Signing up error': 'Błąd rejestracji',
-            Logout: 'Wyloguj',
-            Settings: 'Ustawienia',
-            'Signed up successfully': 'Rejestracja przebiegła pomyślnie',
-            sentConfirmationLink:
-                'Link potwierdzający został wysłany na podany <1>adres e-mail</1>',
-            'Account activation': 'Aktywacja konta',
-            'Account activated': 'Konto zostało aktywowane',
-            'Just one second': 'Tylko chwilę...',
-            'Account activation in progress': 'Trwa aktywowanie konta',
-            'There was an error while activating the account':
-                'Wystąpił błąd podczas aktywowania konta',
-            'Failed to retrieve data': 'Wystąpił błąd podczas pobierania danych',
-            'Failed to save changes': 'Wystąpił błąd podczas zapisywania zmian',
-            'Changes successfully saved.': 'Zmiany zostały zapisane pomyślnie',
-            Save: 'Zapisz',
+            'error.account.notActive': 'Konto jest nieaktywne',
+            'error.token.expired': 'Token wygasł',
+            ...translations,
         },
     },
 };
