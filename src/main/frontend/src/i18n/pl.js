@@ -22,8 +22,6 @@ export default {
             'error.account.passwordsDontMatch': 'Niepoprawne hasło',
             'error.account.notActive': 'Konto jest nieaktywne',
             'error.token.expired': 'Token wygasł',
-            'No such person': 'Nie ma takiej osoby',
-            'There are no results matching criteria.': 'Żadne konto nie spełnia podanych wymagań.',
             Search: 'Wyszukaj użytkownika',
             ...translations,
         },

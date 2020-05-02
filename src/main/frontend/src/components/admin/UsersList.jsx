@@ -45,7 +45,7 @@ const FilterableUsersTable = () => {
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell>Użytkownik</Table.HeaderCell>
+                                <Table.HeaderCell>{t('User')}</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
@@ -66,7 +66,7 @@ const FilterableUsersTable = () => {
                                             to={`/admin/accounts/${user.login}/edit`}
                                             size="small"
                                         >
-                                            Edytuj
+                                            {t('Edit')}
                                         </Button>
                                     </Table.Cell>
                                 </Table.Row>
@@ -81,7 +81,7 @@ const FilterableUsersTable = () => {
                 <SearchBar filter={filterUsers} t={t} />
                 <Message
                     header={t('No such person')}
-                    content={t('There are no results matching criteria.')}
+                    content={t('There are no results matching criteria')}
                 />
             </div>
         );
@@ -103,7 +103,7 @@ const FilterableUsersTable = () => {
             <Table celled>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Użytkownik</Table.HeaderCell>
+                        <Table.HeaderCell>{t('User')}</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

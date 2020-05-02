@@ -143,7 +143,7 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Wysyła token resetujący hasło użytkownika o podanym emailu.
      * Użytkownik musi być aktywny, a jego rejestracja potwierdzona.
-     * @param email email użytkownika
+     * @param email e-mail użytkownika
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     public void sendResetPasswordToken(String email) throws AppBaseException {

@@ -75,13 +75,13 @@ const PasswordResetRequestForm = () => {
                                     email={values.email}
                                     defaultValue=""
                                 >
-                                    Password reset email sent to {{ email: values.email }}
+                                    Password reset e-mail sent to {{ email: values.email }}
                                 </Trans>
                             </Message.Header>
                             <Message.Content>
                                 <Trans i18nKey="sentPasswordResetContent">
-                                    If this email is assigned to any account, a reset token has been
-                                    sent to it.
+                                    If this e-mail is assigned to any account, a reset token has
+                                    been sent to it.
                                 </Trans>
                             </Message.Content>
                         </Message>

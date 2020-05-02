@@ -38,7 +38,7 @@ public class VerificationTokenService {
     private I18n i18n;
 
     /**
-     * Tworzy nowy żeton potwierdzenia rejestracji i wysyła go na email odpowiadający kontu.
+     * Tworzy nowy żeton potwierdzenia rejestracji i wysyła go na e-mail odpowiadający kontu.
      *
      * @param account
      * @throws AppBaseException
@@ -95,7 +95,7 @@ public class VerificationTokenService {
     }
 
     /**
-     * Tworzy nowy żeton resetu hasła i wysyła go na email odpowiadający kontu.
+     * Tworzy nowy żeton resetu hasła i wysyła go na e-mail odpowiadający kontu.
      * @param account - konto, którego hasło ma zostać zresetowane
      * @throws AppBaseException - jeżeli nie uda się wysłać maila
      */
@@ -109,9 +109,9 @@ public class VerificationTokenService {
     }
 
     /**
-     * Wysyła email weryfikujący wykonywane akcje
+     * Wysyła e-mail weryfikujący wykonywane akcje
      * @param token token weryfikujący
-     * @param senderName nazwa nadawcy (nie jest to adres email)
+     * @param senderName nazwa nadawcy (nie jest to adres e-mail)
      * @param subject temat wiadomości
      * @param message treść wiadomości
      * @throws AppBaseException w przypadku niepowodzenia operacji

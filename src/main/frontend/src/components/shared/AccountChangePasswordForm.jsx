@@ -112,7 +112,7 @@ const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPassword
                             />
                             <FormInput
                                 name="passwordConfirmation"
-                                label={t('Confirm New Password')}
+                                label={t('Confirm new password')}
                                 type="password"
                                 value={values.passwordConfirmation}
                                 control={AsteriskInput}

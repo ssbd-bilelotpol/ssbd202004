@@ -123,7 +123,7 @@ const PasswordResetForm = () => {
                         <Message
                             positive
                             header={t('Password reset successful')}
-                            content={t('You may log in.')}
+                            content={t('You may log in')}
                         />
                     ) : (
                         <Button

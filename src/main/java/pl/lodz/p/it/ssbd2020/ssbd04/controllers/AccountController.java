@@ -165,10 +165,10 @@ public class AccountController {
     }
 
     /**
-     * Jeżeli użytkownik o podanym emailu istnieje, to wysyła do niego email resetujący hasło.
+     * Jeżeli użytkownik o podanym e-mailu istnieje, to wysyła do niego e-mail resetujący hasło.
      * Jeżeli nie istnieje to nic się nie dzieje, a metoda nie wyrzuca z tego powodu wyjątku.
-     * @param email email użytkownika
-     * @throws AppBaseException w przypadku innych błędów niż brak użytkownika z podanym emailem
+     * @param email e-mail użytkownika
+     * @throws AppBaseException w przypadku innych błędów niż brak użytkownika z podanym e-mailem
      */
     @POST
     @Path("/{email}/password/reset")

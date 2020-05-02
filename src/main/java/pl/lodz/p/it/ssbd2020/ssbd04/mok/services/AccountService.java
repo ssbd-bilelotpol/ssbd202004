@@ -39,7 +39,7 @@ public class AccountService {
     private VerificationTokenService verificationTokenService;
 
     /**
-     * Rejestruje konto, przypisując do niego dane personalne i wysyła żeton potwierdzający na email.
+     * Rejestruje konto, przypisując do niego dane personalne i wysyła żeton potwierdzający na e-mail.
      *
      * @param account
      * @param accountDetails
@@ -101,9 +101,9 @@ public class AccountService {
     }
 
     /**
-     * Wyszukuje konto na podstawie adresu email.
-     * @param email email przypisany do konta
-     * @return konto o podanym emailu
+     * Wyszukuje konto na podstawie adresu e-mail.
+     * @param email e-mail przypisany do konta
+     * @return konto o podanym e-mailu
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @PermitAll
