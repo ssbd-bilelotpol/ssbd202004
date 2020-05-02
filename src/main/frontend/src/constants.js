@@ -46,7 +46,10 @@ export const urls = {
         },
         user: {
             root: '/user',
-            settings: '/user/settings',
+            settings: {
+                root: '/user/settings',
+                changePassword: '/user/settings/changePassword',
+            },
         },
         confirm: '/confirm/:token',
         resetPassword: '/resetPassword/:token',

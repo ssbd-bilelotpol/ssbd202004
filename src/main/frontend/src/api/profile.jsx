@@ -13,3 +13,9 @@ export const useAccountDetails = (login) => {
 
 export const editAccountDetails = (login, details, etag) =>
     put(`/accounts/${login}`, details, etag);
+
+export const changeCurrentAccountPassword = (data, etag) =>
+    put('/accounts/self/password', data, etag);
+
+export const changeAccountPassword = (login, data, etag) =>
+    put(`/accounts/${login}/password`, data, etag);

@@ -1,15 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountAccessLevelDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.VerificationTokenService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountEditDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEndpoint;
@@ -181,4 +179,42 @@ public class AccountEndpoint extends AbstractEndpoint {
         });
         return accounts;
     }
+
+
+    /**
+     * Zmienia hasło dla aktualnego użytkownika.
+     * @param accountPasswordDto obiekt który przechowuje nowe i stare hasła podane przez użytkownika.
+     * @throws AppBaseException jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
+     */
+    @RolesAllowed({Role.Admin, Role.Client, Role.CustomerService, Role.Manager})
+    public void changeOwnAccountPassword(AccountPasswordDto accountPasswordDto) throws AppBaseException {
+        Account account = auth.currentUser();
+        AccountDto accountDto = new AccountDto(account);
+
+        if (!verifyEtag(accountDto)) throw AppBaseException.optimisticLock();
+
+        if (!BCrypt.verifyer()
+                .verify(accountPasswordDto.getOldPassword().toCharArray(), account.getPassword()
+                        .toCharArray()).verified) throw AccountException.passwordsDontMatch(account);
+
+        accountService.changePassword(account, accountPasswordDto.getNewPassword());
+    }
+
+
+    /**
+     * Zmienia hasło dla podanego użytkonika.
+     * @param login login konta, dla którego zmieniane jest hasło.
+     * @param password nowe hasło.
+     * @throws AppBaseException jeśli Etag się nie zgadza. 
+     */
+    @RolesAllowed(Role.Admin)
+    public void changeOtherAccountPassword(String login, String password) throws AppBaseException {
+        Account account = accountService.findByLogin(login);
+        AccountDto accountDto = new AccountDto(account);
+
+        if (!verifyEtag(accountDto)) throw AppBaseException.optimisticLock();
+
+        accountService.changePassword(account, password);
+    }
+
 }

@@ -19,6 +19,7 @@ export default {
             'error.account.register.invalidToken': 'Link został już wykorzystany.',
             'error.account.register.alreadyConfirmed': 'Konto zostało już potwierdzone.',
             'error.account.register.mailFailure': 'Nie udało wysłać się e-maila potwierdzającego.',
+            'error.account.passwordsDontMatch': 'Niepoprawne hasło',
             'error.account.notActive': 'Konto jest nieaktywne',
             'error.token.expired': 'Token wygasł',
             'No such person': 'Nie ma takiej osoby',

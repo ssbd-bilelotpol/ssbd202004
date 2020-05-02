@@ -41,5 +41,14 @@
     "Failed to save changes": "Wystąpił błąd podczas zapisywania zmian",
     "Save": "Zapisz",
     "Changes successfully saved": "Zmiany zostały zapisane pomyślnie",
-    "Settings": "Ustawienia"
+    "Settings": "Ustawienia",
+    "No such person": "__STRING_NOT_TRANSLATED__",
+    "There are no results matching criteria.": "__STRING_NOT_TRANSLATED__",
+    "Password successfully changed": "Hasło pomyślnie zmienione",
+    "Old password": "Stare hasło",
+    "New Password": "Nowe hasło",
+    "Confirm New Password": "Potwierdź nowe hasło",
+    "Change account's password": "Zmień hasło konta",
+    "Edit account details": "Zmień dane konta",
+    "This field is required": "To pole jest wymagane"
 }

@@ -118,7 +118,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
                                     }
                                 >
                                     <Dropdown.Menu>
-                                        <Dropdown.Item as={Link} to={urls.pages.user.settings}>
+                                        <Dropdown.Item as={Link} to={urls.pages.user.settings.root}>
                                             {t('Settings')}
                                         </Dropdown.Item>
                                         <Dropdown.Item onClick={handleLogout}>

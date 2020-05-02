@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountEditDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountRegisterDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
@@ -195,4 +192,31 @@ public class AccountController {
         accountEndpoint.resetPassword(passwordResetDto);
     }
 
+    /**
+     * Zmienia hasło dla aktualnego użytkownika. Zwraca kod 204 jeśli operacja się powiedzie.
+     * @param accountPasswordDto obiekt który przechowuje nowe i stare hasła podane przez użytkownika.
+     * @throws AppBaseException gdy podane przez użytkownika hasła się nie zgadzają, lub Etag się nie zgadza.
+     */
+    @PUT
+    @Path("/self/password")
+    @EtagBinding
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void changeOwnPassword(@NotNull @Valid AccountPasswordDto accountPasswordDto) throws AppBaseException {
+        accountEndpoint.changeOwnAccountPassword(accountPasswordDto);
+    }
+
+
+    /**
+     * Zmienia hasło dla podanego użytkownika. Zwraca kod 204 jeśli operacja się powiedzie.
+     * @param login login konta, dla którego zmieniamy hasło.
+     * @param accountPasswordDto obiekt reprezentujący formularz zmiany hasła (atrybut oldPassword może być null).
+     * @throws AppBaseException jeśli wartość Etaga nie będzie się zgadzać.
+     */
+    @PUT
+    @Path("/{login}/password")
+    @EtagBinding
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void changeAccountPassword(@NotNull @PathParam("login") String login, AccountPasswordDto accountPasswordDto) throws AppBaseException {
+        accountEndpoint.changeOtherAccountPassword(login, accountPasswordDto.getNewPassword());
+    }
 }

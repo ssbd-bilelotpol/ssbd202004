@@ -4,6 +4,7 @@ import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import React, { useState } from 'react';
 import { Button, Form, FormInput, Message } from 'semantic-ui-react';
 import { Formik } from 'formik';
+import AsteriskInput from '../controls/AsteriskInput';
 
 const SettingsSchema = Yup.object().shape({
     firstName: Yup.string().required().min(1).max(30),
@@ -64,6 +65,7 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
                                 name="firstName"
                                 label={t('First name')}
                                 value={values.firstName}
+                                control={AsteriskInput}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 disabled={isSubmitting}
@@ -79,6 +81,7 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
                                 name="lastName"
                                 label={t('Last name')}
                                 value={values.lastName}
+                                control={AsteriskInput}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 disabled={isSubmitting}
@@ -94,6 +97,7 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
                                 name="phoneNumber"
                                 label={t('Phone number')}
                                 value={values.phoneNumber}
+                                control={AsteriskInput}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 disabled={isSubmitting}

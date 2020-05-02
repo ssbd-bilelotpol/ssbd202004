@@ -9,7 +9,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.IdentityStore;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;

@@ -3,8 +3,8 @@ import { Route, Switch, NavLink } from 'react-router-dom';
 import { Card, Container, Menu, Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { urls } from '../../constants';
-import EditAccount from './accounts/EditAccount';
 import FilterableUsersTable from './UsersList';
+import EditAccount from './EditAccount';
 
 const DashboardContainer = styled(Container)`
     &&& {
@@ -15,6 +15,10 @@ const DashboardContainer = styled(Container)`
 const ContentCard = styled(Card)`
     &&& {
         padding: 12px;
+    }
+
+    &&& > .card {
+        border-radius: 0.28571429rem 0.28571429rem 0 0 !important;
     }
 `;
 

@@ -48,4 +48,8 @@ public class AccountException extends AppBaseException {
     public static AccountException notConfirmed(Account account) {
         return new AccountException(ACCOUNT_NOT_CONFIRMED, account);
     }
+
+    public static AccountException passwordsDontMatch(Account account) {
+        return new AccountException(ACCOUNT_PASSWORDS_DONT_MATCH, account);
+    }
 }
