@@ -103,7 +103,6 @@ local.properties
 derby.log
 .env
 
-**/yarn.lock
 /src/main/resources/config.dev.properties
 /src/main/resources/config.prod.properties
 /src/main/webapp/WEB-INF/payara-resources.dev.xml

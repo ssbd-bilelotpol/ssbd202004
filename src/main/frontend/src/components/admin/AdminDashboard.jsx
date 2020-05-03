@@ -22,12 +22,24 @@ const ContentCard = styled(Card)`
     }
 `;
 
+const GappedColumn = styled(Grid.Column)`
+    &&&.column {
+        padding-left: 1.5rem;
+    }
+`;
+
+const ShadowMenu = styled(Menu)`
+    &&& {
+        border: none;
+        box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    }
+`;
 const AdminDashboard = () => {
     return (
         <DashboardContainer>
             <Grid>
                 <Grid.Column width={3}>
-                    <Menu vertical>
+                    <ShadowMenu vertical>
                         <Menu.Item>
                             <Menu.Header>Accounts</Menu.Header>
                             <Menu.Menu>
@@ -77,20 +89,20 @@ const AdminDashboard = () => {
                                 <Menu.Item name="Add plane" />
                             </Menu.Menu>
                         </Menu.Item>
-                    </Menu>
+                    </ShadowMenu>
                 </Grid.Column>
-                <Grid.Column width={13}>
-                    <ContentCard fluid>
-                        <Switch>
-                            <Route path={urls.pages.admin.accounts.edit}>
-                                <EditAccount />
-                            </Route>
-                            <Route path={urls.pages.admin.accounts.list}>
+                <GappedColumn width={13}>
+                    <Switch>
+                        <Route path={urls.pages.admin.accounts.edit}>
+                            <EditAccount />
+                        </Route>
+                        <Route path={urls.pages.admin.accounts.list}>
+                            <ContentCard fluid>
                                 <FilterableUsersTable />
-                            </Route>
-                        </Switch>
-                    </ContentCard>
-                </Grid.Column>
+                            </ContentCard>
+                        </Route>
+                    </Switch>
+                </GappedColumn>
             </Grid>
         </DashboardContainer>
     );

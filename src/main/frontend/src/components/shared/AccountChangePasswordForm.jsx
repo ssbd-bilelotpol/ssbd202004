@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Message, FormInput, Form, Button } from 'semantic-ui-react';
+import { Message, FormInput, Form, Button, Placeholder } from 'semantic-ui-react';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -134,6 +134,17 @@ const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPassword
                         </Form>
                     )}
                 </Formik>
+            )}
+            {loading && (
+                <Placeholder>
+                    <Placeholder.Line />
+                    <Placeholder.Line />
+                    <Placeholder.Line />
+                    <Placeholder.Line />
+                    <Placeholder.Line />
+                    <Placeholder.Line />
+                    <Placeholder.Line />
+                </Placeholder>
             )}
         </>
     );

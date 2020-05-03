@@ -4,7 +4,7 @@ import { Label } from 'semantic-ui-react';
 import { changeAccountPassword } from '../../../api/profile';
 import AccountChangePasswordForm from '../../shared/AccountChangePasswordForm';
 
-const ChangeAccountPassword = ({ etag, refetch, login }) => {
+const ChangeAccountPassword = ({ etag, refetch, login, loading }) => {
     const { t } = useTranslation();
 
     return (
@@ -15,6 +15,7 @@ const ChangeAccountPassword = ({ etag, refetch, login }) => {
                 onSave={(values) => changeAccountPassword(login, values, etag)}
                 onSuccess={refetch}
                 showOldPasswordInput={false}
+                loading={loading}
             />
         </>
     );

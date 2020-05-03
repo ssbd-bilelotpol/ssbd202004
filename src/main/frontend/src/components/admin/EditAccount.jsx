@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAccountDetails } from '../../api/profile';
 import ChangeAccountPassword from './accounts/ChangeAccountPassword';
 import EditAccountDetails from './accounts/EditAccountDetails';
+import EditAccountAccessLevel from './accounts/EditAccountAccessLevel';
 
 const ContentCard = styled(Card)`
     &&& {
@@ -19,28 +20,40 @@ const EditAccount = () => {
     const { login } = useParams();
     const { data, etag, loading, error, refetch } = useAccountDetails(login);
 
-    return !error ? (
+    return (
         <>
-            <ContentCard fluid>
-                <EditAccountDetails
-                    data={data}
-                    loading={loading}
-                    refetch={refetch}
-                    login={login}
-                    etag={etag}
-                />
-            </ContentCard>
-            <ContentCard fluid>
-                <ChangeAccountPassword
-                    etag={etag}
-                    refetch={refetch}
-                    login={login}
-                    loading={loading}
-                />
-            </ContentCard>
+            {!error ? (
+                <>
+                    <ContentCard fluid>
+                        <EditAccountDetails
+                            data={data}
+                            loading={loading}
+                            refetch={refetch}
+                            login={login}
+                            etag={etag}
+                        />
+                    </ContentCard>
+                    <ContentCard fluid>
+                        <EditAccountAccessLevel
+                            etag={etag}
+                            refetch={refetch}
+                            login={login}
+                            loading={loading}
+                        />
+                    </ContentCard>
+                    <ContentCard fluid>
+                        <ChangeAccountPassword
+                            etag={etag}
+                            refetch={refetch}
+                            login={login}
+                            loading={loading}
+                        />
+                    </ContentCard>
+                </>
+            ) : (
+                <Message negative content={t(error.message)} />
+            )}
         </>
-    ) : (
-        <Message negative content={t(error.message)} />
     );
 };
 
