@@ -37,6 +37,7 @@ export const urls = {
             accounts: {
                 edit: '/admin/accounts/:login/edit',
                 list: '/admin/accounts/list',
+                authReport: '/admin/accounts/auth-report',
             },
         },
         panel: {

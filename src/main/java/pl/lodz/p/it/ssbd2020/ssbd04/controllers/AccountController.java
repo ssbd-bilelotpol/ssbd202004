@@ -20,9 +20,9 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.List;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania kont.
@@ -62,7 +62,7 @@ public class AccountController {
 
     /**
      * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
-     * 
+     *
      * @return lista konta wraz z danymi szczegółowymi.
      */
     @GET
@@ -70,6 +70,19 @@ public class AccountController {
     @RolesAllowed(Role.Admin)
     public List<AccountDto> getAllAccounts() {
         return accountEndpoint.getAllAccounts();
+    }
+
+    /**
+     * Zwraca zbiór wszystkich kont wraz z ich danymi o ostatnim uwierzytelnieniu.
+     *
+     * @return zbiór z danymi o ostatnim uwierzytelnieniu.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed(Role.Admin)
+    @Path("/auth-report")
+    public List<AccountAuthInfoDto> getAllAccountsAuthInfo() {
+        return accountEndpoint.getAllAccountsAuthInfo();
     }
 
     /**
@@ -167,6 +180,7 @@ public class AccountController {
     /**
      * Jeżeli użytkownik o podanym e-mailu istnieje, to wysyła do niego e-mail resetujący hasło.
      * Jeżeli nie istnieje to nic się nie dzieje, a metoda nie wyrzuca z tego powodu wyjątku.
+     *
      * @param email e-mail użytkownika
      * @throws AppBaseException w przypadku innych błędów niż brak użytkownika z podanym e-mailem
      */
@@ -175,13 +189,14 @@ public class AccountController {
     public void requestPasswordReset(@NotNull @Valid @Email @PathParam("email") String email) throws AppBaseException {
         try {
             accountEndpoint.sendResetPasswordToken(email);
-        } catch(AccountException e) {
+        } catch (AccountException e) {
             LOGGER.info(e.toString());
         }
     }
 
     /**
      * Ustawia nowe hasło dla użytkownika przypisanego do przekazywanego tokenu
+     *
      * @param passwordResetDto nowe hasło oraz token do resetowania
      * @throws AppBaseException gdy operacja się nie powiedzie
      */
@@ -194,6 +209,7 @@ public class AccountController {
 
     /**
      * Zmienia hasło dla aktualnego użytkownika. Zwraca kod 204 jeśli operacja się powiedzie.
+     *
      * @param accountPasswordDto obiekt który przechowuje nowe i stare hasła podane przez użytkownika.
      * @throws AppBaseException gdy podane przez użytkownika hasła się nie zgadzają, lub Etag się nie zgadza.
      */
@@ -208,7 +224,8 @@ public class AccountController {
 
     /**
      * Zmienia hasło dla podanego użytkownika. Zwraca kod 204 jeśli operacja się powiedzie.
-     * @param login login konta, dla którego zmieniamy hasło.
+     *
+     * @param login              login konta, dla którego zmieniamy hasło.
      * @param accountPasswordDto obiekt reprezentujący formularz zmiany hasła (atrybut oldPassword może być null).
      * @throws AppBaseException jeśli wartość Etaga nie będzie się zgadzać.
      */

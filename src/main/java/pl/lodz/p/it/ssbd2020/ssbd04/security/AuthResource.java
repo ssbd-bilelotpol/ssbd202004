@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -8,12 +10,13 @@ import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import java.util.Objects;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,19 +40,25 @@ public class AuthResource {
     private IdentityStoreHandler identityStoreHandler;
 
     @Inject
+    private AccountEndpoint accountEndpoint;
+
+    @Inject
     private JWTProvider jwtProvider;
+
+    @Context
+    private HttpServletRequest httpServletRequest;
 
     /**
      * Obsługuje uwierzytelnianie.
+     *
      * @param loginData Obiekt, który jest deserializowany na podstawie danych w formacie JSON od klienta.
-     * @return
-     * Gdy uwierzytelnienie się powiedzie, zwraca kod odpowiedzi 200 i token JWT.
+     * @return Gdy uwierzytelnienie się powiedzie, zwraca kod odpowiedzi 200 i token JWT.
      * W przeciwnym wypadku zwraca 401 Unauthorized.
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response auth(LoginData loginData) {
+    public Response auth(LoginData loginData) throws AppBaseException {
         CredentialValidationResult result = identityStoreHandler.validate(loginData.toCredential());
         if (result.getStatus() != VALID) {
             return Response
@@ -57,7 +66,7 @@ public class AuthResource {
                     .entity(new ErrorResponse(AUTH_INCORRECT_LOGIN_OR_PASSWORD))
                     .build();
         }
-
+        accountEndpoint.updateAuthInfo(loginData.username, httpServletRequest.getRemoteAddr(), LocalDateTime.now());
         return Response.ok().entity(jwtProvider.create(result)).build();
     }
 

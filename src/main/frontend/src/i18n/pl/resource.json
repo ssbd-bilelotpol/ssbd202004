@@ -55,5 +55,21 @@
     "Edit account details": "Zmień dane konta",
     "This field is required": "To pole jest wymagane",
     "User": "Użytkownik",
-    "Edit": "Edytuj"
+    "Edit": "Edytuj",
+    "IP address": "Adres IP",
+    "Date and time": "Data i godzina",
+    "Last valid authentication report": "Raport z ostatniego poprawnego uwierzytelnienia",
+    "No results in the database": "Brak wyników w bazie",
+    "List accounts": "Lista kont",
+    "Accounts auth report": "Raport uwierzytelniania",
+    "List reservations": "Lista rezerwacji",
+    "Generate report": "Generuj raport",
+    "List airports": "Lista lotnisk",
+    "Add airport": "Dodaj lotnisko",
+    "List relations": "Lista relacji",
+    "Add relation": "Dodaj relację",
+    "List flights": "Lista lotów",
+    "Add flight": "Dodaj lot",
+    "List planes": "Lista samolotów",
+    "Add plane": "Dodaj samolot"
 }

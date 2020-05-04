@@ -20,9 +20,12 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
@@ -148,15 +151,16 @@ public class AccountEndpoint extends AbstractEndpoint {
      */
     public void sendResetPasswordToken(String email) throws AppBaseException {
         Account account = accountService.findByEmail(email);
-        if(!account.getActive())
+        if (!account.getActive())
             throw AccountException.notActive(account);
-        if(!account.getConfirm())
+        if (!account.getConfirm())
             throw AccountException.notConfirmed(account);
         tokenService.sendResetPasswordToken(account);
     }
 
     /**
      * Resetuje hasło za pomocą tokenu resetującego.
+     *
      * @param passwordResetDto token resetujący oraz nowe hasło
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -166,7 +170,7 @@ public class AccountEndpoint extends AbstractEndpoint {
 
     /**
      * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
-     * 
+     *
      * @return lista wszystkich kont wraz z danymi szczegółowymi.
      */
     @RolesAllowed(Role.Admin)
@@ -180,9 +184,34 @@ public class AccountEndpoint extends AbstractEndpoint {
         return accounts;
     }
 
+    /**
+     * Aktualizuje dane o ostatnim uwierzytelnieniu użytkownika
+     *
+     * @param login login użytkownika
+     * @param lastIpAddress adres ip
+     * @param lastSuccessAuth data logowania
+     * @throws AppBaseException
+     */
+    public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime lastSuccessAuth) throws AppBaseException {
+        accountService.updateAuthInfo(login, lastIpAddress, lastSuccessAuth);
+    }
+
+    /**
+     * Zwraca zbiór wszystkich kont wraz z ich danymi ostatniego uwierzytelniania.
+     *
+     * @return dane uwierzytelniania
+     */
+    @RolesAllowed(Role.Admin)
+    public List<AccountAuthInfoDto> getAllAccountsAuthInfo() {
+        return accountService.getAll().stream()
+                .map(a -> new AccountAuthInfoDto(a.getLogin(),
+                        a.getAccountAuthInfo().getLastSuccessAuth(),
+                        a.getAccountAuthInfo().getLastIpAddress())).collect(Collectors.toList());
+    }
 
     /**
      * Zmienia hasło dla aktualnego użytkownika.
+     *
      * @param accountPasswordDto obiekt który przechowuje nowe i stare hasła podane przez użytkownika.
      * @throws AppBaseException jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
      */
@@ -203,9 +232,10 @@ public class AccountEndpoint extends AbstractEndpoint {
 
     /**
      * Zmienia hasło dla podanego użytkonika.
-     * @param login login konta, dla którego zmieniane jest hasło.
+     *
+     * @param login    login konta, dla którego zmieniane jest hasło.
      * @param password nowe hasło.
-     * @throws AppBaseException jeśli Etag się nie zgadza. 
+     * @throws AppBaseException jeśli Etag się nie zgadza.
      */
     @RolesAllowed(Role.Admin)
     public void changeOtherAccountPassword(String login, String password) throws AppBaseException {

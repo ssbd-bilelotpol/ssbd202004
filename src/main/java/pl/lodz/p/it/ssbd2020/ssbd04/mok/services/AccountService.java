@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountAuthInfo;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel;
@@ -17,12 +18,12 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import static java.util.Collections.singleton;
-
-import java.util.List;
 
 /**
  * Przetwarzanie logiki biznesowej Kont.
@@ -52,8 +53,8 @@ public class AccountService {
         account.setConfirm(false);
         account.setAccountAccessLevel(singleton(new ClientAccessLevel()));
         account.setAccountDetails(accountDetails);
+        account.setAccountAuthInfo(new AccountAuthInfo(account));
         accountFacade.create(account);
-
         verificationTokenService.sendRegisterToken(account);
     }
 
@@ -84,7 +85,7 @@ public class AccountService {
     /**
      * Modyfikuje dane szczegółowe wybranego konta.
      *
-     * @param account konto dla którego dane są zmieniane.
+     * @param account    konto dla którego dane są zmieniane.
      * @param newDetails nowe dane szczegółowe w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu.
      * @return konto z uwzględnioną zmianą danych szczegółowych.
      * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
@@ -112,10 +113,10 @@ public class AccountService {
     }
 
     /**
-    * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
-    * 
-    * @return lista wszystkich kont wraz z danymi szczegółowymi.
-    */
+     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
+     *
+     * @return lista wszystkich kont wraz z danymi szczegółowymi.
+     */
     @RolesAllowed(Role.Admin)
     public List<Account> getAll() {
         return accountFacade.findAll();
@@ -123,7 +124,8 @@ public class AccountService {
 
     /**
      * Zmienia hasło dla konta
-     * @param account konto, dla którego zmienione ma zostać hasło
+     *
+     * @param account  konto, dla którego zmienione ma zostać hasło
      * @param password nowe hasło
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -134,6 +136,7 @@ public class AccountService {
 
     /**
      * Sprawdza poprawność tokenu resetującego hasło, usuwa go, a następnie zmienia hasło konta.
+     *
      * @param passwordResetDto token resetujący i nowe hasło
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -145,4 +148,18 @@ public class AccountService {
         changePassword(account, passwordResetDto.getPassword());
     }
 
+    /**
+     * Aktualizuje dane ostatniego uwierzytelnienia z konta.
+     * @param login login użytkownika
+     * @param lastIpAddress adres logiczny użytkownika
+     * @param lastSuccessAuth data ostatniego logowania zakończonego powodzeniem
+     * @throws AppBaseException
+     */
+    @PermitAll
+    public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime lastSuccessAuth) throws AppBaseException {
+        Account account = accountFacade.findByLogin(login);
+        account.getAccountAuthInfo().setLastIpAddress(lastIpAddress);
+        account.getAccountAuthInfo().setLastSuccessAuth(lastSuccessAuth);
+        accountFacade.edit(account);
+    }
 }

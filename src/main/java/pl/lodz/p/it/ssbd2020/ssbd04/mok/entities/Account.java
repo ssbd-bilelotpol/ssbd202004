@@ -66,18 +66,23 @@ public class Account extends AbstractEntity implements Serializable {
     @JoinColumn(name = "account_details_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "account_account_details_fk"))
     private AccountDetails accountDetails;
 
+    @NotNull
+    @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "account", fetch = FetchType.LAZY,  orphanRemoval = true)
+    private AccountAuthInfo accountAuthInfo;
+
     public Account() {
     }
 
     public Account(@NotNull @Size(min = 3, max = 30) String login, @NotNull @Size(min = 50, max = 60) String password,
                    @NotNull Boolean active, @NotNull Boolean confirm, Set<AccountAccessLevel> accountAccessLevel,
-                   AccountDetails accountDetails) {
+                   AccountDetails accountDetails, @NotNull AccountAuthInfo accountAuthInfo) {
         this.login = login;
         this.password = password;
         this.active = active;
         this.confirm = confirm;
         this.accountAccessLevel = accountAccessLevel;
         this.accountDetails = accountDetails;
+        this.accountAuthInfo = accountAuthInfo;
     }
 
     public Long getId() {
@@ -130,6 +135,14 @@ public class Account extends AbstractEntity implements Serializable {
 
     public void setConfirm(Boolean confirm) {
         this.confirm = confirm;
+    }
+
+    public AccountAuthInfo getAccountAuthInfo() {
+        return accountAuthInfo;
+    }
+
+    public void setAccountAuthInfo(AccountAuthInfo accountAuthInfo) {
+        this.accountAuthInfo = accountAuthInfo;
     }
 
     @Override
