@@ -1,15 +1,15 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.EtagBinding;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.VUUID;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.VUUID;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  */
 @Path("/accounts")
 @PermitAll
-public class AccountController {
+public class AccountController extends AbstractController {
     private static final Logger LOGGER = Logger.getLogger(AccountController.class.getName());
 
     @Inject
@@ -57,7 +57,7 @@ public class AccountController {
         accountDetails.setLastName(accountRegisterDto.getLastName());
         accountDetails.setPhoneNumber(accountRegisterDto.getPhoneNumber());
 
-        accountEndpoint.register(account, accountDetails);
+        repeat(accountEndpoint, () -> accountEndpoint.register(account, accountDetails));
     }
 
     /**
@@ -68,8 +68,8 @@ public class AccountController {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed(Role.Admin)
-    public List<AccountDto> getAllAccounts() {
-        return accountEndpoint.getAllAccounts();
+    public List<AccountDto> getAllAccounts() throws AppBaseException {
+        return repeat(accountEndpoint, accountEndpoint::getAllAccounts);
     }
 
     /**
@@ -81,8 +81,8 @@ public class AccountController {
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed(Role.Admin)
     @Path("/auth-report")
-    public List<AccountAuthInfoDto> getAllAccountsAuthInfo() {
-        return accountEndpoint.getAllAccountsAuthInfo();
+    public List<AccountAuthInfoDto> getAllAccountsAuthInfo() throws AppBaseException {
+        return repeat(accountEndpoint, accountEndpoint::getAllAccountsAuthInfo);
     }
 
     /**
@@ -94,7 +94,7 @@ public class AccountController {
     @POST
     @Path("/confirm/{tokenId}")
     public void confirm(@NotNull @VUUID @Valid @PathParam("tokenId") String tokenId) throws AppBaseException {
-        accountEndpoint.confirm(UUID.fromString(tokenId));
+        repeat(accountEndpoint, () -> accountEndpoint.confirm(UUID.fromString(tokenId)));
     }
 
     /**
@@ -108,7 +108,7 @@ public class AccountController {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(Role.Client)
     public Response retrieveOwnAccountDetails() throws AppBaseException {
-        AccountDto accountDto = accountEndpoint.retrieveOwnAccountDetails();
+        AccountDto accountDto = repeat(accountEndpoint, accountEndpoint::retrieveOwnAccountDetails);
         return Response.ok()
                 .entity(accountDto)
                 .tag(messageSigner.sign(accountDto))
@@ -127,7 +127,7 @@ public class AccountController {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(Role.Admin)
     public Response retrieveOtherAccountDetails(@PathParam("login") String login) throws AppBaseException {
-        AccountDto accountDto = accountEndpoint.retrieveOtherAccountDetails(login);
+        AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.retrieveOtherAccountDetails(login));
         return Response.ok()
                 .entity(accountDto)
                 .tag(messageSigner.sign(accountDto))
@@ -148,7 +148,7 @@ public class AccountController {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed(Role.Client)
     public Response editOwnAccountDetails(@NotNull @Valid AccountEditDto accountEditDto) throws AppBaseException {
-        AccountDto accountDto = accountEndpoint.editOwnAccountDetails(accountEditDto);
+        AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.editOwnAccountDetails(accountEditDto));
         return Response.ok()
                 .entity(accountDto)
                 .tag(messageSigner.sign(accountDto))
@@ -170,7 +170,7 @@ public class AccountController {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed(Role.Admin)
     public Response editOtherAccountDetails(@PathParam("login") String login, @NotNull @Valid AccountEditDto accountEditDto) throws AppBaseException {
-        AccountDto accountDto = accountEndpoint.editOtherAccountDetails(login, accountEditDto);
+        AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.editOtherAccountDetails(login, accountEditDto));
         return Response.ok()
                 .entity(accountDto)
                 .tag(messageSigner.sign(accountDto))
@@ -188,7 +188,7 @@ public class AccountController {
     @Path("/{email}/password/reset")
     public void requestPasswordReset(@NotNull @Valid @Email @PathParam("email") String email) throws AppBaseException {
         try {
-            accountEndpoint.sendResetPasswordToken(email);
+            repeat(accountEndpoint, () -> accountEndpoint.sendResetPasswordToken(email));
         } catch (AccountException e) {
             LOGGER.info(e.toString());
         }
@@ -204,7 +204,7 @@ public class AccountController {
     @Path("/password/reset")
     @Consumes(MediaType.APPLICATION_JSON)
     public void resetPassword(@Valid PasswordResetDto passwordResetDto) throws AppBaseException {
-        accountEndpoint.resetPassword(passwordResetDto);
+        repeat(accountEndpoint, () -> accountEndpoint.resetPassword(passwordResetDto));
     }
 
     /**
@@ -218,9 +218,8 @@ public class AccountController {
     @EtagBinding
     @Consumes(MediaType.APPLICATION_JSON)
     public void changeOwnPassword(@NotNull @Valid AccountPasswordDto accountPasswordDto) throws AppBaseException {
-        accountEndpoint.changeOwnAccountPassword(accountPasswordDto);
+        repeat(accountEndpoint, () -> accountEndpoint.changeOwnAccountPassword(accountPasswordDto));
     }
-
 
     /**
      * Zmienia hasło dla podanego użytkownika. Zwraca kod 204 jeśli operacja się powiedzie.
@@ -234,6 +233,9 @@ public class AccountController {
     @EtagBinding
     @Consumes(MediaType.APPLICATION_JSON)
     public void changeAccountPassword(@NotNull @PathParam("login") String login, AccountPasswordDto accountPasswordDto) throws AppBaseException {
-        accountEndpoint.changeOtherAccountPassword(login, accountPasswordDto.getNewPassword());
+        repeat(
+                accountEndpoint,
+                () -> accountEndpoint.changeOtherAccountPassword(login, accountPasswordDto.getNewPassword())
+        );
     }
 }

@@ -9,7 +9,7 @@ import javax.ws.rs.ext.Provider;
 import java.util.*;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static pl.lodz.p.it.ssbd2020.ssbd04.utils.I18n.REST_VALIDATION_ERROR;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.REST_VALIDATION_ERROR;
 
 /**
  * Zajmuje się przetwarzaniem wyjątków pochodzących z BeanValidation na odpowiednie odpowiedzi HTTP.

@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.AccountService;
 
 import javax.ejb.Stateless;

@@ -22,8 +22,8 @@ import java.util.logging.Logger;
 
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GroupRoleMapper;
-import static pl.lodz.p.it.ssbd2020.ssbd04.utils.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
 
 @Path("/auth")
 /**

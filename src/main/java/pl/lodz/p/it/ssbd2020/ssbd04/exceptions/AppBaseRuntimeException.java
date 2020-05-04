@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.utils.I18n.MESSAGE_SIGNER_OPERATION;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.MESSAGE_SIGNER_OPERATION;
 
 /**
  * Opakowuje RuntimeException w celu przetworzenia wyjątków rzucanych przez aplikację

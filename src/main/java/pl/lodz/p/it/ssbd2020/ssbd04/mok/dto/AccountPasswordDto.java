@@ -17,7 +17,8 @@ public class AccountPasswordDto {
     private String newPassword;
 
 
-    public AccountPasswordDto() {}
+    public AccountPasswordDto() {
+    }
 
     public String getOldPassword() {
         return oldPassword;

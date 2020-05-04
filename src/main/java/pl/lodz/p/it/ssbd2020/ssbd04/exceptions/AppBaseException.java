@@ -4,7 +4,8 @@ import javax.ejb.ApplicationException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.utils.I18n.*;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.DATABASE_OPERATION;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.DATABASE_OPTIMISTIC_LOCK;
 
 /**
  * Generyczny wyjątek aplikacyjny, po którego wystąpieniu transakcje aplikacyjne są odwoływane.

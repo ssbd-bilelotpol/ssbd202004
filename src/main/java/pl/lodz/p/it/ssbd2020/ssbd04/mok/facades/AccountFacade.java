@@ -1,14 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.facades;
 
 import org.hibernate.exception.ConstraintViolationException;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountAccessLevelException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractFacade;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -22,7 +22,7 @@ import javax.persistence.*;
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed(Role.Admin)
 public class AccountFacade extends AbstractFacade<Account> {
-    
+
     @PersistenceContext(unitName = "ssbd04mokPU")
     private EntityManager em;
 

@@ -5,3 +5,4 @@ frontend.url=http://localhost:3000
 mail.apiKey=1234556
 mail.apiServer=https://api.eu.mailgun.net/v3/mg.bilelotpol.pl
 mail.sender=noreply@bilelotpol.pl
+transaction.retryThreshold=5

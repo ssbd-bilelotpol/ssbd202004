@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
 
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;

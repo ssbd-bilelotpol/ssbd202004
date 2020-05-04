@@ -1,20 +1,20 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.VerificationTokenService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractEndpoint;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
@@ -23,7 +23,6 @@ import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,9 +30,10 @@ import java.util.stream.Collectors;
  * Wykonuje konwersję klas DTO na model biznesowy
  * i jest granicą transakcji aplikacyjnej dla hierarchii klas Account i AccountAccessLevel.
  */
-@Stateless
+
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @PermitAll
+@Stateful
 public class AccountEndpoint extends AbstractEndpoint {
 
     @Inject
@@ -146,6 +146,7 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Wysyła token resetujący hasło użytkownika o podanym emailu.
      * Użytkownik musi być aktywny, a jego rejestracja potwierdzona.
+     *
      * @param email e-mail użytkownika
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -187,8 +188,8 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Aktualizuje dane o ostatnim uwierzytelnieniu użytkownika
      *
-     * @param login login użytkownika
-     * @param lastIpAddress adres ip
+     * @param login           login użytkownika
+     * @param lastIpAddress   adres ip
      * @param lastSuccessAuth data logowania
      * @throws AppBaseException
      */

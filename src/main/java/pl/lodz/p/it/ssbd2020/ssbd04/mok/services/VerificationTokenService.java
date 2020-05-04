@@ -3,15 +3,15 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mok.services;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.RegisterToken;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.ResetPasswordToken;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.VerificationTokenException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.RegisterToken;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.ResetPasswordToken;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.VerificationTokenFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.I18n;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
@@ -78,6 +78,7 @@ public class VerificationTokenService {
     /**
      * Sprawdza poprawność tokenu resetującego hasło. Jeżeli istnieje, jest poprawnego typu i nie wygasł,
      * zwraca powiązane z nim konto i usuwa go z bazy.
+     *
      * @param tokenId token
      * @return konto powiązane z tokenem
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -87,7 +88,7 @@ public class VerificationTokenService {
         if (!(verificationToken instanceof ResetPasswordToken)) {
             throw VerificationTokenException.invalidRegisterToken(tokenId);
         }
-        if(verificationToken.getExpireDateTime().isBefore(LocalDateTime.now())) {
+        if (verificationToken.getExpireDateTime().isBefore(LocalDateTime.now())) {
             throw VerificationTokenException.expired(verificationToken);
         }
         verificationTokenFacade.remove(verificationToken);
@@ -96,6 +97,7 @@ public class VerificationTokenService {
 
     /**
      * Tworzy nowy żeton resetu hasła i wysyła go na e-mail odpowiadający kontu.
+     *
      * @param account - konto, którego hasło ma zostać zresetowane
      * @throws AppBaseException - jeżeli nie uda się wysłać maila
      */
@@ -110,10 +112,11 @@ public class VerificationTokenService {
 
     /**
      * Wysyła e-mail weryfikujący wykonywane akcje
-     * @param token token weryfikujący
+     *
+     * @param token      token weryfikujący
      * @param senderName nazwa nadawcy (nie jest to adres e-mail)
-     * @param subject temat wiadomości
-     * @param message treść wiadomości
+     * @param subject    temat wiadomości
+     * @param message    treść wiadomości
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     private void sendEmail(VerificationToken token, String senderName, String subject, String message) throws AppBaseException {

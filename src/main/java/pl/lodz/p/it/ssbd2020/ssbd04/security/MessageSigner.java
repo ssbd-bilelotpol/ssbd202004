@@ -1,8 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 import org.apache.commons.codec.binary.Base64;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseRuntimeException;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.Mac;

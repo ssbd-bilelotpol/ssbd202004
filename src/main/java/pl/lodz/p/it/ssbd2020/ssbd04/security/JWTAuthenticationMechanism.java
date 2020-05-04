@@ -2,7 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.AuthenticationException;
@@ -36,6 +37,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
      * jeśli zasób jest chroniony i żądanie nie zawiera nagłówka, bądź nagłówek jest niepoprawny to zwraca 404 NotFound,
      * jeśli zasób jest chroniony i żądanie posiada poprawny nagłówek, deleguje sprawdzanie uprawnień do kontenera,
      * jeśli zasób nie jest chroniony, token nie jest sprawdzany.
+     *
      * @param request
      * @param response
      * @param context

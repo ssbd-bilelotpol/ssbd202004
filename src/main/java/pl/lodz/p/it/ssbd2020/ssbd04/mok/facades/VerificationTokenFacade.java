@@ -1,8 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.facades;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.AbstractFacade;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;

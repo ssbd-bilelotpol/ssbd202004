@@ -5,17 +5,17 @@
     <persistence-unit name="ssbd04mokPU" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd04mokDS</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountAuthInfo</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.RegisterToken</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.ResetPasswordToken</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AdminAccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.CustomerServiceAccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ManagerAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Account</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.RegisterToken</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.ResetPasswordToken</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AdminAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ClientAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.CustomerServiceAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ManagerAccessLevel</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
@@ -30,13 +30,13 @@
     <persistence-unit name="ssbd04molPU" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd04molDS</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Airport</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Connection</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Seat</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.SeatClass</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
@@ -51,19 +51,19 @@
     <persistence-unit name="ssbd04mobPU" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd04mobDS</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountAuthInfo</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.AirplaneSchema</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Airport</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Connection</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Benefit</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Passenger</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Flight</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.Seat</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mol.entities.SeatClass</class>
-        <class>pl.lodz.p.it.ssbd2020.ssbd04.mob.entities.Ticket</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Account</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Passenger</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>

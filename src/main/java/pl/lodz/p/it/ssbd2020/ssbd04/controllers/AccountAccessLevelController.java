@@ -3,9 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.EtagBinding;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("/accounts/{login}/access-levels")
 @RolesAllowed(Role.Admin)
-public class AccountAccessLevelController {
+public class AccountAccessLevelController extends AbstractController {
     @Inject
     private AccountEndpoint accountEndpoint;
 
@@ -38,7 +38,7 @@ public class AccountAccessLevelController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRoles(@PathParam("login") String login) throws AppBaseException {
-        AccountAccessLevelDto accountAccessLevelDto = accountEndpoint.getAccessLevels(login);
+        AccountAccessLevelDto accountAccessLevelDto = repeat(accountEndpoint, () -> accountEndpoint.getAccessLevels(login));
         return Response.ok()
                 .entity(accountAccessLevelDto)
                 .tag(messageSigner.sign(accountAccessLevelDto))
@@ -58,10 +58,10 @@ public class AccountAccessLevelController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response assignRole(@PathParam("login") String login, @NotNull @Valid AccountAccessLevelDto accountAccessLevelDto) throws AppBaseException {
-        accountAccessLevelDto = accountEndpoint.editAccountAccessLevel(login, accountAccessLevelDto);
+        final AccountAccessLevelDto accessLevelDto = repeat(accountEndpoint, () -> accountEndpoint.editAccountAccessLevel(login, accountAccessLevelDto));
         return Response.ok()
-                .entity(accountAccessLevelDto)
-                .tag(messageSigner.sign(accountAccessLevelDto))
+                .entity(accessLevelDto)
+                .tag(messageSigner.sign(accessLevelDto))
                 .build();
     }
 }

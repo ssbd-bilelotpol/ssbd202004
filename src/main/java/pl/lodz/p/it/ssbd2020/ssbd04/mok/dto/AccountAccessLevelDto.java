@@ -1,8 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountAccessLevelException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
 import javax.validation.constraints.NotNull;

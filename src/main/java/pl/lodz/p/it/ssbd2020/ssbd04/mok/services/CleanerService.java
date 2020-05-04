@@ -1,8 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.services;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.RegisterToken;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.RegisterToken;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.verification_tokens.VerificationToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.VerificationTokenFacade;
 

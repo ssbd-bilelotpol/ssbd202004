@@ -4,7 +4,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.Config;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -36,6 +36,7 @@ public class JWTProvider {
     /**
      * Tworzy nowy JWT na podstawie danych klienta po poprawnej autoryzacji.
      * Czas ważności tokenu i klucz, którym jest podpisywany pochodzi z obiektu zawierającego konfigurację aplikacji.
+     *
      * @param result
      * @return
      */
@@ -55,6 +56,7 @@ public class JWTProvider {
 
     /**
      * Parsuje, weryfikuje podpis i tworzy obiekt reprezentujący JWT.
+     *
      * @param token JWT w formacie base64
      * @return obiekt JWT
      */

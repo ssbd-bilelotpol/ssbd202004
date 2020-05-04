@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.utils.VUUID;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.VUUID;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

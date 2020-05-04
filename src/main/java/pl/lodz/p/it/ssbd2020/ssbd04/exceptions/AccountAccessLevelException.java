@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.utils.I18n.*;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.ACCOUNT_ACCESS_LEVEL_ALREADY_ASSIGNED;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.ACCOUNT_ACCESS_LEVEL_NOT_FOUND;
 
 /**
  * Wyjątek odpowiadający hierarchii klas AccountAccessLevel.

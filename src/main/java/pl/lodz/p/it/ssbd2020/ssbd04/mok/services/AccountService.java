@@ -1,14 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.services;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ClientAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountAuthInfo;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.AccountDetails;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.AccountAccessLevel;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.entities.access_levels.ClientAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -103,6 +103,7 @@ public class AccountService {
 
     /**
      * Wyszukuje konto na podstawie adresu e-mail.
+     *
      * @param email e-mail przypisany do konta
      * @return konto o podanym e-mailu
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -150,8 +151,9 @@ public class AccountService {
 
     /**
      * Aktualizuje dane ostatniego uwierzytelnienia z konta.
-     * @param login login użytkownika
-     * @param lastIpAddress adres logiczny użytkownika
+     *
+     * @param login           login użytkownika
+     * @param lastIpAddress   adres logiczny użytkownika
      * @param lastSuccessAuth data ostatniego logowania zakończonego powodzeniem
      * @throws AppBaseException
      */
