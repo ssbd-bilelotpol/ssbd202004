@@ -89,4 +89,17 @@ public class AccountDto implements Signable {
     public String createMessage() {
         return String.format("%d.%d.%s", version, detailsVersion, login);
     }
+
+    @Override
+    public String toString() {
+        return "AccountDto{" +
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", version=" + version +
+                ", detailsVersion=" + detailsVersion +
+                '}';
+    }
 }

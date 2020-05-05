@@ -24,4 +24,9 @@ public class RegisterToken extends VerificationToken implements Serializable {
     public RegisterToken(UUID id) {
         super(id);
     }
+
+    @Override
+    public String toString() {
+        return "RegisterToken{} " + super.toString();
+    }
 }

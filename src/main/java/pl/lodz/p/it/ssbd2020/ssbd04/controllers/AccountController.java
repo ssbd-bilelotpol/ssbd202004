@@ -22,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -190,7 +191,7 @@ public class AccountController extends AbstractController {
         try {
             repeat(accountEndpoint, () -> accountEndpoint.sendResetPasswordToken(email));
         } catch (AccountException e) {
-            LOGGER.info(e.toString());
+            LOGGER.log(Level.INFO, "Password request quietly consumed exception: {0}", e.toString());
         }
     }
 

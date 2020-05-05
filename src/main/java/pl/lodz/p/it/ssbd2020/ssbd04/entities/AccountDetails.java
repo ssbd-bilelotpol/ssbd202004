@@ -111,4 +111,15 @@ public class AccountDetails extends AbstractEntity implements Serializable {
     public int hashCode() {
         return email != null ? email.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return "AccountDetails{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                "}";
+    }
 }

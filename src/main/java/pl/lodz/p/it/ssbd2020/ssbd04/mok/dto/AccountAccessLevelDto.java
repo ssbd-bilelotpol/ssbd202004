@@ -75,4 +75,13 @@ public class AccountAccessLevelDto implements Signable {
     public String createMessage() {
         return String.format("%d.%s", version, login);
     }
+
+    @Override
+    public String toString() {
+        return "AccountAccessLevelDto{" +
+                "accessLevels=" + accessLevels +
+                ", login='" + login + '\'' +
+                ", version=" + version +
+                '}';
+    }
 }

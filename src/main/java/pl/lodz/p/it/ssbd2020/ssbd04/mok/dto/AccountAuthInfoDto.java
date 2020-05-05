@@ -48,5 +48,13 @@ public class AccountAuthInfoDto {
         this.lastIpAddress = lastIpAddress;
     }
 
+    @Override
+    public String toString() {
+        return "AccountAuthInfoDto{" +
+                "login='" + login + '\'' +
+                ", lastSuccessAuth=" + lastSuccessAuth +
+                ", lastIpAddress='" + lastIpAddress + '\'' +
+                '}';
+    }
 }
 

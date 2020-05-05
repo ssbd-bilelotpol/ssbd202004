@@ -97,4 +97,15 @@ public class Airport extends AbstractEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(code);
     }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                "}";
+    }
 }

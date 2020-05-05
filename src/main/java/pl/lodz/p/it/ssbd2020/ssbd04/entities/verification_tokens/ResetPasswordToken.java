@@ -24,4 +24,9 @@ public class ResetPasswordToken extends VerificationToken implements Serializabl
     public ResetPasswordToken(UUID id) {
         super(id);
     }
+
+    @Override
+    public String toString() {
+        return "ResetPasswordToken{} " + super.toString();
+    }
 }

@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Informacje o klasie siedzenia i związanymi z nią benefitami
@@ -108,5 +109,16 @@ public class SeatClass extends AbstractEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return "SeatClass{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", benefits=" + benefits.stream().map(Benefit::getName)
+                .collect(Collectors.joining(", ", "[", "]")) +
+                "}";
     }
 }

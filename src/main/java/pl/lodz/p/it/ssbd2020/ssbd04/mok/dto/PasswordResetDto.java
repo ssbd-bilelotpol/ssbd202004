@@ -28,4 +28,11 @@ public class PasswordResetDto {
     public void setToken(String token) {
         this.token = token;
     }
+
+    @Override
+    public String toString() {
+        return "PasswordResetDto{" +
+                "token='" + token + '\'' +
+                '}';
+    }
 }

@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.VerificationTokenService;
@@ -18,6 +19,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
  * i jest granicą transakcji aplikacyjnej dla hierarchii klas Account i AccountAccessLevel.
  */
 
+@Interceptors({TrackingInterceptor.class})
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @PermitAll
 @Stateful

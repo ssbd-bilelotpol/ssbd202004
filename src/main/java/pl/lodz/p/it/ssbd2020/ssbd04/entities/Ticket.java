@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Klasa encyjna odpowiedzialna za przechowywanie informacji o sprzedaży biletu
@@ -48,7 +49,7 @@ public class Ticket extends AbstractEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
             orphanRemoval = true,
             mappedBy = "ticket")
-    private Set<Passenger> passenger = new HashSet<>();
+    private Set<Passenger> passengers = new HashSet<>();
 
     public Ticket() {
     }
@@ -58,7 +59,7 @@ public class Ticket extends AbstractEntity implements Serializable {
         this.flight = flight;
         this.totalPrice = totalPrice;
         this.account = account;
-        this.passenger = passenger;
+        this.passengers = passenger;
     }
 
     public Long getId() {
@@ -93,12 +94,12 @@ public class Ticket extends AbstractEntity implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public Set<Passenger> getPassenger() {
-        return passenger;
+    public Set<Passenger> getPassengers() {
+        return passengers;
     }
 
-    public void setPassenger(Set<Passenger> passenger) {
-        this.passenger = passenger;
+    public void setPassengers(Set<Passenger> passengers) {
+        this.passengers = passengers;
     }
 
     @Override
@@ -109,11 +110,23 @@ public class Ticket extends AbstractEntity implements Serializable {
         return flight.equals(ticket.flight) &&
                 totalPrice.equals(ticket.totalPrice) &&
                 account.equals(ticket.account) &&
-                passenger.equals(ticket.passenger);
+                passengers.equals(ticket.passengers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(flight, totalPrice, account, passenger);
+        return Objects.hash(flight, totalPrice, account, passengers);
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", flight=" + flight.getFlightCode() +
+                ", totalPrice=" + totalPrice +
+                ", accountId=" + account.getId() +
+                ", passengerIds=" + passengers.stream().map(p -> Long.toString(p.getId()))
+                .collect(Collectors.joining(", ", "[", "]")) +
+                "}";
     }
 }

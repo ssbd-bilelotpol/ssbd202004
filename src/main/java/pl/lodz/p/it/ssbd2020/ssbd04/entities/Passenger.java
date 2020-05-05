@@ -131,4 +131,16 @@ public class Passenger extends AbstractEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(firstName, lastName, email, phoneNumber, seat, ticket);
     }
+
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", seatId=" + seat.getId() +
+                "}";
+    }
 }

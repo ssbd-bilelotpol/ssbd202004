@@ -71,4 +71,13 @@ public class Benefit extends AbstractEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(name, description);
     }
+
+    @Override
+    public String toString() {
+        return "Benefit{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                "}";
+    }
 }

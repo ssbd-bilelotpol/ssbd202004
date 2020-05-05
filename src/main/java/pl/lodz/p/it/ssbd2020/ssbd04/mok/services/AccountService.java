@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ClientAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -18,6 +19,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +30,8 @@ import static java.util.Collections.singleton;
 /**
  * Przetwarzanie logiki biznesowej Kont.
  */
+
+@Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed(Role.Admin)

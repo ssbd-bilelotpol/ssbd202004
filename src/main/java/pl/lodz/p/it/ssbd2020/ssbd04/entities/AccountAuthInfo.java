@@ -89,4 +89,13 @@ public class AccountAuthInfo implements Serializable {
     public int hashCode() {
         return getAccount().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "AccountAuthInfo{" +
+                "id=" + id +
+                ", lastSuccessAuth=" + lastSuccessAuth +
+                ", lastIpAddress='" + lastIpAddress +
+                '}';
+    }
 }

@@ -15,4 +15,9 @@ public class ClientAccessLevel extends AccountAccessLevel implements Serializabl
     public String getType() {
         return "client";
     }
+
+    @Override
+    public String toString() {
+        return "ClientAccessLevel{id="+getId()+"}";
+    }
 }

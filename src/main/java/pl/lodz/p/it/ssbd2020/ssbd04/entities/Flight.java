@@ -153,4 +153,17 @@ public class Flight extends AbstractEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(flightCode);
     }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "id=" + id +
+                ", flightCode='" + flightCode + '\'' +
+                ", price=" + price +
+                ", connectionId=" + connection.getId() +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", status=" + status +
+                "}";
+    }
 }

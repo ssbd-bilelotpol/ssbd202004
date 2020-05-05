@@ -88,4 +88,6 @@ public class AirplaneSchema extends AbstractEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(rows, cols, seatList);
     }
+
+    //TODO: Generate toString() once implemented
 }

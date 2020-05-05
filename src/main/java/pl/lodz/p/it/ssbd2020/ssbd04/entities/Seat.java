@@ -103,4 +103,14 @@ public class Seat extends AbstractEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(col, row, seatClass, airplaneSchema);
     }
+
+    @Override
+    public String toString() {
+        return "Seat{" +
+                "id=" + id +
+                ", col=" + col +
+                ", row=" + row +
+                ", seatClass=" + seatClass.getName() +
+                "}";
+    }
 }

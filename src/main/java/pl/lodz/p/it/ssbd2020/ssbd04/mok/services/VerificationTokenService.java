@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.ResetPasswordTo
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.VerificationTokenException;
+import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.VerificationTokenFacade;
 
 import javax.annotation.security.PermitAll;
@@ -18,12 +19,15 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
  * Przetwarzanie logiki biznesowej żetonów weryfikujących.
  */
+
+@Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @PermitAll

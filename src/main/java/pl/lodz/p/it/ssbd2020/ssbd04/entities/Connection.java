@@ -107,4 +107,15 @@ public class Connection extends AbstractEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(destination, source, basePrice);
     }
+
+    @Override
+    public String toString() {
+        return "Connection{" +
+                "id=" + id +
+                ", destination=" + destination.getName() +
+                ", source=" + source.getName() +
+                ", basePrice=" + basePrice +
+                ", profit=" + profit +
+                "}";
+    }
 }

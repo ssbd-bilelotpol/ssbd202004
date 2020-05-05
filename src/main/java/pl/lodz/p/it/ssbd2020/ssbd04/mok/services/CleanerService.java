@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 /**
  * Odpowiada za czyszczenie niepotrzebnych żetonów weryfikujących z bazy danych.
  */
+
 @Startup
 @Singleton
 public class CleanerService {
