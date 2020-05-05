@@ -223,10 +223,14 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>yarn</executable>
+                                    <executable>npm</executable>
                                     <arguments>
                                         <argument>install</argument>
                                     </arguments>
+                                    <environmentVariables>
+                                        <NPM_CONFIG_PREFIX>${project.build.directory}</NPM_CONFIG_PREFIX>
+                                        <NPM_CONFIG_CACHE>$/tmp/ssbd04/</NPM_CONFIG_CACHE>
+                                    </environmentVariables>
                                     <workingDirectory>${frontend.directory}</workingDirectory>
                                 </configuration>
                             </execution>
@@ -237,8 +241,9 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>yarn</executable>
+                                    <executable>npm</executable>
                                     <arguments>
+                                        <argument>run</argument>
                                         <argument>build</argument>
                                     </arguments>
                                     <workingDirectory>${frontend.directory}</workingDirectory>

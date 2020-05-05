@@ -1,8 +1,8 @@
-jwt.secretKey=heksagon
-etag.secretKey=heksagon
+jwt.secretKey=<<JWT_SECRET_KEY>>
+etag.secretKey=<<ETAG_SECRET_KEY>>
 jwt.validity=15
-frontend.url=http://localhost:3000
-mail.apiKey=1234556
-mail.apiServer=https://api.eu.mailgun.net/v3/mg.bilelotpol.pl
-mail.sender=noreply@bilelotpol.pl
+frontend.url=<<FRONTEND_URL>>
+mail.apiKey=<<API_KEY>>
+mail.apiServer=<<API_SERVER>>
+mail.sender=<<SENDER>>
 transaction.retryThreshold=5
