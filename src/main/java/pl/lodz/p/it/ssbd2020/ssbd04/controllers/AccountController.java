@@ -81,9 +81,22 @@ public class AccountController extends AbstractController {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed(Role.Admin)
-    @Path("/auth-report")
+    @Path("/auth-info")
     public List<AccountAuthInfoDto> getAllAccountsAuthInfo() throws AppBaseException {
         return repeat(accountEndpoint, accountEndpoint::getAllAccountsAuthInfo);
+    }
+
+    /**
+     * Zwraca dane o ostatnim uwierzytelnieniu.
+     * @return dane o ostatnim uwierzytelnieniu
+     * @throws AppBaseException
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed({Role.Admin, Role.CustomerService, Role.Manager, Role.Client})
+    @Path("/self/auth-info")
+    public AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException{
+        return repeat(accountEndpoint, accountEndpoint::getAccountAuthInfo);
     }
 
     /**

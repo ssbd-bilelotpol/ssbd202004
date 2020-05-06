@@ -8,6 +8,7 @@ import { changeRoleAction, logoutAction } from '../actions/auth';
 import { urls } from '../constants';
 import Login from './login/Login';
 import Register from './login/Register';
+import LastAuth from './login/LastAuth';
 
 const HeaderSegment = styled(({ clouds, backgroundColor, ...rest }) => <Segment {...rest} />)`
     &&& {
@@ -126,6 +127,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
                                         </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
+                                <LastAuth />
                             </InactiveMenuItem>
                         ) : (
                             <Menu.Item style={{ border: 'none' }} position="right" as="a">

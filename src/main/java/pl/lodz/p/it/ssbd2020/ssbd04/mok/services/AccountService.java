@@ -154,18 +154,37 @@ public class AccountService {
     }
 
     /**
-     * Aktualizuje dane ostatniego uwierzytelnienia z konta.
+     * Aktualizuje dane ostatniego poprawnego uwierzytelnienia z konta.
      *
      * @param login           login użytkownika
      * @param lastIpAddress   adres logiczny użytkownika
-     * @param lastSuccessAuth data ostatniego logowania zakończonego powodzeniem
+     * @param currentAuth     data logowania
      * @throws AppBaseException
      */
     @PermitAll
-    public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime lastSuccessAuth) throws AppBaseException {
+    public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException {
         Account account = accountFacade.findByLogin(login);
         account.getAccountAuthInfo().setLastIpAddress(lastIpAddress);
-        account.getAccountAuthInfo().setLastSuccessAuth(lastSuccessAuth);
+        account.getAccountAuthInfo().setLastSuccessAuth(account.getAccountAuthInfo().getCurrentAuth());
+        account.getAccountAuthInfo().setCurrentAuth(currentAuth);
+
+        accountFacade.edit(account);
+    }
+
+    /**
+     * Aktualizuje dane ostatniego niepoprawnego uwierzytelnienia z konta.
+     * @param login login użytkownika
+     * @param lastIncorrectAuth data logowania
+     */
+    @PermitAll
+    public void updateAuthInfo(String login, LocalDateTime lastIncorrectAuth) throws AppBaseException {
+        Account account;
+        try {
+            account = accountFacade.findByLogin(login);
+        } catch (AccountException e) {
+            return;
+        }
+        account.getAccountAuthInfo().setLastIncorrectAuth(lastIncorrectAuth);
         accountFacade.edit(account);
     }
 }

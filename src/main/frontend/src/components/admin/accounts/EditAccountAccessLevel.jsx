@@ -1,15 +1,14 @@
-import React from 'react';
-import { useParams } from 'react-router';
+import React, { useEffect } from 'react';
 import { Message, Label, Placeholder } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import { editAccountAccessLevels, useAccountAccessLevels } from '../../../api/profile';
 import AccountAccessLevelEditForm from './AccountAccessLevelEditForm';
 
-const EditAccountAccessLevel = () => {
+const EditAccountAccessLevel = ({ etagAccountDetails, login, refetchAccountDetails }) => {
     const { t } = useTranslation();
 
-    const { login } = useParams();
-    const { data, etag, error, loading, refetch } = useAccountAccessLevels(login);
+    const { etag, data, error, loading, refetch } = useAccountAccessLevels(login);
+    useEffect(() => refetch, [etagAccountDetails]);
 
     return (
         <>
@@ -19,7 +18,7 @@ const EditAccountAccessLevel = () => {
                     data={data}
                     loading={loading}
                     onSave={(values) => editAccountAccessLevels(login, values, etag)}
-                    onSuccess={refetch}
+                    onSuccess={refetchAccountDetails}
                 />
             ) : (
                 <Message negative content={t('Failed to retrieve data')} />

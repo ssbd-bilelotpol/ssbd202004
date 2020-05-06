@@ -37,7 +37,9 @@ CREATE TABLE account_auth_info
 (
     id                      bigint                      NOT NULL,
     last_ip_address         character varying(45),
+    current_auth            timestamp without time zone,
     last_success_auth       timestamp without time zone,
+    last_incorrect_auth     timestamp without time zone,
     account_id              bigint                      NOT NULL
 );
 

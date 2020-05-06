@@ -27,8 +27,14 @@ public class AccountAuthInfo implements Serializable {
     @Column(updatable = false)
     private Long id;
 
+    @Column(name = "current_auth")
+    private LocalDateTime currentAuth;
+
     @Column(name = "last_success_auth")
     private LocalDateTime lastSuccessAuth;
+
+    @Column(name = "last_incorrect_auth")
+    private LocalDateTime lastIncorrectAuth;
 
     @Column(name = "last_ip_address", length = 45)
     private String lastIpAddress;
@@ -75,6 +81,22 @@ public class AccountAuthInfo implements Serializable {
         this.account = account;
     }
 
+    public LocalDateTime getLastIncorrectAuth() {
+        return lastIncorrectAuth;
+    }
+
+    public void setLastIncorrectAuth(LocalDateTime lastIncorrectAuth) {
+        this.lastIncorrectAuth = lastIncorrectAuth;
+    }
+
+    public LocalDateTime getCurrentAuth() {
+        return currentAuth;
+    }
+
+    public void setCurrentAuth(LocalDateTime currentAuth) {
+        this.currentAuth = currentAuth;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,7 +116,9 @@ public class AccountAuthInfo implements Serializable {
     public String toString() {
         return "AccountAuthInfo{" +
                 "id=" + id +
+                ", lastSuccessAuth=" + currentAuth +
                 ", lastSuccessAuth=" + lastSuccessAuth +
+                ", lastSuccessAuth=" + lastIncorrectAuth +
                 ", lastIpAddress='" + lastIpAddress +
                 '}';
     }

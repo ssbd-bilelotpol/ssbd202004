@@ -44,8 +44,8 @@ const AccountAuthReport = () => {
                                 <Table.Cell>{user.login}</Table.Cell>
                                 <Table.Cell>{user.lastIpAddress}</Table.Cell>
                                 <Table.Cell>
-                                    {user.lastSuccessAuth &&
-                                        new Date(user.lastSuccessAuth).toLocaleString()}
+                                    {user.currentAuth &&
+                                        new Date(user.currentAuth).toLocaleString()}
                                 </Table.Cell>
                             </Table.Row>
                         ))}

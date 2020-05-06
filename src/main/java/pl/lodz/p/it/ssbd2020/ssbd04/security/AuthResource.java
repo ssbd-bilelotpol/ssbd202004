@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.INVALID;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
@@ -61,6 +62,7 @@ public class AuthResource {
     public Response auth(LoginData loginData) throws AppBaseException {
         CredentialValidationResult result = identityStoreHandler.validate(loginData.toCredential());
         if (result.getStatus() != VALID) {
+            accountEndpoint.updateAuthInfo(loginData.username, LocalDateTime.now());
             return Response
                     .status(UNAUTHORIZED)
                     .entity(new ErrorResponse(AUTH_INCORRECT_LOGIN_OR_PASSWORD))

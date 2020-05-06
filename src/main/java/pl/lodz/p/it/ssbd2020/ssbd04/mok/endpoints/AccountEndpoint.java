@@ -189,15 +189,25 @@ public class AccountEndpoint extends AbstractEndpoint {
     }
 
     /**
-     * Aktualizuje dane o ostatnim uwierzytelnieniu użytkownika
+     * Aktualizuje dane o ostatnim poprawnym uwierzytelnieniu użytkownika
      *
      * @param login           login użytkownika
      * @param lastIpAddress   adres ip
-     * @param lastSuccessAuth data logowania
+     * @param currentAuth data logowania
      * @throws AppBaseException
      */
-    public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime lastSuccessAuth) throws AppBaseException {
-        accountService.updateAuthInfo(login, lastIpAddress, lastSuccessAuth);
+    public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException {
+        accountService.updateAuthInfo(login, lastIpAddress, currentAuth);
+    }
+
+    /**
+     * Aktualizuje dane o ostatnim niepoprawnym uwierzytelnieniu użytkownika
+     *
+     * @param username          login użytkownika
+     * @param lastIncorrectAuth data logowania
+     */
+    public void updateAuthInfo(String username, LocalDateTime lastIncorrectAuth) throws AppBaseException {
+        accountService.updateAuthInfo(username, lastIncorrectAuth);
     }
 
     /**
@@ -209,8 +219,19 @@ public class AccountEndpoint extends AbstractEndpoint {
     public List<AccountAuthInfoDto> getAllAccountsAuthInfo() {
         return accountService.getAll().stream()
                 .map(a -> new AccountAuthInfoDto(a.getLogin(),
-                        a.getAccountAuthInfo().getLastSuccessAuth(),
+                        a.getAccountAuthInfo().getCurrentAuth(),
                         a.getAccountAuthInfo().getLastIpAddress())).collect(Collectors.toList());
+    }
+
+    /**
+     * Zwraca dane z ostatniego uwierzytelniania dla konta
+     * @return
+     */
+    @RolesAllowed({Role.Admin, Role.CustomerService, Role.Manager, Role.Client})
+    public AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException {
+        Account account = auth.currentUser();
+        return new AccountAuthInfoDto(account.getAccountAuthInfo().getLastSuccessAuth(),
+                account.getAccountAuthInfo().getLastIncorrectAuth());
     }
 
     /**
@@ -250,5 +271,4 @@ public class AccountEndpoint extends AbstractEndpoint {
 
         accountService.changePassword(account, password);
     }
-
 }

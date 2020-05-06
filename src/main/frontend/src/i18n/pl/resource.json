@@ -75,5 +75,7 @@
     "List flights": "Lista lotów",
     "Add flight": "Dodaj lot",
     "List planes": "Lista samolotów",
-    "Add plane": "Dodaj samolot"
+    "Add plane": "Dodaj samolot",
+    "Last correct login": "Ostatnie poprawne logowanie",
+    "Last incorrect login": "Ostatnie niepoprawne logowanie"
 }

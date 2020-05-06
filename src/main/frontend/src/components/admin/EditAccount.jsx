@@ -35,10 +35,9 @@ const EditAccount = () => {
                     </ContentCard>
                     <ContentCard fluid>
                         <EditAccountAccessLevel
-                            etag={etag}
-                            refetch={refetch}
+                            etagAccountDetails={etag}
+                            refetchAccountDetails={refetch}
                             login={login}
-                            loading={loading}
                         />
                     </ContentCard>
                     <ContentCard fluid>

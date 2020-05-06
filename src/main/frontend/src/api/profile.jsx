@@ -5,6 +5,10 @@ export const useCurrentAccountDetails = () => {
     return useGet('/accounts/self');
 };
 
+export const useCurrentAccountAuthInfo = () => {
+    return useGet('/accounts/self/auth-info');
+};
+
 export const editCurrentAccountDetails = (details, etag) => put('/accounts/self', details, etag);
 
 export const useAccountDetails = (login) => {
