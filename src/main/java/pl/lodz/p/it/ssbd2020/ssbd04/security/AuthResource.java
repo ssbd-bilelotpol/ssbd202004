@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
@@ -20,9 +21,9 @@ import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.INVALID;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GroupRoleMapper;
 
@@ -68,7 +69,14 @@ public class AuthResource {
                     .entity(new ErrorResponse(AUTH_INCORRECT_LOGIN_OR_PASSWORD))
                     .build();
         }
-        accountEndpoint.updateAuthInfo(loginData.username, httpServletRequest.getRemoteAddr(), LocalDateTime.now());
+        try {
+            accountEndpoint.updateAuthInfo(loginData.username, httpServletRequest.getRemoteAddr(), LocalDateTime.now());
+        } catch (AccountException e) {
+            return Response
+                    .status(FORBIDDEN)
+                    .entity(new ErrorResponse(e.getMessage()))
+                    .build();
+        }
         return Response.ok().entity(jwtProvider.create(result)).build();
     }
 

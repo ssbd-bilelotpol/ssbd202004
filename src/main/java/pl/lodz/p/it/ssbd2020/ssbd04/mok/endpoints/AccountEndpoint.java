@@ -148,10 +148,10 @@ public class AccountEndpoint extends AbstractEndpoint {
 
     /**
      * Wysyła token resetujący hasło użytkownika o podanym emailu.
+     * 
      * Użytkownik musi być aktywny, a jego rejestracja potwierdzona.
-     *
-     * @param email e-mail użytkownika
-     * @throws AppBaseException w przypadku niepowodzenia operacji
+     * @param email e-mail użytkownika.
+     * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     public void sendResetPasswordToken(String email) throws AppBaseException {
         Account account = accountService.findByEmail(email);
@@ -165,8 +165,8 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Resetuje hasło za pomocą tokenu resetującego.
      *
-     * @param passwordResetDto token resetujący oraz nowe hasło
-     * @throws AppBaseException w przypadku niepowodzenia operacji
+     * @param passwordResetDto token resetujący oraz nowe hasło.
+     * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     public void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException {
         accountService.resetPassword(passwordResetDto);
@@ -189,11 +189,11 @@ public class AccountEndpoint extends AbstractEndpoint {
     }
 
     /**
-     * Aktualizuje dane o ostatnim poprawnym uwierzytelnieniu użytkownika
+     * Aktualizuje dane o ostatnim poprawnym uwierzytelnieniu użytkownika.
      *
-     * @param login           login użytkownika
-     * @param lastIpAddress   adres ip
-     * @param currentAuth data logowania
+     * @param login           login użytkownika.
+     * @param lastIpAddress   adres ip.
+     * @param currentAuth data logowania.
      * @throws AppBaseException
      */
     public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException {
@@ -201,19 +201,19 @@ public class AccountEndpoint extends AbstractEndpoint {
     }
 
     /**
-     * Aktualizuje dane o ostatnim niepoprawnym uwierzytelnieniu użytkownika
+     * Aktualizuje dane o ostatnim niepoprawnym uwierzytelnieniu użytkownika.
      *
-     * @param username          login użytkownika
-     * @param lastIncorrectAuth data logowania
+     * @param username          login użytkownika.
+     * @param lastIncorrectAuth data logowania.
      */
     public void updateAuthInfo(String username, LocalDateTime lastIncorrectAuth) throws AppBaseException {
-        accountService.updateAuthInfo(username, lastIncorrectAuth);
+            accountService.updateAuthInfo(username, lastIncorrectAuth);
     }
 
     /**
      * Zwraca zbiór wszystkich kont wraz z ich danymi ostatniego uwierzytelniania.
      *
-     * @return dane uwierzytelniania
+     * @return dane uwierzytelniania.
      */
     @RolesAllowed(Role.Admin)
     public List<AccountAuthInfoDto> getAllAccountsAuthInfo() {
@@ -224,7 +224,7 @@ public class AccountEndpoint extends AbstractEndpoint {
     }
 
     /**
-     * Zwraca dane z ostatniego uwierzytelniania dla konta
+     * Zwraca dane z ostatniego uwierzytelniania dla konta.
      * @return
      */
     @RolesAllowed({Role.Admin, Role.CustomerService, Role.Manager, Role.Client})
@@ -254,11 +254,10 @@ public class AccountEndpoint extends AbstractEndpoint {
         accountService.changePassword(account, accountPasswordDto.getNewPassword());
     }
 
-
     /**
      * Zmienia hasło dla podanego użytkonika.
      *
-     * @param login    login konta, dla którego zmieniane jest hasło.
+     * @param login login konta, dla którego zmieniane jest hasło.
      * @param password nowe hasło.
      * @throws AppBaseException jeśli Etag się nie zgadza.
      */
@@ -271,4 +270,17 @@ public class AccountEndpoint extends AbstractEndpoint {
 
         accountService.changePassword(account, password);
     }
+
+    /**
+     * Zmienia status aktywności dla konta o podanym loginie.
+     *
+     * @param login login konta, dla którego zmieniamy status aktywności.
+     * @param active wartość statusu aktywności konta, która ma zostać ustawiona.
+     * @throws AppBaseException gdy nie udało się zmienić statusu aktywności konta.
+     */
+    @RolesAllowed(Role.Admin)
+    public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
+        accountService.changeAccountActiveStatus(login, active);
+    }
+    
 }

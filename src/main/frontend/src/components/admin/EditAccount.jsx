@@ -7,6 +7,7 @@ import { useAccountDetails } from '../../api/profile';
 import ChangeAccountPassword from './accounts/ChangeAccountPassword';
 import EditAccountDetails from './accounts/EditAccountDetails';
 import EditAccountAccessLevel from './accounts/EditAccountAccessLevel';
+import AccountDetails from './accounts/AccountDetails';
 
 const ContentCard = styled(Card)`
     &&& {
@@ -24,6 +25,16 @@ const EditAccount = () => {
         <>
             {!error ? (
                 <>
+                    <ContentCard fluid>
+                        <div>
+                            <AccountDetails
+                                data={data}
+                                etag={etag}
+                                refetch={refetch}
+                                loading={loading}
+                            />
+                        </div>
+                    </ContentCard>
                     <ContentCard fluid>
                         <EditAccountDetails
                             data={data}

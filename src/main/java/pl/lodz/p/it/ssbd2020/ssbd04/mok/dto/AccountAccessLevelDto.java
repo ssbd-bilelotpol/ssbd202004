@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Reprezentuje zbiór poziomów dostępu z dodatkową funkcjonalnością konwersji nazwy poziomu dostępu na jego obiekt
+ * Reprezentuje zbiór poziomów dostępu z dodatkową funkcjonalnością konwersji nazwy poziomu dostępu na jego obiekt.
  */
 public class AccountAccessLevelDto implements Signable {
 

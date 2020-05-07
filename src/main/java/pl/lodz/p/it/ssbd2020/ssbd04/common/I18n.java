@@ -32,7 +32,7 @@ public class I18n {
     public static final String ACCOUNT_NOT_CONFIRMED = "error.account.notConfirmed";
     public static final String ACCOUNT_PASSWORDS_DONT_MATCH = "error.account.passwordsDontMatch";
     public static final String TOKEN_EXPIRED = "error.token.expired";
-
+    public static final String ACCOUNT_BLOCKED = "error.auth.accountBlocked";
     public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
     public static final String ACCOUNT_REGISTRATION = "account.registration";
     public static final String ACCOUNT_PASS_RESET_MAIL_TITLE = "account.passwordReset.mail.title";

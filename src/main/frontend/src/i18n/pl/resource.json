@@ -48,7 +48,6 @@
     "Settings": "Ustawienia",
     "Edit account access level": "Edytuj poziom dostępu konta",
     "Select at least 1 item": "Wybierz co najmniej 1 element",
-    "There are no results matching criteria.": "__STRING_NOT_TRANSLATED__",
     "No such person": "Nie ma takiej osoby",
     "There are no results matching criteria": "Żadne konto nie spełnia podanych wymagań",
     "Password successfully changed": "Hasło pomyślnie zmienione",
@@ -60,6 +59,12 @@
     "This field is required": "To pole jest wymagane",
     "User": "Użytkownik",
     "Edit": "Edytuj",
+    "About account": "Informacje o koncie",
+    "Block account": "Zablokuj konto",
+    "Unblock account": "Odblokuj konto",
+    "Activity": "Aktywność",
+    "Account active": "Konto aktywne",
+    "Account blocked": "Konto zablokowane",
     "IP address": "Adres IP",
     "Date and time": "Data i godzina",
     "Last valid authentication report": "Raport z ostatniego poprawnego uwierzytelnienia",
@@ -77,5 +82,6 @@
     "List planes": "Lista samolotów",
     "Add plane": "Dodaj samolot",
     "Last correct login": "Ostatnie poprawne logowanie",
-    "Last incorrect login": "Ostatnie niepoprawne logowanie"
+    "Last incorrect login": "Ostatnie niepoprawne logowanie",
+    "JSON Web Token expired": "Wygasł JSON Web Token"
 }

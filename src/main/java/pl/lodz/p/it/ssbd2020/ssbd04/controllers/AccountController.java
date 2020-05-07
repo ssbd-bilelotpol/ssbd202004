@@ -41,7 +41,7 @@ public class AccountController extends AbstractController {
     private MessageSigner messageSigner;
 
     /**
-     * Rejestruje nowe konto
+     * Rejestruje nowe konto.
      *
      * @param accountRegisterDto
      * @throws AppBaseException
@@ -88,14 +88,15 @@ public class AccountController extends AbstractController {
 
     /**
      * Zwraca dane o ostatnim uwierzytelnieniu.
-     * @return dane o ostatnim uwierzytelnieniu
+     * 
+     * @return dane o ostatnim uwierzytelnieniu.
      * @throws AppBaseException
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed({Role.Admin, Role.CustomerService, Role.Manager, Role.Client})
     @Path("/self/auth-info")
-    public AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException{
+    public AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException {
         return repeat(accountEndpoint, accountEndpoint::getAccountAuthInfo);
     }
 
@@ -112,10 +113,10 @@ public class AccountController extends AbstractController {
     }
 
     /**
-     * Zwraca dane konta inicjującego żądanie
+     * Zwraca dane konta inicjującego żądanie.
      *
-     * @return konto inicjujące żądanie
-     * @throws AppBaseException gdy nie udało się pobrać danych konta
+     * @return konto inicjujące żądanie.
+     * @throws AppBaseException gdy nie udało się pobrać danych konta.
      */
     @GET
     @Path("/self")
@@ -195,8 +196,8 @@ public class AccountController extends AbstractController {
      * Jeżeli użytkownik o podanym e-mailu istnieje, to wysyła do niego e-mail resetujący hasło.
      * Jeżeli nie istnieje to nic się nie dzieje, a metoda nie wyrzuca z tego powodu wyjątku.
      *
-     * @param email e-mail użytkownika
-     * @throws AppBaseException w przypadku innych błędów niż brak użytkownika z podanym e-mailem
+     * @param email e-mail użytkownika.
+     * @throws AppBaseException w przypadku innych błędów niż brak użytkownika z podanym e-mailem.
      */
     @POST
     @Path("/{email}/password/reset")
@@ -209,10 +210,10 @@ public class AccountController extends AbstractController {
     }
 
     /**
-     * Ustawia nowe hasło dla użytkownika przypisanego do przekazywanego tokenu
+     * Ustawia nowe hasło dla użytkownika przypisanego do przekazywanego tokenu.
      *
-     * @param passwordResetDto nowe hasło oraz token do resetowania
-     * @throws AppBaseException gdy operacja się nie powiedzie
+     * @param passwordResetDto nowe hasło oraz token do resetowania.
+     * @throws AppBaseException gdy operacja się nie powiedzie.
      */
     @POST
     @Path("/password/reset")
@@ -238,7 +239,7 @@ public class AccountController extends AbstractController {
     /**
      * Zmienia hasło dla podanego użytkownika. Zwraca kod 204 jeśli operacja się powiedzie.
      *
-     * @param login              login konta, dla którego zmieniamy hasło.
+     * @param login login konta, dla którego zmieniamy hasło.
      * @param accountPasswordDto obiekt reprezentujący formularz zmiany hasła (atrybut oldPassword może być null).
      * @throws AppBaseException jeśli wartość Etaga nie będzie się zgadzać.
      */
@@ -252,4 +253,20 @@ public class AccountController extends AbstractController {
                 () -> accountEndpoint.changeOtherAccountPassword(login, accountPasswordDto.getNewPassword())
         );
     }
+
+    /**
+     * Zmienia status aktywności dla konta o podanym loginie.
+     *
+     * @param login login konta, dla którego zmieniamy status aktywności.
+     * @param accountBlockDto obiekt reprezentujący formularz zmiany statusu aktywności konta.
+     * @throws AppBaseException gdy nie udało się zmienić statusu aktywności konta.
+     */
+    @PUT
+    @Path("/{login}/active")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed(Role.Admin)
+    public void changeAccountActiveStatus(@NotNull @PathParam("login") String login, @NotNull @Valid AccountBlockDto accountBlockDto) throws AppBaseException {
+        accountEndpoint.changeAccountActiveStatus(login, accountBlockDto.getActive());
+    }
+    
 }

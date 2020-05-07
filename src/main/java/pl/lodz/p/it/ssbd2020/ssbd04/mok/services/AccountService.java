@@ -107,10 +107,10 @@ public class AccountService {
 
     /**
      * Wyszukuje konto na podstawie adresu e-mail.
-     *
-     * @param email e-mail przypisany do konta
-     * @return konto o podanym e-mailu
-     * @throws AppBaseException w przypadku niepowodzenia operacji
+     * 
+     * @param email e-mail przypisany do konta.
+     * @return konto o podanym e-mailu.
+     * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     @PermitAll
     public Account findByEmail(String email) throws AppBaseException {
@@ -128,11 +128,11 @@ public class AccountService {
     }
 
     /**
-     * Zmienia hasło dla konta
-     *
-     * @param account  konto, dla którego zmienione ma zostać hasło
-     * @param password nowe hasło
-     * @throws AppBaseException w przypadku niepowodzenia operacji
+     * Zmienia hasło dla konta.
+     * 
+     * @param account konto, dla którego zmienione ma zostać hasło.
+     * @param password nowe hasło.
+     * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     public void changePassword(Account account, String password) throws AppBaseException {
         account.setPassword(BCrypt.withDefaults().hashToString(12, password.toCharArray()));
@@ -141,9 +141,9 @@ public class AccountService {
 
     /**
      * Sprawdza poprawność tokenu resetującego hasło, usuwa go, a następnie zmienia hasło konta.
-     *
-     * @param passwordResetDto token resetujący i nowe hasło
-     * @throws AppBaseException w przypadku niepowodzenia operacji
+     * 
+     * @param passwordResetDto token resetujący i nowe hasło.
+     * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     @PermitAll
     public void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException {
@@ -159,11 +159,14 @@ public class AccountService {
      * @param login           login użytkownika
      * @param lastIpAddress   adres logiczny użytkownika
      * @param currentAuth     data logowania
-     * @throws AppBaseException
+     * @throws AppBaseException gdy konto ma status nieaktywny.
      */
     @PermitAll
     public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException {
         Account account = accountFacade.findByLogin(login);
+        if (!account.getActive()) {
+            throw AccountException.accountBlocked();
+        }
         account.getAccountAuthInfo().setLastIpAddress(lastIpAddress);
         account.getAccountAuthInfo().setLastSuccessAuth(account.getAccountAuthInfo().getCurrentAuth());
         account.getAccountAuthInfo().setCurrentAuth(currentAuth);
@@ -173,8 +176,9 @@ public class AccountService {
 
     /**
      * Aktualizuje dane ostatniego niepoprawnego uwierzytelnienia z konta.
-     * @param login login użytkownika
-     * @param lastIncorrectAuth data logowania
+     * 
+     * @param login login użytkownika.
+     * @param lastIncorrectAuth data logowania.
      */
     @PermitAll
     public void updateAuthInfo(String login, LocalDateTime lastIncorrectAuth) throws AppBaseException {
@@ -185,6 +189,20 @@ public class AccountService {
             return;
         }
         account.getAccountAuthInfo().setLastIncorrectAuth(lastIncorrectAuth);
+        accountFacade.edit(account);
+    }
+
+    /**
+     * Zmienia status aktywności dla konta o podanym loginie.
+     *
+     * @param login login konta, dla którego zmieniamy status aktywności.
+     * @param active wartość statusu aktywności, która ma zostać ustawiona.
+     * @throws AppBaseException gdy nie udało się zmienić statusu aktywności.
+     */
+    @RolesAllowed(Role.Admin)
+    public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
+        Account account = accountFacade.findByLogin(login);
+        account.setActive(active);
         accountFacade.edit(account);
     }
 }

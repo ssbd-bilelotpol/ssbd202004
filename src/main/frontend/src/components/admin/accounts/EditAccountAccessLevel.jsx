@@ -8,7 +8,7 @@ const EditAccountAccessLevel = ({ etagAccountDetails, login, refetchAccountDetai
     const { t } = useTranslation();
 
     const { etag, data, error, loading, refetch } = useAccountAccessLevels(login);
-    useEffect(() => refetch, [etagAccountDetails]);
+    useEffect(() => refetch, [etagAccountDetails, refetch]);
 
     return (
         <>

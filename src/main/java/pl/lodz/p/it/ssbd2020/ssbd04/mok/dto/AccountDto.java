@@ -31,6 +31,7 @@ public class AccountDto implements Signable {
 
     private Long version;
     private Long detailsVersion;
+    private boolean active;
 
     public AccountDto() {
     }
@@ -43,6 +44,7 @@ public class AccountDto implements Signable {
         this.lastName = account.getAccountDetails().getLastName();
         this.email = account.getAccountDetails().getEmail();
         this.phoneNumber = account.getAccountDetails().getPhoneNumber();
+        this.active = account.getActive();
     }
 
     public String getLogin() {
@@ -84,6 +86,14 @@ public class AccountDto implements Signable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    
+    public boolean getActive() {
+        return active;
+    }
+    
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     @Override
     public String createMessage() {
@@ -100,6 +110,7 @@ public class AccountDto implements Signable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", version=" + version +
                 ", detailsVersion=" + detailsVersion +
+                ", active=" + active +
                 '}';
     }
 }

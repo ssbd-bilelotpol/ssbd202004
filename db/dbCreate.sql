@@ -829,8 +829,7 @@ CREATE VIEW auth_view AS
 SELECT login, password, access_level
 FROM account a
          INNER JOIN account_access_level b on a.id = b.account_id
-WHERE confirm = true
-  and active = true;
+WHERE confirm = true;
 
 ALTER VIEW auth_view OWNER TO ssbd04admin;
 GRANT SELECT ON auth_view TO ssbd04auth;

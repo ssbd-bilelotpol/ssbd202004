@@ -10,6 +10,11 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 public class AccountException extends AppBaseException {
     private final Account account;
 
+    private AccountException(String message) {
+        super(message);
+        this.account = null;
+    }
+
     private AccountException(String message, Throwable cause, Account account) {
         super(message, cause);
         this.account = account;
@@ -31,6 +36,10 @@ public class AccountException extends AppBaseException {
 
     public static AccountException emailExists(Throwable cause, Account account) {
         return new AccountException(ACCOUNT_EMAIL_EXISTS, cause, account);
+    }
+
+    public static AccountException accountBlocked() {
+        return new AccountException(ACCOUNT_BLOCKED);
     }
 
     public static AccountException accountAccessLevelExists(Throwable cause, Account account) {

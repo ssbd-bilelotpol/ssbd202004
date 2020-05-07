@@ -10,6 +10,8 @@ export default {
             [roles.client]: 'Klient',
             [errors.api.connection]: 'Błąd połączenia z serwerem',
             'error.auth.incorrectLoginOrPassword': 'Nieprawidłowy login lub hasło',
+            'error.auth.accountBlocked':
+                'Twoje konto zostało zablokowane. Skontaktuj się z administratorem',
             'error.rest.validation': 'Podano dane w niewłaściwym formacie.',
             'error.database.optimisticLock': 'Dane zostały zmodyfikowane.',
             'error.database.operation':
