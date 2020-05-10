@@ -57,7 +57,7 @@ public class AccountService {
         account.setConfirm(false);
         account.setAccountAccessLevel(singleton(new ClientAccessLevel()));
         account.setAccountDetails(accountDetails);
-        account.setAccountAuthInfo(new AccountAuthInfo(account));
+        account.setAccountAuthInfo(new AccountAuthInfo(account, 0));
         accountFacade.create(account);
         verificationTokenService.sendRegisterToken(account);
     }
@@ -170,12 +170,14 @@ public class AccountService {
         account.getAccountAuthInfo().setLastIpAddress(lastIpAddress);
         account.getAccountAuthInfo().setLastSuccessAuth(account.getAccountAuthInfo().getCurrentAuth());
         account.getAccountAuthInfo().setCurrentAuth(currentAuth);
+        account.getAccountAuthInfo().setIncorrectAuthCount(0);
 
         accountFacade.edit(account);
     }
 
     /**
-     * Aktualizuje dane ostatniego niepoprawnego uwierzytelnienia z konta.
+     * Aktualizuje dane ostatniego niepoprawnego uwierzytelnienia oraz blokuje konto przy trzech niepoprawnych
+     * próbach uwierzytelnienia.
      * 
      * @param login login użytkownika.
      * @param lastIncorrectAuth data logowania.
@@ -189,6 +191,11 @@ public class AccountService {
             return;
         }
         account.getAccountAuthInfo().setLastIncorrectAuth(lastIncorrectAuth);
+        Integer incorrectAuthCount = account.getAccountAuthInfo().getIncorrectAuthCount();
+        if(++incorrectAuthCount >= 3){
+            account.setActive(false);
+        }
+        account.getAccountAuthInfo().setIncorrectAuthCount(incorrectAuthCount);
         accountFacade.edit(account);
     }
 
@@ -203,6 +210,7 @@ public class AccountService {
     public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
         Account account = accountFacade.findByLogin(login);
         account.setActive(active);
+        account.getAccountAuthInfo().setIncorrectAuthCount(0);
         accountFacade.edit(account);
     }
 }

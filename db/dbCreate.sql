@@ -35,12 +35,13 @@ CREATE TABLE account_details
 
 CREATE TABLE account_auth_info
 (
-    id                      bigint                      NOT NULL,
+    id                      bigint                     NOT NULL,
     last_ip_address         character varying(45),
     current_auth            timestamp without time zone,
     last_success_auth       timestamp without time zone,
     last_incorrect_auth     timestamp without time zone,
-    account_id              bigint                      NOT NULL
+    incorrect_auth_count    integer                    NOT NULL,
+    account_id              bigint                     NOT NULL
 );
 
 CREATE SEQUENCE account_seq

@@ -39,6 +39,9 @@ public class AccountAuthInfo implements Serializable {
     @Column(name = "last_ip_address", length = 45)
     private String lastIpAddress;
 
+    @Column(name = "incorrect_auth_count", nullable = false)
+    private Integer incorrectAuthCount;
+
     @NotNull
     @OneToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "account_id", nullable = false, updatable = false, unique = true,
@@ -49,8 +52,9 @@ public class AccountAuthInfo implements Serializable {
     public AccountAuthInfo() {
     }
 
-    public AccountAuthInfo(@NotNull Account account) {
+    public AccountAuthInfo(@NotNull Account account, Integer incorrectAuthCount) {
         this.account = account;
+        this.incorrectAuthCount = incorrectAuthCount;
     }
 
     public Long getId() {
@@ -97,6 +101,14 @@ public class AccountAuthInfo implements Serializable {
         this.currentAuth = currentAuth;
     }
 
+    public Integer getIncorrectAuthCount() {
+        return incorrectAuthCount;
+    }
+
+    public void setIncorrectAuthCount(Integer incorrectAuthCount) {
+        this.incorrectAuthCount = incorrectAuthCount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -120,6 +132,7 @@ public class AccountAuthInfo implements Serializable {
                 ", lastSuccessAuth=" + lastSuccessAuth +
                 ", lastSuccessAuth=" + lastIncorrectAuth +
                 ", lastIpAddress='" + lastIpAddress +
+                ", incorrectAuthCount='" + incorrectAuthCount +
                 '}';
     }
 }
