@@ -25,10 +25,62 @@
         <role-name>CUSTOMER_SERVICE</role-name>
     </security-role>
 
+    <security-role>
+        <role-name>editAccountAccessLevel</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>getAccessLevels</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>retrieveOwnAccountDetails</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>retrieveOtherAccountDetails</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>changeRole</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>editOwnAccountDetails</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>editOtherAccountDetails</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>getAllAccounts</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>getAllAccountsAuthInfo</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>getAccountAuthInfo</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>changeOwnAccountPassword</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>changeOtherAccountPassword</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>changeAccountActiveStatus</role-name>
+    </security-role>
+
     <error-page>
         <location>/exception_handler</location>
     </error-page>
-    
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>API</web-resource-name>

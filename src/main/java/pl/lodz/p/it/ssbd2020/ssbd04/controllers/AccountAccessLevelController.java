@@ -5,9 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -20,7 +18,6 @@ import javax.ws.rs.core.Response;
  * Konwertuje DTO na model biznesowy oraz zajmuje się walidacją danych.
  */
 @Path("/accounts/{login}/access-levels")
-@RolesAllowed(Role.Admin)
 public class AccountAccessLevelController extends AbstractController {
     @Inject
     private AccountEndpoint accountEndpoint;

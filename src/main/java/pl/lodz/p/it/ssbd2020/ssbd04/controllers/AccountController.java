@@ -8,11 +8,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.VUUID;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -30,7 +27,6 @@ import java.util.logging.Logger;
  * Konwertuje DTO na model biznesowy oraz zajmuje się walidacją danych.
  */
 @Path("/accounts")
-@PermitAll
 public class AccountController extends AbstractController {
     private static final Logger LOGGER = Logger.getLogger(AccountController.class.getName());
 
@@ -68,7 +64,6 @@ public class AccountController extends AbstractController {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @RolesAllowed(Role.Admin)
     public List<AccountDto> getAllAccounts() throws AppBaseException {
         return repeat(accountEndpoint, accountEndpoint::getAllAccounts);
     }
@@ -80,7 +75,6 @@ public class AccountController extends AbstractController {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @RolesAllowed(Role.Admin)
     @Path("/auth-info")
     public List<AccountAuthInfoDto> getAllAccountsAuthInfo() throws AppBaseException {
         return repeat(accountEndpoint, accountEndpoint::getAllAccountsAuthInfo);
@@ -94,7 +88,6 @@ public class AccountController extends AbstractController {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @RolesAllowed({Role.Admin, Role.CustomerService, Role.Manager, Role.Client})
     @Path("/self/auth-info")
     public AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException {
         return repeat(accountEndpoint, accountEndpoint::getAccountAuthInfo);
@@ -121,7 +114,6 @@ public class AccountController extends AbstractController {
     @GET
     @Path("/self")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed(Role.Client)
     public Response retrieveOwnAccountDetails() throws AppBaseException {
         AccountDto accountDto = repeat(accountEndpoint, accountEndpoint::retrieveOwnAccountDetails);
         return Response.ok()
@@ -140,7 +132,6 @@ public class AccountController extends AbstractController {
     @GET
     @Path("/{login}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed(Role.Admin)
     public Response retrieveOtherAccountDetails(@PathParam("login") String login) throws AppBaseException {
         AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.retrieveOtherAccountDetails(login));
         return Response.ok()
@@ -161,7 +152,6 @@ public class AccountController extends AbstractController {
     @EtagBinding
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed(Role.Client)
     public Response editOwnAccountDetails(@NotNull @Valid AccountEditDto accountEditDto) throws AppBaseException {
         AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.editOwnAccountDetails(accountEditDto));
         return Response.ok()
@@ -183,7 +173,6 @@ public class AccountController extends AbstractController {
     @EtagBinding
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed(Role.Admin)
     public Response editOtherAccountDetails(@PathParam("login") String login, @NotNull @Valid AccountEditDto accountEditDto) throws AppBaseException {
         AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.editOtherAccountDetails(login, accountEditDto));
         return Response.ok()
@@ -264,7 +253,6 @@ public class AccountController extends AbstractController {
     @PUT
     @Path("/{login}/active")
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed(Role.Admin)
     public void changeAccountActiveStatus(@NotNull @PathParam("login") String login, @NotNull @Valid AccountBlockDto accountBlockDto) throws AppBaseException {
         accountEndpoint.changeAccountActiveStatus(login, accountBlockDto.getActive());
     }

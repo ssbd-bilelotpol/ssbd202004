@@ -11,7 +11,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.VerificationTokenService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -28,6 +27,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
+
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
  * i jest granicą transakcji aplikacyjnej dla hierarchii klas Account i AccountAccessLevel.
@@ -35,7 +36,6 @@ import java.util.stream.Collectors;
 
 @Interceptors({TrackingInterceptor.class})
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-@PermitAll
 @Stateful
 public class AccountEndpoint extends AbstractEndpoint {
 
@@ -48,15 +48,17 @@ public class AccountEndpoint extends AbstractEndpoint {
     @Inject
     private AuthContext auth;
 
+    @PermitAll
     public void register(Account account, AccountDetails accountDetails) throws AppBaseException {
         accountService.register(account, accountDetails);
     }
 
+    @PermitAll
     public void confirm(UUID fromString) throws AppBaseException {
         accountService.confirm(fromString);
     }
 
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(EditAccountAccessLevel)
     public AccountAccessLevelDto editAccountAccessLevel(String login, AccountAccessLevelDto accountAccessLevelDto) throws AppBaseException {
         Account account = accountService.findByLogin(login);
         AccountAccessLevelDto currentAccountAccessLevelDto = new AccountAccessLevelDto(account);
@@ -68,7 +70,7 @@ public class AccountEndpoint extends AbstractEndpoint {
         return new AccountAccessLevelDto(account);
     }
 
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(GetAccessLevels)
     public AccountAccessLevelDto getAccessLevels(String login) throws AppBaseException {
         return new AccountAccessLevelDto(accountService.findByLogin(login));
     }
@@ -79,7 +81,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @return konto inicjujące żądanie.
      * @throws AppBaseException gdy nie udało się pobrać danych konta.
      */
-    @RolesAllowed(Role.Client)
+    @RolesAllowed(RetrieveOwnAccountDetails)
     public AccountDto retrieveOwnAccountDetails() throws AppBaseException {
         return new AccountDto(auth.currentUser());
     }
@@ -91,7 +93,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @return konto wybranego użytkownika.
      * @throws AppBaseException gdy nie udało się pobrać danych konta.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(RetrieveOtherAccountDetails)
     public AccountDto retrieveOtherAccountDetails(String login) throws AppBaseException {
         Account account = accountService.findByLogin(login);
         return new AccountDto(account);
@@ -104,7 +106,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @return konto inicjujące żądanie z uwzględnionymi zmianami danych.
      * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
-    @RolesAllowed(Role.Client)
+    @RolesAllowed(EditOwnAccountDetails)
     public AccountDto editOwnAccountDetails(AccountEditDto accountEditDto) throws AppBaseException {
         Account account = auth.currentUser();
         AccountDto currentAccountDto = new AccountDto(account);
@@ -123,7 +125,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @return wybrane konto z uwzględnionymi zmianami danych.
      * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(EditOtherAccountDetails)
     public AccountDto editOtherAccountDetails(String login, AccountEditDto accountEditDto) throws AppBaseException {
         Account account = accountService.findByLogin(login);
         AccountDto currentAccountDto = new AccountDto(account);
@@ -153,6 +155,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param email e-mail użytkownika.
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
+    @PermitAll
     public void sendResetPasswordToken(String email) throws AppBaseException {
         Account account = accountService.findByEmail(email);
         if (!account.getActive())
@@ -168,6 +171,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param passwordResetDto token resetujący oraz nowe hasło.
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
+    @PermitAll
     public void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException {
         accountService.resetPassword(passwordResetDto);
     }
@@ -177,7 +181,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      *
      * @return lista wszystkich kont wraz z danymi szczegółowymi.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(GetAllAccounts)
     @Produces(MediaType.APPLICATION_JSON)
     public List<AccountDto> getAllAccounts() {
         List<AccountDto> accounts = new ArrayList<>();
@@ -196,6 +200,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param currentAuth data logowania.
      * @throws AppBaseException
      */
+    @PermitAll
     public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException {
         accountService.updateAuthInfo(login, lastIpAddress, currentAuth);
     }
@@ -206,8 +211,9 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param username          login użytkownika.
      * @param lastIncorrectAuth data logowania.
      */
+    @PermitAll
     public void updateAuthInfo(String username, LocalDateTime lastIncorrectAuth) throws AppBaseException {
-            accountService.updateAuthInfo(username, lastIncorrectAuth);
+        accountService.updateAuthInfo(username, lastIncorrectAuth);
     }
 
     /**
@@ -215,7 +221,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      *
      * @return dane uwierzytelniania.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(GetAllAccountsAuthInfo)
     public List<AccountAuthInfoDto> getAllAccountsAuthInfo() {
         return accountService.getAll().stream()
                 .map(a -> new AccountAuthInfoDto(a.getLogin(),
@@ -227,7 +233,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * Zwraca dane z ostatniego uwierzytelniania dla konta.
      * @return
      */
-    @RolesAllowed({Role.Admin, Role.CustomerService, Role.Manager, Role.Client})
+    @RolesAllowed(GetAccountAuthInfo)
     public AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException {
         Account account = auth.currentUser();
         return new AccountAuthInfoDto(account.getAccountAuthInfo().getLastSuccessAuth(),
@@ -240,7 +246,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param accountPasswordDto obiekt który przechowuje nowe i stare hasła podane przez użytkownika.
      * @throws AppBaseException jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
      */
-    @RolesAllowed({Role.Admin, Role.Client, Role.CustomerService, Role.Manager})
+    @RolesAllowed(ChangeOwnAccountPassword)
     public void changeOwnAccountPassword(AccountPasswordDto accountPasswordDto) throws AppBaseException {
         Account account = auth.currentUser();
         AccountDto accountDto = new AccountDto(account);
@@ -261,7 +267,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param password nowe hasło.
      * @throws AppBaseException jeśli Etag się nie zgadza.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(ChangeOtherAccountPassword)
     public void changeOtherAccountPassword(String login, String password) throws AppBaseException {
         Account account = accountService.findByLogin(login);
         AccountDto accountDto = new AccountDto(account);
@@ -278,7 +284,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param active wartość statusu aktywności konta, która ma zostać ustawiona.
      * @throws AppBaseException gdy nie udało się zmienić statusu aktywności konta.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(ChangeAccountActiveStatus)
     public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
         accountService.changeAccountActiveStatus(login, active);
     }

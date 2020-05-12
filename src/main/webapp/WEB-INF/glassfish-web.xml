@@ -1,6 +1,87 @@
 <!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
 <glassfish-web-app>
     <context-root>/</context-root>
+
+    <security-role-mapping>
+        <role-name>editAccountAccessLevel</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getAccessLevels</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>retrieveOwnAccountDetails</role-name>
+        <group-name>admin</group-name>
+        <group-name>manager</group-name>
+        <group-name>client</group-name>
+        <group-name>customerService</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>changeRole</role-name>
+        <group-name>admin</group-name>
+        <group-name>manager</group-name>
+        <group-name>client</group-name>
+        <group-name>customerService</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>retrieveOtherAccountDetails</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>editOwnAccountDetails</role-name>
+        <group-name>admin</group-name>
+        <group-name>manager</group-name>
+        <group-name>client</group-name>
+        <group-name>customerService</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>editOtherAccountDetails</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getAllAccounts</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getAllAccountsAuthInfo</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getAccountAuthInfo</role-name>
+        <group-name>admin</group-name>
+        <group-name>manager</group-name>
+        <group-name>client</group-name>
+        <group-name>customerService</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>changeOwnAccountPassword</role-name>
+        <group-name>admin</group-name>
+        <group-name>manager</group-name>
+        <group-name>client</group-name>
+        <group-name>customerService</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>changeOtherAccountPassword</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>changeAccountActiveStatus</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
+
     <security-role-mapping>
         <role-name>ADMIN</role-name>
         <group-name>admin</group-name>

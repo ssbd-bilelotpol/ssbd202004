@@ -22,9 +22,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
-import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.ChangeRole;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GroupRoleMapper;
 
 @Path("/auth")
@@ -83,7 +84,7 @@ public class AuthResource {
     @POST
     @Path("/change-role/{role}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed({Role.Admin, Role.Manager, Role.Client, Role.CustomerService})
+    @RolesAllowed({ChangeRole})
     public Response changeRole(@PathParam("role") String group) {
         String role = GroupRoleMapper.get(group);
         if (securityContext.isCallerInRole(role)) {

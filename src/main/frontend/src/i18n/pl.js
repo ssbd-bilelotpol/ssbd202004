@@ -9,6 +9,7 @@ export default {
             [roles.customerService]: 'Obsługa klienta',
             [roles.client]: 'Klient',
             [errors.api.connection]: 'Błąd połączenia z serwerem',
+            'error.rest.actionFailed': 'Akcja zakończona niepowodzeniem',
             'error.auth.incorrectLoginOrPassword': 'Nieprawidłowy login lub hasło',
             'error.auth.accountBlocked':
                 'Twoje konto zostało zablokowane. Skontaktuj się z administratorem',

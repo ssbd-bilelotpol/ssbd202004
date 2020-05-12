@@ -11,7 +11,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -26,6 +25,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static java.util.Collections.singleton;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
 
 /**
  * Przetwarzanie logiki biznesowej Kont.
@@ -34,7 +34,6 @@ import static java.util.Collections.singleton;
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-@RolesAllowed(Role.Admin)
 public class AccountService {
 
     @Inject
@@ -80,6 +79,7 @@ public class AccountService {
         return accountFacade.findByLogin(login);
     }
 
+    @RolesAllowed({EditAccountAccessLevel})
     public void editAccountAccessLevel(Account account, Set<AccountAccessLevel> accountAccessLevels) throws AppBaseException {
         account.getAccountAccessLevel().retainAll(accountAccessLevels);
         account.getAccountAccessLevel().addAll(accountAccessLevels);
@@ -94,7 +94,7 @@ public class AccountService {
      * @return konto z uwzględnioną zmianą danych szczegółowych.
      * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
-    @PermitAll
+    @RolesAllowed({EditOwnAccountDetails, EditOtherAccountDetails})
     public Account editAccountDetails(Account account, AccountDetails newDetails) throws AppBaseException {
         AccountDetails currentDetails = account.getAccountDetails();
         currentDetails.setFirstName(newDetails.getFirstName());
@@ -122,7 +122,7 @@ public class AccountService {
      *
      * @return lista wszystkich kont wraz z danymi szczegółowymi.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(GetAllAccounts)
     public List<Account> getAll() {
         return accountFacade.findAll();
     }
@@ -134,6 +134,7 @@ public class AccountService {
      * @param password nowe hasło.
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
+    @RolesAllowed({ChangeOtherAccountPassword, ChangeOwnAccountPassword})
     public void changePassword(Account account, String password) throws AppBaseException {
         account.setPassword(BCrypt.withDefaults().hashToString(12, password.toCharArray()));
         accountFacade.edit(account);
@@ -206,7 +207,7 @@ public class AccountService {
      * @param active wartość statusu aktywności, która ma zostać ustawiona.
      * @throws AppBaseException gdy nie udało się zmienić statusu aktywności.
      */
-    @RolesAllowed(Role.Admin)
+    @RolesAllowed(ChangeAccountActiveStatus)
     public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
         Account account = accountFacade.findByLogin(login);
         account.setActive(active);

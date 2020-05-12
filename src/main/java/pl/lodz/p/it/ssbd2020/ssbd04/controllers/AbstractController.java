@@ -22,7 +22,7 @@ public abstract class AbstractController {
         do {
             try {
                 if (retryCount > 0) {
-                    LOGGER.log(Level.INFO, "Method from class '{0}' is being retried by thread {1}",
+                    LOGGER.log(Level.WARNING, "Method from class: {0} is being retried by thread: {1}",
                             new Object[]{
                                     endpoint.getClass().getSimpleName(),
                                     Thread.currentThread().getName()
@@ -35,6 +35,10 @@ public abstract class AbstractController {
             }
         } while (rollback && ++retryCount <= config.getTransactionRetryThreshold());
 
+        if (retryCount > config.getTransactionRetryThreshold()) {
+            throw AppBaseException.actionFailed();
+        }
+
         return result;
     }
 
@@ -44,7 +48,7 @@ public abstract class AbstractController {
         do {
             try {
                 if (retryCount > 0) {
-                    LOGGER.log(Level.WARNING, "Method from class '{0}' is being retried by thread {1}",
+                    LOGGER.log(Level.WARNING, "Method from class: {0} is being retried by thread: {1}",
                             new Object[]{
                                     endpoint.getClass().getName(),
                                     Thread.currentThread().getName()
@@ -56,6 +60,10 @@ public abstract class AbstractController {
                 rollback = true;
             }
         } while (rollback && ++retryCount <= config.getTransactionRetryThreshold());
+
+        if (retryCount > config.getTransactionRetryThreshold()) {
+            throw AppBaseException.actionFailed();
+        }
     }
 
     @FunctionalInterface

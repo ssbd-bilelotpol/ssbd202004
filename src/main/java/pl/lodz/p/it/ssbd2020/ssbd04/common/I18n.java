@@ -15,6 +15,7 @@ public class I18n {
     public static final String REST_VALIDATION_ERROR = "error.rest.validation";
     public static final String DATABASE_OPTIMISTIC_LOCK = "error.database.optimisticLock";
     public static final String DATABASE_OPERATION = "error.database.operation";
+    public static final String ACTION_FAILED = "error.rest.actionFailed";
     public static final String MESSAGE_SIGNER_OPERATION = "error.messageSigner.operation";
     public static final String ETAG_WRONG_VALUE = "error.request.etagWrongValue";
     public static final String ETAG_NOT_MODIFIED = "error.request.notModified";

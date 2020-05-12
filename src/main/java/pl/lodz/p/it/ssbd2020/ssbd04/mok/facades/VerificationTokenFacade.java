@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationTok
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 
-import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -22,7 +21,6 @@ import java.util.List;
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-@DenyAll
 public class VerificationTokenFacade extends AbstractFacade<VerificationToken> {
 
     @PersistenceContext(unitName = "ssbd04mokPU")
