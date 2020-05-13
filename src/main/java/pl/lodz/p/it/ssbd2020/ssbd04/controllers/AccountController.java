@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.ReCAPTCHAService;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.VUUID;
 
 import javax.inject.Inject;
@@ -36,6 +37,9 @@ public class AccountController extends AbstractController {
     @Inject
     private MessageSigner messageSigner;
 
+    @Inject
+    private ReCAPTCHAService captchaService;
+
     /**
      * Rejestruje nowe konto.
      *
@@ -44,6 +48,8 @@ public class AccountController extends AbstractController {
      */
     @POST
     public void register(@NotNull @Valid AccountRegisterDto accountRegisterDto) throws AppBaseException {
+        captchaService.checkCaptcha(accountRegisterDto.getCaptcha());
+
         Account account = new Account();
         account.setLogin(accountRegisterDto.getLogin());
         account.setPassword(accountRegisterDto.getPassword());
@@ -153,6 +159,8 @@ public class AccountController extends AbstractController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editOwnAccountDetails(@NotNull @Valid AccountEditDto accountEditDto) throws AppBaseException {
+        captchaService.checkCaptcha(accountEditDto.getCaptcha());
+
         AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.editOwnAccountDetails(accountEditDto));
         return Response.ok()
                 .entity(accountDto)
@@ -222,6 +230,8 @@ public class AccountController extends AbstractController {
     @EtagBinding
     @Consumes(MediaType.APPLICATION_JSON)
     public void changeOwnPassword(@NotNull @Valid AccountPasswordDto accountPasswordDto) throws AppBaseException {
+        captchaService.checkCaptcha(accountPasswordDto.getCaptcha());
+
         repeat(accountEndpoint, () -> accountEndpoint.changeOwnAccountPassword(accountPasswordDto));
     }
 

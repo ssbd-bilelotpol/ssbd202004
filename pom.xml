@@ -96,6 +96,7 @@
             <artifactId>unirest-java</artifactId>
             <version>${unirestVer}</version>
         </dependency>
+
     </dependencies>
 
     <build>

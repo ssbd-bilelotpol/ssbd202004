@@ -4,12 +4,13 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Trans, useTranslation } from 'react-i18next';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import AsteriskInput from '../controls/AsteriskInput';
 import { registerApi } from '../../api/auth';
 
 const RegisterSchema = Yup.object().shape({
     login: Yup.string().required().min(3).max(30),
-    password: Yup.string().required().min(1).max(64),
+    password: Yup.string().required().min(8).max(64),
     email: Yup.string().required().email().min(3).max(255),
     firstName: Yup.string().required().min(1).max(30),
     lastName: Yup.string().required().min(1).max(30),
@@ -22,6 +23,7 @@ const RegisterSchema = Yup.object().shape({
 
 const LocalForm = ({ handleSubmit, error }) => {
     const { t } = useTranslation();
+
     return (
         <Formik
             initialValues={{
@@ -175,9 +177,17 @@ const RegisterForm = () => {
     const [registered, setRegistered] = useState(false);
     const makeCancellable = useCancellablePromise();
 
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
     const handleSubmit = async (values) => {
         try {
-            await makeCancellable(registerApi(values));
+            const token = await executeRecaptcha('register');
+            await makeCancellable(
+                registerApi({
+                    ...values,
+                    captcha: token,
+                })
+            );
             setRegistered(true);
         } catch (err) {
             setError(err);

@@ -39,6 +39,9 @@ public class I18n {
     public static final String ACCOUNT_REGISTRATION = "account.registration";
     public static final String ACCOUNT_PASS_RESET_MAIL_TITLE = "account.passwordReset.mail.title";
     public static final String ACCOUNT_PASSWORD_RESET = "account.passwordReset";
+    public static final String CAPTCHA_INVALID = "error.captcha.invalid";
+    public static final String CAPTCHA_FORMAT_INVALID = "error.captcha.format.invalid";
+    public static final String CAPTCHA_CANT_CONNECT = "error.captcha.cantConnect";
 
 
     @Inject

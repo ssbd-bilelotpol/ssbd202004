@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 public class PasswordResetDto {
     @NotNull
-    @Size(min = 1, max = 64)
+    @Size(min = 8, max = 64)
     String password;
     @NotNull
     @VUUID

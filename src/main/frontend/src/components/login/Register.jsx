@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Modal, Segment } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import RegisterForm from './RegisterForm';
 
 const Register = ({ dispatch, ...props }) => {
@@ -15,7 +16,11 @@ const Register = ({ dispatch, ...props }) => {
             </Modal.Header>
             <Modal.Content>
                 <Segment basic>
-                    <RegisterForm />
+                    <GoogleReCaptchaProvider
+                        reCaptchaKey={process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY}
+                    >
+                        <RegisterForm />
+                    </GoogleReCaptchaProvider>
                 </Segment>
             </Modal.Content>
         </Modal>

@@ -16,6 +16,8 @@ public class AccountEditDto {
     @Size(min = 9, max = 15)
     private String phoneNumber;
 
+    private String captcha;
+
     public AccountEditDto() {
     }
 
@@ -41,6 +43,14 @@ public class AccountEditDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
     }
 
     @Override

@@ -11,14 +11,14 @@ const getSettingsSchema = (showOldPassword, t) => {
 
     return Yup.object().shape({
         oldPassword: showOldPassword
-            ? Yup.string().required(requiredString).min(8).max(71)
+            ? Yup.string().required(requiredString).min(8).max(64)
             : Yup.mixed().notRequired(),
-        newPassword: Yup.string().required(requiredString).min(8).max(71),
+        newPassword: Yup.string().required(requiredString).min(8).max(64),
         passwordConfirmation: Yup.string()
             .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
             .required(requiredString)
             .min(8)
-            .max(71),
+            .max(64),
     });
 };
 

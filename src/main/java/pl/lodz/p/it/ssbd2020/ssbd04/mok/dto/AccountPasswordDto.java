@@ -16,6 +16,8 @@ public class AccountPasswordDto {
     @Size(min = 8, max = 64)
     private String newPassword;
 
+    private String captcha;
+
 
     public AccountPasswordDto() {
     }
@@ -34,6 +36,14 @@ public class AccountPasswordDto {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
     }
 
     @Override

@@ -23,6 +23,8 @@ public class Config implements Serializable {
     private static final String MAIL_SENDER = "mail.sender";
     private static final String ETAG_SECRET_KEY = "etag.secretKey";
     private static final String TX_RETRY_THRESHOLD = "transaction.retryThreshold";
+    private static final String GOOGLE_SECRET = "google.secretKey";
+    private static final String GOOGLE_THRESHOLD = "google.threshold";
 
     private final Properties properties = new Properties();
 
@@ -46,6 +48,10 @@ public class Config implements Serializable {
 
     private long getLong(String key) {
         return Long.parseLong(get(key));
+    }
+
+    private float getFloat(String key) {
+        return Float.parseFloat(get(key));
     }
 
     public String getFrontendURL() {
@@ -78,5 +84,13 @@ public class Config implements Serializable {
 
     public Long getTransactionRetryThreshold() {
         return getLong(TX_RETRY_THRESHOLD);
+    }
+
+    public String getGoogleSecret() {
+        return get(GOOGLE_SECRET);
+    }
+
+    public Float getGoogleThreshold() {
+        return getFloat(GOOGLE_THRESHOLD);
     }
 }

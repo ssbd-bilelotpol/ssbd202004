@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { Grid, Menu, Container, Card } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { urls } from '../../constants';
 import Settings from './Settings';
 import ChangePassword from './ChangePassword';
@@ -42,19 +43,23 @@ const UserDashboard = () => {
                 </Grid.Column>
                 <Grid.Column width={13}>
                     <ContentCard fluid>
-                        <Switch>
-                            <Route exact path={urls.pages.user.settings.root}>
-                                <Settings />
-                            </Route>
+                        <GoogleReCaptchaProvider
+                            reCaptchaKey={process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY}
+                        >
+                            <Switch>
+                                <Route exact path={urls.pages.user.settings.root}>
+                                    <Settings />
+                                </Route>
 
-                            <Route path={urls.pages.user.settings.changePassword}>
-                                <ChangePassword />
-                            </Route>
+                                <Route path={urls.pages.user.settings.changePassword}>
+                                    <ChangePassword />
+                                </Route>
 
-                            <Route exact>
-                                <Redirect to={urls.pages.user.settings.root} />
-                            </Route>
-                        </Switch>
+                                <Route exact>
+                                    <Redirect to={urls.pages.user.settings.root} />
+                                </Route>
+                            </Switch>
+                        </GoogleReCaptchaProvider>
                     </ContentCard>
                 </Grid.Column>
             </Grid>

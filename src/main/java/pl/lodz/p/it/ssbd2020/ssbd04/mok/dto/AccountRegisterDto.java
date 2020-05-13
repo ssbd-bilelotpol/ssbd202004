@@ -1,5 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.security.ReCAPTCHA;
+
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,7 +16,7 @@ public class AccountRegisterDto {
     private String login;
 
     @NotNull
-    @Size(min = 1, max = 64)
+    @Size(min = 8, max = 64)
     private String password;
 
     @NotNull
@@ -32,6 +35,17 @@ public class AccountRegisterDto {
     @NotNull
     @Size(min = 9, max = 15)
     private String phoneNumber;
+
+    @NotNull
+    private String captcha;
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
 
     public String getLogin() {
         return login;

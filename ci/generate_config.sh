@@ -17,6 +17,8 @@ FRONTEND_URL=$(escape_string $FRONTEND_URL)
 API_KEY=$(escape_string $bamboo_API_KEY_PASSWORD)
 API_SERVER=$(escape_string $API_SERVER)
 SENDER=$(escape_string $SENDER)
+GOOGLE_SITE_KEY=$(escape_string $GOOGLE_SITE_KEY)
+GOOGLE_SECRET=$(escape_string $bamboo_GOOGLE_SECRET_PASSWORD)
 
 
 sed "
@@ -27,7 +29,10 @@ s/<<molCP_PASSWORD>>/$MOL_PASSWORD/g;
 s/<<authCP_PASSWORD>>/$AUTH_PASSWORD/g
 " ../src/main/webapp/WEB-INF/payara-resources.xml.example > ../src/main/webapp/WEB-INF/payara-resources.xml
 
-sed "s/<<REACT_APP_URL>>/$API_URL/g" ../src/main/frontend/.env.example > ../src/main/frontend/.env
+sed "
+s/<<REACT_APP_URL>>/$API_URL/g;
+s/<<REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY>>/$GOOGLE_SITE_KEY/g;
+" ../src/main/frontend/.env.example > ../src/main/frontend/.env
 
 sed "
 s/<<JWT_SECRET_KEY>>/$JWT_KEY/g;
@@ -36,4 +41,5 @@ s/<<FRONTEND_URL>>/$FRONTEND_URL/g;
 s/<<API_KEY>>/$API_KEY/g;
 s/<<API_SERVER>>/$API_SERVER/g;
 s/<<SENDER>>/$SENDER/g;
+s/<<GOOGLE_SECRET>>/$GOOGLE_SECRET/g
 " ../src/main/resources/config.properties.example  > ../src/main/resources/config.properties
