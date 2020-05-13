@@ -17,8 +17,16 @@ public class AuthContext {
     @Inject
     private SecurityContext securityContext;
 
-    public Account currentUser() throws AppBaseException {
-        return accountService.findByLogin(securityContext.getCallerPrincipal().getName());
+    public Account currentUser() {
+        if (securityContext.getCallerPrincipal() == null) {
+            return null;
+        }
+
+        try {
+            return accountService.findByLogin(securityContext.getCallerPrincipal().getName());
+        } catch (AppBaseException e) {
+            return null;
+        }
     }
 
 }

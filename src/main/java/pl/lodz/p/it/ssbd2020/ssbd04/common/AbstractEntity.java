@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.common;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
  * Abstrakcyjna encja pozwalająca zdefiniować wspólne dane dla wszystkich encji.
  */
 @MappedSuperclass
+@EntityListeners(AuditEntityListener.class)
 public abstract class AbstractEntity {
     @NotNull
     @Column(name = "creation_date_time", nullable = false, updatable = false)
@@ -15,6 +18,14 @@ public abstract class AbstractEntity {
 
     @Column(name = "modification_date_time")
     private LocalDateTime modificationDateTime;
+
+    @OneToOne
+    @JoinColumn(name = "created_by", updatable = false)
+    private Account createdBy;
+
+    @OneToOne
+    @JoinColumn(name = "modified_by")
+    private Account modifiedBy;
 
     @Version
     private Long version;
@@ -39,5 +50,21 @@ public abstract class AbstractEntity {
 
     public Long getVersion() {
         return version;
+    }
+
+    public Account getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Account createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Account getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(Account modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 }

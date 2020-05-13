@@ -82,7 +82,7 @@ public class AccountController extends AbstractController {
 
     /**
      * Zwraca dane o ostatnim uwierzytelnieniu.
-     * 
+     *
      * @return dane o ostatnim uwierzytelnieniu.
      * @throws AppBaseException
      */
@@ -228,7 +228,7 @@ public class AccountController extends AbstractController {
     /**
      * Zmienia hasło dla podanego użytkownika. Zwraca kod 204 jeśli operacja się powiedzie.
      *
-     * @param login login konta, dla którego zmieniamy hasło.
+     * @param login              login konta, dla którego zmieniamy hasło.
      * @param accountPasswordDto obiekt reprezentujący formularz zmiany hasła (atrybut oldPassword może być null).
      * @throws AppBaseException jeśli wartość Etaga nie będzie się zgadzać.
      */
@@ -246,7 +246,7 @@ public class AccountController extends AbstractController {
     /**
      * Zmienia status aktywności dla konta o podanym loginie.
      *
-     * @param login login konta, dla którego zmieniamy status aktywności.
+     * @param login           login konta, dla którego zmieniamy status aktywności.
      * @param accountBlockDto obiekt reprezentujący formularz zmiany statusu aktywności konta.
      * @throws AppBaseException gdy nie udało się zmienić statusu aktywności konta.
      */
@@ -256,5 +256,5 @@ public class AccountController extends AbstractController {
     public void changeAccountActiveStatus(@NotNull @PathParam("login") String login, @NotNull @Valid AccountBlockDto accountBlockDto) throws AppBaseException {
         accountEndpoint.changeAccountActiveStatus(login, accountBlockDto.getActive());
     }
-    
+
 }

@@ -164,9 +164,7 @@ public class Account extends AbstractEntity implements Serializable {
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
-                ", active=" + active +
-                ", confirm=" + confirm +
+                ", version=" + getVersion() +
                 '}';
     }
 }

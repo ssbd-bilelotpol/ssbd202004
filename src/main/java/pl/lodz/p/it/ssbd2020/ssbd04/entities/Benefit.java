@@ -76,8 +76,7 @@ public class Benefit extends AbstractEntity implements Serializable {
     public String toString() {
         return "Benefit{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", version=" + getVersion() +
                 "}";
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+>
     <persistence-unit name="ssbd04mokPU" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd04mokDS</jta-data-source>
@@ -26,10 +26,14 @@
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
         </properties>
     </persistence-unit>
-    
+
     <persistence-unit name="ssbd04molPU" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd04molDS</jta-data-source>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Account</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit</class>

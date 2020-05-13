@@ -150,8 +150,9 @@ public class AccountEndpoint extends AbstractEndpoint {
 
     /**
      * Wysyła token resetujący hasło użytkownika o podanym emailu.
-     * 
+     * <p>
      * Użytkownik musi być aktywny, a jego rejestracja potwierdzona.
+     *
      * @param email e-mail użytkownika.
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
@@ -195,9 +196,9 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Aktualizuje dane o ostatnim poprawnym uwierzytelnieniu użytkownika.
      *
-     * @param login           login użytkownika.
-     * @param lastIpAddress   adres ip.
-     * @param currentAuth data logowania.
+     * @param login         login użytkownika.
+     * @param lastIpAddress adres ip.
+     * @param currentAuth   data logowania.
      * @throws AppBaseException
      */
     @PermitAll
@@ -231,6 +232,7 @@ public class AccountEndpoint extends AbstractEndpoint {
 
     /**
      * Zwraca dane z ostatniego uwierzytelniania dla konta.
+     *
      * @return
      */
     @RolesAllowed(GetAccountAuthInfo)
@@ -263,7 +265,7 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Zmienia hasło dla podanego użytkonika.
      *
-     * @param login login konta, dla którego zmieniane jest hasło.
+     * @param login    login konta, dla którego zmieniane jest hasło.
      * @param password nowe hasło.
      * @throws AppBaseException jeśli Etag się nie zgadza.
      */
@@ -280,7 +282,7 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Zmienia status aktywności dla konta o podanym loginie.
      *
-     * @param login login konta, dla którego zmieniamy status aktywności.
+     * @param login  login konta, dla którego zmieniamy status aktywności.
      * @param active wartość statusu aktywności konta, która ma zostać ustawiona.
      * @throws AppBaseException gdy nie udało się zmienić statusu aktywności konta.
      */
@@ -288,5 +290,5 @@ public class AccountEndpoint extends AbstractEndpoint {
     public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
         accountService.changeAccountActiveStatus(login, active);
     }
-    
+
 }

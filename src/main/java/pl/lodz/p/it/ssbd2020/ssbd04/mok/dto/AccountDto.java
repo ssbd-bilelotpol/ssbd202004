@@ -86,11 +86,11 @@ public class AccountDto implements Signable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    
+
     public boolean getActive() {
         return active;
     }
-    
+
     public void setActive(boolean active) {
         this.active = active;
     }

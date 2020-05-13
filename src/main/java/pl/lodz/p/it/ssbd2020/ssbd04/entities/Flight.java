@@ -158,12 +158,7 @@ public class Flight extends AbstractEntity implements Serializable {
     public String toString() {
         return "Flight{" +
                 "id=" + id +
-                ", flightCode='" + flightCode + '\'' +
-                ", price=" + price +
-                ", connectionId=" + connection.getId() +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
-                ", status=" + status +
+                ", version=" + getVersion() +
                 "}";
     }
 }

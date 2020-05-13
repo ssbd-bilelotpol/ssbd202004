@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
+  "homepage": "/",
   "private": true,
   "dependencies": {
     "@rodw95/use-cancelable-promise": "^0.0.2",
@@ -36,7 +37,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn precommit"
+      "pre-commit": "npm run precommit"
     }
   },
   "lint-staged": {

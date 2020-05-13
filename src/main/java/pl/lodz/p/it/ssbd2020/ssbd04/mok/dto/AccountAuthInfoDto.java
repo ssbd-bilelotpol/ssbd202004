@@ -34,7 +34,6 @@ public class AccountAuthInfoDto {
     }
 
 
-
     public String getLogin() {
         return login;
     }
@@ -75,6 +74,7 @@ public class AccountAuthInfoDto {
     public void setCurrentAuth(LocalDateTime currentAuth) {
         this.currentAuth = currentAuth;
     }
+
     @Override
     public String toString() {
         return "AccountAuthInfoDto{" +

@@ -11,7 +11,7 @@ import store from './store';
 
 const Wrapper = () => (
     <Provider store={store}>
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
             <App />
         </Router>
     </Provider>

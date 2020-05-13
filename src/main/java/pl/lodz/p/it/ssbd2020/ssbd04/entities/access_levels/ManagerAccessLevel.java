@@ -18,6 +18,6 @@ public class ManagerAccessLevel extends AccountAccessLevel implements Serializab
 
     @Override
     public String toString() {
-        return "ManagerAccessLevel{id="+getId()+"}";
+        return "ManagerAccessLevel{" + super.toString() + "}";
     }
 }

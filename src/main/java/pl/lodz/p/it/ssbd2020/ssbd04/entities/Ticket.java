@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Klasa encyjna odpowiedzialna za przechowywanie informacji o sprzedaży biletu
@@ -122,11 +121,7 @@ public class Ticket extends AbstractEntity implements Serializable {
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
-                ", flight=" + flight.getFlightCode() +
-                ", totalPrice=" + totalPrice +
-                ", accountId=" + account.getId() +
-                ", passengerIds=" + passengers.stream().map(p -> Long.toString(p.getId()))
-                .collect(Collectors.joining(", ", "[", "]")) +
+                ", version=" + getVersion() +
                 "}";
     }
 }

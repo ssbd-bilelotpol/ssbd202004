@@ -27,6 +27,6 @@ public class ResetPasswordToken extends VerificationToken implements Serializabl
 
     @Override
     public String toString() {
-        return "ResetPasswordToken{} " + super.toString();
+        return "ResetPasswordToken{" + super.toString() + "}";
     }
 }

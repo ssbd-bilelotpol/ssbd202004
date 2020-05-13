@@ -18,6 +18,6 @@ public class AdminAccessLevel extends AccountAccessLevel implements Serializable
 
     @Override
     public String toString() {
-        return "AdminAccessLevel{id="+getId()+"}";
+        return "AdminAccessLevel{" + super.toString() + "}";
     }
 }

@@ -32,8 +32,9 @@ public class AppExceptionHandler extends HttpServlet {
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+        String contextPath = request.getContextPath();
 
-        if (requestUri.equals("/api") || requestUri.startsWith("/api/")) {
+        if (requestUri.equals(contextPath + "/api") || requestUri.startsWith(contextPath + "/api/")) {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
 

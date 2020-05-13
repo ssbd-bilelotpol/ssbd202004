@@ -66,6 +66,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     public Account findByLogin(String login) throws AppBaseException {
         try {
             TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Account.findByLogin", Account.class);
+            accountTypedQuery.setFlushMode(FlushModeType.COMMIT);
             accountTypedQuery.setParameter("login", login);
             return accountTypedQuery.getSingleResult();
         } catch (NoResultException e) {

@@ -23,6 +23,7 @@ export default {
             'error.account.register.alreadyConfirmed': 'Konto zostało już potwierdzone.',
             'error.account.register.mailFailure': 'Nie udało wysłać się e-maila potwierdzającego.',
             'error.account.passwordsDontMatch': 'Niepoprawne hasło',
+            'error.account.passwordIsTheSame': 'Hasło jest takie samo jak poprzednie',
             'error.account.notActive': 'Konto jest nieaktywne',
             'error.token.expired': 'Token wygasł',
             Search: 'Wyszukaj użytkownika',

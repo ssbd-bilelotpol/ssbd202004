@@ -17,7 +17,7 @@ const HeaderSegment = styled(({ clouds, backgroundColor, ...rest }) => <Segment 
         ${(props) =>
             props.clouds
                 ? css`
-                      background: url(/clouds.jpg);
+                      background: url(${process.env.PUBLIC_URL}/clouds.jpg);
                       background-size: cover;
                       background-position-y: ${props.clouds};
                       box-shadow: inset 0px -20px 50px -30px rgba(0, 0, 0, 0.32);
@@ -90,7 +90,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
                 <BorderlessMenu borderless secondary pointing inverted size="large">
                     <Container>
                         <Menu.Item as={Link} to={urls.roles[role] || '/'}>
-                            <Image size="small" src="/logo.svg" />
+                            <Image size="small" src={`${process.env.PUBLIC_URL}/logo.svg`} />
                         </Menu.Item>
                         {menuItems()}
                         {loggedIn ? (

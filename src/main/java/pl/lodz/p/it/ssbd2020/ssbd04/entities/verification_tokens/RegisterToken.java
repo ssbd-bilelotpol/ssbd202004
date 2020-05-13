@@ -27,6 +27,6 @@ public class RegisterToken extends VerificationToken implements Serializable {
 
     @Override
     public String toString() {
-        return "RegisterToken{} " + super.toString();
+        return "RegisterToken{" + super.toString() + "}";
     }
 }

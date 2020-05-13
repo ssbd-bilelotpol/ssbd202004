@@ -54,4 +54,10 @@ public abstract class AccountAccessLevel extends AbstractEntity implements Seria
     public int hashCode() {
         return getType().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", version=" + getVersion();
+    }
 }

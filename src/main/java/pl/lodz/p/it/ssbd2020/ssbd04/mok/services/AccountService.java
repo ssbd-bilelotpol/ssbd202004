@@ -58,7 +58,7 @@ public class AccountService {
         account.setAccountDetails(accountDetails);
         account.setAccountAuthInfo(new AccountAuthInfo(account, 0));
         accountFacade.create(account);
-        verificationTokenService.sendRegisterToken(account);
+//        verificationTokenService.sendRegisterToken(account);
     }
 
     /**
@@ -107,7 +107,7 @@ public class AccountService {
 
     /**
      * Wyszukuje konto na podstawie adresu e-mail.
-     * 
+     *
      * @param email e-mail przypisany do konta.
      * @return konto o podanym e-mailu.
      * @throws AppBaseException w przypadku niepowodzenia operacji.
@@ -129,20 +129,23 @@ public class AccountService {
 
     /**
      * Zmienia hasło dla konta.
-     * 
-     * @param account konto, dla którego zmienione ma zostać hasło.
+     *
+     * @param account  konto, dla którego zmienione ma zostać hasło.
      * @param password nowe hasło.
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     @RolesAllowed({ChangeOtherAccountPassword, ChangeOwnAccountPassword})
     public void changePassword(Account account, String password) throws AppBaseException {
+        if (BCrypt.verifyer().verify(password.toCharArray(), account.getPassword()).verified) {
+            throw AccountException.passwordIsTheSame(account);
+        }
         account.setPassword(BCrypt.withDefaults().hashToString(12, password.toCharArray()));
         accountFacade.edit(account);
     }
 
     /**
      * Sprawdza poprawność tokenu resetującego hasło, usuwa go, a następnie zmienia hasło konta.
-     * 
+     *
      * @param passwordResetDto token resetujący i nowe hasło.
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
@@ -157,9 +160,9 @@ public class AccountService {
     /**
      * Aktualizuje dane ostatniego poprawnego uwierzytelnienia z konta.
      *
-     * @param login           login użytkownika
-     * @param lastIpAddress   adres logiczny użytkownika
-     * @param currentAuth     data logowania
+     * @param login         login użytkownika
+     * @param lastIpAddress adres logiczny użytkownika
+     * @param currentAuth   data logowania
      * @throws AppBaseException gdy konto ma status nieaktywny.
      */
     @PermitAll
@@ -179,8 +182,8 @@ public class AccountService {
     /**
      * Aktualizuje dane ostatniego niepoprawnego uwierzytelnienia oraz blokuje konto przy trzech niepoprawnych
      * próbach uwierzytelnienia.
-     * 
-     * @param login login użytkownika.
+     *
+     * @param login             login użytkownika.
      * @param lastIncorrectAuth data logowania.
      */
     @PermitAll
@@ -193,7 +196,7 @@ public class AccountService {
         }
         account.getAccountAuthInfo().setLastIncorrectAuth(lastIncorrectAuth);
         Integer incorrectAuthCount = account.getAccountAuthInfo().getIncorrectAuthCount();
-        if(++incorrectAuthCount >= 3){
+        if (++incorrectAuthCount >= 3) {
             account.setActive(false);
         }
         account.getAccountAuthInfo().setIncorrectAuthCount(incorrectAuthCount);
@@ -203,7 +206,7 @@ public class AccountService {
     /**
      * Zmienia status aktywności dla konta o podanym loginie.
      *
-     * @param login login konta, dla którego zmieniamy status aktywności.
+     * @param login  login konta, dla którego zmieniamy status aktywności.
      * @param active wartość statusu aktywności, która ma zostać ustawiona.
      * @throws AppBaseException gdy nie udało się zmienić statusu aktywności.
      */

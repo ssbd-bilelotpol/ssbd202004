@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
 import javax.ejb.AfterBegin;
 import javax.ejb.AfterCompletion;
-import javax.ejb.BeforeCompletion;
 import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
 import javax.ws.rs.core.Context;
@@ -48,12 +47,6 @@ public abstract class AbstractEndpoint {
         transactionId = Long.toString(System.currentTimeMillis())
                 + ThreadLocalRandom.current().nextLong(Long.MAX_VALUE);
         LOGGER.log(Level.INFO, "Transaction id={0} started in {1}, identity: {2}",
-                new Object[]{transactionId, this.getClass().getName(), getIdentity()});
-    }
-
-    @BeforeCompletion
-    public void beforeCompletion() {
-        LOGGER.log(Level.INFO, "Transaction id={0} before completion in {1}, identity: {2}",
                 new Object[]{transactionId, this.getClass().getName(), getIdentity()});
     }
 

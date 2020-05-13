@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -20,7 +22,7 @@ import java.time.LocalDateTime;
                 @UniqueConstraint(columnNames = "account_id", name = "account_auth_info_account_id_unique")
         }
 )
-public class AccountAuthInfo implements Serializable {
+public class AccountAuthInfo extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,11 +130,7 @@ public class AccountAuthInfo implements Serializable {
     public String toString() {
         return "AccountAuthInfo{" +
                 "id=" + id +
-                ", lastSuccessAuth=" + currentAuth +
-                ", lastSuccessAuth=" + lastSuccessAuth +
-                ", lastSuccessAuth=" + lastIncorrectAuth +
-                ", lastIpAddress='" + lastIpAddress +
-                ", incorrectAuthCount='" + incorrectAuthCount +
+                ", version=" + getVersion() +
                 '}';
     }
 }

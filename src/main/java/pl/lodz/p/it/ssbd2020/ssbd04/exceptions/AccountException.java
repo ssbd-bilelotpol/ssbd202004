@@ -61,4 +61,8 @@ public class AccountException extends AppBaseException {
     public static AccountException passwordsDontMatch(Account account) {
         return new AccountException(ACCOUNT_PASSWORDS_DONT_MATCH, account);
     }
+
+    public static AppBaseException passwordIsTheSame(Account account) {
+        return new AccountException(ACCOUNT_PASSWORD_IS_THE_SAME, account);
+    }
 }

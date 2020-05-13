@@ -18,6 +18,6 @@ public class CustomerServiceAccessLevel extends AccountAccessLevel implements Se
 
     @Override
     public String toString() {
-        return "CustomerServiceAccessLevel{id="+getId()+"}";
+        return "CustomerServiceAccessLevel{" + super.toString() + "}";
     }
 }

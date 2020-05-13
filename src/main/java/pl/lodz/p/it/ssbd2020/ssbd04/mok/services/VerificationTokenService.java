@@ -106,7 +106,7 @@ public class VerificationTokenService {
      * @throws AppBaseException - jeżeli nie uda się wysłać maila
      */
     public void sendResetPasswordToken(Account account) throws AppBaseException {
-        ResetPasswordToken resetPasswordToken = new ResetPasswordToken(LocalDateTime.now().plusDays(1), account);
+        ResetPasswordToken resetPasswordToken = new ResetPasswordToken(LocalDateTime.now().plusMinutes(10), account);
         verificationTokenFacade.create(resetPasswordToken);
         sendEmail(resetPasswordToken,
                 i18n.getMessage(I18n.ACCOUNT_PASSWORD_RESET),

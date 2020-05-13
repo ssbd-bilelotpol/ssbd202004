@@ -5,10 +5,8 @@ import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class TrackingInterceptor {
     private static final Logger LOGGER = Logger.getLogger(TrackingInterceptor.class.getName());
@@ -20,7 +18,7 @@ public class TrackingInterceptor {
         String result = null;
         try {
             Object returnValue = context.proceed();
-            if(returnValue != null) {
+            if (returnValue != null) {
                 result = String.format("returned a value: %s", returnValue);
             } else {
                 result = "returned no value";
@@ -37,7 +35,7 @@ public class TrackingInterceptor {
 
     private void logAction(InvocationContext context, String result) {
         String params = context.getParameters() == null ? "[]" : Arrays.toString(context.getParameters());
-        LOGGER.log(Level.INFO, "User: {0}, method: {1}, passed parameters: {2}, {3}", new Object[] {
+        LOGGER.log(Level.INFO, "User: {0}, method: {1}, passed parameters: {2}, result: {3}", new Object[]{
                 sessionContext.getCallerPrincipal().toString(),
                 context.getMethod().toGenericString(),
                 params,

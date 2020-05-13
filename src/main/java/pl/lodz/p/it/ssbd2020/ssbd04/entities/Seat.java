@@ -108,9 +108,7 @@ public class Seat extends AbstractEntity implements Serializable {
     public String toString() {
         return "Seat{" +
                 "id=" + id +
-                ", col=" + col +
-                ", row=" + row +
-                ", seatClass=" + seatClass.getName() +
+                ", version=" + getVersion() +
                 "}";
     }
 }

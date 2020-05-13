@@ -136,11 +136,7 @@ public class Passenger extends AbstractEntity implements Serializable {
     public String toString() {
         return "Passenger{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", seatId=" + seat.getId() +
+                ", version=" + getVersion() +
                 "}";
     }
 }

@@ -89,5 +89,11 @@ public class AirplaneSchema extends AbstractEntity implements Serializable {
         return Objects.hash(rows, cols, seatList);
     }
 
-    //TODO: Generate toString() once implemented
+    @Override
+    public String toString() {
+        return "AirplaneSchema{" +
+                "id=" + id +
+                ", version=" + getVersion() +
+                '}';
+    }
 }

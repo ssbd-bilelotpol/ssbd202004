@@ -80,10 +80,9 @@ public abstract class VerificationToken extends AbstractEntity implements Serial
 
     @Override
     public String toString() {
-        return "VerificationToken{" +
-                "id=" + id +
+        return "id=" + id +
+                ", version=" + getVersion() +
                 ", expireDateTime=" + expireDateTime +
-                ", account=" + account +
-                '}';
+                ", account=" + account;
     }
 }

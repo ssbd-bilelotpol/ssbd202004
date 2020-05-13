@@ -8,6 +8,8 @@ CREATE TABLE account
     confirm                boolean                     NOT NULL,
     login                  character varying(30)       NOT NULL,
     password               character varying(60)       NOT NULL,
+    created_by             bigint,
+    modified_by            bigint,
     account_details_id     bigint                      NOT NULL
 );
 
@@ -18,6 +20,8 @@ CREATE TABLE account_access_level
     creation_date_time     timestamp without time zone NOT NULL,
     modification_date_time timestamp without time zone,
     version                bigint,
+    created_by             bigint,
+    modified_by            bigint,
     account_id             bigint                      NOT NULL
 );
 
@@ -30,18 +34,25 @@ CREATE TABLE account_details
     email                  character varying(255)      NOT NULL,
     first_name             character varying(30)       NOT NULL,
     last_name              character varying(30)       NOT NULL,
-    phone_number           character varying(15)       NOT NULL
+    phone_number           character varying(15)       NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 CREATE TABLE account_auth_info
 (
-    id                      bigint                     NOT NULL,
-    last_ip_address         character varying(45),
-    current_auth            timestamp without time zone,
-    last_success_auth       timestamp without time zone,
-    last_incorrect_auth     timestamp without time zone,
-    incorrect_auth_count    integer                    NOT NULL,
-    account_id              bigint                     NOT NULL
+    id                     bigint                      NOT NULL,
+    last_ip_address        character varying(45),
+    current_auth           timestamp without time zone,
+    last_success_auth      timestamp without time zone,
+    last_incorrect_auth    timestamp without time zone,
+    incorrect_auth_count   integer                     NOT NULL,
+    creation_date_time     timestamp without time zone NOT NULL,
+    modification_date_time timestamp without time zone,
+    version                bigint,
+    account_id             bigint                      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 CREATE SEQUENCE account_seq
@@ -87,6 +98,8 @@ CREATE TABLE airplane_schema
     version                bigint,
     cols                   integer                     NOT NULL,
     rows                   integer                     NOT NULL,
+    created_by             bigint,
+    modified_by            bigint,
     CONSTRAINT airplane_schema_cols_check CHECK ((cols >= 1)),
     CONSTRAINT airplane_schema_rows_check CHECK ((rows >= 1))
 );
@@ -110,7 +123,9 @@ CREATE TABLE airport
     city                   character varying(32)       NOT NULL,
     code                   character varying(255)      NOT NULL,
     country                character varying(32)       NOT NULL,
-    name                   character varying(32)       NOT NULL
+    name                   character varying(32)       NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 
@@ -131,7 +146,9 @@ CREATE TABLE benefit
     modification_date_time timestamp without time zone,
     version                bigint,
     description            character varying(255)      NOT NULL,
-    name                   character varying(128)      NOT NULL
+    name                   character varying(128)      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 
@@ -153,7 +170,9 @@ CREATE TABLE connection
     version                bigint,
     base_price             numeric(9, 2)               NOT NULL,
     destination_id         bigint                      NOT NULL,
-    source_id              bigint                      NOT NULL
+    source_id              bigint                      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 CREATE TABLE connection_stats
@@ -185,7 +204,9 @@ CREATE TABLE flight
     start_date_time        timestamp without time zone NOT NULL,
     status                 character varying(64)       NOT NULL,
     airplane_schema_id     bigint                      NOT NULL,
-    connection_id          bigint                      NOT NULL
+    connection_id          bigint                      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 CREATE SEQUENCE flight_seq
@@ -206,7 +227,9 @@ CREATE TABLE passenger
     last_name              character varying(30)       NOT NULL,
     phone_number           character varying(15)       NOT NULL,
     seat_id                bigint                      NOT NULL,
-    ticket_id              bigint                      NOT NULL
+    ticket_id              bigint                      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 CREATE SEQUENCE passenger_seq
@@ -225,7 +248,9 @@ CREATE TABLE seat
     col                    integer                     NOT NULL,
     "row"                  integer                     NOT NULL,
     airplane_schema_id     bigint                      NOT NULL,
-    seat_class_id          bigint                      NOT NULL
+    seat_class_id          bigint                      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 
@@ -236,7 +261,9 @@ CREATE TABLE seat_class
     modification_date_time timestamp without time zone,
     version                bigint,
     name                   character varying(30)       NOT NULL,
-    price                  numeric(9, 2)               NOT NULL
+    price                  numeric(9, 2)               NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 
@@ -274,7 +301,9 @@ CREATE TABLE ticket
     version                bigint,
     total_price            numeric(9, 2)               NOT NULL,
     account_id             bigint                      NOT NULL,
-    flight_id              bigint                      NOT NULL
+    flight_id              bigint                      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 CREATE SEQUENCE ticket_seq
@@ -293,7 +322,9 @@ CREATE TABLE verification_token
     modification_date_time timestamp without time zone,
     version                bigint,
     expire_date_time       timestamp without time zone NOT NULL,
-    account_id             bigint                      NOT NULL
+    account_id             bigint                      NOT NULL,
+    created_by             bigint,
+    modified_by            bigint
 );
 
 -- Constraints Primary Keys
@@ -371,17 +402,41 @@ ALTER TABLE ONLY verification_token
 ALTER TABLE ONLY account
     ADD CONSTRAINT account_account_details_fk FOREIGN KEY (account_details_id) REFERENCES account_details (id);
 
+ALTER TABLE ONLY account
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY account
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
+
 ALTER TABLE ONLY account_access_level
     ADD CONSTRAINT account_account_access_level_fk FOREIGN KEY (account_id) REFERENCES account (id);
 
+ALTER TABLE ONLY account_access_level
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY account_access_level
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
+
 ALTER TABLE ONLY account_auth_info
     ADD CONSTRAINT account_auth_info_account_fk FOREIGN KEY (account_id) REFERENCES account (id);
+
+ALTER TABLE ONLY account_auth_info
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY account_auth_info
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
 
 ALTER TABLE ONLY connection
     ADD CONSTRAINT connection_airport_dst_fk FOREIGN KEY (destination_id) REFERENCES airport (id);
 
 ALTER TABLE ONLY connection
     ADD CONSTRAINT connection_airport_src_fk FOREIGN KEY (source_id) REFERENCES airport (id);
+
+ALTER TABLE ONLY connection
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY connection
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
 
 ALTER TABLE ONLY connection_stats
     ADD CONSTRAINT connection_connection_fk FOREIGN KEY (connection_id) REFERENCES connection (id);
@@ -398,11 +453,23 @@ ALTER TABLE ONLY flight
 ALTER TABLE ONLY flight
     ADD CONSTRAINT flight_connection_fk FOREIGN KEY (connection_id) REFERENCES connection (id);
 
+ALTER TABLE ONLY flight
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY flight
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
+
 ALTER TABLE ONLY passenger
     ADD CONSTRAINT passenger_seat_fk FOREIGN KEY (seat_id) REFERENCES seat (id);
 
 ALTER TABLE ONLY passenger
     ADD CONSTRAINT passenger_ticket_fk FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+
+ALTER TABLE ONLY passenger
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY passenger
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
 
 ALTER TABLE ONLY seat
     ADD CONSTRAINT seat_airplane_schema_fk FOREIGN KEY (airplane_schema_id) REFERENCES airplane_schema (id);
@@ -410,39 +477,85 @@ ALTER TABLE ONLY seat
 ALTER TABLE ONLY seat
     ADD CONSTRAINT seat_seat_class_fk FOREIGN KEY (seat_class_id) REFERENCES seat_class (id);
 
+ALTER TABLE ONLY seat
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY seat
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
+
 ALTER TABLE ONLY ticket
     ADD CONSTRAINT ticket_account_fk FOREIGN KEY (account_id) REFERENCES account (id);
 
 ALTER TABLE ONLY ticket
     ADD CONSTRAINT ticket_flight_fk FOREIGN KEY (flight_id) REFERENCES flight (id);
 
+ALTER TABLE ONLY ticket
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY ticket
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
+
 ALTER TABLE ONLY verification_token
     ADD CONSTRAINT verification_token_account_fk FOREIGN KEY (account_id) REFERENCES account (id);
+
+ALTER TABLE ONLY verification_token
+    ADD CONSTRAINT created_by_fk FOREIGN KEY (created_by) REFERENCES account (id);
+
+ALTER TABLE ONLY verification_token
+    ADD CONSTRAINT modified_by_fk FOREIGN KEY (modified_by) REFERENCES account (id);
 
 
 -- Indexes
 
 CREATE INDEX account_account_details_fk ON account USING btree (account_details_id);
 
+CREATE INDEX account_details_created_by_fk ON account_details USING btree (created_by);
+
+CREATE INDEX account_details_modified_by_fk ON account_details USING btree (modified_by);
+
 CREATE INDEX account_account_access_level_fk ON account_access_level USING btree (account_id);
 
+CREATE INDEX account_access_level_created_by_fk ON account_access_level USING btree (created_by);
+
+CREATE INDEX account_access_level_modified_by_fk ON account_access_level USING btree (modified_by);
+
 CREATE INDEX account_auth_info_account_fk ON account_auth_info USING btree (account_id);
+
+CREATE INDEX account_auth_info_created_by_fk ON account_auth_info USING btree (created_by);
+
+CREATE INDEX account_auth_info_modified_by_fk ON account_auth_info USING btree (modified_by);
 
 CREATE INDEX connection_airport_dst_fk ON connection USING btree (destination_id);
 
 CREATE INDEX connection_airport_src_fk ON connection USING btree (source_id);
 
+CREATE INDEX connection_created_by_fk ON connection USING btree (created_by);
+
+CREATE INDEX connection_modified_by_fk ON connection USING btree (modified_by);
+
 CREATE INDEX flight_airplane_schema_fk ON flight USING btree (airplane_schema_id);
 
 CREATE INDEX flight_connection_fk ON flight USING btree (connection_id);
+
+CREATE INDEX flight_created_by_fk ON flight USING btree (created_by);
+
+CREATE INDEX flight_modified_by_fk ON flight USING btree (modified_by);
 
 CREATE INDEX passenger_seat_fk ON passenger USING btree (seat_id);
 
 CREATE INDEX passenger_ticket_fk ON passenger USING btree (ticket_id);
 
+CREATE INDEX passenger_created_by_fk ON passenger USING btree (created_by);
+
+CREATE INDEX passenger_modified_by_fk ON passenger USING btree (modified_by);
+
 CREATE INDEX seat_airplane_schema_fk ON seat USING btree (airplane_schema_id);
 
 CREATE INDEX seat_seat_class_fk ON seat USING btree (seat_class_id);
+
+CREATE INDEX seat_created_by_fk ON seat USING btree (created_by);
+
+CREATE INDEX seat_modified_by_fk ON seat USING btree (modified_by);
 
 CREATE INDEX benefit_fk ON seat_class_benefits USING btree (benefit_id);
 
@@ -452,7 +565,15 @@ CREATE INDEX ticket_account_fk ON ticket USING btree (account_id);
 
 CREATE INDEX ticket_flight_fk ON ticket USING btree (flight_id);
 
+CREATE INDEX ticket_created_by_fk ON ticket USING btree (created_by);
+
+CREATE INDEX ticket_modified_by_fk ON ticket USING btree (modified_by);
+
 CREATE INDEX verification_token_account_fk ON verification_token USING btree (account_id);
+
+CREATE INDEX verification_token_created_by_fk ON verification_token USING btree (created_by);
+
+CREATE INDEX verification_token_modified_by_fk ON verification_token USING btree (modified_by);
 
 -- AccountDetails
 
@@ -478,6 +599,9 @@ GRANT
 
 GRANT
     SELECT ON account_details_seq TO ssbd04mob;
+
+GRANT
+    SELECT ON account_details_seq TO ssbd04mol;
 
 -- AccountAuthInfo
 
@@ -530,6 +654,9 @@ GRANT
 GRANT
     SELECT ON account_seq TO ssbd04mob;
 
+GRANT
+    SELECT ON account_seq TO ssbd04mol;
+
 -- VerificationToken
 
 ALTER TABLE verification_token
@@ -566,6 +693,9 @@ GRANT
 
 GRANT
     SELECT ON account_access_level_id_seq TO ssbd04mob;
+
+GRANT
+    SELECT ON account_access_level_id_seq TO ssbd04mol;
 
 -- AirplaneSchema
 
