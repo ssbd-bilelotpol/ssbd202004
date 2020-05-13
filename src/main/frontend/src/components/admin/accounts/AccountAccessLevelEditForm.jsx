@@ -90,7 +90,12 @@ const AccountAccessLevelEditForm = ({ onSave, onSuccess, onFail, loading, data }
                                     }
                                 />
                             </Form.Group>
-                            <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                                loading={isSubmitting}
+                                id="saveAccessLevelsButton"
+                            >
                                 {t('Save')}
                             </Button>
                         </Form>

@@ -83,6 +83,7 @@ const LoginForm = () => {
                         content={error && t(error.message)}
                     />
                     <Button
+                        id="loginFormButton"
                         disabled={isSubmitting}
                         type="submit"
                         color="yellow"

@@ -1,0 +1,8 @@
+{
+  "baseUrl": "",
+  "env": {
+    "login": "",
+    "password": "",
+    "backend": ""
+  }
+}

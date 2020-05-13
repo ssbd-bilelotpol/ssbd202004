@@ -58,7 +58,6 @@ public class AccountService {
         account.setAccountDetails(accountDetails);
         account.setAccountAuthInfo(new AccountAuthInfo(account, 0));
         accountFacade.create(account);
-//        verificationTokenService.sendRegisterToken(account);
     }
 
     /**

@@ -103,9 +103,9 @@ local.properties
 derby.log
 .env
 
+/tests/cypress.json
 /src/main/resources/config.dev.properties
 /src/main/resources/config.prod.properties
 /src/main/webapp/WEB-INF/payara-resources.dev.xml
 /src/main/webapp/WEB-INF/payara-resources.prod.xml
 yarn.lock
-package-lock.json

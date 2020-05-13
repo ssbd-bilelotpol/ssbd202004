@@ -122,7 +122,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
                                         <Dropdown.Item as={Link} to={urls.pages.user.settings.root}>
                                             {t('Settings')}
                                         </Dropdown.Item>
-                                        <Dropdown.Item onClick={handleLogout}>
+                                        <Dropdown.Item id="logoutButton" onClick={handleLogout}>
                                             {t('Logout')}
                                         </Dropdown.Item>
                                     </Dropdown.Menu>
@@ -141,7 +141,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
                                 />
                                 <Login
                                     trigger={
-                                        <Button basic inverted>
+                                        <Button basic inverted id="loginButton">
                                             <Icon name="user outline" />
                                             {t('Sign in')}
                                         </Button>
