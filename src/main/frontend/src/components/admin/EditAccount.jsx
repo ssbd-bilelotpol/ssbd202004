@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, Message } from 'semantic-ui-react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAccountDetails } from '../../api/profile';
 import ChangeAccountPassword from './accounts/ChangeAccountPassword';

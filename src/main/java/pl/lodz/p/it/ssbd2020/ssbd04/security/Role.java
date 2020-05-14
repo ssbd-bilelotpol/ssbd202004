@@ -32,4 +32,5 @@ public class Role {
     public static final String ChangeAccountActiveStatus = "changeAccountActiveStatus";
     public static final String RetrieveOtherAccountDetails = "retrieveOtherAccountDetails";
     public static final String ChangeRole = "changeRole";
+    public static final String FindAccountsByName = "findAccountsByName";
 }

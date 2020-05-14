@@ -64,14 +64,16 @@ public class AccountController extends AbstractController {
     }
 
     /**
-     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
+     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi, dla których imię i nazwisko jest zgodne z podaną frazą.
      *
+     * @param name fraza, której poszukujemy. Jeśli name="", to metoda zwraca wszystkie konta.
      * @return lista konta wraz z danymi szczegółowymi.
+     * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public List<AccountDto> getAllAccounts() throws AppBaseException {
-        return repeat(accountEndpoint, accountEndpoint::getAllAccounts);
+    public List<AccountDto> getAccounts(@QueryParam("name") String name) throws AppBaseException {
+        return repeat(accountEndpoint, () -> accountEndpoint.findByName(name));
     }
 
     /**

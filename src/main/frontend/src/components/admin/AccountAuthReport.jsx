@@ -50,21 +50,19 @@ const AccountAuthReport = () => {
                             </Table.Row>
                         ))}
                     {loading &&
-                        [...Array(10)].map(() => (
-                            <>
-                                <Table.Row>
-                                    {[...Array(3)].map(() => (
-                                        <Table.Cell>
-                                            <Placeholder>
-                                                <Placeholder.Paragraph>
-                                                    <Placeholder.Line />
-                                                    <Placeholder.Line />
-                                                </Placeholder.Paragraph>
-                                            </Placeholder>
-                                        </Table.Cell>
-                                    ))}
-                                </Table.Row>
-                            </>
+                        [...Array(10).keys()].map((value) => (
+                            <Table.Row key={value}>
+                                {[...Array(3).keys()].map((value) => (
+                                    <Table.Cell key={value}>
+                                        <Placeholder>
+                                            <Placeholder.Paragraph>
+                                                <Placeholder.Line />
+                                                <Placeholder.Line />
+                                            </Placeholder.Paragraph>
+                                        </Placeholder>
+                                    </Table.Cell>
+                                ))}
+                            </Table.Row>
                         ))}
                 </Table.Body>
             </TableBorder>

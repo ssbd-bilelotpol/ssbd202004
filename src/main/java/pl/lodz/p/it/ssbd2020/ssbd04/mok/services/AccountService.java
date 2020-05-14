@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ClientAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
 
@@ -20,9 +21,11 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.singleton;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
@@ -58,6 +61,7 @@ public class AccountService {
         account.setAccountDetails(accountDetails);
         account.setAccountAuthInfo(new AccountAuthInfo(account, 0));
         accountFacade.create(account);
+        verificationTokenService.sendRegisterToken(account);
     }
 
     /**
@@ -215,5 +219,17 @@ public class AccountService {
         account.setActive(active);
         account.getAccountAuthInfo().setIncorrectAuthCount(0);
         accountFacade.edit(account);
+    }
+
+    /**
+     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi, dla których imię i nazwisko jest zgodne z podaną frazą.
+     *
+     * @param name fraza, której poszukujemy.
+     * @return lista konta wraz z danymi szczegółowymi.
+     * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
+     */
+    @RolesAllowed(FindAccountsByName)
+    public List<AccountDto> findByName(String name) throws AppBaseException {
+        return accountFacade.findByName(name).stream().map(AccountDto::new).collect(Collectors.toList());
     }
 }

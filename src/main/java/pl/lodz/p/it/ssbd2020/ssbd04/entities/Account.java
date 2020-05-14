@@ -20,7 +20,9 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Account.CONSTRAINT_LOGIN;
         @NamedQuery(name = "Account.findByLogin",
                 query = "SELECT account FROM Account account WHERE account.login = :login"),
         @NamedQuery(name = "Account.findByEmail",
-                query = "SELECT account FROM Account account JOIN account.accountDetails ad WHERE ad.email = :email")
+                query = "SELECT account FROM Account account JOIN account.accountDetails ad WHERE ad.email = :email"),
+        @NamedQuery(name = "Account.findByName",
+                query = "SELECT account FROM Account account WHERE LOWER(CONCAT(account.accountDetails.firstName, ' ', account.accountDetails.lastName)) LIKE LOWER(CONCAT('%', :name, '%'))")
 })
 @Entity
 @Table(

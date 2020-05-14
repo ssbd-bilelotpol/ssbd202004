@@ -31,7 +31,7 @@ s/<<authCP_PASSWORD>>/$AUTH_PASSWORD/g
 
 sed "
 s/<<REACT_APP_URL>>/$API_URL/g;
-s/<<REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY>>/$GOOGLE_SITE_KEY/g;
+s/<<GOOGLE_SITE_KEY>>/$GOOGLE_SITE_KEY/g;
 " ../src/main/frontend/.env.example > ../src/main/frontend/.env
 
 sed "

@@ -26,6 +26,7 @@ export default {
             'error.account.passwordIsTheSame': 'Hasło jest takie samo jak poprzednie',
             'error.account.notActive': 'Konto jest nieaktywne',
             'error.token.expired': 'Token wygasł',
+            'error.account.notFound': 'Nie znaleziono żadnego pasującego konta',
             Search: 'Wyszukaj użytkownika',
             ...translations,
         },

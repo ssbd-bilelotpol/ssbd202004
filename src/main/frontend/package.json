@@ -13,6 +13,8 @@
     "i18next": "^19.4.3",
     "i18next-browser-languagedetector": "^4.1.1",
     "jwt-decode": "^2.2.0",
+    "lodash.debounce": "^4.0.8",
+    "path-to-regexp": "^6.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-i18next": "^11.3.5",

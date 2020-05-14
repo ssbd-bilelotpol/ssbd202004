@@ -178,22 +178,6 @@ public class AccountEndpoint extends AbstractEndpoint {
     }
 
     /**
-     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
-     *
-     * @return lista wszystkich kont wraz z danymi szczegółowymi.
-     */
-    @RolesAllowed(GetAllAccounts)
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AccountDto> getAllAccounts() {
-        List<AccountDto> accounts = new ArrayList<>();
-        accountService.getAll().forEach((account) -> {
-            AccountDto accountDto = new AccountDto(account);
-            accounts.add(accountDto);
-        });
-        return accounts;
-    }
-
-    /**
      * Aktualizuje dane o ostatnim poprawnym uwierzytelnieniu użytkownika.
      *
      * @param login         login użytkownika.
@@ -277,6 +261,18 @@ public class AccountEndpoint extends AbstractEndpoint {
         if (!verifyEtag(accountDto)) throw AppBaseException.optimisticLock();
 
         accountService.changePassword(account, password);
+    }
+
+    /**
+     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi, dla których imię i nazwisko jest zgodne z podaną frazą.
+     *
+     * @param name fraza, której poszukujemy. Jeśli name="", to metoda zwraca wszystkie konta.
+     * @return lista kont wraz z danymi szczegółowymi.
+     * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
+     */
+    @RolesAllowed(FindAccountsByName)
+    public List<AccountDto> findByName(String name) throws AppBaseException {
+        return accountService.findByName(name);
     }
 
     /**

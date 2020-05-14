@@ -16,6 +16,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
+import java.util.List;
 
 
 @Interceptors({TrackingInterceptor.class})
@@ -60,6 +61,26 @@ public class AccountFacade extends AbstractFacade<Account> {
     @PermitAll
     public void remove(Account entity) throws AppBaseException {
         super.remove(entity);
+    }
+
+    /**
+     * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi, dla których imię i nazwisko jest zgodne z podaną frazą.
+     *
+     * @param name fraza, której poszukujemy.
+     * @return lista konta wraz z danymi szczegółowymi.
+     * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
+     */
+    @PermitAll
+    public List<Account> findByName(String name) throws AppBaseException {
+        try {
+            TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Account.findByName", Account.class);
+            accountTypedQuery.setParameter("name", name == null ? "" : name);
+            return accountTypedQuery.getResultList();
+        } catch (NoResultException e) {
+            throw AccountException.noExists(e);
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @PermitAll

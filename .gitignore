@@ -109,3 +109,4 @@ derby.log
 /src/main/webapp/WEB-INF/payara-resources.dev.xml
 /src/main/webapp/WEB-INF/payara-resources.prod.xml
 yarn.lock
+package-lock.json

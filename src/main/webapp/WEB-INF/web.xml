@@ -77,6 +77,10 @@
         <role-name>changeAccountActiveStatus</role-name>
     </security-role>
 
+    <security-role>
+        <role-name>findAccountsByName</role-name>
+    </security-role>
+
     <error-page>
         <location>/exception_handler</location>
     </error-page>
