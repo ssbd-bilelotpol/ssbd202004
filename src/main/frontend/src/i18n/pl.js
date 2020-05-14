@@ -28,6 +28,7 @@ export default {
             'error.token.expired': 'Token wygasł',
             'error.mail.failure': 'Błąd serwera email.',
             'error.account.notFound': 'Nie znaleziono żadnego pasującego konta',
+            'rest.processingError': 'Błąd poczas przetwarzania żądania',
             ...translations,
         },
     },

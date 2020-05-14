@@ -36,7 +36,7 @@ public class CleanerService {
     @Schedule
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void clearVerificationTokens(Timer timer) {
-        LOGGER.log(Level.INFO, "Clearing VerificationToken " + timer.getInfo().toString());
+        LOGGER.log(Level.INFO, "Clearing VerificationToken {0}", timer.getInfo().toString());
         try {
             verificationTokenFacade.findExpiredBefore(LocalDateTime.now()).forEach(this::removeToken);
         } catch (AppBaseException e) {
@@ -47,13 +47,13 @@ public class CleanerService {
     private void removeToken(VerificationToken verificationToken) {
         try {
             verificationTokenFacade.remove(verificationToken);
-            LOGGER.log(Level.INFO, "Removed token " + verificationToken.toString());
+            LOGGER.log(Level.INFO, "Removed token {0}", verificationToken.toString());
             if (verificationToken instanceof RegisterToken) {
                 accountFacade.remove(verificationToken.getAccount());
                 LOGGER.log(Level.INFO, "Removed account connected to RegisterToken", verificationToken.getAccount());
             }
         } catch (AppBaseException e) {
-            LOGGER.log(Level.WARNING, "Failed to remove token " + verificationToken.toString());
+            LOGGER.log(Level.WARNING, "Failed to remove token {0}", verificationToken.toString());
         }
     }
 }

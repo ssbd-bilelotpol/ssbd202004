@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -24,7 +26,7 @@ import java.util.logging.Logger;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
-import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.ChangeRole;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GroupRoleMapper;
 
@@ -78,6 +80,11 @@ public class AuthResource {
                     .entity(new ErrorResponse(e.getMessage()))
                     .build();
         }
+        LOGGER.log(Level.INFO, "User {0} logged in with IP {1}",
+                new Object[]{loginData.username, httpServletRequest.getRemoteAddr()});
+        if (result.getCallerGroups().contains("admin")) {
+            accountEndpoint.notifyAboutAdminLogin(loginData.username, httpServletRequest.getRemoteAddr());
+        }
         return Response.ok().entity(jwtProvider.create(result)).build();
     }
 
@@ -88,10 +95,12 @@ public class AuthResource {
     public Response changeRole(@PathParam("role") String group) {
         String role = GroupRoleMapper.get(group);
         if (securityContext.isCallerInRole(role)) {
-            LOGGER.log(Level.INFO, "User " + securityContext.getCallerPrincipal().getName() + " changed role to " + role);
+            LOGGER.log(Level.INFO, "User {0} with IP {1} changed role to {2}",
+                    new Object[]{securityContext.getCallerPrincipal().getName(), httpServletRequest.getRemoteAddr(), role});
             return Response.ok().build();
         } else {
-            LOGGER.log(Level.WARNING, "User " + securityContext.getCallerPrincipal().getName() + " tried changing role to " + role);
+            LOGGER.log(Level.WARNING, "User {0} with IP {1} tried changing role to {2}",
+                    new Object[]{securityContext.getCallerPrincipal().getName(), httpServletRequest.getRemoteAddr(), role});
             return Response.status(UNAUTHORIZED).build();
         }
     }

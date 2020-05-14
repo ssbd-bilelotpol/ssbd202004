@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
@@ -11,6 +12,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.VerificationTokenService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
+import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
 
 /**
@@ -46,7 +49,13 @@ public class AccountEndpoint extends AbstractEndpoint {
     private VerificationTokenService tokenService;
 
     @Inject
+    private EmailService emailService;
+
+    @Inject
     private AuthContext auth;
+
+    @Inject
+    private I18n i18n;
 
     @PermitAll
     public void register(Account account, AccountDetails accountDetails) throws AppBaseException {
@@ -285,6 +294,20 @@ public class AccountEndpoint extends AbstractEndpoint {
     @RolesAllowed(ChangeAccountActiveStatus)
     public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
         accountService.changeAccountActiveStatus(login, active);
+    }
+
+    /**
+     * Powiadamia użytkownika o roli administratora o logowaniu na jego konto.
+     * @param login login konta, dla którego chcemy wysłać e-mail.
+     * @param remoteIP adres IP, z którego nastąpiło logowanie
+     * @throws AppBaseException w przypadku gdy nie udało się wysłać maila.
+     */
+    @PermitAll
+    public void notifyAboutAdminLogin(String login, String remoteIP) throws AppBaseException {
+        emailService.sendEmail(this.retrieveOtherAccountDetails(login).getEmail(),
+                i18n.getMessage(ACCOUNT_ADMIN_LOGIN_SENDER),
+                i18n.getMessage(ACCOUNT_ADMIN_LOGIN_TITLE),
+                i18n.getMessage(ACCOUNT_ADMIN_LOGIN_CONTENT) + remoteIP);
     }
 
 }

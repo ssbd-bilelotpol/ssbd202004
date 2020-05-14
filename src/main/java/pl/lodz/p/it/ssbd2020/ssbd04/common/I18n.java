@@ -51,6 +51,11 @@ public class I18n {
     public static final String ACCOUNT_UNBLOCKED_MAIL_TITLE = "account.unblock.mail.title";
     public static final String ACCOUNT_UNBLOCKED_MAIL_CONTENT = "account.unblock.mail.content";
     public static final String ACCOUNT_PASSWORD_RESET = "account.passwordReset";
+    public static final String ACCOUNT_ADMIN_LOGIN_TITLE = "account.adminLogin.title";
+    public static final String ACCOUNT_ADMIN_LOGIN_SENDER = "account.adminLogin.sender";
+    public static final String ACCOUNT_ADMIN_LOGIN_CONTENT = "account.adminLogin.content";
+
+    public static final String PROCESSING_ERROR = "rest.processingError";
 
 
 
