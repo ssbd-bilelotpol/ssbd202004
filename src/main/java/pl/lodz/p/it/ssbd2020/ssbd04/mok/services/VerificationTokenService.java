@@ -1,8 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.services;
 
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
@@ -13,6 +10,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.VerificationTokenException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.VerificationTokenFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
@@ -41,19 +39,26 @@ public class VerificationTokenService {
     @Inject
     private I18n i18n;
 
+    @Inject
+    private EmailService emailService;
+
     /**
      * Tworzy nowy żeton potwierdzenia rejestracji i wysyła go na e-mail odpowiadający kontu.
      *
-     * @param account
-     * @throws AppBaseException
+     * @param account nowo zarejestrowane konto
+     * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     public void sendRegisterToken(Account account) throws AppBaseException {
         RegisterToken registerToken = new RegisterToken(LocalDateTime.now().plusDays(1), account);
         verificationTokenFacade.create(registerToken);
-        sendEmail(registerToken,
-                i18n.getMessage(I18n.ACCOUNT_REGISTRATION),
-                i18n.getMessage(I18n.ACCOUNT_REGISTER_MAIL_TITLE),
-                String.format("%s/confirm/%s", config.getFrontendURL(), registerToken.getId().toString()));
+        try {
+            emailService.sendEmail(account.getAccountDetails().getEmail(),
+                    i18n.getMessage(I18n.ACCOUNT_REGISTRATION_MAIL_SENDER),
+                    i18n.getMessage(I18n.ACCOUNT_REGISTER_MAIL_TITLE),
+                    String.format("%s/confirm/%s", config.getFrontendURL(), registerToken.getId().toString()));
+        } catch(AppBaseException e) {
+            throw VerificationTokenException.mailFailure(registerToken);
+        }
     }
 
     /**
@@ -62,8 +67,8 @@ public class VerificationTokenService {
      * by nie tworzyć okienka pomiędzy punktem kiedy wygasł, a kiedy zostanie usunięty.
      * Usuwanie jest dokonywane przez CleanerService.
      *
-     * @param tokenId
-     * @return
+     * @param tokenId token potwierdzający
+     * @return zarejestrowane konto
      * @throws AppBaseException gdy token wygasł, bądź konto zostało już potwierdzone.
      */
     public Account confirmRegistration(UUID tokenId) throws AppBaseException {
@@ -83,7 +88,7 @@ public class VerificationTokenService {
      * Sprawdza poprawność tokenu resetującego hasło. Jeżeli istnieje, jest poprawnego typu i nie wygasł,
      * zwraca powiązane z nim konto i usuwa go z bazy.
      *
-     * @param tokenId token
+     * @param tokenId token resetujący
      * @return konto powiązane z tokenem
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -108,33 +113,14 @@ public class VerificationTokenService {
     public void sendResetPasswordToken(Account account) throws AppBaseException {
         ResetPasswordToken resetPasswordToken = new ResetPasswordToken(LocalDateTime.now().plusMinutes(10), account);
         verificationTokenFacade.create(resetPasswordToken);
-        sendEmail(resetPasswordToken,
-                i18n.getMessage(I18n.ACCOUNT_PASSWORD_RESET),
-                i18n.getMessage(I18n.ACCOUNT_PASS_RESET_MAIL_TITLE),
-                String.format("%s/resetPassword/%s", config.getFrontendURL(), resetPasswordToken.getId().toString()));
-    }
-
-    /**
-     * Wysyła e-mail weryfikujący wykonywane akcje
-     *
-     * @param token      token weryfikujący
-     * @param senderName nazwa nadawcy (nie jest to adres e-mail)
-     * @param subject    temat wiadomości
-     * @param message    treść wiadomości
-     * @throws AppBaseException w przypadku niepowodzenia operacji
-     */
-    private void sendEmail(VerificationToken token, String senderName, String subject, String message) throws AppBaseException {
-        //TODO: disable in dev? mock server maybe?
-        HttpResponse<JsonNode> request = Unirest.post(config.getApiServer() + "/messages")
-                .basicAuth("api", config.getMailApiKey())
-                .queryString("from", String.format("%s <%s>", senderName, config.getMailSender()))
-                .queryString("to", token.getAccount().getAccountDetails().getEmail())
-                .queryString("subject", subject)
-                .queryString("text", message)
-                .asJson();
-
-        if (request.getStatus() != 200) {
-            throw VerificationTokenException.mailFailure(token);
+        try {
+            emailService.sendEmail(account.getAccountDetails().getEmail(),
+                    i18n.getMessage(I18n.ACCOUNT_PASSWORD_RESET_MAIL_SENDER),
+                    i18n.getMessage(I18n.ACCOUNT_PASS_RESET_MAIL_TITLE),
+                    String.format("%s/resetPassword/%s", config.getFrontendURL(), resetPasswordToken.getId().toString()));
+        } catch(AppBaseException e) {
+            throw VerificationTokenException.mailFailure(resetPasswordToken);
         }
     }
+
 }

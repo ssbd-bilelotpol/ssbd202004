@@ -28,20 +28,30 @@ public class I18n {
     public static final String ACCOUNT_EMAIL_EXISTS = "error.account.emailExists";
     public static final String ACCOUNT_REGISTER_INVALID_TOKEN = "error.account.register.invalidToken";
     public static final String ACCOUNT_REGISTER_ALREADY_CONFIRMED = "error.account.register.alreadyConfirmed";
-    public static final String ACCOUNT_REGISTER_MAIL_FAILURE = "error.account.register.mailFailure";
     public static final String ACCOUNT_NOT_ACTIVE = "error.account.notActive";
     public static final String ACCOUNT_NOT_CONFIRMED = "error.account.notConfirmed";
     public static final String ACCOUNT_PASSWORDS_DONT_MATCH = "error.account.passwordsDontMatch";
     public static final String ACCOUNT_PASSWORD_IS_THE_SAME = "error.account.passwordIsTheSame";
     public static final String TOKEN_EXPIRED = "error.token.expired";
+    public static final String TOKEN_MAIL_FAILURE = "error.token.mailFailure";
     public static final String ACCOUNT_BLOCKED = "error.auth.accountBlocked";
-    public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
-    public static final String ACCOUNT_REGISTRATION = "account.registration";
-    public static final String ACCOUNT_PASS_RESET_MAIL_TITLE = "account.passwordReset.mail.title";
-    public static final String ACCOUNT_PASSWORD_RESET = "account.passwordReset";
+    public static final String EMAIL_FAILURE = "error.mail.failure";
     public static final String CAPTCHA_INVALID = "error.captcha.invalid";
     public static final String CAPTCHA_FORMAT_INVALID = "error.captcha.format.invalid";
     public static final String CAPTCHA_CANT_CONNECT = "error.captcha.cantConnect";
+
+    public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
+    public static final String ACCOUNT_REGISTRATION_MAIL_SENDER = "account.registration";
+    public static final String ACCOUNT_PASS_RESET_MAIL_TITLE = "account.passwordReset.mail.title";
+    public static final String ACCOUNT_PASSWORD_RESET_MAIL_SENDER = "account.passwordReset";
+    public static final String ACCOUNT_BLOCKED_MAIL_SENDER = "account.block";
+    public static final String ACCOUNT_BLOCKED_MAIL_TITLE = "account.block.mail.title";
+    public static final String ACCOUNT_BLOCKED_MAIL_CONTENT = "account.block.mail.content";
+    public static final String ACCOUNT_UNBLOCKED_MAIL_SENDER = "account.unblock";
+    public static final String ACCOUNT_UNBLOCKED_MAIL_TITLE = "account.unblock.mail.title";
+    public static final String ACCOUNT_UNBLOCKED_MAIL_CONTENT = "account.unblock.mail.content";
+    public static final String ACCOUNT_PASSWORD_RESET = "account.passwordReset";
+
 
 
     @Inject

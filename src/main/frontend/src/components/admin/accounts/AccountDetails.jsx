@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Checkbox, Placeholder, Table, Message } from 'semantic-ui-react';
+import { Label, Checkbox, Placeholder, Table, Message, Loader } from 'semantic-ui-react';
 import styled from 'styled-components';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { changeAccountActiveState } from '../../../api/accounts';
@@ -56,17 +56,25 @@ const AboutTable = ({ data }) => {
 const AccountDetails = ({ data, refetch, etag, loading }) => {
     const { t } = useTranslation();
     const makeCancellable = useCancellablePromise();
-    const { active } = data;
     const [error, setError] = useState();
+    const [toggleLoading, setToggleLoading] = useState(false);
+    const [toggled, setToggled] = useState(data.active);
 
     const changeActiveState = async (_, { checked }) => {
+        setToggleLoading(true);
         try {
             await makeCancellable(changeAccountActiveState(data.login, { active: checked }, etag));
             refetch();
+            setToggled(checked);
         } catch (e) {
             setError(e);
+            setToggled(data.active);
+        } finally {
+            setToggleLoading(false);
         }
     };
+
+    useEffect(() => setToggled(data.active), [data]);
 
     return (
         <>
@@ -88,16 +96,24 @@ const AccountDetails = ({ data, refetch, etag, loading }) => {
                     <AboutTable data={data} />
                     <StyledCheckbox
                         toggle
-                        label={active ? t('Account active') : t('Account blocked')}
-                        checked={active}
+                        label={toggled ? t('Account active') : t('Account blocked')}
+                        checked={toggled !== toggleLoading}
                         onChange={changeActiveState}
                         size="small"
+                        disabled={toggleLoading}
                     />
+                    {toggleLoading && <ToggleLoader active inline size="mini" />}
                     {error && <Message error content={error && t(error.message)} />}
                 </>
             )}
         </>
     );
 };
+
+const ToggleLoader = styled(Loader)`
+    &&& {
+        margin-left: 0.5em;
+    }
+`;
 
 export default AccountDetails;

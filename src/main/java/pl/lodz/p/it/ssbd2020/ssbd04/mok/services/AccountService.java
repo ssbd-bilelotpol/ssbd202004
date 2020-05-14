@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.services;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
@@ -12,6 +13,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.PasswordResetDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.facades.AccountFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -21,7 +23,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -44,6 +45,12 @@ public class AccountService {
 
     @Inject
     private VerificationTokenService verificationTokenService;
+
+    @Inject
+    private EmailService emailService;
+
+    @Inject
+    private I18n i18n;
 
     /**
      * Rejestruje konto, przypisując do niego dane personalne i wysyła żeton potwierdzający na e-mail.
@@ -201,6 +208,7 @@ public class AccountService {
         Integer incorrectAuthCount = account.getAccountAuthInfo().getIncorrectAuthCount();
         if (++incorrectAuthCount >= 3) {
             account.setActive(false);
+            sendActiveStatusChangedEmail(account, false);
         }
         account.getAccountAuthInfo().setIncorrectAuthCount(incorrectAuthCount);
         accountFacade.edit(account);
@@ -218,7 +226,18 @@ public class AccountService {
         Account account = accountFacade.findByLogin(login);
         account.setActive(active);
         account.getAccountAuthInfo().setIncorrectAuthCount(0);
+        sendActiveStatusChangedEmail(account, active);
         accountFacade.edit(account);
+    }
+
+    private void sendActiveStatusChangedEmail(Account account, boolean active) throws AppBaseException {
+        String emailSubject = active ? I18n.ACCOUNT_UNBLOCKED_MAIL_TITLE : I18n.ACCOUNT_BLOCKED_MAIL_TITLE;
+        String emailSender = active ? I18n.ACCOUNT_UNBLOCKED_MAIL_SENDER : I18n.ACCOUNT_BLOCKED_MAIL_SENDER;
+        String message = active ? I18n.ACCOUNT_UNBLOCKED_MAIL_CONTENT : I18n.ACCOUNT_BLOCKED_MAIL_CONTENT;
+        emailService.sendTransactionalEmail(account.getAccountDetails().getEmail(),
+                i18n.getMessage(emailSender),
+                i18n.getMessage(emailSubject),
+                i18n.getMessage(message));
     }
 
     /**

@@ -34,4 +34,8 @@ public class AppBaseException extends Exception {
     public static AppBaseException actionFailed() {
         return new AppBaseException(ACTION_FAILED);
     }
+
+    public static AppBaseException emailError() {
+        return new AppBaseException(EMAIL_FAILURE);
+    }
 }
