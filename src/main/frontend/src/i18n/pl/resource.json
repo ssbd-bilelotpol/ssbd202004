@@ -83,5 +83,22 @@
     "Add plane": "Dodaj samolot",
     "Last correct login": "Ostatnie poprawne logowanie",
     "Last incorrect login": "Ostatnie niepoprawne logowanie",
-    "JSON Web Token expired": "Wygasł JSON Web Token"
+    "JSON Web Token expired": "Wygasł JSON Web Token",
+    "Accounts": "Konta",
+    "Reservations": "Rezerwacje",
+    "Airports": "Lotniska",
+    "Relations": "Relacje",
+    "Flights": "Loty",
+    "Planes": "Samoloty",
+    "Change Password": "Zmień hasło",
+    "About": "Informacje",
+    "Dashboard": "Kokpit",
+    "field_invalid": "Nieprawidłowa wartość pola",
+    "field_required": "Pole jest wymagane",
+    "incorrect_email": "Nieprawidłowy email",
+    "field_too_short": "Musi składać się z co najmniej {{min}} znaków",
+    "field_too_long": "Może składać się z co najwyżej {{max}} znaków",
+    "phone_number_only_numbers": "Numer telefonu może składać się wyłącznie z cyfr",
+    "must_match": "Oba hasła muszą być identyczne",
+    "access_levels_too_short": "Musisz wybrać co najmniej 1 poziom dostępu"
 }

@@ -44,57 +44,54 @@ const AdminDashboard = () => {
                 <Grid.Column width={3}>
                     <ShadowMenu vertical>
                         <Menu.Item>
-                            <Menu.Header>Accounts</Menu.Header>
+                            <Menu.Header>{t('Accounts')}</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item
-                                    name={t('List accounts')}
-                                    as={NavLink}
-                                    to={urls.pages.admin.accounts.list}
-                                />
-                                <Menu.Item
-                                    name={t('Accounts auth report')}
-                                    as={NavLink}
-                                    to={urls.pages.admin.accounts.authReport}
-                                />
+                                <Menu.Item as={NavLink} to={urls.pages.admin.accounts.list}>
+                                    {t('List accounts')}
+                                </Menu.Item>
+                                <Menu.Item as={NavLink} to={urls.pages.admin.accounts.authReport}>
+                                    {t('Accounts auth report')}
+                                </Menu.Item>
                             </Menu.Menu>
                         </Menu.Item>
 
                         <Menu.Item>
-                            <Menu.Header>Reservations</Menu.Header>
+                            <Menu.Header>{t('Reservations')}</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item name={t('List reservations')} />
-                                <Menu.Item name={t('Generate report')} />
+                                <Menu.Item>{t('List reservations')}</Menu.Item>
+                                <Menu.Item>{t('Generate report')}</Menu.Item>
                             </Menu.Menu>
                         </Menu.Item>
 
                         <Menu.Item>
-                            <Menu.Header>Airports</Menu.Header>
+                            <Menu.Header>{t('Airports')}</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item name={t('List airports')} />
-                                <Menu.Item name={t('Add airport')} />
+                                <Menu.Item>{t('List airports')}</Menu.Item>
+                                <Menu.Item>{t('Add airport')}</Menu.Item>
                             </Menu.Menu>
                         </Menu.Item>
 
                         <Menu.Item>
-                            <Menu.Header>Relations</Menu.Header>
+                            <Menu.Header>{t('Relations')}</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item name={t('List relations')} />
-                                <Menu.Item name={t('Add relation')} />
+                                <Menu.Item>{t('List relations')}</Menu.Item>
+                                <Menu.Item>{t('Add relation')}</Menu.Item>
                             </Menu.Menu>
                         </Menu.Item>
 
                         <Menu.Item>
-                            <Menu.Header>Flights</Menu.Header>
+                            <Menu.Header>{t('Flights')}</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item name={t('List flights')} />
-                                <Menu.Item name={t('Add flight')} />
+                                <Menu.Item>{t('List flights')}</Menu.Item>
+                                <Menu.Item>{t('Add flight')}</Menu.Item>
                             </Menu.Menu>
                         </Menu.Item>
+
                         <Menu.Item>
-                            <Menu.Header>Planes</Menu.Header>
+                            <Menu.Header>{t('Planes')}</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item name={t('List planes')} />
-                                <Menu.Item name={t('Add plane')} />
+                                <Menu.Item>{t('List planes')}</Menu.Item>
+                                <Menu.Item>{t('Add plane')}</Menu.Item>
                             </Menu.Menu>
                         </Menu.Item>
                     </ShadowMenu>
@@ -104,11 +101,13 @@ const AdminDashboard = () => {
                         <Route path={urls.pages.admin.accounts.edit}>
                             <EditAccount />
                         </Route>
+
                         <Route path={urls.pages.admin.accounts.list}>
                             <ContentCard fluid>
                                 <FilterableUsersTable />
                             </ContentCard>
                         </Route>
+
                         <Route path={urls.pages.admin.accounts.authReport}>
                             <ContentCard fluid>
                                 <AccountAuthReport />

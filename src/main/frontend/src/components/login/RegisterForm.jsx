@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
 import { Button, Form, Message } from 'semantic-ui-react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Trans, useTranslation } from 'react-i18next';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import AsteriskInput from '../controls/AsteriskInput';
 import { registerApi } from '../../api/auth';
-
-const RegisterSchema = Yup.object().shape({
-    login: Yup.string().required().min(3).max(30),
-    password: Yup.string().required().min(8).max(64),
-    email: Yup.string().required().email().min(3).max(255),
-    firstName: Yup.string().required().min(1).max(30),
-    lastName: Yup.string().required().min(1).max(30),
-    phoneNumber: Yup.string()
-        .required()
-        .min(9)
-        .max(15)
-        .matches(/\+?[0-9]+/),
-});
+import { RegisterSchema } from '../../yup';
 
 const LocalForm = ({ handleSubmit, error }) => {
     const { t } = useTranslation();
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+
+        return t(msg);
+    };
 
     return (
         <Formik
             initialValues={{
                 login: '',
                 password: '',
+                passwordConfirmation: '',
                 email: '',
                 firstName: '',
                 lastName: '',
@@ -60,7 +56,7 @@ const LocalForm = ({ handleSubmit, error }) => {
                         error={
                             touched.login &&
                             errors.login && {
-                                content: errors.login,
+                                content: translate(errors.login),
                                 pointing: 'below',
                             }
                         }
@@ -79,7 +75,26 @@ const LocalForm = ({ handleSubmit, error }) => {
                         error={
                             touched.password &&
                             errors.password && {
-                                content: errors.password,
+                                content: translate(errors.password),
+                                pointing: 'below',
+                            }
+                        }
+                    />
+                    <Form.Input
+                        name="passwordConfirmation"
+                        type="password"
+                        icon="lock"
+                        fluid
+                        iconPosition="left"
+                        placeholder={t('Confirm password')}
+                        control={AsteriskInput}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.passwordConfirmation}
+                        error={
+                            touched.passwordConfirmation &&
+                            errors.passwordConfirmation && {
+                                content: translate(errors.passwordConfirmation),
                                 pointing: 'below',
                             }
                         }
@@ -98,7 +113,7 @@ const LocalForm = ({ handleSubmit, error }) => {
                         error={
                             touched.email &&
                             errors.email && {
-                                content: errors.email,
+                                content: translate(errors.email),
                                 pointing: 'below',
                             }
                         }
@@ -114,7 +129,7 @@ const LocalForm = ({ handleSubmit, error }) => {
                         error={
                             touched.firstName &&
                             errors.firstName && {
-                                content: errors.firstName,
+                                content: translate(errors.firstName),
                                 pointing: 'below',
                             }
                         }
@@ -130,7 +145,7 @@ const LocalForm = ({ handleSubmit, error }) => {
                         error={
                             touched.lastName &&
                             errors.lastName && {
-                                content: errors.lastName,
+                                content: translate(errors.lastName),
                                 pointing: 'below',
                             }
                         }
@@ -146,7 +161,7 @@ const LocalForm = ({ handleSubmit, error }) => {
                         error={
                             touched.phoneNumber &&
                             errors.phoneNumber && {
-                                content: errors.phoneNumber,
+                                content: translate(errors.phoneNumber),
                                 pointing: 'below',
                             }
                         }

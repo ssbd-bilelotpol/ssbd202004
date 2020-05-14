@@ -3,34 +3,26 @@ import { useTranslation } from 'react-i18next';
 import { Message, FormInput, Form, Button, Placeholder } from 'semantic-ui-react';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import AsteriskInput from '../controls/AsteriskInput';
-
-const getSettingsSchema = (showOldPassword, t) => {
-    const requiredString = t('This field is required');
-
-    return Yup.object().shape({
-        oldPassword: showOldPassword
-            ? Yup.string().required(requiredString).min(8).max(64)
-            : Yup.mixed().notRequired(),
-        newPassword: Yup.string().required(requiredString).min(8).max(64),
-        passwordConfirmation: Yup.string()
-            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
-            .required(requiredString)
-            .min(8)
-            .max(64),
-    });
-};
+import { AccountChangePasswordSchema } from '../../yup';
 
 const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPasswordInput }) => {
     const { t } = useTranslation();
 
-    const SettingsSchema = getSettingsSchema(showOldPasswordInput, t);
+    const SettingsSchema = AccountChangePasswordSchema(showOldPasswordInput);
 
     const makeCancellable = useCancellablePromise();
 
     const [savingError, setSavingError] = useState(false);
     const [saved, setSaved] = useState(false);
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+
+        return t(msg);
+    };
 
     const handleSave = async (values) => {
         setSaved(false);
@@ -87,7 +79,7 @@ const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPassword
                                     error={
                                         errors.oldPassword &&
                                         touched.oldPassword && {
-                                            content: errors.oldPassword,
+                                            content: translate(errors.oldPassword),
                                             pointing: 'below',
                                         }
                                     }
@@ -105,7 +97,7 @@ const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPassword
                                 error={
                                     errors.newPassword &&
                                     touched.newPassword && {
-                                        content: errors.newPassword,
+                                        content: translate(errors.newPassword),
                                         pointing: 'below',
                                     }
                                 }
@@ -122,7 +114,7 @@ const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPassword
                                 error={
                                     errors.passwordConfirmation &&
                                     touched.passwordConfirmation && {
-                                        content: errors.passwordConfirmation,
+                                        content: translate(errors.passwordConfirmation),
                                         pointing: 'below',
                                     }
                                 }

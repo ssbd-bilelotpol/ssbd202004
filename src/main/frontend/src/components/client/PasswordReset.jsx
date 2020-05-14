@@ -12,15 +12,10 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AsteriskInput from '../controls/AsteriskInput';
 import { resetPasswordApi } from '../../api/auth';
-
-const PasswordResetSchema = Yup.object().shape({
-    password: Yup.string().required().min(3).max(64),
-    passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
-});
+import { PasswordResetSchema } from '../../yup';
 
 const PasswordReset = () => {
     const { t } = useTranslation();
@@ -47,6 +42,14 @@ const PasswordResetForm = () => {
     const [success, setSuccess] = useState(false);
     const { t } = useTranslation();
     const makeCancellable = useCancellablePromise();
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+
+        return t(msg);
+    };
 
     const handleSubmit = async (values) => {
         try {
@@ -90,7 +93,7 @@ const PasswordResetForm = () => {
                         error={
                             touched.password &&
                             errors.password && {
-                                content: errors.password,
+                                content: translate(errors.password),
                                 pointing: 'below',
                             }
                         }
@@ -109,7 +112,7 @@ const PasswordResetForm = () => {
                         error={
                             touched.passwordConfirmation &&
                             errors.passwordConfirmation && {
-                                content: errors.passwordConfirmation,
+                                content: translate(errors.passwordConfirmation),
                                 pointing: 'below',
                             }
                         }

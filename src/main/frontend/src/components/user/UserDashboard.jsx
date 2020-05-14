@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { Grid, Menu, Container, Card } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { urls } from '../../constants';
 import Settings from './Settings';
@@ -26,6 +27,7 @@ const ContentCard = styled(Card)`
 `;
 
 const UserDashboard = () => {
+    const { t } = useTranslation();
     return (
         <DashboardContainer>
             <Grid>
@@ -33,10 +35,10 @@ const UserDashboard = () => {
                     <ContentCard>
                         <DashboardMenu secondary vertical pointing>
                             <Menu.Item as={NavLink} exact to={urls.pages.user.settings.root}>
-                                Settings
+                                {t('Settings')}
                             </Menu.Item>
                             <Menu.Item as={NavLink} to={urls.pages.user.settings.changePassword}>
-                                Change Password
+                                {t('Change Password')}
                             </Menu.Item>
                         </DashboardMenu>
                     </ContentCard>

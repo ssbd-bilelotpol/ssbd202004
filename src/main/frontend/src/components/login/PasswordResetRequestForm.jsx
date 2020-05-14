@@ -1,21 +1,25 @@
 import { Formik } from 'formik';
 import { Button, Form, Message } from 'semantic-ui-react';
 import React, { useState } from 'react';
-import * as Yup from 'yup';
 import { Trans, useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import AsteriskInput from '../controls/AsteriskInput';
 import { requestPasswordResetApi } from '../../api/auth';
-
-const PasswordResetRequestSchema = Yup.object().shape({
-    email: Yup.string().email().required(),
-});
+import { PasswordResetRequestSchema } from '../../yup';
 
 const PasswordResetRequestForm = () => {
     const { t } = useTranslation();
     const makeCancellable = useCancellablePromise();
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+
+        return t(msg);
+    };
 
     const handleSubmit = async (values) => {
         try {
@@ -57,7 +61,7 @@ const PasswordResetRequestForm = () => {
                         error={
                             touched.email &&
                             errors.email && {
-                                content: errors.email,
+                                content: translate(errors.email),
                                 pointing: 'below',
                             }
                         }

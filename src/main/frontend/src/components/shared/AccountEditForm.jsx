@@ -1,20 +1,10 @@
-import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import React, { useState } from 'react';
 import { Button, Form, FormInput, Message } from 'semantic-ui-react';
 import { Formik } from 'formik';
 import AsteriskInput from '../controls/AsteriskInput';
-
-const SettingsSchema = Yup.object().shape({
-    firstName: Yup.string().required().min(1).max(30),
-    lastName: Yup.string().required().min(1).max(30),
-    phoneNumber: Yup.string()
-        .required()
-        .min(9)
-        .max(15)
-        .matches(/\+?[0-9]+/),
-});
+import { SettingsSchema } from '../../yup';
 
 const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
     const { t } = useTranslation();
@@ -22,6 +12,14 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
 
     const [savingError, setSavingError] = useState(false);
     const [saved, setSaved] = useState(false);
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+
+        return t(msg);
+    };
 
     const handleSave = async (values) => {
         setSaved(false);
@@ -72,7 +70,7 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
                                 error={
                                     errors.firstName &&
                                     touched.firstName && {
-                                        content: errors.firstName,
+                                        content: translate(errors.firstName),
                                         pointing: 'below',
                                     }
                                 }
@@ -88,7 +86,7 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
                                 error={
                                     errors.lastName &&
                                     touched.lastName && {
-                                        content: errors.lastName,
+                                        content: translate(errors.lastName),
                                         pointing: 'below',
                                     }
                                 }
@@ -104,7 +102,7 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
                                 error={
                                     errors.phoneNumber &&
                                     touched.phoneNumber && {
-                                        content: errors.phoneNumber,
+                                        content: translate(errors.phoneNumber),
                                         pointing: 'below',
                                     }
                                 }

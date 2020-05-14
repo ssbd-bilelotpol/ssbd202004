@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import React, { useState } from 'react';
@@ -6,6 +5,7 @@ import { Button, Form, Message, Segment } from 'semantic-ui-react';
 import { Formik, FieldArray } from 'formik';
 import styled from 'styled-components';
 import { roles, roleColors } from '../../../constants';
+import { AccountAcessLevelEditSchema } from '../../../yup';
 
 const ToggleSegment = styled(({ backgroundColor, ...rest }) => <Segment {...rest} />)`
     &&& {
@@ -17,14 +17,18 @@ const ToggleSegment = styled(({ backgroundColor, ...rest }) => <Segment {...rest
 const AccountAccessLevelEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
     const { t } = useTranslation();
 
-    const SettingsSchema = Yup.object().shape({
-        accessLevels: Yup.array().min(1, t('Select at least 1 item')),
-    });
-
     const makeCancellable = useCancellablePromise();
 
     const [savingError, setSavingError] = useState(false);
     const [saved, setSaved] = useState(false);
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+
+        return t(msg.key);
+    };
 
     const handleSave = async (values) => {
         setSaved(false);
@@ -49,7 +53,7 @@ const AccountAccessLevelEditForm = ({ onSave, onSuccess, onFail, loading, data }
                     initialValues={{
                         accessLevels: data.accessLevels,
                     }}
-                    validationSchema={SettingsSchema}
+                    validationSchema={AccountAcessLevelEditSchema}
                     onSubmit={handleSave}
                 >
                     {({ values, errors, handleSubmit, isSubmitting, handleChange }) => (
@@ -64,8 +68,11 @@ const AccountAccessLevelEditForm = ({ onSave, onSuccess, onFail, loading, data }
                                                     <Form.Checkbox
                                                         id={key}
                                                         error={
-                                                            errors.accessLevels && {
-                                                                content: errors.accessLevels,
+                                                            errors.accessLevels &&
+                                                            !Array.isArray(errors.accessLevels) && {
+                                                                content: translate(
+                                                                    errors.accessLevels
+                                                                ),
                                                                 pointing: 'above',
                                                             }
                                                         }

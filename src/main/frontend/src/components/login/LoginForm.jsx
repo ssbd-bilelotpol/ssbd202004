@@ -1,21 +1,24 @@
 import { Formik } from 'formik';
 import { Button, Form, Message } from 'semantic-ui-react';
 import React from 'react';
-import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { loginAction } from '../../actions/auth';
 import AsteriskInput from '../controls/AsteriskInput';
-
-const LoginSchema = Yup.object().shape({
-    login: Yup.string().required(),
-    password: Yup.string().required(),
-});
+import { LoginSchema } from '../../yup';
 
 const LoginForm = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const error = useSelector((state) => state.auth.error);
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+
+        return t(msg);
+    };
 
     const handleSubmit = async (values) => {
         await dispatch(loginAction(values.login, values.password));
@@ -53,7 +56,7 @@ const LoginForm = () => {
                         error={
                             touched.login &&
                             errors.login && {
-                                content: errors.login,
+                                content: translate(errors.login),
                                 pointing: 'below',
                             }
                         }
@@ -72,7 +75,7 @@ const LoginForm = () => {
                         error={
                             touched.password &&
                             errors.password && {
-                                content: errors.password,
+                                content: translate(errors.password),
                                 pointing: 'below',
                             }
                         }

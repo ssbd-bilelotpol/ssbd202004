@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { Grid, Menu, Container, Card } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { urls } from '../../constants';
 
 const DashboardContainer = styled(Container)`
@@ -23,6 +24,7 @@ const ContentCard = styled(Card)`
 `;
 
 const ClientDashboard = () => {
+    const { t } = useTranslation();
     return (
         <DashboardContainer>
             <Grid>
@@ -30,10 +32,10 @@ const ClientDashboard = () => {
                     <ContentCard>
                         <DashboardMenu secondary vertical pointing>
                             <Menu.Item as={NavLink} to={urls.pages.panel.dashboard}>
-                                Dashboard
+                                {t('Dashboard')}
                             </Menu.Item>
                             <Menu.Item as={NavLink} to={urls.pages.panel.reservations}>
-                                My reservations
+                                {t('My reservations')}
                             </Menu.Item>
                         </DashboardMenu>
                     </ContentCard>

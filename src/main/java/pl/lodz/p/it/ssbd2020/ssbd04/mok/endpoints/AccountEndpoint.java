@@ -266,7 +266,7 @@ public class AccountEndpoint extends AbstractEndpoint {
     /**
      * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi, dla których imię i nazwisko jest zgodne z podaną frazą.
      *
-     * @param name fraza, której poszukujemy. Jeśli name="", to metoda zwraca wszystkie konta.
+     * @param name fraza, której poszukujemy. Jeśli name jest pustym ciągiem znaków lub null, to metoda zwraca wszystkie konta.
      * @return lista kont wraz z danymi szczegółowymi.
      * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
      */
