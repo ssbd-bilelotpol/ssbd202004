@@ -2,8 +2,9 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 import TopMenu from '../TopMenu';
-import { urls } from '../../constants';
 import AdminDashboard from './AdminDashboard';
+import { Breadcrumbs } from '../Breadcrumbs';
+import { route } from '../../routing';
 
 const AdminApp = () => {
     const { path } = useRouteMatch();
@@ -16,8 +17,9 @@ const AdminApp = () => {
             </Switch>
 
             <Container>
+                <Breadcrumbs />
                 <Switch>
-                    <Route path={urls.roles.admin}>
+                    <Route path={route('admin')}>
                         <AdminDashboard />
                     </Route>
                 </Switch>

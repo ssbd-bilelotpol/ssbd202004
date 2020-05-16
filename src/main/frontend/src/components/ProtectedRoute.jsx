@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { urls } from '../constants';
+import { route } from '../routing';
 
 const ProtectedRoute = ({
     condition = () => false,
@@ -17,7 +17,7 @@ const ProtectedRoute = ({
     }
 
     if (redirect) {
-        return <Redirect to={redirectTarget || urls.roles[currentRole] || '/'} />;
+        return <Redirect to={redirectTarget || route(currentRole) || '/'} />;
     }
 
     return null;

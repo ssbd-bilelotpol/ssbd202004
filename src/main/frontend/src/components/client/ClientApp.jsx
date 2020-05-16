@@ -4,8 +4,8 @@ import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import TopMenu from '../TopMenu';
 import SearchFlight from './SearchFlight';
-import { urls } from '../../constants';
 import ClientDashboard from './ClientDashboard';
+import { route } from '../../routing';
 
 const MenuItems = () => {
     const { t } = useTranslation();
@@ -15,7 +15,7 @@ const MenuItems = () => {
                 <Icon name="plane" />
                 {t('Schedule')}
             </Menu.Item>
-            <Menu.Item as={NavLink} to={urls.pages.panel.reservations}>
+            <Menu.Item as={NavLink} to={route('panel.reservations')}>
                 <Icon name="calendar" />
                 {t('My reservations')}
             </Menu.Item>
@@ -40,7 +40,7 @@ const ClientApp = () => {
 
             <Container>
                 <Switch>
-                    <Route path={urls.pages.panel.root}>
+                    <Route path={route('panel')}>
                         <ClientDashboard />
                     </Route>
                 </Switch>

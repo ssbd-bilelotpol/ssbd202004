@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import debounce from 'lodash.debounce';
-import { compile } from 'path-to-regexp';
 import { listAccountsApi } from '../../api/accounts';
-import { urls } from '../../constants';
+import { route } from '../../routing';
 
 const StyledInput = styled(Input)`
     &&& {
@@ -45,7 +44,6 @@ const SearchBar = ({ filterUsers, loading }) => {
 
 const UsersTable = ({ users, loading }) => {
     const { t } = useTranslation();
-    const editAccountPath = compile(urls.pages.admin.accounts.edit);
 
     return (
         <>
@@ -65,7 +63,9 @@ const UsersTable = ({ users, loading }) => {
                                     </span>
                                     <Button
                                         as={Link}
-                                        to={editAccountPath({ login: user.login })}
+                                        to={route('admin.accounts.user.edit', {
+                                            login: user.login,
+                                        })}
                                         size="small"
                                     >
                                         {t('Edit')}

@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { changeRoleAction, logoutAction } from '../actions/auth';
-import { urls } from '../constants';
 import Login from './login/Login';
 import Register from './login/Register';
 import LastAuth from './login/LastAuth';
+import { route } from '../routing';
 
 const HeaderSegment = styled(({ clouds, backgroundColor, ...rest }) => <Segment {...rest} />)`
     &&& {
@@ -71,7 +71,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
 
     const handleRoleChange = (e, { value }) => {
         dispatch(changeRoleAction(value));
-        history.push(urls.roles[value]);
+        history.push(route(value));
     };
 
     const handleLogout = () => {
@@ -89,7 +89,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
             >
                 <BorderlessMenu borderless secondary pointing inverted size="large">
                     <Container>
-                        <Menu.Item as={Link} to={urls.roles[role] || '/'}>
+                        <Menu.Item as={Link} to={route(role) || '/'}>
                             <Image size="small" src={`${process.env.PUBLIC_URL}/logo.svg`} />
                         </Menu.Item>
                         {menuItems()}
@@ -119,7 +119,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
                                     }
                                 >
                                     <Dropdown.Menu>
-                                        <Dropdown.Item as={Link} to={urls.pages.user.settings.root}>
+                                        <Dropdown.Item as={Link} to={route('user.settings')}>
                                             {t('Settings')}
                                         </Dropdown.Item>
                                         <Dropdown.Item id="logoutButton" onClick={handleLogout}>

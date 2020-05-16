@@ -25,34 +25,94 @@ export const rolePriority = {
     [roles.client]: 3,
 };
 
-export const urls = {
-    roles: {
-        [roles.admin]: '/admin',
-        [roles.manager]: '/manager',
-        [roles.customerService]: '/customer-service',
-        [roles.client]: '/',
-    },
-    pages: {
-        admin: {
+export const routes = {
+    [roles.admin]: {
+        title: roles.admin,
+        path: '/admin',
+        breadcrumb: roles.admin,
+        subroutes: {
             accounts: {
-                edit: '/admin/accounts/:login/edit',
-                list: '/admin/accounts/list',
-                authReport: '/admin/accounts/auth-report',
+                path: '/accounts',
+                breadcrumb: 'Accounts',
+                subroutes: {
+                    list: {
+                        title: 'List accounts',
+                        path: '/list',
+                        breadcrumb: 'List accounts',
+                    },
+                    authReport: {
+                        title: 'Accounts auth report',
+                        path: '/auth-report',
+                        breadcrumb: 'Accounts auth report',
+                    },
+                    user: {
+                        path: '/:login',
+                        breadcrumb: '{fullName|Loading}',
+                        breadcrumbLink: false,
+                        subroutes: {
+                            edit: {
+                                title: 'Edit profile',
+                                path: '/edit',
+                                breadcrumb: 'Edit',
+                            },
+                        },
+                    },
+                },
             },
         },
-        panel: {
-            root: '/panel',
-            dashboard: '/panel/dashboard',
-            reservations: '/panel/reservations',
+    },
+    panel: {
+        title: 'Panel',
+        path: '/panel',
+        breadcrumb: 'Panel',
+        subroutes: {
+            dashboard: {
+                title: 'Dashboard',
+                path: '/dashboard',
+                breadcrumb: 'Dashboard',
+            },
+            reservations: {
+                title: 'My reservations',
+                path: '/reservations',
+                breadcrumb: 'My reservations',
+            },
         },
-        user: {
-            root: '/user',
+    },
+    user: {
+        path: '/user',
+        breadcrumb: 'User',
+        subroutes: {
             settings: {
-                root: '/user/settings',
-                changePassword: '/user/settings/changePassword',
+                title: 'Settings',
+                path: '/settings',
+                breadcrumb: 'Settings',
+                subroutes: {
+                    changePassword: {
+                        title: "Change account's password",
+                        path: '/changePassword',
+                        breadcrumb: "Change account's password",
+                    },
+                },
             },
         },
-        confirm: '/confirm/:token',
-        resetPassword: '/resetPassword/:token',
+    },
+    resetPassword: {
+        path: '/resetPassword/:token',
+        title: "Change account's password",
+        breadcrumb: "Change account's password",
+    },
+    confirm: {
+        path: '/confirm/:token',
+        title: 'Confirm account',
+        breadcrumb: 'Confirm account',
+    },
+    [roles.manager]: {
+        path: '/manager',
+    },
+    [roles.customerService]: {
+        path: '/customer-service',
+    },
+    [roles.client]: {
+        path: '/',
     },
 };

@@ -8,6 +8,8 @@ import ChangeAccountPassword from './accounts/ChangeAccountPassword';
 import EditAccountDetails from './accounts/EditAccountDetails';
 import EditAccountAccessLevel from './accounts/EditAccountAccessLevel';
 import AccountDetails from './accounts/AccountDetails';
+import { useTitle } from '../Title';
+import { useBreadcrumb } from '../Breadcrumbs';
 
 const ContentCard = styled(Card)`
     &&& {
@@ -20,6 +22,11 @@ const EditAccount = () => {
 
     const { login } = useParams();
     const { data, etag, loading, error, refetch } = useAccountDetails(login);
+
+    useTitle(data.firstName ? `${data.firstName} ${data.lastName}` : '');
+    useBreadcrumb({
+        fullName: data.firstName ? `${data.firstName} ${data.lastName}` : '',
+    });
 
     return (
         <>

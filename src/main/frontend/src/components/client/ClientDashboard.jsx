@@ -3,7 +3,7 @@ import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { Grid, Menu, Container, Card } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { urls } from '../../constants';
+import { route } from '../../routing';
 
 const DashboardContainer = styled(Container)`
     &&& {
@@ -31,10 +31,10 @@ const ClientDashboard = () => {
                 <Grid.Column width={3}>
                     <ContentCard>
                         <DashboardMenu secondary vertical pointing>
-                            <Menu.Item as={NavLink} to={urls.pages.panel.dashboard}>
+                            <Menu.Item as={NavLink} to={route('panel.dashboard')}>
                                 {t('Dashboard')}
                             </Menu.Item>
-                            <Menu.Item as={NavLink} to={urls.pages.panel.reservations}>
+                            <Menu.Item as={NavLink} to={route('panel.reservations')}>
                                 {t('My reservations')}
                             </Menu.Item>
                         </DashboardMenu>
@@ -43,10 +43,10 @@ const ClientDashboard = () => {
                 <Grid.Column width={13}>
                     <ContentCard fluid>
                         <Switch>
-                            <Route path={urls.pages.panel.reservations}>TODO</Route>
+                            <Route path={route('panel.reservations')}>TODO</Route>
 
                             <Route exact>
-                                <Redirect to={urls.pages.panel.dashboard} />
+                                <Redirect to={route('panel.dashboard')} />
                             </Route>
                         </Switch>
                     </ContentCard>

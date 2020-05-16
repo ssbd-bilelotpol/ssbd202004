@@ -1,12 +1,12 @@
 import React from 'react';
-import { Route, Switch, NavLink } from 'react-router-dom';
+import { Route, Switch, NavLink, Redirect } from 'react-router-dom';
 import { Card, Container, Menu, Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { urls } from '../../constants';
 import FilterableUsersTable from './UsersList';
 import EditAccount from './EditAccount';
 import AccountAuthReport from './AccountAuthReport';
+import { route } from '../../routing';
 
 const DashboardContainer = styled(Container)`
     &&& {
@@ -46,10 +46,18 @@ const AdminDashboard = () => {
                         <Menu.Item>
                             <Menu.Header>{t('Accounts')}</Menu.Header>
                             <Menu.Menu>
-                                <Menu.Item as={NavLink} to={urls.pages.admin.accounts.list}>
+                                <Menu.Item
+                                    name={t('List accounts')}
+                                    as={NavLink}
+                                    to={route('admin.accounts.list')}
+                                >
                                     {t('List accounts')}
                                 </Menu.Item>
-                                <Menu.Item as={NavLink} to={urls.pages.admin.accounts.authReport}>
+                                <Menu.Item
+                                    name={t('Accounts auth report')}
+                                    as={NavLink}
+                                    to={route('admin.accounts.authReport')}
+                                >
                                     {t('Accounts auth report')}
                                 </Menu.Item>
                             </Menu.Menu>
@@ -98,17 +106,18 @@ const AdminDashboard = () => {
                 </Grid.Column>
                 <GappedColumn width={13}>
                     <Switch>
-                        <Route path={urls.pages.admin.accounts.edit}>
+                        <Route path={route('admin.accounts.user.edit')}>
                             <EditAccount />
                         </Route>
-
-                        <Route path={urls.pages.admin.accounts.list}>
+                        <Route exact path={route('admin.accounts')}>
+                            <Redirect to={route('admin.accounts.list')} />
+                        </Route>
+                        <Route path={route('admin.accounts.list')}>
                             <ContentCard fluid>
                                 <FilterableUsersTable />
                             </ContentCard>
                         </Route>
-
-                        <Route path={urls.pages.admin.accounts.authReport}>
+                        <Route path={route('admin.accounts.authReport')}>
                             <ContentCard fluid>
                                 <AccountAuthReport />
                             </ContentCard>

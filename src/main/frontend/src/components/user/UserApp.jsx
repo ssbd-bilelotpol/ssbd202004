@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import TopMenu from '../TopMenu';
 import UserDashboard from './UserDashboard';
 import { roleColors } from '../../constants';
+import { Breadcrumbs } from '../Breadcrumbs';
 
 const UserApp = () => {
     const { path } = useRouteMatch();
@@ -21,6 +22,7 @@ const UserApp = () => {
             </Switch>
 
             <Container>
+                <Breadcrumbs />
                 <Switch>
                     <Route path={path}>
                         <UserDashboard />

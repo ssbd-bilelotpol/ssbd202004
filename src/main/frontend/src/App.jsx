@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { roles, urls } from './constants';
+import { roles } from './constants';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminApp from './components/admin/AdminApp';
 import ManagerApp from './components/manager/ManagerApp';
@@ -9,35 +9,36 @@ import ClientApp from './components/client/ClientApp';
 import UserApp from './components/user/UserApp';
 import Confirm from './components/client/Confirm';
 import PasswordReset from './components/client/PasswordReset';
+import { route } from './routing';
+import { useTitle } from './components/Title';
 
 const App = () => {
+    useTitle();
+
     return (
         <>
             <Switch>
-                <Route path={urls.pages.confirm}>
+                <Route path={route('confirm')}>
                     <Confirm />
                 </Route>
-                <Route path={urls.pages.resetPassword}>
+                <Route path={route('resetPassword')}>
                     <PasswordReset />
                 </Route>
-                <ProtectedRoute role={roles.admin} path={urls.roles[roles.admin]}>
+                <ProtectedRoute role={roles.admin} path={route(roles.admin)}>
                     <AdminApp />
                 </ProtectedRoute>
-                <ProtectedRoute role={roles.manager} path={urls.roles[roles.manager]}>
+                <ProtectedRoute role={roles.manager} path={route(roles.manager)}>
                     <ManagerApp />
                 </ProtectedRoute>
-                <ProtectedRoute
-                    role={roles.customerService}
-                    path={urls.roles[roles.customerService]}
-                >
+                <ProtectedRoute role={roles.customerService} path={route(roles.customerService)}>
                     <CustomerServiceApp />
                 </ProtectedRoute>
-                <ProtectedRoute condition={(role) => role} path={urls.pages.user.root}>
+                <ProtectedRoute condition={(role) => role} path={route('user')}>
                     <UserApp />
                 </ProtectedRoute>
                 <ProtectedRoute
                     condition={(role) => !role || role === roles.client}
-                    path={urls.roles[roles.client]}
+                    path={route(roles.client)}
                 >
                     <ClientApp />
                 </ProtectedRoute>

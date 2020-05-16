@@ -4,9 +4,9 @@ import { Grid, Menu, Container, Card } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import { urls } from '../../constants';
 import Settings from './Settings';
 import ChangePassword from './ChangePassword';
+import { route } from '../../routing';
 
 const DashboardContainer = styled(Container)`
     &&& {
@@ -34,10 +34,10 @@ const UserDashboard = () => {
                 <Grid.Column width={3}>
                     <ContentCard>
                         <DashboardMenu secondary vertical pointing>
-                            <Menu.Item as={NavLink} exact to={urls.pages.user.settings.root}>
+                            <Menu.Item as={NavLink} exact to={route('user.settings')}>
                                 {t('Settings')}
                             </Menu.Item>
-                            <Menu.Item as={NavLink} to={urls.pages.user.settings.changePassword}>
+                            <Menu.Item as={NavLink} to={route('user.settings.changePassword')}>
                                 {t('Change Password')}
                             </Menu.Item>
                         </DashboardMenu>
@@ -49,16 +49,16 @@ const UserDashboard = () => {
                             reCaptchaKey={process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY}
                         >
                             <Switch>
-                                <Route exact path={urls.pages.user.settings.root}>
+                                <Route exact path={route('user.settings')}>
                                     <Settings />
                                 </Route>
 
-                                <Route path={urls.pages.user.settings.changePassword}>
+                                <Route path={route('user.settings.changePassword')}>
                                     <ChangePassword />
                                 </Route>
 
                                 <Route exact>
-                                    <Redirect to={urls.pages.user.settings.root} />
+                                    <Redirect to={route('user.settings')} />
                                 </Route>
                             </Switch>
                         </GoogleReCaptchaProvider>
