@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import React, { useState } from 'react';
-import { Button, Form, FormInput, Message } from 'semantic-ui-react';
+import { Form, FormInput, Message } from 'semantic-ui-react';
 import { Formik } from 'formik';
 import AsteriskInput from '../controls/AsteriskInput';
 import { SettingsSchema } from '../../yup';
+import ConfirmSubmit from '../controls/ConfirmSubmit';
 
 const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
     const { t } = useTranslation();
@@ -108,9 +109,13 @@ const AccountEditForm = ({ onSave, onSuccess, onFail, loading, data }) => {
                                 }
                             />
 
-                            <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+                            <ConfirmSubmit
+                                onSubmit={handleSubmit}
+                                disabled={isSubmitting}
+                                loading={isSubmitting}
+                            >
                                 {t('Save')}
-                            </Button>
+                            </ConfirmSubmit>
                         </Form>
                     )}
                 </Formik>

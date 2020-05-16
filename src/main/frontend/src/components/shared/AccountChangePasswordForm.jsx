@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Message, FormInput, Form, Button, Placeholder } from 'semantic-ui-react';
+import { Message, FormInput, Form, Placeholder } from 'semantic-ui-react';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Formik } from 'formik';
 import AsteriskInput from '../controls/AsteriskInput';
 import { AccountChangePasswordSchema } from '../../yup';
+import ConfirmSubmit from '../controls/ConfirmSubmit';
 
 const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPasswordInput }) => {
     const { t } = useTranslation();
@@ -120,9 +121,13 @@ const AccountChangePasswordForm = ({ onSave, onSuccess, loading, showOldPassword
                                 }
                             />
 
-                            <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+                            <ConfirmSubmit
+                                onSubmit={handleSubmit}
+                                disabled={isSubmitting}
+                                loading={isSubmitting}
+                            >
                                 {t('Save')}
-                            </Button>
+                            </ConfirmSubmit>
                         </Form>
                     )}
                 </Formik>

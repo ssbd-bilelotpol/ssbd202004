@@ -36,7 +36,7 @@ const ConfirmSubmit = (props) => {
                 </ExtendingButton>
 
                 <Transition visible={visible} animation="fade" duration={500}>
-                    <Button.Or text="or" />
+                    <Button.Or text={t('or')} />
                 </Transition>
                 <Transition visible={visible} animation="fade right" duration={500}>
                     <Button positive onClick={onConfirm} type="submit" {...props}>

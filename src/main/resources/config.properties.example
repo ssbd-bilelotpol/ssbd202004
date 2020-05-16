@@ -6,5 +6,5 @@ mail.apiKey=<<API_KEY>>
 mail.apiServer=<<API_SERVER>>
 mail.sender=<<SENDER>>
 transaction.retryThreshold=5
-google.secretKey=<GOOGLE_SECRET>>
+google.secretKey=<<GOOGLE_SECRET>>
 google.threshold=0.5

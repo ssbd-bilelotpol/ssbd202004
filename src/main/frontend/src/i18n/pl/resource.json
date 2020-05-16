@@ -99,6 +99,6 @@
     "field_too_short": "Musi składać się z co najmniej {{min}} znaków",
     "field_too_long": "Może składać się z co najwyżej {{max}} znaków",
     "phone_number_only_numbers": "Numer telefonu może składać się wyłącznie z cyfr",
-    "must_match": "Oba hasła muszą być identyczne",
+    "Passwords must match": "Oba hasła muszą być identyczne",
     "access_levels_too_short": "Musisz wybrać co najmniej 1 poziom dostępu"
 }

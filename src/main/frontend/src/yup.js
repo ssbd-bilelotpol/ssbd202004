@@ -20,7 +20,7 @@ export const RegisterSchema = Yup.object().shape({
     login: Yup.string().required().min(3).max(30),
     password: Yup.string().required().min(8).max(64),
     passwordConfirmation: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'must_match')
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required()
         .min(8)
         .max(64),
@@ -56,7 +56,7 @@ export const AccountChangePasswordSchema = (showOldPassword) =>
             : Yup.mixed().notRequired(),
         newPassword: Yup.string().required().min(8).max(64),
         passwordConfirmation: Yup.string()
-            .oneOf([Yup.ref('newPassword'), null], 'must_match')
+            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
             .required()
             .min(8)
             .max(64),
@@ -68,7 +68,7 @@ export const PasswordResetRequestSchema = Yup.object().shape({
 
 export const PasswordResetSchema = Yup.object().shape({
     password: Yup.string().required().min(8).max(64),
-    passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'must_match'),
+    passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
 });
 
 export const AccountAcessLevelEditSchema = Yup.object().shape({
