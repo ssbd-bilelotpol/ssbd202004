@@ -26,10 +26,9 @@ import java.util.UUID;
         @NamedQuery(name = "VerificationToken.findExpiredBefore", query = "SELECT t FROM VerificationToken t WHERE expireDateTime < :dateTime")
 })
 public abstract class VerificationToken extends AbstractEntity implements Serializable {
-    @GeneratedValue
     @Id
     @Column(updatable = false)
-    private UUID id;
+    private String id;
 
     @NotNull
     @Column(nullable = false, name = "expire_date_time", updatable = false)
@@ -41,19 +40,21 @@ public abstract class VerificationToken extends AbstractEntity implements Serial
     private Account account;
 
     public VerificationToken() {
+        this.id = UUID.randomUUID().toString();
     }
 
     public VerificationToken(LocalDateTime expireDateTime, Account account) {
+        this.id = UUID.randomUUID().toString();
         this.expireDateTime = expireDateTime;
         this.account = account;
     }
 
     public VerificationToken(UUID id) {
-        this.id = id;
+        this.id = id.toString();
     }
 
     public UUID getId() {
-        return id;
+        return UUID.fromString(id);
     }
 
     public LocalDateTime getExpireDateTime() {

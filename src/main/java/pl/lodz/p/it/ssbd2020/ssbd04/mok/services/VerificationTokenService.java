@@ -72,7 +72,7 @@ public class VerificationTokenService {
      * @throws AppBaseException gdy token wygasł, bądź konto zostało już potwierdzone.
      */
     public Account confirmRegistration(UUID tokenId) throws AppBaseException {
-        VerificationToken verificationToken = verificationTokenFacade.find(tokenId);
+        VerificationToken verificationToken = verificationTokenFacade.find(tokenId.toString());
         if (!(verificationToken instanceof RegisterToken)) {
             throw VerificationTokenException.invalidRegisterToken(tokenId);
         }
@@ -91,9 +91,9 @@ public class VerificationTokenService {
      * @param tokenId token resetujący
      * @return konto powiązane z tokenem
      * @throws AppBaseException w przypadku niepowodzenia operacji
-     */
+     */ 
     public Account confirmPasswordReset(UUID tokenId) throws AppBaseException {
-        VerificationToken verificationToken = verificationTokenFacade.find(tokenId);
+        VerificationToken verificationToken = verificationTokenFacade.find(tokenId.toString());
         if (!(verificationToken instanceof ResetPasswordToken)) {
             throw VerificationTokenException.invalidRegisterToken(tokenId);
         }

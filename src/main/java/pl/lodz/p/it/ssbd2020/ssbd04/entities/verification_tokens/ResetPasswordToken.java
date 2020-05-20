@@ -15,6 +15,7 @@ import java.util.UUID;
 @DiscriminatorValue("reset")
 public class ResetPasswordToken extends VerificationToken implements Serializable {
     public ResetPasswordToken() {
+        super();
     }
 
     public ResetPasswordToken(LocalDateTime expireDateTime, Account account) {

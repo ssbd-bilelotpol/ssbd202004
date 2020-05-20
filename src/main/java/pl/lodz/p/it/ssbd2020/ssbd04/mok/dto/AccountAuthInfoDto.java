@@ -17,10 +17,8 @@ public class AccountAuthInfoDto {
 
     private String lastIpAddress;
 
-
     public AccountAuthInfoDto() {
     }
-
 
     public AccountAuthInfoDto(String login, LocalDateTime currentAuth, String lastIpAddress) {
         this.login = login;
@@ -32,7 +30,6 @@ public class AccountAuthInfoDto {
         this.lastSuccessAuth = lastSuccessAuth;
         this.lastIncorrectAuth = lastIncorrectAuth;
     }
-
 
     public String getLogin() {
         return login;
@@ -57,7 +54,6 @@ public class AccountAuthInfoDto {
     public void setLastIpAddress(String lastIpAddress) {
         this.lastIpAddress = lastIpAddress;
     }
-
 
     public LocalDateTime getLastIncorrectAuth() {
         return lastIncorrectAuth;
