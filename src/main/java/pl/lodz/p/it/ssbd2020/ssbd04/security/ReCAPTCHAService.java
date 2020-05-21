@@ -27,10 +27,11 @@ public class ReCAPTCHAService {
     @Context
     private HttpServletRequest httpServletRequest;
 
-    private static Pattern RESPONSE_PATTERN = Pattern.compile("[A-Za-z0-9_-]+");
+    private static final Pattern RESPONSE_PATTERN = Pattern.compile("[A-Za-z0-9_-]+");
 
     /**
      * Metoda zajmująca się weryfikacją przysłanego wyniku captcha.
+     *
      * @param response captcha, przesłana od klienta.
      * @throws AppBaseException w wypadku, gdy captcha nie spełnia założeń.
      */

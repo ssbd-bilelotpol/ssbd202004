@@ -55,8 +55,15 @@ public class I18n {
     public static final String ACCOUNT_ADMIN_LOGIN_SENDER = "account.adminLogin.sender";
     public static final String ACCOUNT_ADMIN_LOGIN_CONTENT = "account.adminLogin.content";
 
-    public static final String PROCESSING_ERROR = "rest.processingError";
+    public static final String PROCESSING_ERROR = "error.rest.processingError";
 
+    public static final String AIRPLANE_SCHEMA_NOT_FOUND = "error.airplaneSchema.notFound";
+    public static final String AIRPLANE_SCHEMA_IN_USE = "error.airplaneSchema.inUse";
+
+    public static final String SEAT_CLASS_NOT_FOUND = "error.seatClass.notFound";
+    public static final String SEAT_CLASS_IN_USE = "error.seatClass.inUse";
+    public static final String SEAT_CLASS_NAME_TAKEN = "error.seatClass.nameTaken";
+    public static final String SEAT_CLASS_BENEFIT_EXISTS = "error.seatClass.benefitExists";
 
 
     @Inject

@@ -110,6 +110,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
     }
 
+    @PermitAll
+    @Override
+    public List<Account> findAll() throws AppBaseException {
+        return super.findAll();
+    }
+
     @Override
     @PermitAll
     public void edit(Account entity) throws AppBaseException {

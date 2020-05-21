@@ -1,4 +1,5 @@
-<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN"
+        "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
 <glassfish-web-app>
     <context-root>/</context-root>
 
@@ -85,6 +86,41 @@
     <security-role-mapping>
         <role-name>findAccountsByName</role-name>
         <group-name>admin</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>createSeatClass</role-name>
+        <group-name>manager</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>deleteSeatClass</role-name>
+        <group-name>manager</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>updateSeatClass</role-name>
+        <group-name>manager</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>createAirplaneSchema</role-name>
+        <group-name>manager</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>updateAirplaneSchema</role-name>
+        <group-name>manager</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>deleteAirplaneSchema</role-name>
+        <group-name>manager</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getAllAirplaneSchemas</role-name>
+        <group-name>manager</group-name>
     </security-role-mapping>
 
     <security-role-mapping>

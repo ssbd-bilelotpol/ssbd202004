@@ -133,7 +133,7 @@ public class AccountService {
      * @return lista wszystkich kont wraz z danymi szczegółowymi.
      */
     @RolesAllowed(GetAllAccounts)
-    public List<Account> getAll() {
+    public List<Account> getAll() throws AppBaseException {
         return accountFacade.findAll();
     }
 

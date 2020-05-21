@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 
 import javax.ejb.EJBTransactionRolledbackException;
@@ -9,13 +9,17 @@ import javax.inject.Inject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Definiuje wspólne operacje dla wszystkich kontrolerów, zajmujących się obsługą usługi REST.
+ * Umożliwai ponawianie transakcji.
+ */
 public abstract class AbstractController {
     @Inject
     private Config config;
 
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
-    protected <T> T repeat(AbstractEndpoint endpoint, AppSupplier<T> supplier) throws AppBaseException {
+    protected <T> T repeat(TransactionStarter transactionStarter, AppSupplier<T> supplier) throws AppBaseException {
         int retryCount = 0;
         boolean rollback;
         T result = null;
@@ -24,12 +28,12 @@ public abstract class AbstractController {
                 if (retryCount > 0) {
                     LOGGER.log(Level.WARNING, "Method from class: {0} is being retried by thread: {1}",
                             new Object[]{
-                                    endpoint.getClass().getSimpleName(),
+                                    transactionStarter.getClass().getSimpleName(),
                                     Thread.currentThread().getName()
                             });
                 }
                 result = supplier.execute();
-                rollback = endpoint.isLastTransactionRollback();
+                rollback = transactionStarter.isLastTransactionRollback();
             } catch (EJBTransactionRolledbackException e) {
                 rollback = true;
             }
@@ -42,7 +46,7 @@ public abstract class AbstractController {
         return result;
     }
 
-    protected void repeat(AbstractEndpoint endpoint, AppProcedure procedure) throws AppBaseException {
+    protected void repeat(TransactionStarter transactionStarter, AppProcedure procedure) throws AppBaseException {
         int retryCount = 0;
         boolean rollback;
         do {
@@ -50,12 +54,12 @@ public abstract class AbstractController {
                 if (retryCount > 0) {
                     LOGGER.log(Level.WARNING, "Method from class: {0} is being retried by thread: {1}",
                             new Object[]{
-                                    endpoint.getClass().getName(),
+                                    transactionStarter.getClass().getName(),
                                     Thread.currentThread().getName()
                             });
                 }
                 procedure.execute();
-                rollback = endpoint.isLastTransactionRollback();
+                rollback = transactionStarter.isLastTransactionRollback();
             } catch (EJBTransactionRolledbackException e) {
                 rollback = true;
             }

@@ -1,85 +1,62 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.AccountService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.services.VerificationTokenService;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
-import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.interceptor.Interceptors;
+import javax.ejb.Local;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
  * i jest granicą transakcji aplikacyjnej dla hierarchii klas Account i AccountAccessLevel.
  */
-
-@Interceptors({TrackingInterceptor.class})
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-@Stateful
-public class AccountEndpoint extends AbstractEndpoint {
-
-    @Inject
-    private AccountService accountService;
-
-    @Inject
-    private VerificationTokenService tokenService;
-
-    @Inject
-    private EmailService emailService;
-
-    @Inject
-    private AuthContext auth;
-
-    @Inject
-    private I18n i18n;
-
+@Local
+public interface AccountEndpoint extends TransactionStarter {
+    /**
+     * Rejestruje nowe konto.
+     *
+     * @param accountRegisterDto obiekt zawierający login, hasło i wymagane dane konta.
+     * @throws AppBaseException gdy login lub e-mail już istnieje.
+     */
     @PermitAll
-    public void register(Account account, AccountDetails accountDetails) throws AppBaseException {
-        accountService.register(account, accountDetails);
-    }
+    void register(AccountRegisterDto accountRegisterDto) throws AppBaseException;
 
+    /**
+     * Potwierdza konto na podstawie unikalnego identyfkatoru tokena wysłanego na adres e-mail.
+     *
+     * @param fromString unikalny identyfikator tokenu potwierdzające konto.
+     * @throws AppBaseException gdy potwierdzenie konta się nie powiedzie.
+     */
     @PermitAll
-    public void confirm(UUID fromString) throws AppBaseException {
-        accountService.confirm(fromString);
-    }
+    void confirm(UUID fromString) throws AppBaseException;
 
+    /**
+     * Zmienia poziomy dostępu dla danego konta
+     *
+     * @param login                 login jednoznacznie identyfikujący konto.
+     * @param accountAccessLevelDto zawiera listę poziomów dostępów, które mają zostać przypisane użytkownikowi.
+     * @return listę poziomów dostępów, które zostały przypisane do konta.
+     * @throws AppBaseException gdy modyfikacja nie powiedzie się.
+     */
     @RolesAllowed(EditAccountAccessLevel)
-    public AccountAccessLevelDto editAccountAccessLevel(String login, AccountAccessLevelDto accountAccessLevelDto) throws AppBaseException {
-        Account account = accountService.findByLogin(login);
-        AccountAccessLevelDto currentAccountAccessLevelDto = new AccountAccessLevelDto(account);
-        if (!verifyEtag(currentAccountAccessLevelDto)) {
-            throw AppBaseException.optimisticLock();
-        }
+    AccountAccessLevelDto editAccountAccessLevel(String login, AccountAccessLevelDto accountAccessLevelDto) throws AppBaseException;
 
-        accountService.editAccountAccessLevel(account, accountAccessLevelDto.toAccountAccessLevelSet());
-        return new AccountAccessLevelDto(account);
-    }
-
+    /**
+     * Pobiera listę poziomów dostępów przypisanych do konta.
+     *
+     * @param login login jednoznacznie identyfikujący konto.
+     * @return listę poziomów dostępów przypisanych do konta.
+     * @throws AppBaseException gdy pobieranie nie powiedzie się.
+     */
     @RolesAllowed(GetAccessLevels)
-    public AccountAccessLevelDto getAccessLevels(String login) throws AppBaseException {
-        return new AccountAccessLevelDto(accountService.findByLogin(login));
-    }
+    AccountAccessLevelDto getAccessLevels(String login) throws AppBaseException;
 
     /**
      * Zwraca dane konta inicjującego żądanie.
@@ -88,9 +65,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException gdy nie udało się pobrać danych konta.
      */
     @RolesAllowed(RetrieveOwnAccountDetails)
-    public AccountDto retrieveOwnAccountDetails() throws AppBaseException {
-        return new AccountDto(auth.currentUser());
-    }
+    AccountDto retrieveOwnAccountDetails() throws AppBaseException;
 
     /**
      * Zwraca dane konta o wybranym loginie.
@@ -100,10 +75,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException gdy nie udało się pobrać danych konta.
      */
     @RolesAllowed(RetrieveOtherAccountDetails)
-    public AccountDto retrieveOtherAccountDetails(String login) throws AppBaseException {
-        Account account = accountService.findByLogin(login);
-        return new AccountDto(account);
-    }
+    AccountDto retrieveOtherAccountDetails(String login) throws AppBaseException;
 
     /**
      * Modyfikuje dane szczegółowe konta inicjującego żądanie.
@@ -113,15 +85,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
     @RolesAllowed(EditOwnAccountDetails)
-    public AccountDto editOwnAccountDetails(AccountEditDto accountEditDto) throws AppBaseException {
-        Account account = auth.currentUser();
-        AccountDto currentAccountDto = new AccountDto(account);
-        if (!verifyEtag(currentAccountDto)) {
-            throw AppBaseException.optimisticLock();
-        }
-
-        return editAccountDetails(account, accountEditDto);
-    }
+    AccountDto editOwnAccountDetails(AccountEditDto accountEditDto) throws AppBaseException;
 
     /**
      * Modyfikuje dane szczegółowe wybranego konta.
@@ -132,27 +96,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
     @RolesAllowed(EditOtherAccountDetails)
-    public AccountDto editOtherAccountDetails(String login, AccountEditDto accountEditDto) throws AppBaseException {
-        Account account = accountService.findByLogin(login);
-        AccountDto currentAccountDto = new AccountDto(account);
-        if (!verifyEtag(currentAccountDto)) {
-            throw AppBaseException.optimisticLock();
-        }
-
-        return editAccountDetails(account, accountEditDto);
-    }
-
-    private AccountDto editAccountDetails(Account account, AccountEditDto accountEditDto) throws AppBaseException {
-        AccountDetails newDetails = new AccountDetails(
-                accountEditDto.getFirstName(),
-                accountEditDto.getLastName(),
-                account.getAccountDetails().getEmail(),
-                accountEditDto.getPhoneNumber()
-        );
-
-        Account editedAccount = accountService.editAccountDetails(account, newDetails);
-        return new AccountDto(editedAccount);
-    }
+    AccountDto editOtherAccountDetails(String login, AccountEditDto accountEditDto) throws AppBaseException;
 
     /**
      * Wysyła token resetujący hasło użytkownika o podanym emailu.
@@ -163,14 +107,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     @PermitAll
-    public void sendResetPasswordToken(String email) throws AppBaseException {
-        Account account = accountService.findByEmail(email);
-        if (!account.getActive())
-            throw AccountException.notActive(account);
-        if (!account.getConfirm())
-            throw AccountException.notConfirmed(account);
-        tokenService.sendResetPasswordToken(account);
-    }
+    void sendResetPasswordToken(String email) throws AppBaseException;
 
     /**
      * Resetuje hasło za pomocą tokenu resetującego.
@@ -179,9 +116,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException w przypadku niepowodzenia operacji.
      */
     @PermitAll
-    public void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException {
-        accountService.resetPassword(passwordResetDto);
-    }
+    void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException;
 
     /**
      * Aktualizuje dane o ostatnim poprawnym uwierzytelnieniu użytkownika.
@@ -192,9 +127,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException
      */
     @PermitAll
-    public void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException {
-        accountService.updateAuthInfo(login, lastIpAddress, currentAuth);
-    }
+    void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException;
 
     /**
      * Aktualizuje dane o ostatnim niepoprawnym uwierzytelnieniu użytkownika.
@@ -203,9 +136,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @param lastIncorrectAuth data logowania.
      */
     @PermitAll
-    public void updateAuthInfo(String username, LocalDateTime lastIncorrectAuth) throws AppBaseException {
-        accountService.updateAuthInfo(username, lastIncorrectAuth);
-    }
+    void updateAuthInfo(String username, LocalDateTime lastIncorrectAuth) throws AppBaseException;
 
     /**
      * Zwraca zbiór wszystkich kont wraz z ich danymi ostatniego uwierzytelniania.
@@ -213,12 +144,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @return dane uwierzytelniania.
      */
     @RolesAllowed(GetAllAccountsAuthInfo)
-    public List<AccountAuthInfoDto> getAllAccountsAuthInfo() {
-        return accountService.getAll().stream()
-                .map(a -> new AccountAuthInfoDto(a.getLogin(),
-                        a.getAccountAuthInfo().getCurrentAuth(),
-                        a.getAccountAuthInfo().getLastIpAddress())).collect(Collectors.toList());
-    }
+    List<AccountAuthInfoDto> getAllAccountsAuthInfo() throws AppBaseException;
 
     /**
      * Zwraca dane z ostatniego uwierzytelniania dla konta.
@@ -226,11 +152,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @return
      */
     @RolesAllowed(GetAccountAuthInfo)
-    public AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException {
-        Account account = auth.currentUser();
-        return new AccountAuthInfoDto(account.getAccountAuthInfo().getLastSuccessAuth(),
-                account.getAccountAuthInfo().getLastIncorrectAuth());
-    }
+    AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException;
 
     /**
      * Zmienia hasło dla aktualnego użytkownika.
@@ -239,18 +161,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
      */
     @RolesAllowed(ChangeOwnAccountPassword)
-    public void changeOwnAccountPassword(AccountPasswordDto accountPasswordDto) throws AppBaseException {
-        Account account = auth.currentUser();
-        AccountDto accountDto = new AccountDto(account);
-
-        if (!verifyEtag(accountDto)) throw AppBaseException.optimisticLock();
-
-        if (!BCrypt.verifyer()
-                .verify(accountPasswordDto.getOldPassword().toCharArray(), account.getPassword()
-                        .toCharArray()).verified) throw AccountException.passwordsDontMatch(account);
-
-        accountService.changePassword(account, accountPasswordDto.getNewPassword());
-    }
+    void changeOwnAccountPassword(AccountPasswordDto accountPasswordDto) throws AppBaseException;
 
     /**
      * Zmienia hasło dla podanego użytkonika.
@@ -260,14 +171,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException jeśli Etag się nie zgadza.
      */
     @RolesAllowed(ChangeOtherAccountPassword)
-    public void changeOtherAccountPassword(String login, String password) throws AppBaseException {
-        Account account = accountService.findByLogin(login);
-        AccountDto accountDto = new AccountDto(account);
-
-        if (!verifyEtag(accountDto)) throw AppBaseException.optimisticLock();
-
-        accountService.changePassword(account, password);
-    }
+    void changeOtherAccountPassword(String login, String password) throws AppBaseException;
 
     /**
      * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi, dla których imię i nazwisko jest zgodne z podaną frazą.
@@ -277,9 +181,7 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
      */
     @RolesAllowed(FindAccountsByName)
-    public List<AccountDto> findByName(String name) throws AppBaseException {
-        return accountService.findByName(name);
-    }
+    List<AccountDto> findByName(String name) throws AppBaseException;
 
     /**
      * Zmienia status aktywności dla konta o podanym loginie.
@@ -289,22 +191,15 @@ public class AccountEndpoint extends AbstractEndpoint {
      * @throws AppBaseException gdy nie udało się zmienić statusu aktywności konta.
      */
     @RolesAllowed(ChangeAccountActiveStatus)
-    public void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException {
-        accountService.changeAccountActiveStatus(login, active);
-    }
+    void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException;
 
     /**
      * Powiadamia użytkownika o roli administratora o logowaniu na jego konto.
-     * @param login login konta, dla którego chcemy wysłać e-mail.
+     *
+     * @param login    login konta, dla którego chcemy wysłać e-mail.
      * @param remoteIP adres IP, z którego nastąpiło logowanie
      * @throws AppBaseException w przypadku gdy nie udało się wysłać maila.
      */
     @PermitAll
-    public void notifyAboutAdminLogin(String login, String remoteIP) throws AppBaseException {
-        emailService.sendEmail(this.retrieveOtherAccountDetails(login).getEmail(),
-                i18n.getMessage(ACCOUNT_ADMIN_LOGIN_SENDER),
-                i18n.getMessage(ACCOUNT_ADMIN_LOGIN_TITLE),
-                i18n.getMessage(ACCOUNT_ADMIN_LOGIN_CONTENT) + remoteIP);
-    }
-
+    void notifyAboutAdminLogin(String login, String remoteIP) throws AppBaseException;
 }

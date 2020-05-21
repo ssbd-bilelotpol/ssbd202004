@@ -19,7 +19,6 @@ CREATE SEQUENCE account_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-    );
 
 CREATE TABLE account_access_level
 (

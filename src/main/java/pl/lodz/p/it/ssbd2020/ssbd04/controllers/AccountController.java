@@ -1,7 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
@@ -50,17 +48,7 @@ public class AccountController extends AbstractController {
     public void register(@NotNull @Valid AccountRegisterDto accountRegisterDto) throws AppBaseException {
         captchaService.checkCaptcha(accountRegisterDto.getCaptcha());
 
-        Account account = new Account();
-        account.setLogin(accountRegisterDto.getLogin());
-        account.setPassword(accountRegisterDto.getPassword());
-
-        AccountDetails accountDetails = new AccountDetails();
-        accountDetails.setEmail(accountRegisterDto.getEmail());
-        accountDetails.setFirstName(accountRegisterDto.getFirstName());
-        accountDetails.setLastName(accountRegisterDto.getLastName());
-        accountDetails.setPhoneNumber(accountRegisterDto.getPhoneNumber());
-
-        repeat(accountEndpoint, () -> accountEndpoint.register(account, accountDetails));
+        repeat(accountEndpoint, () -> accountEndpoint.register(accountRegisterDto));
     }
 
     /**
@@ -266,7 +254,7 @@ public class AccountController extends AbstractController {
     @Path("/{login}/active")
     @Consumes(MediaType.APPLICATION_JSON)
     public void changeAccountActiveStatus(@NotNull @PathParam("login") String login, @NotNull @Valid AccountBlockDto accountBlockDto) throws AppBaseException {
-        accountEndpoint.changeAccountActiveStatus(login, accountBlockDto.getActive());
+        repeat(accountEndpoint, () -> accountEndpoint.changeAccountActiveStatus(login, accountBlockDto.getActive()));
     }
 
 }

@@ -8,7 +8,10 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 
 import javax.annotation.security.PermitAll;
-import javax.ejb.*;
+import javax.ejb.Asynchronous;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.TransactionPhase;
@@ -40,10 +43,10 @@ public class EmailService {
      * Wysyła email tylko w przypadku zatwierdzenia transakcji. Jeżeli wysyłanie maila się nie powiedzie,
      * użytkownikowi nie zostanie przekazany błąd.
      *
-     * @param email email adresata
+     * @param email      email adresata
      * @param senderName nazwa nadawcy (nie jest to adres email)
-     * @param subject temat wiadomości
-     * @param message treść wiadomości
+     * @param subject    temat wiadomości
+     * @param message    treść wiadomości
      */
     public void sendTransactionalEmail(String email, String senderName, String subject, String message) {
         emailEventProducer.fire(new EmailEvent(email, senderName, subject, message));
@@ -51,10 +54,11 @@ public class EmailService {
 
     /**
      * Wysyła email na podany adres
-     * @param email email adresata
+     *
+     * @param email      email adresata
      * @param senderName nazwa nadawcy (nie jest to adres email)
-     * @param subject temat wiadomości
-     * @param message treść wiadomości
+     * @param subject    temat wiadomości
+     * @param message    treść wiadomości
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     public void sendEmail(String email, String senderName, String subject, String message) throws AppBaseException {

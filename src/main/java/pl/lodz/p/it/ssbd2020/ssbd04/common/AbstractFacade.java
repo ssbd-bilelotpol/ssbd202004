@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.common;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 
+import javax.annotation.security.DenyAll;
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
@@ -18,6 +19,7 @@ import java.util.List;
  *
  * @param <T> klasa encyjna
  */
+@DenyAll
 public abstract class AbstractFacade<T> {
 
     private final Class<T> entityClass;
@@ -28,6 +30,12 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
+    /**
+     * Utrwala encję w bazie danych.
+     *
+     * @param entity obiekt encji.
+     * @throws AppBaseException gdy zostaną naruszone warunki integralności lub wystapi inny błąd związany z bazą danych.
+     */
     public void create(T entity) throws AppBaseException {
         try {
             getEntityManager().persist(entity);
@@ -40,6 +48,12 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Aktualizuje dane encji w bazie danych.
+     *
+     * @param entity obiekt encji.
+     * @throws AppBaseException gdy zostaną naruszone warunki integralności, błąd blokady optymistycznej lub wystąpi inny błąd związany z bazą danych.
+     */
     public void edit(T entity) throws AppBaseException {
         try {
             getEntityManager().merge(entity);
@@ -54,6 +68,12 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Usuwa encję z bazy danych.
+     *
+     * @param entity obiekt encji.
+     * @throws AppBaseException gdy zostaną naruszone warunki integralności lub wystąpi inny błąd związany z bazą danych.
+     */
     public void remove(T entity) throws AppBaseException {
         try {
             getEntityManager().remove(getEntityManager().merge(entity));
@@ -66,22 +86,48 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Szuka encji w bazie danych na podstawie obiektu klucza głównego.
+     *
+     * @param id obiekt klucza głównego
+     * @return obiekt encji
+     */
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
 
-    public List<T> findAll() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
+    /**
+     * Pobiera listę wszystkich encji znajdujących się w bazie danych.
+     *
+     * @return lista wszystkich encji.
+     * @throws AppBaseException gdy wystapi błąd związany z bazą danych.
+     */
+    public List<T> findAll() throws AppBaseException {
+        try {
+            CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            cq.select(cq.from(entityClass));
+            return getEntityManager().createQuery(cq).getResultList();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
-    public int count() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
+    /**
+     * Pobiera liczbę wszystkich encji danego typu znajdujących się w bazie danych
+     *
+     * @return liczba wszystkich encji danego typu.
+     * @throws AppBaseException gdy wystapi błąd związany z bazą danych.
+     */
+    public int count() throws AppBaseException {
+        try {
+            CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            Root<T> rt = cq.from(entityClass);
+            cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+            Query q = getEntityManager().createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
 }

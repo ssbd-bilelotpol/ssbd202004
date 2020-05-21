@@ -8,7 +8,7 @@ public class ReCAPTCHAException extends AppBaseException {
         super(message);
     }
 
-    public static ReCAPTCHAException invalidCaptcha(){
+    public static ReCAPTCHAException invalidCaptcha() {
         return new ReCAPTCHAException(CAPTCHA_INVALID);
     }
 

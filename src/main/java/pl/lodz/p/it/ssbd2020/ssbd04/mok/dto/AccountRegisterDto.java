@@ -1,8 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.security.ReCAPTCHA;
-
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

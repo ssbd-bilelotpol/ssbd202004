@@ -56,7 +56,7 @@ public class VerificationTokenService {
                     i18n.getMessage(I18n.ACCOUNT_REGISTRATION_MAIL_SENDER),
                     i18n.getMessage(I18n.ACCOUNT_REGISTER_MAIL_TITLE),
                     String.format("%s/confirm/%s", config.getFrontendURL(), registerToken.getId().toString()));
-        } catch(AppBaseException e) {
+        } catch (AppBaseException e) {
             throw VerificationTokenException.mailFailure(registerToken);
         }
     }
@@ -118,7 +118,7 @@ public class VerificationTokenService {
                     i18n.getMessage(I18n.ACCOUNT_PASSWORD_RESET_MAIL_SENDER),
                     i18n.getMessage(I18n.ACCOUNT_PASS_RESET_MAIL_TITLE),
                     String.format("%s/resetPassword/%s", config.getFrontendURL(), resetPasswordToken.getId().toString()));
-        } catch(AppBaseException e) {
+        } catch (AppBaseException e) {
             throw VerificationTokenException.mailFailure(resetPasswordToken);
         }
     }

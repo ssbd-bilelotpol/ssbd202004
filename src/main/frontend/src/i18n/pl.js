@@ -28,7 +28,16 @@ export default {
             'error.token.expired': 'Token wygasł',
             'error.mail.failure': 'Błąd serwera email.',
             'error.account.notFound': 'Nie znaleziono żadnego pasującego konta',
-            'rest.processingError': 'Błąd poczas przetwarzania żądania',
+            'error.rest.processingError': 'Błąd poczas przetwarzania żądania',
+            'error.airplaneSchema.notFound':
+                'Schemat samolotu nie został znaleziony, mógł zostać usunięty.',
+            'error.airplaneSchema.inUse':
+                'Schemat samolotu jest używany przez co najmniej jeden lot',
+            'error.seatClass.notFound':
+                'Klasa siedzeń nie została znaleziona, mogła zostać usunięta',
+            'error.seatClass.inUse': 'Klasa siedzeń jest używana przez co najmniej jedno siedzenie',
+            'error.seatClass.nameTaken': 'Klasa siedzeń o takiej nazwie już istnieje',
+            'error.seatClass.benefitExists': 'Dodatek o takiej nazwie już istnieje',
             ...translations,
         },
     },

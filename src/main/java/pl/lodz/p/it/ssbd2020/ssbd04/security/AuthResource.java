@@ -1,11 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -26,7 +24,7 @@ import java.util.logging.Logger;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
-import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.ChangeRole;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GroupRoleMapper;
 

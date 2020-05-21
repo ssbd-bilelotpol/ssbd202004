@@ -7,8 +7,17 @@ import javax.enterprise.inject.spi.CDI;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+/**
+ * Służy do audytowania encji.
+ * Gdy obiekt jest tworzony, bądź aktualizowany ustawiany jest wykonawca operacji.
+ */
 public class AuditEntityListener {
 
+    /**
+     * Ustawia wykonawce operacji tworzenia encji.
+     *
+     * @param object obiekt encji.
+     */
     @PrePersist
     public void prePersist(Object object) {
         AbstractEntity abstractEntity = (AbstractEntity) object;
@@ -17,6 +26,11 @@ public class AuditEntityListener {
         abstractEntity.setCreatedBy(currentUser);
     }
 
+    /**
+     * Ustawia wykonawce operacji aktualizacji encji.
+     *
+     * @param object obiekt encji.
+     */
     @PreUpdate
     public void preUpdate(Object object) {
         AbstractEntity abstractEntity = (AbstractEntity) object;

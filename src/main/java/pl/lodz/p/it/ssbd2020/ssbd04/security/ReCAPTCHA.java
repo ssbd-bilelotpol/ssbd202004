@@ -34,7 +34,7 @@ public class ReCAPTCHA implements Serializable {
         }
 
         for (ErrorCode er : errors) {
-            switch(er) {
+            switch (er) {
                 case InvalidResponse:
                 case MissingResponse:
                     return true;
@@ -103,13 +103,13 @@ public class ReCAPTCHA implements Serializable {
                 '}';
     }
 
-    static enum ErrorCode {
+    enum ErrorCode {
         MissingSecret,
         InvalidSecret,
         MissingResponse,
         InvalidResponse;
 
-        private static Map<String, ErrorCode> errorsMap = new HashMap<>();
+        private static final Map<String, ErrorCode> errorsMap = new HashMap<>();
 
         static {
             errorsMap.put("missing-input-secret", MissingSecret);
