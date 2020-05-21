@@ -8,6 +8,7 @@ import './i18n/i18n';
 import './index.css';
 import App from './App';
 import store from './store';
+import refreshToken from './refresh';
 
 const Wrapper = () => (
     <Provider store={store}>
@@ -18,7 +19,4 @@ const Wrapper = () => (
 );
 
 ReactDOM.render(<Wrapper />, document.getElementById('root'));
-
-export default function getStore() {
-    return store;
-}
+refreshToken();

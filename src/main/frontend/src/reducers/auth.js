@@ -4,6 +4,7 @@ import {
     ACTION_LOGIN_FAILURE,
     ACTION_LOGIN_SUCCESS,
     ACTION_LOGOUT,
+    ACTION_REFRESH_TOKEN,
 } from '../actions';
 
 const initialState = {
@@ -28,6 +29,7 @@ export default function auth(state = initialState, action) {
         case ACTION_LOGIN_SUCCESS:
             return {
                 ...state,
+                tokenExp: action.payload.tokenExp,
                 loggedIn: true,
                 user: {
                     ...action.payload,
@@ -51,6 +53,17 @@ export default function auth(state = initialState, action) {
                     ...state.user,
                     role: action.payload.role,
                 },
+            };
+        case ACTION_REFRESH_TOKEN:
+            return {
+                ...state,
+                loggedIn: true,
+                tokenExp: action.payload.tokenExp,
+                user: {
+                    ...state.user,
+                    ...action.payload.user,
+                },
+                error: null,
             };
         default:
             return state;

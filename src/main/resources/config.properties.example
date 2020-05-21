@@ -1,6 +1,6 @@
 jwt.secretKey=<<JWT_SECRET_KEY>>
 etag.secretKey=<<ETAG_SECRET_KEY>>
-jwt.validity=15
+jwt.validity=<<JWT_VALIDITY>>
 frontend.url=<<FRONTEND_URL>>
 mail.apiKey=<<API_KEY>>
 mail.apiServer=<<API_SERVER>>

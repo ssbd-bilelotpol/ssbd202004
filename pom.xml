@@ -5,7 +5,7 @@
     <artifactId>ssbd04</artifactId>
     <version>0.0.7-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>ssbd04-0.0.7</name>
+    <name>ssbd04-0.0.8</name>
 
     <developers>
         <developer>

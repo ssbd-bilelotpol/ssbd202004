@@ -1,10 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -51,6 +50,28 @@ public class JWTProvider {
                 .compact();
 
         return new JWT(principal, authorities, base64);
+    }
+
+    /**
+     * Odświeża JWT, jeżeli czas ważności tokenu upływa za mniej niż połowę bazowego czasu.
+     *
+     * @param token
+     * @return
+     */
+    public JWT refresh(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(config.getJWTSecretKey())
+                .parseClaimsJws(token)
+                .getBody();
+
+        String base64 = Jwts.builder()
+                .setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, config.getJWTSecretKey())
+                .setExpiration(new Date((new Date()).getTime() + tokenValidity))
+                .compact();
+
+        String authorities = (String) claims.get(AUTHORITIES_SECTION);
+        return new JWT(claims.getSubject(), Set.of(authorities.split(",")), base64);
     }
 
 

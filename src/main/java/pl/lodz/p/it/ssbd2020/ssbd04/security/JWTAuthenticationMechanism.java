@@ -23,8 +23,8 @@ import java.util.logging.Logger;
 public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
 
     private static final Logger LOGGER = Logger.getLogger(JWTAuthenticationMechanism.class.getName());
-    private final static String AUTHORIZATION_HEADER = "Authorization";
-    private final static String BEARER = "Bearer ";
+    public final static String AUTHORIZATION_HEADER = "Authorization";
+    public final static String BEARER = "Bearer ";
 
     @Inject
     private JWTProvider jwtProvider;
@@ -72,7 +72,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
         }
 
         try {
-            return jwtProvider.load(authorizationHeader.substring(BEARER.length()));
+            return jwtProvider.load(extractToken(authorizationHeader));
         } catch (SignatureException e) {
             LOGGER.log(Level.INFO, "Invalid JWT signature {0}", e.getMessage());
         } catch (ExpiredJwtException e) {
@@ -80,6 +80,10 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
         }
 
         return null;
+    }
+
+    public static String extractToken(String requestContext){
+        return requestContext.substring(BEARER.length());
     }
 
 

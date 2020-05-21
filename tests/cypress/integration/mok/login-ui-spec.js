@@ -39,10 +39,10 @@ describe('login', () => {
     });
     it('fails to request a protected resource', () => {
         cy.request({
-            url: `${backend}/users`,
+            url: `${backend}/accounts`,
             failOnStatusCode: false,
         })
             .its('status')
-            .should('equal', 404)
+            .should('equal', 400)
     });
 });

@@ -12,6 +12,7 @@ MOL_PASSWORD=$(escape_string $bamboo_MOL_PASSWORD)
 AUTH_PASSWORD=$(escape_string $bamboo_AUTH_PASSWORD)
 API_URL=$(escape_string $API_URL)
 JWT_KEY=$(escape_string $bamboo_JWT_KEY_PASSWORD)
+JWT_VALIDITY=$(escape_string $JWT_VALIDITY)
 ETAG_KEY=$(escape_string $bamboo_ETAG_KEY_PASSWORD)
 FRONTEND_URL=$(escape_string $FRONTEND_URL)
 API_KEY=$(escape_string $bamboo_API_KEY_PASSWORD)
@@ -31,11 +32,13 @@ s/<<authCP_PASSWORD>>/$AUTH_PASSWORD/g
 
 sed "
 s/<<REACT_APP_URL>>/$API_URL/g;
+s/<<JWT_VALIDITY>>/$JWT_VALIDITY/g;
 s/<<GOOGLE_SITE_KEY>>/$GOOGLE_SITE_KEY/g;
 " ../src/main/frontend/.env.example > ../src/main/frontend/.env
 
 sed "
 s/<<JWT_SECRET_KEY>>/$JWT_KEY/g;
+s/<<JWT_VALIDITY>>/$JWT_VALIDITY/g;
 s/<<ETAG_SECRET_KEY>>/$ETAG_KEY/g;
 s/<<FRONTEND_URL>>/$FRONTEND_URL/g;
 s/<<API_KEY>>/$API_KEY/g;

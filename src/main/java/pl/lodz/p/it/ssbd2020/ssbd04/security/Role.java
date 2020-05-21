@@ -33,6 +33,7 @@ public class Role {
     public static final String RetrieveOtherAccountDetails = "retrieveOtherAccountDetails";
     public static final String ChangeRole = "changeRole";
     public static final String FindAccountsByName = "findAccountsByName";
+    public static final String RefreshToken = "refreshToken";
     public static final String CreateSeatClass = "createSeatClass";
     public static final String DeleteSeatClass = "deleteSeatClass";
     public static final String UpdateSeatClass = "updateSeatClass";

@@ -14,6 +14,7 @@ import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,8 +26,9 @@ import static javax.security.enterprise.identitystore.CredentialValidationResult
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
-import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.ChangeRole;
-import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GroupRoleMapper;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.JWTAuthenticationMechanism.AUTHORIZATION_HEADER;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.JWTAuthenticationMechanism.extractToken;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
 
 @Path("/auth")
 /**
@@ -101,6 +103,17 @@ public class AuthResource {
                     new Object[]{securityContext.getCallerPrincipal().getName(), httpServletRequest.getRemoteAddr(), role});
             return Response.status(UNAUTHORIZED).build();
         }
+    }
+
+    @POST
+    @Path("/refresh-token")
+    @RolesAllowed({RefreshToken})
+    public Response refreshToken(ContainerRequestContext requestContext) {
+        String currentToken = extractToken(requestContext.getHeaderString(AUTHORIZATION_HEADER));
+        JWT refreshedToken = jwtProvider.refresh(currentToken);
+        LOGGER.log(Level.INFO, "User {0} with IP {1} refreshed token",
+                new Object[]{securityContext.getCallerPrincipal().getName(), httpServletRequest.getRemoteAddr()});
+        return Response.ok().entity(refreshedToken).build();
     }
 
     /**

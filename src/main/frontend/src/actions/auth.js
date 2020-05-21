@@ -1,11 +1,13 @@
+import jwtDecode from 'jwt-decode';
+import { changeRoleApi, loginApi, refreshTokenApi } from '../api/auth';
 import {
     ACTION_CHANGE_ROLE,
     ACTION_LOGIN_BEGIN,
     ACTION_LOGIN_FAILURE,
     ACTION_LOGIN_SUCCESS,
     ACTION_LOGOUT,
+    ACTION_REFRESH_TOKEN,
 } from './index';
-import { changeRoleApi, loginApi } from '../api/auth';
 
 export const changeRoleAction = (role) => async (dispatch) => {
     const change = (role) => ({
@@ -17,6 +19,19 @@ export const changeRoleAction = (role) => async (dispatch) => {
 
     dispatch(change(role));
     await changeRoleApi(role);
+};
+
+export const refreshTokenAction = () => async (dispatch) => {
+    const refresh = (user, tokenExp) => ({
+        type: ACTION_REFRESH_TOKEN,
+        payload: {
+            user,
+            tokenExp,
+        },
+    });
+    const user = await refreshTokenApi();
+    const tokenExp = jwtDecode(user.token).exp;
+    dispatch(refresh(user, tokenExp));
 };
 
 export const logoutAction = () => (dispatch) => {
@@ -34,6 +49,7 @@ export const loginAction = (username, password) => async (dispatch) => {
         type: ACTION_LOGIN_SUCCESS,
         payload: {
             ...user,
+            tokenExp: jwtDecode(user.token).exp,
         },
     });
 

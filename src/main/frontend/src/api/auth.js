@@ -7,6 +7,14 @@ export const registerApi = (user) => post(`/accounts`, user);
 
 export const confirmApi = (tokenId) => post(`/accounts/confirm/${tokenId}`);
 
+export const refreshTokenApi = async () => {
+    const jwt = await post(`/auth/refresh-token`);
+    return {
+        token: jwt.token,
+        roles: jwt.authorities.sort((a, b) => rolePriority[a] - rolePriority[b]),
+    };
+};
+
 export const loginApi = async (username, password) => {
     const user = await post(`/auth`, {
         username,
