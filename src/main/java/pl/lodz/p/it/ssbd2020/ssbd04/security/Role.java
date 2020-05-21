@@ -41,4 +41,14 @@ public class Role {
     public static final String UpdateAirplaneSchema = "updateAirplaneSchema";
     public static final String DeleteAirplaneSchema = "deleteAirplaneSchema";
     public static final String GetAllAirplaneSchemas = "getAllAirplaneSchemas";
+    public static final String CreateAirport = "createAirport";
+    public static final String DeleteAirport = "deleteAirport";
+    public static final String UpdateAirport = "updateAirport";
+    public static final String CreateConnection = "createConnection";
+    public static final String DeleteConnection = "deleteConnection";
+    public static final String UpdateConnection = "updateConnection";
+    public static final String CreateFlight = "createFlight";
+    public static final String CancelFlight = "cancelFlight";
+    public static final String UpdateFlight = "updateFlight";
+
 }

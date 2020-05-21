@@ -113,6 +113,42 @@
         <role-name>deleteAirplaneSchema</role-name>
     </security-role>
 
+    <security-role>
+        <role-name>createAirport</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>deleteAirport</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>updateAirport</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>createConnection</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>deleteConnection</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>updateConnection</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>createFlight</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>cancelFlight</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>updateFlight</role-name>
+    </security-role>
+    
     <error-page>
         <location>/exception_handler</location>
     </error-page>
