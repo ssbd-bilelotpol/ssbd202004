@@ -1,33 +1,39 @@
 LoggedIn
 AccountDetailsPage
 AccountController
+AccountEndpoint
 AccountService
 AccountFacade
 @Starter(LoggedIn)
 
 if (validData) {
   displaySuccess = AccountDetailsPage.enter() {
-    successResponse =  AccountController.changePassword(changePasswordDto) {
-      // RW, Read Committed
-      while(1) {
-        account = AccountService.findById(accountId) {
-          account = AccountFacade.findById(accountId)
-        }
-      
-        Account.setPassword(password)
-        success = AccountService.edit(account) {
-          success = AccountFacade.edit(account)
+    successResponse = AccountController.changePassword(changePasswordDto) {
+        successResponse =  AccountEndpoint.changePassword(changePasswordDto) {
+        // RW, Read Committed
+        while(1) {
+          account = AccountService.findById(accountId) {
+            account = AccountFacade.findById(accountId)
+          }
+
+          Account.setPassword(password)
+          success = AccountService.edit(account) {
+            success = AccountFacade.edit(account)
+          }
         }
       }
     }
+
   }
 } else if(invalidCurrentPassword)
   displayError = AccountDetailsPage.enter() {
     errorResponse =  AccountController.changePassword(changePasswordDto) {
-      // RW, Read Committed
-      while(1) {
-        account = AccountService.findById(accountId) {
-          account = AccountFacade.findById(accountId)
+      errorResponse =  AccountEndpoint.changePassword(changePasswordDto) {
+        // RW, Read Committed
+        while(1) {
+          account = AccountService.findById(accountId) {
+            account = AccountFacade.findById(accountId)
+          }
         }
       }
     }
@@ -36,13 +42,16 @@ if (validData) {
 } else if(accountNotFound)
   displayError = AccountDetailsPage.enter() {
     errorResponse =  AccountController.changePassword(changePasswordDto) {
-      // RW, Read Committed
-      while(1) {
-        notFound = AccountService.findById(accountId) {
-          notFound = AccountFacade.findById(accountId)
+      errorResponse =  AccountEndpoint.changePassword(changePasswordDto) {
+        // RW, Read Committed
+        while(1) {
+          notFound = AccountService.findById(accountId) {
+            notFound = AccountFacade.findById(accountId)
+          }
         }
       }
     }
+
   }
 } else if(passwordsDontMatch) {
   displayError = AccountDetailsPage.enter() {

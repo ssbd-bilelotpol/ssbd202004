@@ -1,40 +1,21 @@
 CustomerService
 ReportsPanelPage
 ReportsController
-TicketController
-TicketService
-TicketFacade
+ConnectionEndpoint
+ConnectionService
+ConnectionFacade
 @Starter(CustomerService)
-if(validRange) {
-  displaySuccess = ReportsPanelPage.generateReport(from, to) {
-    successResponse = ReportsController.generateReport(from, to) {
-      tickets = TicketController.getTickets() {
-        //RO, Read Committed
-        while(1) {
-          tickets = TicketService.findAll() {
-            tickets = TicketFacade.findAll()
-          }
+
+displaySuccess = ReportsPanelPage.generateReport() {
+  successResponse = ReportsController.generateReport() {
+    connections = ConnectionEndpoint.generateReport() {
+      // RO, Read Committed
+      while(1) {
+        connections = ConnectionService.findAll() {
+          connection = ConnectionFacade.findAll()
         }
       }
+
     }
-  }
-}
-else if(noDataInRange) {
-  displayError = ReportsPanelPage.generateReport(from, to) {
-    errorNoDataInRange = ReportsController.generateReport(from, to) {
-      tickets = TicketController.getTickets() {
-        //RO, Read Committed
-        while(1) {
-          tickets = TicketService.findAll() {
-            tickets = TicketFacade.findAll()
-          }
-        }
-      }
-    }
-  }
-}
-else if(invalidRange) {
-  displayError = ReportsPanelPage.generateReport(from, to) {
-    errorInvalidRange = ReportsController.generateReport(from, to)
   }
 }

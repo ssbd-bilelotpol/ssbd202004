@@ -21,9 +21,11 @@ if (validAuthData) {
 } else {
   errorMessage = LoginPage.auth(login, password) {
     errorResponse = AuthResource.auth(login, password) {
-      // RO, Read Committed
-      while(1) {
-        invalidData = AuthenticationIdentityStore.validate(login, password)
+      error = IdentityStoreHandler.validate(account) {
+        // RO, Read Committed
+        while(1) {
+          error = AuthenticationIdentityStore.validate(login, password)
+        }
       }
     }
   }

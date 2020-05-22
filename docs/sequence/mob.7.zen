@@ -1,16 +1,19 @@
 CustomerService
 AccountsPanelPage
 AccountController
+AccountEndpoint
 AccountService
 AccountFacade
 @Starter(CustomerService)
 if(anyAccountExists) {
   displaySuccess = AccountsPanelPage.getAccountsByProperties(query) {
     successResponse = AccountController.getByProperties(query) {
-      // RO, Read Committed
-      while(1) {
-        accounts = AccountService.findByProperties(query) {
-          accounts = AccountFacade.findByProperties(query)
+      successResponse = AccountEndpoint.getByProperties(query) {
+        // RO, Read Committed
+        while(1) {
+          accounts = AccountService.findByProperties(query) {
+            accounts = AccountFacade.findByProperties(query)
+          }
         }
       }
     }
@@ -19,13 +22,16 @@ if(anyAccountExists) {
 else if(noAccountsWithSpecifiedParameters) {
   displayError = AccountsPanelPage.getAccountsByProperties(query) {
     errorNoAcounts = AccountController.getByProperties(query) {
-      // RO, Read Committed
-      while(1) {
-        error = AccountService.findByProperties(query) {
-          noAccounts = AccountFacade.findByProperties(query)
+       errorNoAcounts = AccountEndpoint.getByProperties(query) {
+        // RO, Read Committed
+        while(1) {
+          error = AccountService.findByProperties(query) {
+            noAccounts = AccountFacade.findByProperties(query)
+          }
         }
       }
     }
+
   }
 }
 else if(invalidData) {

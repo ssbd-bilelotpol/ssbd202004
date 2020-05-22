@@ -1,6 +1,7 @@
 Administrator
 AccountDetailsPage
 AccountController
+AccountEndpoint
 AccountService
 AccountFacade
 EmailSender
@@ -9,27 +10,33 @@ EmailSender
 if (accountExist) {
   displaySuccess = AccountDetailsPage.resetPassword(account) {
     successResponse = AccountController.resetPassword(accountId) {
-      // RW, Read Comitted
-      while(1) {
-        success = AccountService.resetPassword(accountId) {
-          account = AccountFacade.findById(accountId)
-          new ResetPasswordToken()
-          Account.addResetToken(token)
-          AccountFacade.save(account)
+      successResponse = AccountEndpoint.resetPassword(accountId) {
+        // RW, Read Comitted
+        while(1) {
+          success = AccountService.resetPassword(accountId) {
+            account = AccountFacade.findById(accountId)
+            new ResetPasswordToken()
+            Account.addResetToken(token)
+            AccountFacade.save(account)
+          }
         }
+        EmailSender.sendResetEmail(account)
       }
-      EmailSender.sendResetEmail(account)
     }
+
   }
 } else if (accountNotFound) {
   displayError = AccountDetailsPage.resetPassword(account) {
     errorResponse = AccountController.resetPassword(accountId) {
-      // RW, Read Comitted
-      while(1) {
-        notFound = AccountService.resetPassword(accountId) {
-          notFound = AccountFacade.findById(accountId)
+      errorResponse = AccountEndpoint.resetPassword(accountId) {
+        // RW, Read Comitted
+        while(1) {
+          notFound = AccountService.resetPassword(accountId) {
+            notFound = AccountFacade.findById(accountId)
+          }
         }
       }
     }
+
   }  
 }

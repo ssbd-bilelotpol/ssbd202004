@@ -1,46 +1,55 @@
 AccountDetailsPage
 AccountController
+AccountEndpoint
 AccountService
 AccountFacade
 @Starter(Administrator)
 
 if(assignedRole) {
   displaySuccess = AccountDetailsPage.enter(accountId) {
-   successResponse =  AccountController.deleteRole(accountId, role) {
-     // RW, Read Committed
-     while(1) {
-      success = AccountService.deleteRole(accountId, role) {
-        account = AccountFacade.findById(accountId)
-        new AccountAccessLevel(delete)
-        Account.deleteRole(role)
-        AccountFacade.save(account)
+    successResponse =  AccountController.deleteRole(accountId, role) {
+     successResponse =  AccountEndpoint.deleteRole(accountId, role) {
+       // RW, Read Committed
+       while(1) {
+        success = AccountService.deleteRole(accountId, role) {
+          account = AccountFacade.findById(accountId)
+          new AccountAccessLevel(delete)
+          Account.deleteRole(role)
+          AccountFacade.save(account)
+        }
       }
+     }
     }
-   }
+
   }
 } else if (withoutRole) {
   displayError = AccountDetailsPage.enter(accountId) {
    errorResponse =  AccountController.deleteRole(accountId, role) {
-     // RW, Read Committed
-     while(1) {
-      error = AccountService.deleteRole(accountId, role) {
-        account = AccountFacade.findById(accountId)
-        new AccountAccessLevel(delete)
-        Account.deleteRole(role)
-        AccountFacade.save(account)
+      errorResponse = AccountEndpoint.deleteRole(accountId, role) {
+       // RW, Read Committed
+       while(1) {
+        error = AccountService.deleteRole(accountId, role) {
+          account = AccountFacade.findById(accountId)
+          new AccountAccessLevel(delete)
+          Account.deleteRole(role)
+          AccountFacade.save(account)
+        }
       }
-    }
+     }
    }
+
   }
 } else if (accountNotFound) {
   displayError = AccountDetailsPage.enter(accountId) {
-   errorResponse =  AccountController.deleteRole(accountId, role) {
-     // RW, Read Committed
-     while(1) {
-      error = AccountService.deleteRole(accountId, role) {
-       notFound = AccountFacade.findById(accountId)
+    errorResponse =  AccountController.deleteRole(accountId, role) {
+     errorResponse =  AccountEndpoint.deleteRole(accountId, role) {
+       // RW, Read Committed
+       while(1) {
+        error = AccountService.deleteRole(accountId, role) {
+         notFound = AccountFacade.findById(accountId)
+        }
       }
+     }
     }
-   }
   }
 }

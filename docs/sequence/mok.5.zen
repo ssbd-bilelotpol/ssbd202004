@@ -1,6 +1,7 @@
 Administrator
 EditAccountPage
 AccountController
+AccountEndpoint
 AccountService
 AccountFacade
 Account
@@ -8,57 +9,72 @@ Account
 
 displayAccountForm = EditAccountPage.edit(account) {
   successAccountResponse = AccountController.get(accountId) {
-    // RO, Read Committed
-    while(1) {
-      account = AccountService.find(accountId) {
-        account = AccountFacade.find(accountId)
+      successAccountResponse = AccountEndpoint.get(accountId) {
+      // RO, Read Committed
+      while(1) {
+        account = AccountService.find(accountId) {
+          account = AccountFacade.find(accountId)
+        }
       }
     }
   }
+
 }
 
 if (validData) {
   displaySuccess = EditAccountPage.save(accountDto) {
     successResponse =  AccountController.patch(accountDto) {
-      // RW, Read Committed
-      while(1) {
-        account = AccountService.find(accountId) {
-          account = AccountFacade.find(accountId)
-        }
+        successResponse = AccountEndpoint.patch(accountDto) {
+        // RW, Read Committed
+        while(1) {
+          account = AccountService.find(accountId) {
+            account = AccountFacade.find(accountId)
+          }
 
-        Account.setData(accountDto)
-        success = AccountService.edit(account) {
-          success = AccountFacade.edit(account)
+          Account.setData(accountDto)
+          success = AccountService.edit(account) {
+            success = AccountFacade.edit(account) {
+              AccountDetails."<<cascade merge>>"
+              AccountAccessLevel."<<cascade merge>>"
+            }
+          }
         }
       }
     }
-  }  
+
+  }
 } else if(emailExists) {
   displayError = EditAccountPage.save(accountDto) {
     errorResponse =  AccountController.patch(accountDto) {
-      // RW, Read Committed
-      while(1) {
-        account = AccountService.find(accountId) {
-          account = AccountFacade.find(accountId)
+        errorResponse =  AccountEndpoint.patch(accountDto) {
+        // RW, Read Committed
+        while(1) {
+          account = AccountService.find(accountId) {
+            account = AccountFacade.find(accountId)
+          }
+
+        Account.setData(accountDto)
+        error = AccountService.edit(account) {
+            errorEmailExists = AccountFacade.edit(account)
+          }
         }
-  
-      Account.setData(accountDto)
-      error = AccountService.edit(account) {
-          errorEmailExists = AccountFacade.edit(account)
-        }
-      }     
+      }
     }
+
   }
 } else if(accountNotFound)
   displayErrorMessage = EditAccountPage.save(accountDto) {
     errorResponse = AccountController.patch(accountDto) {
-      // RW, Read Committed  
-      while (1) {
-        notFound = AccountService.findById(accountId) {
-            notFound = AccountFacade.findById(accountId)
+        errorResponse = AccountEndpoint.patch(accountDto) {
+        // RW, Read Committed
+        while (1) {
+          notFound = AccountService.findById(accountId) {
+              notFound = AccountFacade.findById(accountId)
+          }
         }
       }
     }
+
   }
 } else if(invalidData) {
   displayError = EditAccountPage.save(accountDto) {

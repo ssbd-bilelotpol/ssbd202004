@@ -1,46 +1,54 @@
 AccountDetailsPage
 AccountController
+AccountEndpoint
 AccountService
 AccountFacade
 @Starter(Administrator)
 
 if(doesNotHaveRole) {
   displaySuccess = AccountDetailsPage.enter(accountId) {
-   successResponse =  AccountController.assignRole(accountId, role) {
-     // RW, Read Committed
-     while(1) {
-      success = AccountService.assignRole(accountId, role) {
-        account = AccountFacade.findById(accountId)
-        new AccountAccessLevel()
-        Account.addRole(accessLevel)
-        AccountFacade.save(account)
+   successResponse = AccountController.assignRole(accountId, role) {
+     successResponse = AccountEndpoint.assignRole(accountId, role) {
+       // RW, Read Committed
+       while(1) {
+        success = AccountService.assignRole(accountId, role) {
+          account = AccountFacade.findById(accountId)
+          new AccountAccessLevel()
+          Account.addRole(accessLevel)
+          AccountFacade.save(account)
+        }
       }
-    }
+     }
    }
   }
 } else if (alreadyAssignedRole) {
   displayError = AccountDetailsPage.enter(accountId) {
    errorResponse =  AccountController.assignRole(accountId, role) {
-     // RW, Read Committed
-     while(1) {
-      error = AccountService.assignRole(accountId, role) {
-        account = AccountFacade.findById(accountId)
-        new AccountAccessLevel()
-        Account.addRole(accessLevel)
-        AccountFacade.save(account)
+     errorResponse =  AccountEndpoint.assignRole(accountId, role) {
+       // RW, Read Committed
+       while(1) {
+        error = AccountService.assignRole(accountId, role) {
+          account = AccountFacade.findById(accountId)
+          new AccountAccessLevel()
+          Account.addRole(accessLevel)
+          AccountFacade.save(account)
+        }
       }
-    }
+     }
    }
+
   }
 } else if (accountNotFound) {
   displayError = AccountDetailsPage.enter(accountId) {
    errorResponse =  AccountController.assignRole(accountId, role) {
-     // RW, Read Committed
-     while(1) {
-      error = AccountService.assignRole(accountId, role) {
-       notFound = AccountFacade.findById(accountId)
+     errorResponse =  AccountEndpoint.assignRole(accountId, role) {
+       // RW, Read Committed
+       while(1) {
+        error = AccountService.assignRole(accountId, role) {
+         notFound = AccountFacade.findById(accountId)
+        }
       }
-    }
+     }
    }
   }
 }

@@ -10,6 +10,9 @@ TicketService
 TicketFacade
 Passenger
 Ticket
+ConnectionService
+ConnectionFacade
+Connection
 @Starter(Client)
 buyTicketForm = BuyTicketPage.buyTicket(flight) {
 
@@ -23,11 +26,11 @@ buyTicketForm = BuyTicketPage.buyTicket(flight) {
       airplaneSchema = AirplaneSchemaService.find(schemaId) {
         airplaneSchema = AirplaneSchemaFacade.find(schemaId)
       }
-     
+
       takenSeats = TicketService.getTakenSeats(flightId){
         takenSeats = TicketFacade.getTakenSeats(flightId)
       }
-    
+
   }
               }
       }
@@ -44,6 +47,13 @@ if(validData) {
           Ticket.setData(ticketDto)
           success = TicketFacade.add(ticket){
             Passenger."<<cascade persist>>"
+          }
+          success = ConnectionService.calculateAggregate() {
+            connection = ConnectionFacade.find(connectionId)
+            tickets = TicketFacade.find(connectionId)
+            calculate()
+            Connection.setProfit(profit)
+            success = ConnectionFacade.edit(connection)
           }
         }
       }

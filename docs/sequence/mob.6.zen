@@ -1,95 +1,55 @@
 Client
 TicketDetailsPage
 TicketController
+TicketEndpoint
 TicketService
 TicketFacade
 @Starter(Client)
 if(validData) {
   displaySuccess = TicketDetailsPage.updateTicket(ticket) {
-    //RW, Read Committed
-    while(1) {
-      successResponse = TicketController.updateTicket(modifiedTicket) {
-        success = TicketService.update(modifiedTicket) {
-          success = TicketFacade.edit(modifiedTicket)
+    successResponse = TicketController.updateTicket(modifiedTicket) {
+      successResponse = TicketEndpoint.updateTicket(modifiedTicket) {
+        // RW, Read Committed
+        while(1) {
+           success = TicketService.update(modifiedTicket) {
+            success = TicketFacade.edit(modifiedTicket)
+          }
         }
+
       }
     }
+
   }
 }
 else if(noFreeSeatsInClass) {
   displayError = TicketDetailsPage.updateTicket(ticket) {
-    //RW, Read Committed
-    while(1) {
-      errorNoFreeSeatsInClass = TicketController.updateTicket(modifiedTicket) {
-        error = TicketService.update(modifiedTicket) {
-          noFreeSeatsInClass = TicketFacade.edit(modifiedTicket)
+    errorNoFreeSeatsInClass = TicketController.updateTicket(modifiedTicket) {
+      errorNoFreeSeatsInClass = TicketEndpoint.updateTicket(modifiedTicket) {
+        // RW, Read Committed
+        while(1) {
+          error = TicketService.update(modifiedTicket) {
+            noFreeSeatsInClass = TicketFacade.edit(modifiedTicket)
+          }
         }
+
       }
     }
+
   }
 }
 else if(ticketDeletedByOtherUser) {
   displayError = TicketDetailsPage.updateTicket(ticket) {
-    //RW, Read Committed
-    while(1) {
-      errorTicketDeletedByOtherUser = TicketController.updateTicket(modifiedTicket) {
-        error = TicketService.update(modifiedTicket) {
+    errorTicketDeletedByOtherUser = TicketController.updateTicket(modifiedTicket) {
+     errorTicketDeletedByOtherUser = TicketEndpoint.updateTicket(modifiedTicket) {
+       // RW, Read Commited
+       while(1) {
+         error = TicketService.update(modifiedTicket) {
           ticketDeletedByOtherUser = TicketFacade.edit(modifiedTicket)
         }
+       }
+
       }
     }
+
   }
 }
-if(paymentApproved) {
-  displaySuccess = PaymentSite.pay(paymentId)
-}
-else if(paymentDisapproved) {
-  displayError = PaymentSite.pay(paymentId)
-}
-
-
-//2
-//
-//
-// CustomerService
-// TicketDetailsPage
-// TicketController
-// TicketService
-// TicketFacade
-// @Starter(CustomerService)
-// if(validData) {
-//   displaySuccess = TicketDetailsPage.updateTicket(ticket) {
-//     //RW, Read Committed
-//     while(1) {
-//       successResponse = TicketController.updateTicket(modifiedTicket) {
-//         success = TicketService.update(modifiedTicket) {
-//           success = TicketFacade.edit(modifiedTicket)
-//         }
-//       }
-//     }
-//   }
-// }
-// else if(noFreeSeatsInClass) {
-//   displayError = TicketDetailsPage.updateTicket(ticket) {
-//     //RW, Read Committed
-//     while(1) {
-//       errorNoFreeSeatsInClass = TicketController.updateTicket(modifiedTicket) {
-//         error = TicketService.update(modifiedTicket) {
-//           noFreeSeatsInClass = TicketFacade.edit(modifiedTicket)
-//         }
-//       }
-//     }
-//   }
-// }
-// else if(ticketDeletedByOtherUser) {
-//   displayError = TicketDetailsPage.updateTicket(ticket) {
-//     //RW, Read Committed
-//     while(1) {
-//       errorTicketDeletedByOtherUser = TicketController.updateTicket(modifiedTicket) {
-//         error = TicketService.update(modifiedTicket) {
-//           ticketDeletedByOtherUser = TicketFacade.edit(modifiedTicket)
-//         }
-//       }
-//     }
-//   }
-// }

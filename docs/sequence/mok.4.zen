@@ -1,43 +1,58 @@
 LoggedIn
 EditAccountPage
 AccountController
+AccountEndpoint
 AccountService
 AccountFacade
+AccountDetails
+AccountAccessLevel
 @Starter(LoggedIn)
 
 displayAccountData = EditAccountPage.enter() {
   accountDto = AccountController.get(accountId) {
+    accountDto = AccountEndpoint.get(accountId) {
     // RO, Read Committed
-    while(1) {
-      account = AccountService.findById(accountId) {
-        account = AccountFacade.findById(accountId)
+      while(1) {
+        account = AccountService.findById(accountId) {
+          account = AccountFacade.findById(accountId)
+        }
       }
     }
   }
+
 }
 
 if (validData) {
   displaySuccessMessage = EditAccountPage.save(accountForm) {
     successResponse = AccountController.patch(accountDto) {
-      // RW, Read Committed  
-      while (1) {
-        account = AccountService.findById(accountId)
-      
-      Account.setData(accountDto)
-        success = AccountService.edit(account) {
-          success = AccountFacade.edit(account)
+      successResponse = AccountEndpoint.patch(accountDto) {
+        // RW, Read Committed
+        while (1) {
+          account = AccountService.findById(accountId)
+
+          Account.setData(accountDto)
+          success = AccountService.edit(account) {
+            success = AccountFacade.edit(account) {
+              AccountDetails."<<cascade merge>>"
+              AccountAccessLevel."<<cascade merge>>"
+            }
+          }
         }
       }
     }
+
   }
 } else if(accountNotFound)
   displayErrorMessage = EditAccountPage.save(accountForm) {
     errorResponse = AccountController.patch(accountDto) {
-      // RW, Read Committed  
-      while (1) {
-        notFound = AccountService.findById(accountId)
+      errorResponse = AccountEndpoint.patch(accountDto) {
+        // RW, Read Committed
+        while (1) {
+          notFound = AccountService.findById(accountId)
+        }
       }
     }
+
   }
 
 } else if(invalidAccountData) {
