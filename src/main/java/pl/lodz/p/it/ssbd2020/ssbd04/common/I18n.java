@@ -76,6 +76,10 @@ public class I18n {
     public static final String SEAT_CLASS_BENEFIT_EXISTS = "error.seatClass.benefitExists";
     public static final String MAIL_FOOTER = "mail.footer";
 
+    public static final String TICKET_NOT_FOUND = "error.ticket.notFound";
+    public static final String TICKET_FLIGHT_NOT_FOUND = "error.ticket.flightNotFound";
+    public static final String TICKET_SEAT_TAKEN = "error.ticket.seatTaken";
+    public static final String TICKET_RETURN_TIME_EXPIRED = "error.ticket.returnTimeExpired";
 
     @Inject
     HttpServletRequest request;

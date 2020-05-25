@@ -88,11 +88,9 @@
     <security-role>
         <role-name>createSeatClass</role-name>
     </security-role>
-
     <security-role>
         <role-name>deleteSeatClass</role-name>
     </security-role>
-
     <security-role>
         <role-name>updateSeatClass</role-name>
     </security-role>
@@ -100,15 +98,12 @@
     <security-role>
         <role-name>createAirplaneSchema</role-name>
     </security-role>
-
     <security-role>
         <role-name>getAllAirplaneSchemas</role-name>
     </security-role>
-
     <security-role>
         <role-name>updateAirplaneSchema</role-name>
     </security-role>
-
     <security-role>
         <role-name>deleteAirplaneSchema</role-name>
     </security-role>
@@ -116,11 +111,9 @@
     <security-role>
         <role-name>createAirport</role-name>
     </security-role>
-
     <security-role>
         <role-name>deleteAirport</role-name>
     </security-role>
-
     <security-role>
         <role-name>updateAirport</role-name>
     </security-role>
@@ -128,11 +121,9 @@
     <security-role>
         <role-name>createConnection</role-name>
     </security-role>
-
     <security-role>
         <role-name>deleteConnection</role-name>
     </security-role>
-
     <security-role>
         <role-name>updateConnection</role-name>
     </security-role>
@@ -140,11 +131,9 @@
     <security-role>
         <role-name>createFlight</role-name>
     </security-role>
-
     <security-role>
         <role-name>cancelFlight</role-name>
     </security-role>
-
     <security-role>
         <role-name>updateFlight</role-name>
     </security-role>
@@ -156,7 +145,32 @@
     <security-role>
         <role-name>calculateConnectionProfit</role-name>
     </security-role>
-    
+
+    <security-role>
+        <role-name>findTicketsByFlight</role-name>
+    </security-role>
+    <security-role>
+        <role-name>findTicketsByAccount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>findTicketById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAllTickets</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getOwnTickets</role-name>
+    </security-role>
+    <security-role>
+        <role-name>createTicket</role-name>
+    </security-role>
+    <security-role>
+        <role-name>returnTicket</role-name>
+    </security-role>
+    <security-role>
+        <role-name>updateTicket</role-name>
+    </security-role>
+
     <error-page>
         <location>/exception_handler</location>
     </error-page>

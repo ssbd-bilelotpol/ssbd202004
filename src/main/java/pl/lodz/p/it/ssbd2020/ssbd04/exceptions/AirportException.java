@@ -48,8 +48,8 @@ public class AirportException extends AppBaseException {
     }
 
     /**
-     * Tworzy wyjątek reprezentujacy sytuację, w której czynność nie może zostać wykonana ze względu na inny obiekt
-     * używajacy tego lotniska.
+     * Tworzy wyjątek reprezentujący sytuację, w której czynność nie może zostać wykonana ze względu na inny obiekt
+     * używający tego lotniska.
      * @return stworzony wyjątek
      */
     public static AirportException inUse() {

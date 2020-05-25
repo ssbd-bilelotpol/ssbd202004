@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
@@ -32,6 +34,9 @@ public class AccountController extends AbstractController {
 
     @Inject
     private AccountEndpoint accountEndpoint;
+
+    @Inject
+    private TicketEndpoint ticketEndpoint;
 
     @Inject
     private MessageSigner messageSigner;
@@ -256,6 +261,32 @@ public class AccountController extends AbstractController {
     @Consumes(MediaType.APPLICATION_JSON)
     public void changeAccountActiveStatus(@NotNull @PathParam("login") @Login @Valid String login, @NotNull @Valid AccountBlockDto accountBlockDto) throws AppBaseException {
         repeat(accountEndpoint, () -> accountEndpoint.changeAccountActiveStatus(login, accountBlockDto.getActive()));
+    }
+
+    /**
+     * Zwraca listę biletów posiadanych przez aktualnego użytkownika.
+     *
+     * @return bilety posiadane przez użytkownika
+     * @throws AppBaseException gdy nie udało się pobrać posiadanych biletów
+     */
+    @GET
+    @Path("/self/tickets")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TicketDto> getOwnTickets() throws AppBaseException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Zwraca listę biletów posiadanych przez aktualnego użytkownika.
+     *
+     * @return bilety posiadane przez użytkownika
+     * @throws AppBaseException gdy nie udało się pobrać posiadanych biletów
+     */
+    @GET
+    @Path("/{login}/tickets")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TicketDto> getOtherAccountTickets(@NotNull @PathParam("login") String login) throws AppBaseException {
+        throw new UnsupportedOperationException();
     }
 
 }

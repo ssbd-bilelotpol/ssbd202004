@@ -56,6 +56,10 @@ export default {
                 'Wygląda na to, że jesteś robotem. Spróbuj ponownie za kilka minut.',
             'error.captcha.cantConnect':
                 'Wystąpił niespodziewany błąd na serwerze, spróbuj ponownie za kilka minut.',
+            'error.ticket.notFound': 'Nie znaleziono biletu',
+            'error.ticket.flightNotFound': 'Nie znaleziono lotu',
+            'error.ticket.seatTaken': 'Wybrane miejsca są już zajęte',
+            'error.ticket.returnTimeExpired': 'Minął czas na zwrot biletu',
             ...translations,
         },
     },

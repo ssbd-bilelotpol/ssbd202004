@@ -177,6 +177,48 @@
     </security-role-mapping>
 
     <security-role-mapping>
+        <role-name>createTicket</role-name>
+        <group-name>client</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>returnTicket</role-name>
+        <group-name>client</group-name>
+        <group-name>customer_service</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getOwnTickets</role-name>
+        <group-name>client</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>findTicketsByAccount</role-name>
+        <group-name>customer_service</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>findTicketsByFlight</role-name>
+        <group-name>customer_service</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>findTicketById</role-name>
+        <group-name>client</group-name>
+        <group-name>customer_service</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getAllTickets</role-name>
+        <group-name>customer_service</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>updateTicket</role-name>
+        <group-name>customer_service</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
         <role-name>getTakenSeats</role-name>
         <group-name>client</group-name>
         <group-name>customer-service</group-name>

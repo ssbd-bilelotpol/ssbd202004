@@ -1,19 +1,88 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketUpdateDto;
 
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.interceptor.Interceptors;
+import javax.ejb.Local;
+import java.util.List;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
  * i jest granicą transakcji aplikacyjnej dla hierarchii klas Ticket.
  */
+@Local
+public interface TicketEndpoint extends TransactionStarter {
 
-@Interceptors({TrackingInterceptor.class})
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-@Stateful
-public class TicketEndpoint {
+    /**
+     * Zwraca bilet o określonym ID
+     *
+     * @param id identyfikator biletu
+     * @return bilet o określonym ID
+     * @throws AppBaseException gdy nie powiedzie się pobieranie informacji o bilecie
+     */
+    TicketDto findById(Long id) throws AppBaseException;
+
+    /**
+     * Zwraca bilety dla wybranego lotu
+     *
+     * @param id identyfikator lotu
+     * @return bilety dla wybranego lotu
+     * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
+     */
+    List<TicketDto> findByFlight(Long id) throws AppBaseException;
+
+    /**
+     * Zwraca bilety danego użytkownika
+     *
+     * @param id identyfikator użytkownika
+     * @return bilety danego użytkownika
+     * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
+     */
+    List<TicketDto> findByAccount(Long id) throws AppBaseException;
+
+    /**
+     * Zwraca listę wszystkich biletów
+     *
+     * @return lista wszystkich biletów
+     * @throws AppBaseException gdy nie powiedzie się zwrócenie listy biletów
+     */
+    List<TicketDto> getAllTickets() throws AppBaseException;
+
+    /**
+     * Zwraca listę biletów aktualnie zalogowanego użytkownika
+     *
+     * @return lista biletów aktualnie zalogowanego użytkownika
+     * @throws AppBaseException gdy nie powiedzie się zwrócenie listy biletów
+     */
+    List<TicketDto> getOwnTickets() throws AppBaseException;
+
+    /**
+     * Tworzy bilet o wybranych parametrach
+     *
+     * @param ticketDto parametry kupowanego biletu
+     * @throws AppBaseException gdy nie powiedzie się tworzenie nowego biletu
+     */
+    void buyTicket(TicketBuyDto ticketDto) throws AppBaseException;
+
+    /**
+     * Zwraca zakupiony bilet
+     *
+     * @param ticketReturnDto parametry zwracania biletu
+     * @throws AppBaseException gdy nie powiedzie się zwracanie biletu
+     */
+    void returnTicket(TicketReturnDto ticketReturnDto) throws AppBaseException;
+
+    /**
+     * Aktualizuje dane biletu
+     *
+     * @param id              identyfikator biletu
+     * @param ticketUpdateDto nowe dane biletu
+     * @throws AppBaseException gdy nie powiedzie się aktualizacja biletu
+     */
+    void update(Long id, TicketUpdateDto ticketUpdateDto) throws AppBaseException;
+
 }

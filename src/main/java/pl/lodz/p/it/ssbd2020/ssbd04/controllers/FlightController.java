@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
@@ -85,4 +86,12 @@ public class FlightController extends AbstractController {
     public void update(@PathParam("id") Long id, FlightDto flightDto) {
         throw new UnsupportedOperationException();
     }
+
+    @GET
+    @Path("/{id}/tickets")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TicketDto> findTicketsForFlight(@PathParam("id") Long id) {
+        throw new UnsupportedOperationException();
+    }
+
 }
