@@ -33,6 +33,7 @@ export default {
             'error.account.notFound': 'Nie znaleziono żadnego pasującego konta',
             'error.rest.processingError': 'Wystąpił błąd, spróbuj ponownie.',
             'error.rest.unauthorized': 'Brak uprawnień do wykonania operacji',
+            'error.rest.resourceNotFound': 'Nie znaleziono zasobu',
             'error.airplaneSchema.notFound':
                 'Schemat samolotu nie został znaleziony, mógł zostać usunięty.',
             'error.airplaneSchema.inUse':

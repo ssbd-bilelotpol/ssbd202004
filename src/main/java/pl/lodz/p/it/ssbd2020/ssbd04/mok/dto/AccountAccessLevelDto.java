@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Group;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountAccessLevelException;
@@ -51,13 +52,13 @@ public class AccountAccessLevelDto implements Signable {
     }
 
     private AccountAccessLevel toAccountAccessLevel(String role) throws AccountAccessLevelException {
-        if ("admin".equals(role)) {
+        if (Group.ADMIN.equals(role)) {
             return new AdminAccessLevel();
-        } else if ("client".equals(role)) {
+        } else if (Group.CLIENT.equals(role)) {
             return new ClientAccessLevel();
-        } else if ("manager".equals(role)) {
+        } else if (Group.MANAGER.equals(role)) {
             return new ManagerAccessLevel();
-        } else if ("customer_service".equals(role)) {
+        } else if (Group.CUSTOMER_SERVICE.equals(role)) {
             return new CustomerServiceAccessLevel();
         }
         throw AccountAccessLevelException.notFound();

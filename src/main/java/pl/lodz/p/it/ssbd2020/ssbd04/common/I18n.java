@@ -65,6 +65,7 @@ public class I18n {
     public static final String ACCOUNT_ADMIN_LOGIN_CONTENT = "account.adminLogin.content";
 
     public static final String PROCESSING_ERROR = "error.rest.processingError";
+    public static final String RESOURCE_NOT_FOUND = "error.rest.resourceNotFound";
     public static final String UNAUTHORIZED = "error.rest.unauthorized";
 
     public static final String AIRPLANE_SCHEMA_NOT_FOUND = "error.airplaneSchema.notFound";

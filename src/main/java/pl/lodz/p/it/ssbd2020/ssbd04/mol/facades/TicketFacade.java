@@ -8,6 +8,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +20,7 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GetTakenSeats;
 
 @Interceptors({TrackingInterceptor.class})
 @Stateless
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class TicketFacade extends AbstractFacade<Ticket> {
 
     @PersistenceContext(unitName = "ssbd04molPU")

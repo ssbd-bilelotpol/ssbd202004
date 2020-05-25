@@ -29,6 +29,7 @@ describe('login', () => {
                     'role',
                     'roles',
                     'token',
+                    'tokenExp',
                 ]);
                 expect(user.token).to.be.a('string')
             });
@@ -43,6 +44,6 @@ describe('login', () => {
             failOnStatusCode: false,
         })
             .its('status')
-            .should('equal', 400)
+            .should('equal', 404)
     });
 });

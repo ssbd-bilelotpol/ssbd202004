@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Group;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
@@ -28,10 +29,12 @@ import java.util.logging.Logger;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.Group.GroupRoleMapper;
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AUTH_INCORRECT_LOGIN_OR_PASSWORD;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.JWTAuthenticationMechanism.AUTHORIZATION_HEADER;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.JWTAuthenticationMechanism.extractToken;
-import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.ChangeRole;
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.RefreshToken;
 
 @Path("/auth")
 /**
@@ -83,9 +86,9 @@ public class AuthResource {
                     .entity(new ErrorResponse(e.getMessage()))
                     .build();
         }
-        LOGGER.log(Level.INFO, "User {0} logged in with IP {1}",
+        LOGGER.log(Level.INFO, "User {0} authenticated with IP {1}",
                 new Object[]{loginData.username, httpServletRequest.getRemoteAddr()});
-        if (result.getCallerGroups().contains("admin")) {
+        if (result.getCallerGroups().contains(Group.ADMIN)) {
             accountEndpoint.notifyAboutAdminLogin(loginData.username, httpServletRequest.getRemoteAddr());
         }
         return Response.ok().entity(jwtProvider.create(result)).build();
