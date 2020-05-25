@@ -10,38 +10,35 @@ SeatClass
 
 if (validData) {
   redirectToSeatClassesPage = AddSeatClassPage.add(seatClass) {
-    success = SeatClassController.add(seatClass) {
-<<<<<<< HEAD
-=======
-          success = SeatClassEndpoint.add(seatClass) {
->>>>>>> b4001312a8182237e44675c0a0d3805ac24eb58d
-      seatClass = SeatClass."<<create>>";
-      // RW, Read Committed
-      while(1) {
-        success = SeatClassService.create(seatClass) {
-          success = SeatClassFacade.create(seatClass){
-            Benefit."<<cascade persist>>"
+    seatClassDto = SeatClassController.create(seatClassDto) {
+      seatClassDto = SeatClassEndpoint.create(seatClassDto) {
+        // RW, Read Committed
+        while(1) {
+          seatClass = SeatClass."<<create>>";
+          success = SeatClassService.create(seatClass, benefits) {
+            success = SeatClassFacade.create(seatClass){
+              Benefit."<<cascade persist>>"
+            }
           }
         }
       }
-          }
     }
   }
 } else if (invalidData) {
-  displayMessage = AddSeatClassPage.add(seatClass) {
-    invalidDataError = SeatClassController.add(seatClass)
+  displayMessage = AddSeatClassPage.add(seatClassDto) {
+    invalidDataError = SeatClassController.create(seatClassDto)
   }
 } else if (seatClassNameExists) {
-  displayMessage = AddSeatClassPage.add(seatClass) {
-    seatClassNameExistsError = SeatClassController.add(seatClass) {
-          seatClassNameExistsError = SeatClassEndpoint.add(seatClass) {
-      // RW, Read Committed
-      while (1) {
-        seatClassNameExistsError = SeatClassService.create(seatClass) {
-          seatClassNameExistsError = SeatClassFacade.create(seatClass)
+  displayMessage = AddSeatClassPage.add(seatClassDto) {
+    seatClassNameExistsError = SeatClassController.create(seatClassDto) {
+      seatClassNameExistsError = SeatClassEndpoint.create(seatClassDto) {
+        // RW, Read Committed
+        while (1) {
+          seatClassNameExistsError = SeatClassService.create(seatClass, benefits) {
+            seatClassNameExistsError = SeatClassFacade.create(seatClass)
+          }
         }
       }
-    }
     }
   }
 }

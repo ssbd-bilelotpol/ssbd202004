@@ -9,28 +9,28 @@ SeatClassFacade
 
 if (seatClassesExist) {
   displaySeatClasses = SeatClassesPage.getSeatClasses() {
-    seatClasses = SeatClassController.findAll() {
-          seatClasses = SeatClassEndpoint.findAll() {
-      //RO, Read Committed
-      while (1) {
-        seatClasses = SeatClassService.findAll() {
-          seatClasses = SeatClassFacade.findAll()
+    seatClassDtos = SeatClassController.getAll() {
+      seatClassDtos = SeatClassEndpoint.getAll() {
+        //RO, Read Committed
+        while (1) {
+          seatClasses = SeatClassService.getAll() {
+            seatClasses = SeatClassFacade.findAll()
+          }
         }
       }
-          }
     }
   }
 } else if (noSeatClasses) {
   displayMessage = SeatClassesPage.getSeatClasses() {
-    noSeatClassesError = SeatClassController.findAll() {
-          noSeatClassesError = SeatClassEndpoint.findAll() {
-      //RO, Read Committed
-      while (1) {
-        noSeatClassesError = SeatClassService.findAll() {
-          noSeatClassesError = SeatClassFacade.findAll()
+    noSeatClassesError = SeatClassController.getAll() {
+      noSeatClassesError = SeatClassEndpoint.getAll() {
+        //RO, Read Committed
+        while (1) {
+          noSeatClassesError = SeatClassService.getAll() {
+            noSeatClassesError = SeatClassFacade.findAll()
+          }
         }
       }
-    }
     }
   }
 }

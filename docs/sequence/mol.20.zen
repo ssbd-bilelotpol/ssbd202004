@@ -9,28 +9,28 @@ AirplaneSchemaFacade
 
 if (airplaneSchemasExist) {
   displayAirplaneSchemas = AirplaneSchemasPage.getAirplaneSchemas() {
-    airplaneSchemas = AirplaneSchemaController.findAll() {
-          airplaneSchemas = AirplaneSchemaEndpoint.findAll() {
-      //RO, Read Committed
-      while (1) {
-        airplaneSchemas = AirplaneSchemaService.findAll() {
-          airplaneSchemas = AirplaneSchemaFacade.findAll()
+    airplaneSchemaDtos = AirplaneSchemaController.getAll() {
+      airplaneSchemaDtos = AirplaneSchemaEndpoint.getAll() {
+        //RO, Read Committed
+        while (1) {
+          airplaneSchemas = AirplaneSchemaService.getAll() {
+            airplaneSchemas = AirplaneSchemaFacade.findAll()
+          }
         }
       }
-          }
     }
   }
 } else if (noAirplaneSchemas) {
-    displayMessage = AirplaneSchemasPage.getAirplaneSchemas() {
-    noAirplaneSchemasError = AirplaneSchemaController.findAll() {
-          noAirplaneSchemasError = AirplaneSchemaEndpoint.findAll() {
-      //RO, Read Committed
-      while (1) {
-        noAirplaneSchemasError = AirplaneSchemaService.findAll() {
-          noAirplaneSchemasError = AirplaneSchemaFacade.findAll()
+  displayMessage = AirplaneSchemasPage.getAirplaneSchemas() {
+    noAirplaneSchemasError = AirplaneSchemaController.getAll() {
+      noAirplaneSchemasError = AirplaneSchemaEndpoint.getAll() {
+        //RO, Read Committed
+        while (1) {
+          noAirplaneSchemasError = AirplaneSchemaService.getAll() {
+            noAirplaneSchemasError = AirplaneSchemaFacade.findAll()
+          }
         }
       }
-    }
     }
   }
 }

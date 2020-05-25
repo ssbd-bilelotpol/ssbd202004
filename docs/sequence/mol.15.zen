@@ -8,56 +8,55 @@ SeatClassFacade
 
 @Starter(Manager)
 
-displaySeatClass = SeatClassInfoPage.getSeatClass(id) {
-  seatClass = SeatClassController.find(id) {
-      seatClass = SeatClassEndpoint.find(id) {
-    //RO, Read Committed
-    while (1) {
-      seatClass = SeatClassService.find(id) {
-        seatClass = SeatClassFacade.find(id)
+displaySeatClass = SeatClassInfoPage.getSeatClass(name) {
+  seatClass = SeatClassController.findByName(name) {
+    seatClass = SeatClassEndpoint.findByName(name) {
+      //RO, Read Committed
+      while (1) {
+        seatClass = SeatClassService.findByName(name) {
+          seatClass = SeatClassFacade.findByName(name)
+        }
       }
     }
-      }
   }
 }
 if (validData) {
-  displayMessage = SeatClassInfoPage.edit(seatClassDTO){
-    success = SeatClassController.edit(seatClassDTO) {
-          success = SeatClassEndpoint.edit(seatClassDTO) {
-      //RW, Read Committed
-      while (1) {
-        seatClass = SeatClassService.find(id) {
-          seatClass = SeatClassFacade.find(id)
-        }
-        SeatClass.setData(seatClassDTO)
-        success = SeatClassService.edit(seatClass) {
-          success = SeatClassFacade.edit(seatClass){
-            Benefit."<<cascade merge>>"
+  displayMessage = SeatClassInfoPage.update(name, seatClassDto){
+    success = SeatClassController.update(name, seatClassDto) {
+      success = SeatClassEndpoint.update(seatClassDto) {
+        // RO, Read Committed
+        while (1) {
+          seatClass = SeatClassService.find(id) {
+            seatClass = SeatClassFacade.find(id)
           }
         }
+        //RW, Read Committed
+        while (1) {
+          success = SeatClassService.update(seatClass) {
+            success = SeatClassFacade.edit(seatClass){
+              Benefit."<<cascade merge>>"
+            }
+          }
+        }
+      }
     }
   }
-  }
-  }
 } else if (seatClassDeleted) {
-  displayMessage = SeatClassInfoPage.edit(seatClassDTO) {
-    seatClassIsDeletedError = SeatClassController.edit(seatClassDTO) {
-          seatClassIsDeletedError = SeatClassEndpoint.edit(seatClassDTO) {
-      //RW, Read Committed
-      while (1) {
-        seatClassIsDeletedError = SeatClassService.find(id) {
-          seatClassIsDeletedError = SeatClassFacade.find(id)
-        }
-  }
-<<<<<<< HEAD
-=======
+  displayMessage = SeatClassInfoPage.update(name, seatClassDto) {
+    seatClassNotFound = SeatClassController.update(name, seatClassDto) {
+      seatClassNotFound = SeatClassEndpoint.update(seatClassDto) {
+        // RO, Read Committed
+        while (1) {
+          seatClassNotFound = SeatClassService.find(id) {
+            seatClassNotFound = SeatClassFacade.find(id)
           }
->>>>>>> b4001312a8182237e44675c0a0d3805ac24eb58d
-}
+        }
+      }
+    }
   }
 }
 else if (invalidData) {
-  displayMessage = SeatClassInfoPage.edit(seatClassDTO) {
-    invalidDataError = SeatClassController.edit(seatClassDTO)
+  displayMessage = SeatClassInfoPage.update(name, seatClassDto) {
+    invalidDataError = SeatClassController.update(name, seatClassDto)
   }
 }

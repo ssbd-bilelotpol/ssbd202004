@@ -11,42 +11,44 @@ AirplaneSchema
 
 if (seatClassesExist && validData) {
   success = AirplaneSchemaInfoPage.enter() {
-    seatClasses = SeatClassController.findAll() {
-          seatClasses = SeatClassEndpoint.findAll() {
-      //RO, Read Committed
-      while (1) {
-        seatClasses = SeatClassService.findAll() {
-          seatClasses = SeatClassFacade.findAll()
+    seatClassDtos = SeatClassController.getAll() {
+      seatClassDtos = SeatClassEndpoint.getAll() {
+        //RO, Read Committed
+        while (1) {
+          seatClassDtos = SeatClassService.getAll() {
+            seatClassDtos = SeatClassFacade.findAll()
+          }
         }
       }
-    }
     }
   }
   
-  successResponse = AirplaneSchemaController.create(airplaneSchema) {
-      successResponse = AirplaneSchemaEndpoint.create(airplaneSchema) {
-    //RW, Read Committed
-    while (1) {
-    airplaneSchema = AirplaneSchema."<<create>>";
-      success = AirplaneSchemaService.create(airplaneSchema) {
-        success = AirplaneSchemaFacade.create(airplaneSchema){
-          Seat."<<cascade persist>>"
+  airplaneSchemaDto = AirplaneSchemaController.create(airplaneSchemaDto) {
+    airplaneSchemaDto = AirplaneSchemaEndpoint.create(airplaneSchemaDto) {
+      //RW, Read Committed
+      while (1) {
+      airplaneSchema = AirplaneSchema."<<create>>";
+        airplaneSchema = AirplaneSchemaService.create(airplaneSchema) {
+          success = AirplaneSchemaFacade.create(airplaneSchema){
+            Seat."<<cascade persist>>"
+          }
         }
       }
     }
-      }
   }
 } else if (noSeatClasses) {
-  displayError = SeatClassController.findAll() {
-      displayError = SeatClassEndpoint.findAll() {
-    //RO, Read Committed
-    while (1) {
-      noSeatClassesError = SeatClassService.findAll() {
-        noSeatClassesError = SeatClassFacade.findAll()
+  displayError = SeatClassController.getAll() {
+    displayError = SeatClassEndpoint.getAll() {
+      //RO, Read Committed
+      while (1) {
+        noSeatClassesError = SeatClassService.getAll() {
+          noSeatClassesError = SeatClassFacade.findAll()
+        }
       }
     }
-      }
   }
 } else if (invalidData) {
-  displayError = AirplaneSchemaInfoPage.enter()
+  displayError = AirplaneSchemaInfoPage.enter(airplaneSchemaDto) {
+    invalidDataError = AirplaneSchemaController.create(airplaneSchemaDto)
+  }
 }

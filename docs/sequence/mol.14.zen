@@ -7,13 +7,13 @@ SeatClassFacade
 
 @Starter(Manager)
 
-displaySeatClass = SeatClassInfoPage.getSeatClass(id) {
-  seatClass = SeatClassController.findA(id) {
-      seatClass = SeatClassEndpoint.findA(id) {
+displaySeatClass = SeatClassInfoPage.getSeatClass(name) {
+  seatClassDto = SeatClassController.findByName(name) {
+      seatClass = SeatClassEndpoint.findByName(name) {
     // RO, Read Committed
     while (1) {
-      seatClass = SeatClassService.find(id) {
-        seatClass = SeatClassFacade.find(id)
+      seatClass = SeatClassService.findByName(name) {
+        seatClass = SeatClassFacade.findByName(name)
       }
     }
       }
@@ -21,13 +21,17 @@ displaySeatClass = SeatClassInfoPage.getSeatClass(id) {
 }
 
 if (successfulyDeleted) {
-  redirectToConnectionsPage = SeatClassInfoPage.remove(seatClass) {
-    success = SeatClassController.remove(seatClass) {
-          success = SeatClassEndpoint.remove(seatClass) {
-      new SeatClass(delete)
+  redirectToConnectionsPage = SeatClassInfoPage.delete(name) {
+    success = SeatClassController.delete(name) {
+          success = SeatClassEndpoint.delete(name) {
       // RW, Read Committed
       while (1) {
-        success = SeatClassService.remove(seatClass) {
+              seatClass = SeatClassService.findByName(name) {
+                seatClass = SeatClassFacade.findByName(name)
+              }
+      new SeatClass(delete)
+
+        success = SeatClassService.delete(seatClass) {
           success = SeatClassFacade.remove(seatClass)
         }
       }
@@ -40,6 +44,9 @@ if (successfulyDeleted) {
           seatClassIsUsedError = SeatClassEndpoint.remove(seatClass) {
       // RW, Read Committed
       while (1) {
+              seatClass = SeatClassService.findByName(name) {
+                seatClass = SeatClassFacade.findByName(name)
+              }
         seatClassIsUsedError = SeatClassService.remove(seatClass) {
           seatClassIsUsedError = SeatClassFacade.remove(seatClass)
         }
@@ -49,14 +56,14 @@ if (successfulyDeleted) {
   }
 } else if (seatClassAlreadyDeleted) {
     displayMessage = SeatClassInfoPage.remove(seatClass) {
-    seatClassAlreadyDeletedError = SeatClassController.remove(seatClass) {
-          seatClassAlreadyDeletedError = SeatClassEndpoint.remove(seatClass) {
-      // RW, Read Committed
-      while (1) {
-        seatClassAlreadyDeletedError = SeatClassService.remove(seatClass) {
-          seatClassAlreadyDeletedError = SeatClassFacade.remove(seatClass)
-        }
-      }
+    seatClassNotFound = SeatClassController.remove(seatClass) {
+          seatClassNotFound = SeatClassEndpoint.remove(seatClass) {
+            //  RO, Read Committed
+            while (1) {
+              seatClassNotFound = SeatClassService.findByName(name) {
+                seatClassNotFound = SeatClassFacade.findByName(name)
+              }
+            }
     }
     }
   }
