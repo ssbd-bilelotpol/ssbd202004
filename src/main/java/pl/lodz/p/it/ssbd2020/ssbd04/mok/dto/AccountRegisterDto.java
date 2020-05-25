@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.*;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -9,19 +11,19 @@ import javax.validation.constraints.Size;
  */
 public class AccountRegisterDto {
     @NotNull
-    @Size(min = 3, max = 30)
+    @Login
     private String login;
 
     @NotNull
-    @Size(min = 8, max = 64)
+    @Password
     private String password;
 
     @NotNull
-    @Size(min = 1, max = 30)
+    @FirstName
     private String firstName;
 
     @NotNull
-    @Size(min = 1, max = 30)
+    @LastName
     private String lastName;
 
     @NotNull
@@ -30,7 +32,7 @@ public class AccountRegisterDto {
     private String email;
 
     @NotNull
-    @Size(min = 9, max = 15)
+    @Phone
     private String phoneNumber;
 
     @NotNull

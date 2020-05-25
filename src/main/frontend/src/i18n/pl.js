@@ -11,10 +11,13 @@ export default {
             [errors.api.connection]: 'Błąd połączenia z serwerem',
             'error.rest.actionFailed': 'Akcja zakończona niepowodzeniem',
             'error.auth.incorrectLoginOrPassword': 'Nieprawidłowy login lub hasło',
+            'error.request.etagWrongValue':
+                'Modyfikowane dane były nieaktualne. Odśwież stronę i spróbuj jeszcze raz',
             'error.auth.accountBlocked':
                 'Twoje konto zostało zablokowane. Skontaktuj się z administratorem',
             'error.rest.validation': 'Podano dane w niewłaściwym formacie.',
-            'error.database.optimisticLock': 'Dane zostały zmodyfikowane.',
+            'error.database.optimisticLock':
+                'Modyfikowane dane były nieaktualne. Odśwież stronę i spróbuj jeszcze raz.',
             'error.database.operation':
                 'Wystąpił błąd podczas wykonywania operacji w bazie danych.',
             'error.account.loginExists': 'Podany login już istnieje.',
@@ -28,7 +31,8 @@ export default {
             'error.token.expired': 'Token wygasł',
             'error.mail.failure': 'Błąd serwera email.',
             'error.account.notFound': 'Nie znaleziono żadnego pasującego konta',
-            'error.rest.processingError': 'Błąd poczas przetwarzania żądania',
+            'error.rest.processingError': 'Wystąpił błąd, spróbuj ponownie.',
+            'error.rest.unauthorized': 'Brak uprawnień do wykonania operacji',
             'error.airplaneSchema.notFound':
                 'Schemat samolotu nie został znaleziony, mógł zostać usunięty.',
             'error.airplaneSchema.inUse':
@@ -46,6 +50,12 @@ export default {
             'error.connection.sourceNotFound': 'Lotnisko startowe nie istnieje',
             'error.connection.inUse': 'W ramach tego połączenia są zaplanowane loty',
             'error.flight.exists': 'Taki lot już istnieje',
+            'error.captcha.invalid':
+                'Wygląda na to, że jesteś robotem. Spróbuj ponownie za kilka minut.',
+            'error.captcha.format.invalid':
+                'Wygląda na to, że jesteś robotem. Spróbuj ponownie za kilka minut.',
+            'error.captcha.cantConnect':
+                'Wystąpił niespodziewany błąd na serwerze, spróbuj ponownie za kilka minut.',
             ...translations,
         },
     },

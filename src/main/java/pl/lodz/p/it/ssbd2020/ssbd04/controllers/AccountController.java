@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.ReCAPTCHAService;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Login;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.VUUID;
 
 import javax.inject.Inject;
@@ -128,7 +129,7 @@ public class AccountController extends AbstractController {
     @GET
     @Path("/{login}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveOtherAccountDetails(@PathParam("login") String login) throws AppBaseException {
+    public Response retrieveOtherAccountDetails(@PathParam("login") @NotNull @Login @Valid String login) throws AppBaseException {
         AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.retrieveOtherAccountDetails(login));
         return Response.ok()
                 .entity(accountDto)
@@ -171,7 +172,7 @@ public class AccountController extends AbstractController {
     @EtagBinding
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editOtherAccountDetails(@PathParam("login") String login, @NotNull @Valid AccountEditDto accountEditDto) throws AppBaseException {
+    public Response editOtherAccountDetails(@PathParam("login") @NotNull @Login @Valid String login, @NotNull @Valid AccountEditDto accountEditDto) throws AppBaseException {
         AccountDto accountDto = repeat(accountEndpoint, () -> accountEndpoint.editOtherAccountDetails(login, accountEditDto));
         return Response.ok()
                 .entity(accountDto)
@@ -236,7 +237,7 @@ public class AccountController extends AbstractController {
     @Path("/{login}/password")
     @EtagBinding
     @Consumes(MediaType.APPLICATION_JSON)
-    public void changeAccountPassword(@NotNull @PathParam("login") String login, AccountPasswordDto accountPasswordDto) throws AppBaseException {
+    public void changeAccountPassword(@NotNull @PathParam("login")  @Login @Valid String login, AccountPasswordDto accountPasswordDto) throws AppBaseException {
         repeat(
                 accountEndpoint,
                 () -> accountEndpoint.changeOtherAccountPassword(login, accountPasswordDto.getNewPassword())
@@ -253,7 +254,7 @@ public class AccountController extends AbstractController {
     @PUT
     @Path("/{login}/active")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void changeAccountActiveStatus(@NotNull @PathParam("login") String login, @NotNull @Valid AccountBlockDto accountBlockDto) throws AppBaseException {
+    public void changeAccountActiveStatus(@NotNull @PathParam("login") @Login @Valid String login, @NotNull @Valid AccountBlockDto accountBlockDto) throws AppBaseException {
         repeat(accountEndpoint, () -> accountEndpoint.changeAccountActiveStatus(login, accountBlockDto.getActive()));
     }
 

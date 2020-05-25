@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -23,7 +24,7 @@ public class EtagFilter implements ContainerRequestFilter {
         String header = requestContext.getHeaderString("If-Match");
         if (header == null || header.isEmpty() || !header.contains(".")) {
             requestContext.abortWith(Response.status(Response.Status.BAD_REQUEST)
-                    .entity(I18n.ETAG_WRONG_VALUE)
+                    .entity(new ErrorResponse(I18n.ETAG_WRONG_VALUE))
                     .build());
             return;
         }
@@ -33,7 +34,7 @@ public class EtagFilter implements ContainerRequestFilter {
         String encodedMessage = messageSigner.sign(message);
         if (!encodedMessage.equals(hmac)) {
             requestContext.abortWith(Response.status(Response.Status.BAD_REQUEST)
-                    .entity(I18n.ETAG_WRONG_VALUE)
+                    .entity(new ErrorResponse(I18n.ETAG_WRONG_VALUE))
                     .build());
         }
     }

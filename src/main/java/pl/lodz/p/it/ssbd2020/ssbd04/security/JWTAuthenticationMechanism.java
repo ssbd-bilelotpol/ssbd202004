@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
 
@@ -77,6 +78,8 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
             LOGGER.log(Level.INFO, "Invalid JWT signature {0}", e.getMessage());
         } catch (ExpiredJwtException e) {
             LOGGER.log(Level.INFO, "Expired JWT {0}", e.getMessage());
+        } catch (MalformedJwtException e) {
+            LOGGER.log(Level.INFO, "Tampering with JWT {0}", e.getMessage());
         }
 
         return null;

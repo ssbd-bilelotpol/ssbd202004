@@ -42,14 +42,6 @@ public class AccountAccessLevelDto implements Signable {
         this.accessLevels = accessLevels;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public Set<AccountAccessLevel> toAccountAccessLevelSet() throws AccountAccessLevelException {
         Set<AccountAccessLevel> accountAccessLevels = new HashSet<>();
         for (String role : accessLevels) {

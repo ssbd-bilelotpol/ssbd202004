@@ -18,7 +18,6 @@ public class I18n {
     public static final String ACTION_FAILED = "error.rest.actionFailed";
     public static final String MESSAGE_SIGNER_OPERATION = "error.messageSigner.operation";
     public static final String ETAG_WRONG_VALUE = "error.request.etagWrongValue";
-    public static final String ETAG_NOT_MODIFIED = "error.request.notModified";
     public static final String AUTH_INCORRECT_LOGIN_OR_PASSWORD = "error.auth.incorrectLoginOrPassword";
     public static final String ACCOUNT_LOGIN_EXISTS = "error.account.loginExists";
     public static final String ACCOUNT_NOT_FOUND = "error.account.notFound";
@@ -49,8 +48,10 @@ public class I18n {
     public static final String FLIGHT_EXISTS = "error.flight.exists";
 
     public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
+    public static final String ACCOUNT_REGISTER_MAIL_CONTENT = "account.register.mail.content";
     public static final String ACCOUNT_REGISTRATION_MAIL_SENDER = "account.registration";
     public static final String ACCOUNT_PASS_RESET_MAIL_TITLE = "account.passwordReset.mail.title";
+    public static final String ACCOUNT_PASS_RESET_MAIL_CONTENT = "account.passwordReset.mail.content";
     public static final String ACCOUNT_PASSWORD_RESET_MAIL_SENDER = "account.passwordReset";
     public static final String ACCOUNT_BLOCKED_MAIL_SENDER = "account.block";
     public static final String ACCOUNT_BLOCKED_MAIL_TITLE = "account.block.mail.title";
@@ -64,6 +65,7 @@ public class I18n {
     public static final String ACCOUNT_ADMIN_LOGIN_CONTENT = "account.adminLogin.content";
 
     public static final String PROCESSING_ERROR = "error.rest.processingError";
+    public static final String UNAUTHORIZED = "error.rest.unauthorized";
 
     public static final String AIRPLANE_SCHEMA_NOT_FOUND = "error.airplaneSchema.notFound";
     public static final String AIRPLANE_SCHEMA_IN_USE = "error.airplaneSchema.inUse";
@@ -72,6 +74,7 @@ public class I18n {
     public static final String SEAT_CLASS_IN_USE = "error.seatClass.inUse";
     public static final String SEAT_CLASS_NAME_TAKEN = "error.seatClass.nameTaken";
     public static final String SEAT_CLASS_BENEFIT_EXISTS = "error.seatClass.benefitExists";
+    public static final String MAIL_FOOTER = "mail.footer";
 
 
     @Inject

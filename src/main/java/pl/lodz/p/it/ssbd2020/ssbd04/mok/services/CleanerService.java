@@ -33,7 +33,7 @@ public class CleanerService {
      *
      * @param timer
      */
-    @Schedule
+    @Schedule(info = "Removes expired tokens and accounts associated with expired RegisterToken")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void clearVerificationTokens(Timer timer) {
         LOGGER.log(Level.INFO, "Clearing VerificationToken {0}", timer.getInfo().toString());

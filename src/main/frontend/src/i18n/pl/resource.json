@@ -102,5 +102,10 @@
     "field_too_long": "Może składać się z co najwyżej {{max}} znaków",
     "phone_number_only_numbers": "Numer telefonu może składać się wyłącznie z cyfr",
     "Passwords must match": "Oba hasła muszą być identyczne",
-    "access_levels_too_short": "Musisz wybrać co najmniej 1 poziom dostępu"
+    "access_levels_too_short": "Musisz wybrać co najmniej 1 poziom dostępu",
+    "incorrect_regex": "Wprowadzono niedozwolone znaki",
+    "incorrect_login": "Login może składać się tylko z liter angielskiego alfabetu oraz separatorów - (myślnik), . (kropka), _ (znak podkreślenia)",
+    "incorrect_phone": "Nieprawidłowy numer telefonu",
+    "incorrect_name": "Imie zawiera niedozwolone znaki",
+    "incorrect_lastName": "Nazwisko zawiera niedozwolone znaki"
 }

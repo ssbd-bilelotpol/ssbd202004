@@ -2,10 +2,10 @@ import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import React, { useState } from 'react';
 import { Button, Form, Message, Segment } from 'semantic-ui-react';
-import { Formik, FieldArray } from 'formik';
+import { FieldArray, Formik } from 'formik';
 import styled from 'styled-components';
-import { roles, roleColors } from '../../../constants';
-import { AccountAcessLevelEditSchema } from '../../../yup';
+import { roleColors, roles } from '../../../constants';
+import { AccountAccessLevelEditSchema } from '../../../yup';
 
 const ToggleSegment = styled(({ backgroundColor, ...rest }) => <Segment {...rest} />)`
     &&& {
@@ -53,7 +53,7 @@ const AccountAccessLevelEditForm = ({ onSave, onSuccess, onFail, loading, data }
                     initialValues={{
                         accessLevels: data.accessLevels,
                     }}
-                    validationSchema={AccountAcessLevelEditSchema}
+                    validationSchema={AccountAccessLevelEditSchema}
                     onSubmit={handleSave}
                 >
                     {({ values, errors, handleSubmit, isSubmitting, handleChange }) => (

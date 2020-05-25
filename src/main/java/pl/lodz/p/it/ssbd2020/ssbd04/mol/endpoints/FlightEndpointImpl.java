@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirplaneSchemaService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.ConnectionService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.FlightService;
@@ -46,7 +47,7 @@ public class FlightEndpointImpl implements FlightEndpoint {
 
     @Override
     @RolesAllowed(Role.CreateFlight)
-    public FlightDto create(FlightDto FlightDto) throws AppBaseException {
+    public FlightDto create(FlightDto flightDto) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 
@@ -58,7 +59,14 @@ public class FlightEndpointImpl implements FlightEndpoint {
 
     @Override
     @RolesAllowed(Role.UpdateFlight)
-    public void update(Long id, FlightDto FlightDto) throws AppBaseException {
+    public void update(Long id, FlightDto flightDto) throws AppBaseException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    @RolesAllowed(Role.GetTakenSeats)
+    public List<SeatDto> getTakenSeats(Long id) throws AppBaseException {
+        // throws: FlightNotFound
         throw new UnsupportedOperationException();
     }
 }

@@ -148,6 +148,14 @@
     <security-role>
         <role-name>updateFlight</role-name>
     </security-role>
+
+    <security-role>
+        <role-name>getTakenSeats</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>calculateConnectionProfit</role-name>
+    </security-role>
     
     <error-page>
         <location>/exception_handler</location>

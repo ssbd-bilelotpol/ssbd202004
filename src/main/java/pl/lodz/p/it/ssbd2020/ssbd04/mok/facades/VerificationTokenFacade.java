@@ -37,6 +37,12 @@ public class VerificationTokenFacade extends AbstractFacade<VerificationToken> {
 
     @Override
     @PermitAll
+    public VerificationToken find(Object id) {
+        return super.find(id);
+    }
+
+    @Override
+    @PermitAll
     public void create(VerificationToken entity) throws AppBaseException {
         super.create(entity);
     }

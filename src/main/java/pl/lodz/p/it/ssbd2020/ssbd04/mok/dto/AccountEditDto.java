@@ -1,19 +1,22 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.FirstName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.LastName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Phone;
+
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class AccountEditDto {
     @NotNull
-    @Size(min = 1, max = 30)
+    @FirstName
     private String firstName;
 
     @NotNull
-    @Size(min = 1, max = 30)
+    @LastName
     private String lastName;
 
     @NotNull
-    @Size(min = 9, max = 15)
+    @Phone
     private String phoneNumber;
 
     private String captcha;

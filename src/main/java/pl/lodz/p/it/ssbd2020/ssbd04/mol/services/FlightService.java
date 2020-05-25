@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
@@ -51,21 +54,23 @@ public class FlightService {
     /**
      * Tworzy i zapisuje w bazie lot.
      * @param flight nowy lot
+     * @param connection połączenie, którego lot dotyczy
+     * @param airplaneSchema schemat siedzeń przypisany do samolotu
      * @return stworzony lot
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.CreateFlight)
-    public Flight create(Flight flight) throws AppBaseException {
+    public Flight create(Flight flight, Connection connection, AirplaneSchema airplaneSchema) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Anuluje lot o podanym identyfikatorze.
-     * @param id identyfikator lotu do anulowania
+     * @param flight lotu do anulowania
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.CancelFlight)
-    public void cancel(Long id) throws AppBaseException {
+    public void cancel(Flight flight) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 
@@ -75,7 +80,23 @@ public class FlightService {
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.UpdateFlight)
-    public void update(Flight flight) throws AppBaseException {
+    public void update(Flight flight, AirplaneSchema airplaneSchema) throws AppBaseException {
+        throw new UnsupportedOperationException();
+    }
+
+    @RolesAllowed(Role.GetTakenSeats)
+    public List<Seat> getTakenSeats(Flight flight) throws AppBaseException {
+        // tickets = ticketFacade.findByFlight(flight)
+        // seats = emptyList();
+        // for ticket in tickets:
+        //  for passenger in passengers:
+        //      seats.add(passenger.getSeat());
+        // return seats
+        throw new UnsupportedOperationException();
+    }
+
+    @RolesAllowed(Role.CalculateConnectionProfit)
+    public List<Flight> findByConnection(Connection connection) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 }

@@ -80,7 +80,7 @@ public class SeatClassService {
      * @throws AppBaseException gdy klasa miejsc nie istnieje, bądź operacja nie powiodła się.
      */
     @RolesAllowed(Role.UpdateSeatClass)
-    public void update(SeatClass seatClass) throws AppBaseException {
+    public void update(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 }

@@ -9,11 +9,19 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit.CONSTRAINT_NAME;
+
 /**
  * Informacje o możliwych do wykupienia benefitach
  */
 @Entity
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name", name = CONSTRAINT_NAME),
+        }
+)
 public class Benefit extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_NAME = "benefit_name_unique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

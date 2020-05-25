@@ -237,7 +237,7 @@ public class AccountService {
         emailService.sendTransactionalEmail(account.getAccountDetails().getEmail(),
                 i18n.getMessage(emailSender),
                 i18n.getMessage(emailSubject),
-                i18n.getMessage(message));
+                i18n.getMessage(message) + i18n.getMessage(I18n.MAIL_FOOTER));
     }
 
     /**

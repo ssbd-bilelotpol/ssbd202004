@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.FirstName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.LastName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Phone;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -31,11 +34,13 @@ public class AccountDetails extends AbstractEntity implements Serializable {
     @NotNull
     @Size(min = 1, max = 30)
     @Column(nullable = false, length = 30, name = "first_name")
+    @FirstName
     private String firstName;
 
     @NotNull
     @Size(min = 1, max = 30)
     @Column(nullable = false, length = 30, name = "last_name")
+    @LastName
     private String lastName;
 
     @NotNull
@@ -47,14 +52,15 @@ public class AccountDetails extends AbstractEntity implements Serializable {
     @NotNull
     @Size(min = 9, max = 15)
     @Column(nullable = false, length = 15, name = "phone_number")
+    @Phone
     private String phoneNumber;
 
     public AccountDetails() {
     }
 
-    public AccountDetails(@NotNull @Size(min = 1, max = 30) String firstName,
-                          @NotNull @Size(min = 1, max = 30) String lastName, @NotNull @Size(min = 1, max = 255)
-                          @Email String email, @NotNull @Size(min = 1, max = 50) String phoneNumber) {
+    public AccountDetails(@NotNull @FirstName String firstName,
+                          @NotNull @LastName String lastName, @NotNull @Size(min = 1, max = 255)
+                          @Email String email, @NotNull @Phone String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

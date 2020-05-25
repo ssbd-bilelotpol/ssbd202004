@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Message, Label, Placeholder } from 'semantic-ui-react';
+import { Label, Message, Placeholder } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import { editAccountAccessLevels, useAccountAccessLevels } from '../../../api/profile';
 import AccountAccessLevelEditForm from './AccountAccessLevelEditForm';
@@ -8,7 +8,9 @@ const EditAccountAccessLevel = ({ etagAccountDetails, login, refetchAccountDetai
     const { t } = useTranslation();
 
     const { etag, data, error, loading, refetch } = useAccountAccessLevels(login);
-    useEffect(() => refetch, [etagAccountDetails, refetch]);
+    useEffect(() => {
+        refetch();
+    }, [etagAccountDetails, refetch]);
 
     return (
         <>

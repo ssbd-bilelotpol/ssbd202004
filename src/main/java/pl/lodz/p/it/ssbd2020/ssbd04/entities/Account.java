@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Login;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -44,6 +45,7 @@ public class Account extends AbstractEntity implements Serializable {
     @NotNull
     @Size(min = 3, max = 30)
     @Column(nullable = false, length = 30)
+    @Login
     private String login;
 
     @NotNull
@@ -75,7 +77,7 @@ public class Account extends AbstractEntity implements Serializable {
     public Account() {
     }
 
-    public Account(@NotNull @Size(min = 3, max = 30) String login, @NotNull @Size(min = 50, max = 60) String password,
+    public Account(@NotNull @Login String login, @NotNull @Size(min = 50, max = 60) String password,
                    @NotNull Boolean active, @NotNull Boolean confirm, Set<AccountAccessLevel> accountAccessLevel,
                    AccountDetails accountDetails, @NotNull AccountAuthInfo accountAuthInfo) {
         this.login = login;

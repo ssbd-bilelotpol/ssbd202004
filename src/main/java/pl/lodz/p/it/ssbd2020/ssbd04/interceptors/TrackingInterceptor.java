@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.interceptors;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.UnauthorizedException;
+
 import javax.annotation.Resource;
+import javax.ejb.EJBAccessException;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -27,6 +30,9 @@ public class TrackingInterceptor {
         } catch (Exception e) {
             result = String.format("threw an exception: %s, cause: %s",
                     e.toString(), e.getCause());
+            if (e instanceof EJBAccessException) {
+                throw UnauthorizedException.unauthorized(e);
+            }
             throw e;
         } finally {
             logAction(context, result);

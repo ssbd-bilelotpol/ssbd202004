@@ -31,7 +31,7 @@ public class AirportException extends AppBaseException {
     }
 
     /**
-     * Tworzy wyjątek odpowiadający sutuacji kiedy lotnisko o tym samym kodzie istnieje już w bazie.
+     * Tworzy wyjątek odpowiadający sytuacji kiedy lotnisko o tym samym kodzie istnieje już w bazie.
      * @param airport lotnisko, które nie mogło zostać stworzone
      * @return stworzony wyjątek
      */

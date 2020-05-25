@@ -1,4 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
+package pl.lodz.p.it.ssbd2020.ssbd04.exceptions.mappers;
+
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;

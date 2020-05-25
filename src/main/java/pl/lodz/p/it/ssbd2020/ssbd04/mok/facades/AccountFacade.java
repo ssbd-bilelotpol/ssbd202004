@@ -11,12 +11,15 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
+
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.FindAccountsByName;
 
 
 @Interceptors({TrackingInterceptor.class})
@@ -70,7 +73,7 @@ public class AccountFacade extends AbstractFacade<Account> {
      * @return lista konta wraz z danymi szczegółowymi.
      * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
      */
-    @PermitAll
+    @RolesAllowed(FindAccountsByName)
     public List<Account> findByName(String name) throws AppBaseException {
         try {
             TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Account.findByName", Account.class);

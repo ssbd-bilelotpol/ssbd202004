@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.FlightEndpoint;
 
 import javax.inject.Inject;
@@ -41,6 +42,13 @@ public class FlightController extends AbstractController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public FlightDto findById(@PathParam("id") Long id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @GET
+    @Path("/{id}/taken-seats")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<SeatDto> getTakenSeats(@PathParam("id") Long id) {
         throw new UnsupportedOperationException();
     }
 

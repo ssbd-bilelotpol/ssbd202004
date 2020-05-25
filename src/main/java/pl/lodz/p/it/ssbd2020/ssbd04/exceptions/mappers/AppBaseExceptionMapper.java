@@ -1,4 +1,7 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
+package pl.lodz.p.it.ssbd2020.ssbd04.exceptions.mappers;
+
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

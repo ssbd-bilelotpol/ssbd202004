@@ -1,13 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Password;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.VUUID;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class PasswordResetDto {
     @NotNull
-    @Size(min = 8, max = 64)
+    @Password
     String password;
     @NotNull
     @VUUID

@@ -4,6 +4,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Login;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Password;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -12,6 +14,7 @@ import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -63,7 +66,7 @@ public class AuthResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response auth(LoginData loginData) throws AppBaseException {
+    public Response auth(@NotNull @Valid LoginData loginData) throws AppBaseException {
         CredentialValidationResult result = identityStoreHandler.validate(loginData.toCredential());
         if (result.getStatus() != VALID) {
             accountEndpoint.updateAuthInfo(loginData.username, LocalDateTime.now());
@@ -121,8 +124,10 @@ public class AuthResource {
      */
     public static class LoginData {
         @NotNull
+        @Login
         private String username;
         @NotNull
+        @Password
         private String password;
 
         public void setUsername(String username) {

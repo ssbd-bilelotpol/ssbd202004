@@ -360,8 +360,14 @@ ALTER TABLE ONLY airplane_schema
 ALTER TABLE ONLY airport
     ADD CONSTRAINT airport_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY airport
+    ADD CONSTRAINT airport_code_unique UNIQUE (code);
+
 ALTER TABLE ONLY benefit
     ADD CONSTRAINT benefit_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY benefit
+    ADD CONSTRAINT benefit_name_unique UNIQUE (name);
 
 ALTER TABLE ONLY connection
     ADD CONSTRAINT connection_pkey PRIMARY KEY (id);
@@ -914,6 +920,9 @@ ALTER SEQUENCE ticket_seq OWNER TO ssbd04admin;
 GRANT
     USAGE, SELECT ON ticket_seq TO ssbd04mob;
 
+GRANT
+    SELECT ON ticket_seq TO ssbd04mol;
+
 -- Passenger
 
 ALTER TABLE passenger
@@ -935,6 +944,9 @@ ALTER SEQUENCE passenger_seq OWNER TO ssbd04admin;
 
 GRANT
     USAGE, SELECT ON passenger_seq TO ssbd04mob;
+
+GRANT
+    SELECT ON passenger_seq TO ssbd04mol;
 
 -- SeatClass <-> Benefit
 

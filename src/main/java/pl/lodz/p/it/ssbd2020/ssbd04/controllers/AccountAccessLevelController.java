@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mok.endpoints.AccountEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Login;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -34,7 +35,7 @@ public class AccountAccessLevelController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRoles(@PathParam("login") String login) throws AppBaseException {
+    public Response getRoles(@PathParam("login") @NotNull @Login @Valid String login) throws AppBaseException {
         AccountAccessLevelDto accountAccessLevelDto = repeat(accountEndpoint, () -> accountEndpoint.getAccessLevels(login));
         return Response.ok()
                 .entity(accountAccessLevelDto)
@@ -54,7 +55,7 @@ public class AccountAccessLevelController extends AbstractController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response assignRole(@PathParam("login") String login, @NotNull @Valid AccountAccessLevelDto accountAccessLevelDto) throws AppBaseException {
+    public Response assignRole(@PathParam("login") @NotNull @Login @Valid String login, @NotNull @Valid AccountAccessLevelDto accountAccessLevelDto) throws AppBaseException {
         final AccountAccessLevelDto accessLevelDto = repeat(accountEndpoint, () -> accountEndpoint.editAccountAccessLevel(login, accountAccessLevelDto));
         return Response.ok()
                 .entity(accessLevelDto)

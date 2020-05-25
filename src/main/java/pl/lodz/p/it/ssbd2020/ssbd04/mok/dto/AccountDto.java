@@ -2,6 +2,10 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.FirstName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.LastName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Login;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Phone;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -9,15 +13,15 @@ import javax.validation.constraints.Size;
 
 public class AccountDto implements Signable {
     @NotNull
-    @Size(min = 3, max = 30)
+    @Login
     private String login;
 
     @NotNull
-    @Size(min = 1, max = 30)
+    @FirstName
     private String firstName;
 
     @NotNull
-    @Size(min = 1, max = 30)
+    @LastName
     private String lastName;
 
     @NotNull
@@ -26,7 +30,7 @@ public class AccountDto implements Signable {
     private String email;
 
     @NotNull
-    @Size(min = 9, max = 15)
+    @Phone
     private String phoneNumber;
 
     private Long version;

@@ -61,7 +61,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     }
 
     @Override
-    @RolesAllowed({Role.UpdateConnection})
+    @RolesAllowed({Role.UpdateConnection, Role.CalculateConnectionProfit})
     public void edit(Connection entity) throws AppBaseException {
         throw new UnsupportedOperationException();
     }

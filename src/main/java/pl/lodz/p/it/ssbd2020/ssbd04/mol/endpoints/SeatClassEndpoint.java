@@ -4,10 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Local;
 import java.util.List;
 
@@ -24,7 +21,6 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * @return dane klasy miejsc.
      * @throws AppBaseException gdy operacja nie powiedzie się, bądź klasa miejsc nie istnieje.
      */
-    @PermitAll
     SeatClassDto findByName(String name) throws AppBaseException;
 
     /**
@@ -32,7 +28,6 @@ public interface SeatClassEndpoint extends TransactionStarter {
      *
      * @return listę wszystkich dodatków.
      */
-    @PermitAll
     List<BenefitDto> getAllBenefits();
 
     /**
@@ -40,7 +35,6 @@ public interface SeatClassEndpoint extends TransactionStarter {
      *
      * @return listę wszystkich klas miejsc.
      */
-    @PermitAll
     List<SeatClassDto> getAll();
 
     /**
@@ -50,7 +44,6 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * @return utworzoną klasę miejsc.
      * @throws AppBaseException gdy nazwa klasy miejsc jest już zajęta, bądź operacja nie powiodła się.
      */
-    @RolesAllowed(Role.CreateSeatClass)
     SeatClassDto create(SeatClassDto seatClassDto) throws AppBaseException;
 
     /**
@@ -59,7 +52,6 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * @param name nazwa klasy miejsc.
      * @throws AppBaseException gdy klasa miejsc nie istnieje, jest używana przez siedzenie, bądź operacja nie powiodła się.
      */
-    @RolesAllowed(Role.DeleteSeatClass)
     void delete(String name) throws AppBaseException;
 
     /**
@@ -68,6 +60,5 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * @param seatClassDto dane klasy miejsc.
      * @throws AppBaseException gdy wystąpił problem konkurencyjnej modyfikacji, klasa miejsc nie istnieje, bądź operacja nie powiodła się.
      */
-    @RolesAllowed(Role.UpdateSeatClass)
     void update(SeatClassDto seatClassDto) throws AppBaseException;
 }

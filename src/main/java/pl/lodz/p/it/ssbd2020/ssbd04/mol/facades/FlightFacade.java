@@ -71,4 +71,9 @@ public class FlightFacade extends AbstractFacade<Flight> {
     public void remove(Flight entity) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
+
+    @RolesAllowed(Role.CalculateConnectionProfit)
+    public List<Flight> findByConnection(Long connectionId) throws AppBaseException {
+        throw new UnsupportedOperationException();
+    }
 }

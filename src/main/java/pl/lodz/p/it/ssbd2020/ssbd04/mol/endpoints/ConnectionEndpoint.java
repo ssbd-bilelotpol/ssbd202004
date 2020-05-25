@@ -3,10 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Local;
 import java.util.List;
 
@@ -21,7 +18,6 @@ public interface ConnectionEndpoint {
      * @param query kryterium
      * @return połączenia spełniające podane kryterium
      */
-    @PermitAll
     List<ConnectionDto> find(ConnectionQueryDto query);
 
     /**
@@ -30,7 +26,6 @@ public interface ConnectionEndpoint {
      * @return połączenie o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @PermitAll
     ConnectionDto findById(Long id) throws AppBaseException;
 
     /**
@@ -39,7 +34,6 @@ public interface ConnectionEndpoint {
      * @return stworzone połączenie.
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @RolesAllowed(Role.CreateConnection)
     ConnectionDto create(ConnectionDto connectionDto) throws AppBaseException;
 
     /**
@@ -47,7 +41,6 @@ public interface ConnectionEndpoint {
      * @param id identyfikator połączenia do usunięcia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @RolesAllowed(Role.DeleteConnection)
     void delete(Long id) throws AppBaseException;
 
     /**
@@ -56,6 +49,5 @@ public interface ConnectionEndpoint {
      * @param connectionDto dane, które mają zostać zapisane
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @RolesAllowed(Role.UpdateConnection)
     void update(Long id, ConnectionDto connectionDto) throws AppBaseException;
 }

@@ -5,6 +5,12 @@ import { Label, Message, Placeholder, Table } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { getAccountAuthReport } from '../../actions/accounts';
 
+const TableBorder = styled(Table)`
+    &&& {
+        border-spacing: 2px;
+    }
+`;
+
 const AccountAuthReport = () => {
     const { t } = useTranslation();
     const users = useSelector((state) => state.accountsAuthReport.users);
@@ -12,12 +18,6 @@ const AccountAuthReport = () => {
     const error = useSelector((store) => store.accountsAuthReport.error);
 
     const dispatch = useDispatch();
-
-    const TableBorder = styled(Table)`
-        &&& {
-            border-spacing: 2px;
-        }
-    `;
 
     useEffect(() => {
         dispatch(getAccountAuthReport());

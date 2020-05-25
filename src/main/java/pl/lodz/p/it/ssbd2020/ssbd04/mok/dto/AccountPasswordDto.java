@@ -1,7 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mok.dto;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Password;
+
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Reprezentuje formularz zmiany hasła.
@@ -9,11 +10,11 @@ import javax.validation.constraints.Size;
 
 public class AccountPasswordDto {
 
-    @Size(min = 8, max = 64)
+    @Password
     private String oldPassword;
 
     @NotNull
-    @Size(min = 8, max = 64)
+    @Password
     private String newPassword;
 
     private String captcha;

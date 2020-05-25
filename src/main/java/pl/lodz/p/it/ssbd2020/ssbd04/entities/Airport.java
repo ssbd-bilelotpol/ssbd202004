@@ -8,19 +8,28 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
+
 /**
  * Klasa lotniska. Posiada informacje o nazwe, kodzie lotniska, mieście i państwie, w którym się znajduje
  */
 
 @Entity
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "code", name = CONSTRAINT_CODE),
+        }
+)
 public class Airport extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_CODE = "airport_code_unique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
+    @NotNull
     private String code;
 
     @NotNull

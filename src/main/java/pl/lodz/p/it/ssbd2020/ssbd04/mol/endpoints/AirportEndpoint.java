@@ -3,10 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Local;
 import java.util.List;
 
@@ -21,7 +18,6 @@ public interface AirportEndpoint {
      * @param query kryterium
      * @return lotniska spełniające podane kryterium
      */
-    @PermitAll
     List<AirportDto> find(AirportQueryDto query);
 
     /**
@@ -30,7 +26,6 @@ public interface AirportEndpoint {
      * @return lotnisko o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @PermitAll
     AirportDto findById(Long id) throws AppBaseException;
 
     /**
@@ -39,7 +34,6 @@ public interface AirportEndpoint {
      * @return stworzone lotnisko
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @RolesAllowed(Role.CreateAirport)
     AirportDto create(AirportDto airportDto) throws AppBaseException;
 
     /**
@@ -47,7 +41,6 @@ public interface AirportEndpoint {
      * @param id identyfikator lotniska do usunięcia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @RolesAllowed(Role.DeleteAirport)
     void delete(Long id) throws AppBaseException;
 
     /**
@@ -56,6 +49,5 @@ public interface AirportEndpoint {
      * @param airportDto dane, które mają zostać zapisane
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    @RolesAllowed(Role.UpdateAirport)
     void update(Long id, AirportDto airportDto) throws AppBaseException;
 }

@@ -60,11 +60,11 @@ public class AirportService {
 
     /**
      * Usuwa lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska do usunięcia
+     * @param airport lotnisko do usunięcia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.DeleteAirport)
-    public void delete(Long id) throws AppBaseException {
+    public void delete(Airport airport) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 

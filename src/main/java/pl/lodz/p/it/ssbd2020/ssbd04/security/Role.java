@@ -50,5 +50,6 @@ public class Role {
     public static final String CreateFlight = "createFlight";
     public static final String CancelFlight = "cancelFlight";
     public static final String UpdateFlight = "updateFlight";
-
+    public static final String GetTakenSeats = "getTakenSeats";
+    public static final String CalculateConnectionProfit = "calculateConnectionProfit";
 }
