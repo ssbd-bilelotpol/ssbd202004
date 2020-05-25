@@ -6,19 +6,33 @@ AccountService
 AccountFacade
 @Starter(LoggedIn)
 
+displayAccountData = AccountDetailsPage.retrieveOwnAccountDetails() {
+  accountDto = AccountController.retrieveOwnAccountDetails() {
+    accountDto = AccountEndpoint.retrieveOwnAccountDetails() {
+    // RO, Read Committed
+      while(1) {
+        account = AccountService.findByLogin(login) {
+          account = AccountFacade.findByLogin(login)
+        }
+      }
+    }
+  }
+
+}
+
 if (validData) {
   displaySuccess = AccountDetailsPage.enter() {
-    successResponse = AccountController.changePassword(changePasswordDto) {
-        successResponse =  AccountEndpoint.changePassword(changePasswordDto) {
+    successResponse = AccountController.changeOwnAccountPassword(accountPasswordDto){
+        successResponse =  AccountEndpoint.changeOwnAccountPassword(accountPasswordDto) {
         // RW, Read Committed
         while(1) {
-          account = AccountService.findById(accountId) {
-            account = AccountFacade.findById(accountId)
+          account = AccountService.findByLogin(login) {
+            account = AccountFacade.findByLogin(login)
           }
 
-          Account.setPassword(password)
-          success = AccountService.edit(account) {
-            success = AccountFacade.edit(account)
+          success = AccountService.changePassword(account, password) {
+            Account.setPassword(password)
+            success = AccountFacade.edit(entity)
           }
         }
       }
@@ -27,26 +41,35 @@ if (validData) {
   }
 } else if(invalidCurrentPassword)
   displayError = AccountDetailsPage.enter() {
-    errorResponse =  AccountController.changePassword(changePasswordDto) {
-      errorResponse =  AccountEndpoint.changePassword(changePasswordDto) {
+    errorResponse =  AccountController.changeOwnAccountPassword(accountPasswordDto) {
+      errorResponse =  AccountEndpoint.changeOwnAccountPassword(accountPasswordDto) {
         // RW, Read Committed
         while(1) {
-          account = AccountService.findById(accountId) {
-            account = AccountFacade.findById(accountId)
+          account = AccountService.findByLogin(login) {
+            account = AccountFacade.findByLogin(login)
           }
         }
       }
     }
   }
 
-} else if(accountNotFound)
+}
+else if(passwordIsTheSame)
   displayError = AccountDetailsPage.enter() {
-    errorResponse =  AccountController.changePassword(changePasswordDto) {
-      errorResponse =  AccountEndpoint.changePassword(changePasswordDto) {
+    errorResponse =  AccountController.changeOwnAccountPassword(accountPasswordDto) {
+      errorResponse =  AccountEndpoint.changeOwnAccountPassword(accountPasswordDto)
+    }
+  }
+
+}
+else if(accountNotFound)
+  displayError = AccountDetailsPage.enter() {
+    errorResponse =  AccountController.changeOwnAccountPassword(accountPasswordDto) {
+      errorResponse =  AccountEndpoint.changeOwnAccountPassword(accountPasswordDto) {
         // RW, Read Committed
         while(1) {
-          notFound = AccountService.findById(accountId) {
-            notFound = AccountFacade.findById(accountId)
+          notFound = AccountService.findByLogin(login) {
+            notFound = AccountFacade.findByLogin(login)
           }
         }
       }
@@ -55,8 +78,6 @@ if (validData) {
   }
 } else if(passwordsDontMatch) {
   displayError = AccountDetailsPage.enter() {
-    errorResponse = AccountController.changePassword(changePasswordDto)
+    errorResponse = AccountController.changeOwnAccountPassword(accountPasswordDto)
   }  
 }
-
-

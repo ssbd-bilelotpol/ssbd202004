@@ -1,42 +1,57 @@
-Administrator
+LoggedIn
 AccountDetailsPage
 AccountController
 AccountEndpoint
 AccountService
 AccountFacade
-EmailSender
-@Starter(Administrator)
+@Starter(LoggedIn)
 
-if (accountExist) {
-  displaySuccess = AccountDetailsPage.resetPassword(account) {
-    successResponse = AccountController.resetPassword(accountId) {
-      successResponse = AccountEndpoint.resetPassword(accountId) {
-        // RW, Read Comitted
+displayAccountData = AccountDetailsPage.retrieveOtherAccountDetails(login) {
+  accountDto = AccountController.retrieveOtherAccountDetails(login) {
+    accountDto = AccountEndpoint.retrieveOtherAccountDetails(login) {
+    // RO, Read Committed
+      while(1) {
+        account = AccountService.findByLogin(login) {
+          account = AccountFacade.findByLogin(login)
+        }
+      }
+    }
+  }
+
+}
+
+if (validData) {
+  displaySuccess = AccountDetailsPage.enter() {
+    successResponse = AccountController.changeOtherAccountPassword(login, password){
+        successResponse =  AccountEndpoint.changeOtherAccountPassword(login, password) {
+        // RW, Read Committed
         while(1) {
-          success = AccountService.resetPassword(accountId) {
-            account = AccountFacade.findById(accountId)
-            new ResetPasswordToken()
-            Account.addResetToken(token)
-            AccountFacade.save(account)
+          account = AccountService.findByLogin(login) {
+            account = AccountFacade.findByLogin(login)
+          }
+
+          success = AccountService.changePassword(account, password) {
+            Account.setPassword(password)
+            success = AccountFacade.edit(entity)
           }
         }
-        EmailSender.sendResetEmail(account)
       }
     }
 
   }
-} else if (accountNotFound) {
-  displayError = AccountDetailsPage.resetPassword(account) {
-    errorResponse = AccountController.resetPassword(accountId) {
-      errorResponse = AccountEndpoint.resetPassword(accountId) {
-        // RW, Read Comitted
+}
+ else if(accountNotFound)
+  displayError = AccountDetailsPage.enter() {
+    errorResponse =  AccountController.changeOtherAccountPassword(login, password) {
+      errorResponse =  AccountEndpoint.changeOtherAccountPassword(login, password) {
+        // RW, Read Committed
         while(1) {
-          notFound = AccountService.resetPassword(accountId) {
-            notFound = AccountFacade.findById(accountId)
+          notFound = AccountService.findByLogin(login) {
+            notFound = AccountFacade.findByLogin(login)
           }
         }
       }
     }
 
-  }  
+  }
 }

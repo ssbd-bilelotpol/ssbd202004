@@ -1,38 +1,55 @@
 AccountDetailsPage
-AccountController
+AccountAccessLevelController
 AccountEndpoint
 AccountService
 AccountFacade
 @Starter(Administrator)
 
+   displayRoles = AccountDetailsPage.enter(accountId) {
+     roles = AccountAccessLevelController.getRoles(login) {
+       roles = AccountEndpoint.getAccessLevels(login) {
+       // RO, Read Committed
+       while(1) {
+         roles = AccountService.findByLogin(login){
+           roles = AccountFacade.findByLogin(login)
+         }
+       }
+       }
+     }
+   }
+
 if(doesNotHaveRole) {
   displaySuccess = AccountDetailsPage.enter(accountId) {
-   successResponse = AccountController.assignRole(accountId, role) {
-     successResponse = AccountEndpoint.assignRole(accountId, role) {
+   successResponse = AccountAccessLevelController.assignRole(login, accountAccessLevelDto) {
+     successResponse = AccountEndpoint.editAccountAccessLevel(login, accountAccessLevelDto) {
        // RW, Read Committed
        while(1) {
-        success = AccountService.assignRole(accountId, role) {
-          account = AccountFacade.findById(accountId)
-          new AccountAccessLevel()
-          Account.addRole(accessLevel)
-          AccountFacade.save(account)
+        account = AccountService.findByLogin(login){
+          account = AccountFacade.findByLogin(login)
         }
+         AccountAccessLevel."<<create>>"
+         success = AccountService.editAccountAccessLevel(account,  accountAccessLevels){
+           Account.setAccountAccessLevels(accountAccessLevels)
+           success = AccountFacade.edit(entity)
+         }
       }
      }
    }
   }
 } else if (alreadyAssignedRole) {
   displayError = AccountDetailsPage.enter(accountId) {
-   errorResponse =  AccountController.assignRole(accountId, role) {
-     errorResponse =  AccountEndpoint.assignRole(accountId, role) {
+   errorResponse =  AccountAccessLevelController.assignRole(login, accountAccessLevelDto) {
+     errorResponse =  AccountEndpoint.editAccountAccessLevel(login, accountAccessLevelDto) {
        // RW, Read Committed
        while(1) {
-        error = AccountService.assignRole(accountId, role) {
-          account = AccountFacade.findById(accountId)
-          new AccountAccessLevel()
-          Account.addRole(accessLevel)
-          AccountFacade.save(account)
+        account = AccountService.findByLogin(login){
+          account = AccountFacade.findByLogin(login)
         }
+         AccountAccessLevel."<<create>>"
+         error = AccountService.editAccountAccessLevel(account,  accountAccessLevels){
+           Account.setAccountAccessLevels(accountAccessLevels)
+           error = AccountFacade.edit(entity)
+         }
       }
      }
    }
@@ -40,15 +57,16 @@ if(doesNotHaveRole) {
   }
 } else if (accountNotFound) {
   displayError = AccountDetailsPage.enter(accountId) {
-   errorResponse =  AccountController.assignRole(accountId, role) {
-     errorResponse =  AccountEndpoint.assignRole(accountId, role) {
+   errorResponse =  AccountAccessLevelController.assignRole(login, accountAccessLevelDto) {
+     errorResponse =  AccountEndpoint.editAccountAccessLevel(login, accountAccessLevelDto) {
        // RW, Read Committed
        while(1) {
-        error = AccountService.assignRole(accountId, role) {
-         notFound = AccountFacade.findById(accountId)
+        error = AccountService.findByLogin(login){
+          error = AccountFacade.findByLogin(login)
         }
       }
      }
    }
+
   }
 }

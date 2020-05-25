@@ -8,13 +8,13 @@ AccountDetails
 AccountAccessLevel
 @Starter(LoggedIn)
 
-displayAccountData = EditAccountPage.enter() {
-  accountDto = AccountController.get(accountId) {
-    accountDto = AccountEndpoint.get(accountId) {
+displayAccountData = EditAccountPage.retrieveOwnAccountDetails() {
+  accountDto = AccountController.retrieveOwnAccountDetails() {
+    accountDto = AccountEndpoint.retrieveOwnAccountDetails() {
     // RO, Read Committed
       while(1) {
-        account = AccountService.findById(accountId) {
-          account = AccountFacade.findById(accountId)
+        account = AccountService.findByLogin(login) {
+          account = AccountFacade.findByLogin(login)
         }
       }
     }
@@ -23,16 +23,16 @@ displayAccountData = EditAccountPage.enter() {
 }
 
 if (validData) {
-  displaySuccessMessage = EditAccountPage.save(accountForm) {
-    successResponse = AccountController.patch(accountDto) {
-      successResponse = AccountEndpoint.patch(accountDto) {
+  displaySuccessMessage = EditAccountPage.edit(accountDto) {
+    successResponse = AccountController.editOwnAccountDetails(accountEditDto) {
+      successResponse = AccountEndpoint.editOwnAccountDetails(accountEditDto) {
         // RW, Read Committed
         while (1) {
-          account = AccountService.findById(accountId)
-
-          Account.setData(accountDto)
-          success = AccountService.edit(account) {
-            success = AccountFacade.edit(account) {
+          account = AccountService.findByLogin(login){
+            account = AccountFacade.findByLogin(login)
+          }
+          success = AccountService.editAccountDetails(account, newDetails) {
+            success = AccountFacade.edit(entity) {
               AccountDetails."<<cascade merge>>"
               AccountAccessLevel."<<cascade merge>>"
             }
@@ -43,12 +43,14 @@ if (validData) {
 
   }
 } else if(accountNotFound)
-  displayErrorMessage = EditAccountPage.save(accountForm) {
-    errorResponse = AccountController.patch(accountDto) {
-      errorResponse = AccountEndpoint.patch(accountDto) {
+  displayErrorMessage = EditAccountPage.edit(accountDto) {
+    errorResponse = AccountController.editOwnAccountDetails(accountEditDto) {
+      errorResponse = AccountEndpoint.editOwnAccountDetails(accountEditDto) {
         // RW, Read Committed
         while (1) {
-          notFound = AccountService.findById(accountId)
+          notFound = AccountService.findByLogin(login){
+            error = AccountFacade.findByLogin(login)
+          }
         }
       }
     }
@@ -56,7 +58,7 @@ if (validData) {
   }
 
 } else if(invalidAccountData) {
-  displayErrorMessage = EditAccountPage.save(accountForm) {
-    errorResponse = AccountController.patch(accountDto) 
+  displayErrorMessage = EditAccountPage.edit(accountDto) {
+    errorResponse = AccountController.editOwnAccountDetails(accountEditDto)
   } 
 }

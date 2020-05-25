@@ -7,13 +7,13 @@ Administrator
 @Starter(Administrator)
 
 if(availableAccounts) {
-  displayAccounts = AccountPanelPage.findAccounts(query) {
-    successAccountsResponse = AccountController.get(query) {
-      successAccountsResponse = AccountEndpoint.get(query) {
+  displayAccounts = AccountPanelPage.getAccounts(name) {
+    successAccountsResponse = AccountController.getAccounts(name) {
+      successAccountsResponse = AccountEndpoint.findByName(name) {
       // RO, Read Committed
         while(1) {
-          accounts = AccountService.find(query) {
-            accounts = AccountFacade.find(query)
+          accounts = AccountService.findByName(name) {
+            accounts = AccountFacade.findByName(name)
           }
         }
       }
@@ -21,13 +21,13 @@ if(availableAccounts) {
 
   }
 } else if(accountsNotFound) {
-  displayNotFound = AccountPanelPage.findAccounts(query) {
-    successAccountsResponse = AccountController.get(query) {
-      successAccountsResponse = AccountEndpoint.get(query) {
+  displayNotFound = AccountPanelPage.getAccounts(name) {
+    successAccountsResponse = AccountController.getAccounts(name) {
+      successAccountsResponse = AccountEndpoint.findByName(name) {
         // RO, Read Committed
         while(1) {
-          notFound = AccountService.find(query) {
-            notFound = AccountFacade.find(query)
+          notFound = AccountService.findByName(name) {
+            notFound = AccountFacade.findByName(name)
           }
         }
       }

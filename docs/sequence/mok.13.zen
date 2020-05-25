@@ -7,16 +7,17 @@ AccountFacade
 Account
 @Starter(Administrator)
 
-if (validAccount) {
-  displaySuccess = AccountDetailsPage.unlockAcccount(account) {
-    successResponse = AccountController.unlockAccount(accountId) {
-      successResponse = AccountEndpoint.unlockAccount(accountId) {
+if (activeAccount) {
+  displaySuccess = AccountDetailsPage.changeAccountActiveStatus(login, active) {
+    successResponse = AccountController.changeAccountActiveStatus(login, active) {
+      successResponse = AccountEndpoint.changeAccountActiveStatus(login, active){
         // RW, Read Comitted
         while(1) {
-          success = AccountService.unlockAccount(accountId) {
-            account = AccountFacade.findById(accountId)
+          success = AccountService.changeAccountActiveStatus(login, active) {
+            account = AccountFacade.findByLogin(login)
             Account.setActive(true)
-            AccountFacade.save(account)
+            EmailService.sendTransactionalEmail(email, senderName, subject, message)
+            AccountFacade.edit(entity)
           }
         }
       }
@@ -24,17 +25,16 @@ if (validAccount) {
 
   }
 } else if (accountNotFound) {
-  displayError = AccountDetailsPage.unlockAcccount(account) {
-    errorResponse = AccountController.unlockAccount(accountId) {
-     errorResponse = AccountEndpoint.unlockAccount(accountId) {
+  displayError = AccountDetailsPage.changeAccountActiveStatus(login, active) {
+    errorResponse = AccountController.changeAccountActiveStatus(login, active) {
+      errorResponse = AccountEndpoint.changeAccountActiveStatus(login, active) {
         // RW, Read Comitted
         while(1) {
-          notFound = AccountService.unlockAccount(accountId) {
-            notFound = AccountFacade.findById(accountId)
+          notFound = AccountService.changeAccountActiveStatus(login, active) {
+            notFound = AccountFacade.findByLogin(login)
           }
         }
       }
     }
-
   }  
 }

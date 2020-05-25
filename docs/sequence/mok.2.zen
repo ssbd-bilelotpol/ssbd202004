@@ -7,24 +7,32 @@ AuthorizationIdentityStore
 @Starter(Guest)
 
 if (validAuthData) {
-  successMessage = LoginPage.auth(login, password) {
-    jwtToken = AuthResource.auth(login, password) {
-      success = IdentityStoreHandler.validate(account) {
+  successMessage = LoginPage.auth(loginData) {
+    jwtToken = AuthResource.auth(loginData) {
+      jwtToken = IdentityStoreHandler.validate(credential) {
         // RO, Read Committed
         while(1) {
-          principal = AuthenticationIdentityStore.validate(login, password)
-          groups = AuthorizationIdentityStore.validate(login, password)
+          jwtToken = AuthenticationIdentityStore.validate(credential)
         }
       }
+          success = AccountEndpoint.updateAuthInfo(login, lastIpAddress, currentAuth){
+            // RW, Read Committed
+        while(1) {
+          success = AccountService.updateAuthInfo(login, lastIpAddress, currentAuth){
+            account = AccountFacade.findByLogin(login)
+            success = AccountFacade.edit(entity)
+          }
+        }
+          }
     }
   }
 } else {
-  errorMessage = LoginPage.auth(login, password) {
-    errorResponse = AuthResource.auth(login, password) {
-      error = IdentityStoreHandler.validate(account) {
+  errorMessage = LoginPage.auth(loginData) {
+    errorResponse = AuthResource.auth(loginData) {
+      error = IdentityStoreHandler.validate(credential) {
         // RO, Read Committed
         while(1) {
-          error = AuthenticationIdentityStore.validate(login, password)
+          error = AuthenticationIdentityStore.validate(credential)
         }
       }
     }

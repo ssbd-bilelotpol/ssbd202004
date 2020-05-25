@@ -5,35 +5,33 @@ AccountController
 AccountEndpoint
 AccountService
 AccountFacade
-EmailSender
 Account
-ResetPasswordToken
 @Starter(Guest)
 
 if(emailExists) {
-  displaySuccess = LoginPage.resetPassword() {
-    response = AccountController.resetPassword(email) {
-      response = AccountEndpoint.resetPassword(email) {
+  displaySuccess = LoginPage.sendResetPasswordToken(email) {
+    response = AccountController.sendResetPasswordToken(email) {
+      response = AccountEndpoint.sendResetPasswordToken(email){
         // RW, Read Committed
         while(1) {
           account = AccountService.findByEmail(email) {
             account = AccountFacade.findByEmail(email)
           }
-          new ResetPasswordToken()
-          Account.addResetToken(token)
-          success = AccountService.save(account) {
-            success = AccountFacade.save(account)
+          success = VerificationTokenService.sendResetPasswordToken(account){
+            new VerificationToken()
+            success = VerificationTokenFacade.create(verificationToken)
+            success = EmailService.sendEmail(email, senderName, subject, message)
           }
         }
-        EmailSender.sendResetMail()
       }
     }
-
   }
+
+
 } else {
-  displaySuccess = LoginPage.resetPassword() {
-    response = AccountController.resetPassword(email) {
-     response = AccountEndpoint.resetPassword(email) {
+  displaySuccess = LoginPage.sendResetPasswordToken(email) {
+    response = AccountController.sendResetPasswordToken(email) {
+     response = AccountEndpoint.sendResetPasswordToken(email) {
         // RW, Read Committed
         while(1) {
           notFound = AccountService.findByEmail(email) {
@@ -47,32 +45,19 @@ if(emailExists) {
 }
 if (validData) {
   displaySuccess = ResetPage.resetPassword() {
-    response = AccountController.resetPasswordLink(token) {
-      response = AccountEndpoint.resetPasswordLink(token) {
+    response = AccountController.resetPassword(passwordResetDto){
+      success = AccountEndpoint.resetPassword(passwordResetDto){
         // RW, Read Committed
         while(1) {
-          account = AccountService.findByEmail(email) {
-            account = AccountFacade.findByEmail(email)
-          }
+          success = AccountService.resetPassword(passwordResetDto){
+            account = VerificationTokenService.confirmPasswordReset(tokenId){
+              verificationToken = VerificationTokenFacade.find(id)
+              VerificationToken."<<delete>>"
+              success = VerificationTokenFacade.remove(verificationToken)
+            }
 
-          success = AccountService.changePassword(account, password) {
-            Account.setPassword(password)
-            ResetPasswordToken."<<delete>>"
-            AccountFacade.save(account)
-          }
-        }
-      }
-    }
+              success = AccountFacade.edit(account)
 
-  }
-} else if (accountNotFound) {
-  displayError = ResetPage.resetPassword() {
-    response = AccountController.resetPasswordLink(token) {
-      response = AccountEndpoint.resetPasswordLink(token) {
-        // RW, Read Committed
-        while(1) {
-          notFound = AccountService.findByEmail(email) {
-            notFound = AccountFacade.findByEmail(email)
           }
         }
       }
@@ -81,16 +66,19 @@ if (validData) {
   }
 } else if (invalidToken) {
   displayError = ResetPage.resetPassword() {
-    errorResponse = AccountController.resetPasswordLink(token) {
-      errorResponse = AccountEndpoint.resetPasswordLink(token) {
+    error = AccountController.resetPassword(passwordResetDto){
+      error = AccountEndpoint.resetPassword(passwordResetDto){
         // RW, Read Committed
         while(1) {
-          account = AccountService.findByEmail(email) {
-            account = AccountFacade.findByEmail(email)
+          error = AccountService.resetPassword(passwordResetDto){
+            notFound = VerificationTokenService.confirmPasswordReset(tokenId){
+              notFound = VerificationTokenFacade.find(id)
+
+            }
+
           }
         }
       }
     }
-
   }
 }

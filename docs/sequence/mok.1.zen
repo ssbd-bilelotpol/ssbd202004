@@ -5,37 +5,40 @@ AccountController
 AccountEndpoint
 AccountService
 AccountFacade
+VerificationTokenService
+VerificationTokenFacade
 Account
 ClientAccessLevel
 AccountDetails
 VerificationToken
 @Starter(Guest)
 if (validAccountData) {
-  displaySuccess = RegisterPage.register(account) {
-    successResponse = AccountController.register(account) {
-      successResponse = AccountEndpoint.register(account) {
+  displaySuccess = RegisterPage.register(accountRegisterDto) {
+    successResponse = AccountController.register(accountRegisterDto) {
+      successResponse = AccountEndpoint.register(accountRegisterDto) {
         // RW, Read Committed
         while(1) {
           new Account()
           new AccountDetails()
-          success = AccountService.register(account) {
+          success = AccountService.register(account, accountDetails) {
             new ClientAccessLevel()
             new VerificationToken()
             success = AccountFacade.create(account)
+            EmailService.sendRegisterToken(account)
           }
         }
-        MailSender.sendConfirmationMail()
+
       }
 
     }
   }
 } else if (loginExists) {
-  displayError = RegisterPage.register(account) {
-    errorAccountExists = AccountController.register(account) {
-      error = AccountEndpoint.register(account) {
+  displayError = RegisterPage.register(accountRegisterDto) {
+    errorAccountExists = AccountController.register(accountRegisterDto) {
+      error = AccountEndpoint.register(accountRegisterDto) {
         // RW, Read Committed
         while(1) {
-          error = AccountService.register(account) {
+          error = AccountService.register(account, accountDetails) {
             accountExists = AccountFacade.create(account)
           }
         }
@@ -44,38 +47,44 @@ if (validAccountData) {
     }
   }
 } else if (invalidData) {
-  displayError = RegisterPage.register(account) {
-    errorInvalidData = AccountController.register(account)
+  displayError = RegisterPage.register(accountRegisterDto) {
+    errorInvalidData = AccountController.register(accountRegisterDto)
   }
 }
 if (validConfirmToken) {
-  displaySuccess = ConfirmPage.confirm(accountId, token) {
-    successResponse = AccountController.confirm(accountId, token) {
-      successResponse = AccountEndpoint.confirm(accountId, token) {
+  displaySuccess = ConfirmPage.confirm(tokenId) {
+    successResponse = AccountController.confirm(tokenId) {
+      successResponse = AccountEndpoint.confirm(tokenId) {
         // RW, Read Committed
         while(1) {
-          account = AccountService.findById(accountId) {
-            account = AccountFacade.findById(accountId)
+          success = AccountService.confirm(accountId) {
+            token = VerificationTokenService.confirmRegistration(tokenId){
+              token = VerificationTokenFacade.find(id)
+              success = VerificationTokenFacade.remove(id){
+                VerificationToken."<<delete>>"
+              }
+            }
           }
-          success = AccountService.confirm(account) {
+          success = AccountFacade.edit(entity) {
             Account.setConfirm(true)
-            VerificationToken."<<delete>>"
           }
         }
       }
     }
   }
-} else if(invalidAccountOrToken) {
-  displayError = ConfirmPage.confirm(accountId, token) {
-    invalidAccountOrToken = AccountController.confirm(accountId, token) {
-      invalidAccountOrToken = AccountEndpoint.confirm(accountId, token) {
+} else if(invalidToken) {
+  displayError = ConfirmPage.confirm(tokenId) {
+    invalidToken = AccountController.confirm(tokenId) {
+      invalidToken = AccountEndpoint.confirm(tokenId) {
         // RW, Read Committed
         while(1) {
-          account = AccountService.findById(accountId) {
-            account = AccountFacade.findById(accountId)
+          error = AccountService.confirm(tokenId) {
+            error = VerificationTokenService.confirmRegistration(tokenId){
+              error = VerificationTokenFacade.find(id)
+              }
+            }
           }
         }
       }
     }
   }
-}
