@@ -35,12 +35,6 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
         super(SeatClass.class);
     }
 
-    @Override
-    @DenyAll
-    public SeatClass find(Object id) {
-        return super.find(id);
-    }
-
     @PermitAll
     public SeatClass findByName(String name) throws AppBaseException {
         // throws SeatClassNotFound

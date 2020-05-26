@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
+
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
@@ -29,7 +31,6 @@ public class AppExceptionHandler extends HttpServlet {
     }
 
     private void processError(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
         String contextPath = request.getContextPath();
@@ -40,15 +41,7 @@ public class AppExceptionHandler extends HttpServlet {
 
             JsonObjectBuilder builder = Json.createObjectBuilder();
             builder.add("status", statusCode);
-
-            String message = "Unknown error";
-            if (statusCode == 404) {
-                message = "Resource not found";
-            } else if (throwable != null) {
-                message = throwable.getMessage();
-            }
-            builder.add("message", message);
-
+            builder.add("message", statusCode == 404 ? I18n.RESOURCE_NOT_FOUND : I18n.PROCESSING_ERROR);
             response.getWriter().print(builder.build());
         } else {
             request.getRequestDispatcher("/index.html").forward(request, response);

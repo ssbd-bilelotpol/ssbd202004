@@ -92,8 +92,12 @@ public abstract class AbstractFacade<T> {
      * @param id obiekt klucza głównego
      * @return obiekt encji
      */
-    public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+    public T find(Object id) throws AppBaseException {
+        try {
+            return getEntityManager().find(entityClass, id);
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**
