@@ -7,17 +7,16 @@ TicketFacade
 Ticket
 @Starter(CustomerServiceOrClient)
 if(validData) {
-  displaySuccess = TicketsPanelPage.returnTicket(ticket) {
-    successResponse = TicketController.returnTicket(ticket) {
-       successResponse = TicketEndpoint.returnTicket(ticket) {
+  displaySuccess = TicketsPanelPage.returnTicket(ticketDto) {
+    successResponse = TicketController.returnTicket(ticketDto) {
+       successResponse = TicketEndpoint.returnTicket(ticketDto) {
         //RW, Read Committed
         while(1) {
           success = TicketService.returnTicket(ticketId) {
             ticket = TicketFacade.findById(ticketId)
-            Ticket.setReturned()
-            success = TicketFacade.edit(ticket)
+            success = TicketFacade.remove(ticket)
 
-            success = ConnectionService.calculateAggregate() {
+            success = ConnectionService.calculateConnectionProfit() {
               connection = ConnectionFacade.find(connectionId)
               tickets = TicketFacade.find(connectionId)
               calculate()
@@ -31,7 +30,7 @@ if(validData) {
 
   }
 }
-else if(deadlineExceeded) {
+else if(timeToReturnExpired) {
   displayError = TicketsPanelPage.returnTicket(ticket) {
     errorDeadlineExceeded = TicketController.returnTicket(ticket) {
       errorDeadlineExceeded = TicketEndpoint.returnTicket(ticket) {

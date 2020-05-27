@@ -1,42 +1,27 @@
 CustomerService
-AccountsPanelPage
-AccountController
-AccountEndpoint
-AccountService
-AccountFacade
+TicketPanelPage
+TicketController
+TicketEndpoint
+TicketService
+TicketFacade
 @Starter(CustomerService)
-if(anyAccountExists) {
-  displaySuccess = AccountsPanelPage.getAccountsByProperties(query) {
-    successResponse = AccountController.getByProperties(query) {
-      successResponse = AccountEndpoint.getByProperties(query) {
+if(validData) {
+  displaySuccess = TicketPanelPage.findByFlight(id) {
+    successResponse = TicketController.findByFlight(id) {
+      successResponse = TicketEndpoint.findByFlight(id) {
         // RO, Read Committed
         while(1) {
-          accounts = AccountService.findByProperties(query) {
-            accounts = AccountFacade.findByProperties(query)
+          accounts = TicketService.findByFlight(query) {
+            accounts = TicketFacade.findByFlight(query)
           }
         }
       }
     }
-  }
-}
-else if(noAccountsWithSpecifiedParameters) {
-  displayError = AccountsPanelPage.getAccountsByProperties(query) {
-    errorNoAcounts = AccountController.getByProperties(query) {
-       errorNoAcounts = AccountEndpoint.getByProperties(query) {
-        // RO, Read Committed
-        while(1) {
-          error = AccountService.findByProperties(query) {
-            noAccounts = AccountFacade.findByProperties(query)
-          }
-        }
-      }
-    }
-
   }
 }
 else if(invalidData) {
-  displayError = AccountsPanelPage.getAccountsByProperties(query) {
-    errorInvalidData = AccountController.getByProperties(query) 
+  displayError = TicketPanelPage.findByFlight(id) {
+    invalidData = TicketController.findByFlight(id)
   }
 }
 

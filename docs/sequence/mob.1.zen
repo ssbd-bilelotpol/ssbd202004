@@ -14,41 +14,30 @@ ConnectionService
 ConnectionFacade
 Connection
 @Starter(Client)
-buyTicketForm = BuyTicketPage.buyTicket(flight) {
 
-      airplaneSchemaAndSeats = TicketController.getAirplaneSchemaAndSeats(schemaId, flightId){
-
-
-              airplaneSchemaAndSeats = TicketEndpoint.getAirplaneSchemaAndSeats(schemaId, flightId) {
-                                                  //RO, Read Committed
-  while(1) {
-
-      airplaneSchema = AirplaneSchemaService.find(schemaId) {
-        airplaneSchema = AirplaneSchemaFacade.find(schemaId)
-      }
-
-      takenSeats = TicketService.getTakenSeats(flightId){
-        takenSeats = TicketFacade.getTakenSeats(flightId)
-      }
-
-  }
-              }
-      }
-}
 if(validData) {
   displaySuccess = BuyTicketPage.buyTicket(ticketDto) {
     successResponse = TicketController.buyTicket(ticketDto) {
 
-        success = TicketEndpoint.buyTicket(ticketDto){
+      success = TicketEndpoint.buyTicket(ticketDto){
                       //RW, Read Committed
       while(1) {
         success = TicketService.buyTicket(ticketDto) {
-          new Ticket
-          Ticket.setData(ticketDto)
-          success = TicketFacade.add(ticket){
-            Passenger."<<cascade persist>>"
+          account = AccountService.findByLogin(login) {
+            account = AccountFacade.findByLogin(login)
           }
-          success = ConnectionService.calculateAggregate() {
+
+          flight = FlightService.findById(id) {
+            flight = FlightFacade.find(id)
+          }
+          takenSeats = FlightService.getTakenSeats(flight)
+
+          ticket = Ticket."<<create>>"
+          success = TicketFacade.create(ticket){
+            success = Passenger."<<cascade persist>>"
+          }
+
+          success = ConnectionService.calculateConnectionProfit() {
             connection = ConnectionFacade.find(connectionId)
             tickets = TicketFacade.find(connectionId)
             calculate()
@@ -61,18 +50,21 @@ if(validData) {
     }
   }
 }
-else if(seatAlreadyTaken) {
+else if(seatTaken) {
   displayError = BuyTicketPage.buyTicket(ticketDto) {
     errorSeatAlreadyTaken = TicketController.buyTicket(ticketDto) {
-        error = TicketEndpoint.buyTicket(ticketDto){
+      error = TicketEndpoint.buyTicket(ticketDto){
                 //RW, Read Committed
       while(1) {
         error = TicketService.buyTicket(ticketDto) {
-          new Ticket
-          Ticket.setData(ticketDto)
-          error = TicketFacade.add(ticket){
-            Passenger."<<cascade persist>>"
+          account = AccountService.findByLogin(login) {
+            account = AccountFacade.findByLogin(login)
           }
+
+          flight = FlightService.findById(id) {
+            flight = FlightFacade.find(id)
+          }
+          takenSeats = FlightService.getTakenSeats(flight)
         }
       }
       }
@@ -84,4 +76,3 @@ else if(invalidData) {
     error = TicketController.buyTicket(ticketDto)
   }
 }
-

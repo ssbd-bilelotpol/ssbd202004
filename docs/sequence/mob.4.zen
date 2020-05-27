@@ -7,12 +7,12 @@ TicketFacade
 Ticket
 @Starter(CustomerService)
 
-displayTicketForm = EditTicketPage.edit(ticket) {
-  successTicketResponse = TicketController.get(tickedId) {
-    successTicketResponse = TicketEndpoint.get(tickedId) {
+displayTicketForm = EditTicketPage.update(ticketDto) {
+  successTicketResponse = TicketController.findById(tickedId) {
+    successTicketResponse = TicketEndpoint.findById(tickedId) {
       //RO, Read Commited
       while(1) {
-          ticket = TicketService.find(tickedId) {
+          ticket = TicketService.findById(tickedId) {
           ticket = TicketFacade.find(tickedId)
         }
       }
@@ -20,35 +20,16 @@ displayTicketForm = EditTicketPage.edit(ticket) {
   }
 }
 if(validData) {
-  displaySuccess = EditTicketPage.save(ticketDto) {
-    successResponse = TicketController.patch(ticketDto) {
-      successResponse = TicketEndpoint.patch(ticketDto) {
+  displaySuccess = EditTicketPage.update(ticketDto) {
+    successResponse = TicketController.update(id, ticketDto) {
+      successResponse = TicketEndpoint.update(id, ticketDto) {
         //RW, Read Committed
         while(1) {
-          ticket = TicketService.find(tickedId) {
+          ticket = TicketService.findById(tickedId) {
             ticket = TicketFacade.find(tickedId)
           }
           Ticket.setData(ticketDto)
-          success = TicketService.edit(ticket) {
-            success = TicketFacade.edit(ticket)
-          }
-        }
-      }
-    }
-
-  }
-}
-else if(ticketDeletedByOtherUser) {
-  displayError = EditTicketPage.save(ticket) {
-    errorTicketDeletedByOtherUser = TicketController.patch(editedTicket) {
-      errorTicketDeletedByOtherUser = TicketEndpoint.patch(editedTicket) {
-        //RW, Read Committed
-        while(1) {
-          ticket = TicketService.find(tickedId) {
-            ticket = TicketFacade.find(tickedId)
-          }
-          Ticket.setData(ticketDto)
-          success = TicketService.edit(ticket) {
+          success = TicketService.update(ticket) {
             success = TicketFacade.edit(ticket)
           }
         }
@@ -58,12 +39,12 @@ else if(ticketDeletedByOtherUser) {
   }
 }
 else if(ticketNotFound) {
-  displayError = EditTicketPage.save(ticket) {
-    errorNotFound = TicketController.patch(editedTicket) {
-      errorNotFound = TicketEndpoint.patch(editedTicket) {
+  displayError = EditTicketPage.update(ticketDto) {
+    errorNotFound = TicketController.update(id, editedTicket) {
+      errorNotFound = TicketEndpoint.update(id, editedTicket) {
         //RW, Read Committed
         while(1) {
-          error = TicketService.find(tickedId) {
+          error = TicketService.findById(tickedId) {
             notFound = TicketFacade.find(tickedId)
           }
         }
@@ -73,7 +54,7 @@ else if(ticketNotFound) {
   }
 }
 else if(invalidData) {
-  displayError = EditTicketPage.save(ticket) {
-    errorInvalidData = TicketController.patch(editedTicket) 
+  displayError = EditTicketPage.update(ticketDto) {
+    errorInvalidData = TicketController.update(id, editedTicket)
   }
 }

@@ -7,12 +7,12 @@ TicketFacade
 @Starter(Client)
 if(validData) {
   displaySuccess = TicketDetailsPage.updateTicket(ticket) {
-    successResponse = TicketController.updateTicket(modifiedTicket) {
-      successResponse = TicketEndpoint.updateTicket(modifiedTicket) {
+    successResponse = TicketController.update(id, modifiedTicket) {
+      successResponse = TicketEndpoint.update(id, modifiedTicket) {
         // RW, Read Committed
         while(1) {
-           success = TicketService.update(modifiedTicket) {
-            success = TicketFacade.edit(modifiedTicket)
+           success = TicketService.update(ticket) {
+            success = TicketFacade.edit(ticket)
           }
         }
 
@@ -21,14 +21,14 @@ if(validData) {
 
   }
 }
-else if(noFreeSeatsInClass) {
+else if(seatTaken) {
   displayError = TicketDetailsPage.updateTicket(ticket) {
-    errorNoFreeSeatsInClass = TicketController.updateTicket(modifiedTicket) {
-      errorNoFreeSeatsInClass = TicketEndpoint.updateTicket(modifiedTicket) {
+    seatTaken = TicketController.update(id, modifiedTicket) {
+      seatTaken = TicketEndpoint.update(id, modifiedTicket) {
         // RW, Read Committed
         while(1) {
-          error = TicketService.update(modifiedTicket) {
-            noFreeSeatsInClass = TicketFacade.edit(modifiedTicket)
+          error = TicketService.update(ticket) {
+            seatTaken = TicketFacade.edit(ticket)
           }
         }
 
@@ -37,14 +37,14 @@ else if(noFreeSeatsInClass) {
 
   }
 }
-else if(ticketDeletedByOtherUser) {
+else if(notFound) {
   displayError = TicketDetailsPage.updateTicket(ticket) {
-    errorTicketDeletedByOtherUser = TicketController.updateTicket(modifiedTicket) {
-     errorTicketDeletedByOtherUser = TicketEndpoint.updateTicket(modifiedTicket) {
+    notFound = TicketController.update(id, modifiedTicket) {
+     notFound = TicketEndpoint.update(id, modifiedTicket) {
        // RW, Read Commited
        while(1) {
-         error = TicketService.update(modifiedTicket) {
-          ticketDeletedByOtherUser = TicketFacade.edit(modifiedTicket)
+         error = TicketService.update(ticket) {
+          notFound = TicketFacade.edit(ticket)
         }
        }
 

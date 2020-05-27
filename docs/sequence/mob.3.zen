@@ -4,27 +4,18 @@ TicketController
 TicketService
 TicketFacade
 @Starter(Client)
-if(anyTicketExists) {
-  displaySuccess = TicketsPanelPage.getTickets() {
-    successTicketsResponse = TicketController.getTickets(accountId) {
-      //RO, Read Committed
-      while(1) {
-        tickets = TicketService.getTickets(accountId) {
-          tickets = TicketFacade.getTickets(accountId)
+
+displaySuccess = TicketsPanelPage.getOwnTickets() {
+  successTicketsResponse = TicketController.getOwnTickets() {
+    //RO, Read Committed
+    while(1) {
+      tickets = TicketService.getOwnTickets() {
+        account = AccountService.currentUser() {
+          account = AccountFacade.findByLogin(login)
         }
+        tickets = TicketFacade.findByAccount(accountId)
       }
     }
   }
 }
-else if (noTickets) {
-  displayError = TicketsPanelPage.getTickets() {
-    errorNoTickets = TicketController.getTickets(accountId) {
-      //RO, Read Committed
-      while(1) {
-        error = TicketService.getTickets(accountId) {
-          noTickets = TicketFacade.getTickets(accountId)
-        }
-      }
-    }
-  }
-}
+

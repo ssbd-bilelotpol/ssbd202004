@@ -1,18 +1,20 @@
 CustomerService
 ReportsPanelPage
 ReportsController
-ConnectionEndpoint
+TicketEndpoint
 ConnectionService
 ConnectionFacade
 @Starter(CustomerService)
 
-displaySuccess = ReportsPanelPage.generateReport() {
-  successResponse = ReportsController.generateReport() {
-    connections = ConnectionEndpoint.generateReport() {
+report = ReportsPanelPage.generateReport() {
+  report = ReportsController.generateReport() {
+    report = TicketEndpoint.generateReport() {
       // RO, Read Committed
       while(1) {
-        connections = ConnectionService.findAll() {
-          connection = ConnectionFacade.findAll()
+        report = ConnectionService.generateReport() {
+          connections = ConnectionService.findAll() {
+            connection = ConnectionFacade.findAll()
+          }
         }
       }
 
