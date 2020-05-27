@@ -31,10 +31,6 @@ public class TicketException extends AppBaseException {
         return new TicketException(TICKET_NOT_FOUND);
     }
 
-    public static TicketException flightNotFound() {
-        return new TicketException(TICKET_FLIGHT_NOT_FOUND);
-    }
-
     public static TicketException seatTaken() {
         return new TicketException(TICKET_SEAT_TAKEN);
     }

@@ -1,7 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
-import javax.ws.rs.POST;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.ReportDto;
+
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania raportów.
@@ -9,9 +13,11 @@ import javax.ws.rs.Path;
  */
 @Path("/reports")
 public class ReportsController extends AbstractController {
-    @POST
-    public void pong() {
-        //TODO: delete as soon as the first method is implemented
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public ReportDto generateReport() {
         throw new UnsupportedOperationException();
     }
+
 }

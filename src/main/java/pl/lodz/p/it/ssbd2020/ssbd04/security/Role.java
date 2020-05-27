@@ -58,4 +58,6 @@ public class Role {
     public static final String ReturnTicket = "returnTicket";
     public static final String UpdateTicket = "updateTicket";
 
+    public static final String GenerateReport = "generateReport";
+
 }

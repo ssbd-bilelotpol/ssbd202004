@@ -170,6 +170,9 @@
     <security-role>
         <role-name>updateTicket</role-name>
     </security-role>
+    <security-role>
+        <role-name>generateReport</role-name>
+    </security-role>
 
     <error-page>
         <location>/exception_handler</location>

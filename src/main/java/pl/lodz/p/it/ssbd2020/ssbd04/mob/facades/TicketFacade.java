@@ -8,6 +8,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Interceptors({TrackingInterceptor.class})
 @Stateless
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class TicketFacade extends AbstractFacade<Ticket> {
 
     @PersistenceContext(unitName = "ssbd04mobPU")
@@ -90,11 +93,11 @@ public class TicketFacade extends AbstractFacade<Ticket> {
     /**
      * Zwraca zakupiony bilet
      *
-     * @param id identyfikator biletu
+     * @param ticket identyfikator biletu
      * @throws AppBaseException gdy nie powiedzie się zwracanie biletu
      */
     @RolesAllowed(Role.ReturnTicket)
-    public void remove(Long id) throws AppBaseException {
+    public void remove(Ticket ticket) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 

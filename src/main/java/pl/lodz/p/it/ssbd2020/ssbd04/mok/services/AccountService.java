@@ -206,7 +206,7 @@ public class AccountService {
         }
         account.getAccountAuthInfo().setLastIncorrectAuth(lastIncorrectAuth);
         Integer incorrectAuthCount = account.getAccountAuthInfo().getIncorrectAuthCount();
-        if (++incorrectAuthCount >= 3) {
+        if (++incorrectAuthCount == 3) {
             account.setActive(false);
             sendActiveStatusChangedEmail(account, false);
         }

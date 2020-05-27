@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.ReportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.facades.TicketFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -43,7 +44,7 @@ public class TicketService {
     /**
      * Zwraca bilety dla wybranego lotu
      *
-     * @param id identyfikator lotu
+     * @param flight lot
      * @return bilety dla wybranego lotu
      * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
      */
@@ -116,6 +117,11 @@ public class TicketService {
      */
     @RolesAllowed(Role.UpdateTicket)
     public void update(Ticket ticket) throws AppBaseException {
+        throw new UnsupportedOperationException();
+    }
+
+    @RolesAllowed(Role.GenerateReport)
+    public ReportDto generateReport() throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 

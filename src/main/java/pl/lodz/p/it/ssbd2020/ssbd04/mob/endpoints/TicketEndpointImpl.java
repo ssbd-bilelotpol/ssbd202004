@@ -3,10 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketUpdateDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.TicketService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -76,6 +73,12 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
     @RolesAllowed(Role.UpdateTicket)
     public void update(Long id, TicketUpdateDto ticketUpdateDto) throws AppBaseException {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    @RolesAllowed(Role.GenerateReport)
+    public ReportDto generateReport() throws AppBaseException {
+        return null;
     }
 
 }

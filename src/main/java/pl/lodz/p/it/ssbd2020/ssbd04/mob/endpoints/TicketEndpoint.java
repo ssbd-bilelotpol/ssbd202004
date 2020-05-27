@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketUpdateDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -84,5 +81,7 @@ public interface TicketEndpoint extends TransactionStarter {
      * @throws AppBaseException gdy nie powiedzie się aktualizacja biletu
      */
     void update(Long id, TicketUpdateDto ticketUpdateDto) throws AppBaseException;
+
+    ReportDto generateReport() throws AppBaseException;
 
 }
