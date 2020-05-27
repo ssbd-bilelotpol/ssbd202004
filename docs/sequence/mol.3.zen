@@ -1,80 +1,57 @@
-AiportPanelPage
+AirportPanelPage
 AirportController
 AirportEndpoint
 AirportService
 AirportFacade
 
 @Starter(Manager)
-if(validOperation){
-   displaySuccess =  
-  AiportPanelPage.deleteAirport(airportId){
-  success =
-  AirportController.deleteAirport(airportId){
-      success =
-  AirportEndpoint.deleteAirport(airportId){
-    // RW, Read Committed
-    while(1){
-      airport =
-        AirportService.find(airportId){
-        airport = 
-          AirportFacade.find(airportId)
+
+if(validOperation) {
+    displaySuccess = AirportPanelPage.deleteAirport(id) {
+        success = AirportController.delete(id) {
+            success = AirportEndpoint.delete(id) {
+                // RW, Read Committed
+                while(1) {
+                    airport = AirportService.findById(id) {
+                        airport = AirportFacade.find(id)
+                    }
+                    success = AirportService.delete(airport) {
+                    success = AirportFacade.remove(airport)
+                    }
+                }
+            }
         }
-      success =
-        AirportService.deleteAirport(airport){
-        success = 
-          AirportFacade.delete(airport)
-        }
-      }
     }
-  }
-   }
-}
- 
-else if(airportAssociatedWithFlights){
-  displayError =  
-  AiportPanelPage.deleteAirport(airportId){
-  error =
-  AirportController.deleteAirport(airportId){
-      error =
-  AirportEndpoint.deleteAirport(airportId){
-    // RW, Read Committed
-    while(1){
-      airport =
-        AirportService.find(airportId){
-        airport = 
-          AirportFacade.find(airportId)
+} else if(airportAssociatedWithFlights) {
+    displayError = AirportPanelPage.deleteAirport(id) {
+        error = AirportController.delete(id) {
+            error = AirportEndpoint.delete(id) {
+                // RW, Read Committed
+                while(1) {
+                    airport = AirportService.findById(id) {
+                        airport = AirportFacade.find(id)
+                    }
+                    error = AirportService.delete(airport) {
+                        error = AirportFacade.remove(airport)
+                    }
+                }
+            }
         }
-      error =
-        AirportService.deleteAirport(airport){
-        error = 
-          AirportFacade.delete(airport)
-        }
-      }
     }
-  }
-  }
-}
-else if(airportDeleted){
-  displayError =  
-  AiportPanelPage.modifyAirport(airportId){
-  error =
-  AirportController.modifyAirport(airportId){
-      error =
-  AirportEndpoint.modifyAirport(airportId){
-    // RW, Read Committed
-    while(1){
-      airport =
-        AirportService.find(airportId){
-        airport = 
-          AirportFacade.find(airportId)
+} else if(airportDeleted) {
+    displayError = AirportPanelPage.deleteAirport(id) {
+        error = AirportController.delete(id) {
+            error = AirportEndpoint.delete(id) {
+                // RW, Read Committed
+                while(1) {
+                    airport = AirportService.findById(id) {
+                        airport = AirportFacade.find(id)
+                    }
+                    error = AirportService.delete(airport) {
+                        error = AirportFacade.remove(airport)
+                    }
+                }
+            }
         }
-      error =
-        AirportService.modifyAirport(airport){
-        error = 
-          AirportFacade.delete(airport)
-        }
-      }
     }
-  }
-  }
 }

@@ -2,59 +2,38 @@ ConnectionSearchPage
 ConnectionController
 ConnectionEndpoint
 ConnectionService
-Connection
 ConnectionFacade
-
 
 @Starter(GuestOrManager)
 
-if(validData){
-  displayConnections =  
-  ConnectionSearchPage.findConnections(connectionDto){
-  
-  connections =
-  ConnectionController.findConnections(connectionDto){
-      connections =
-  ConnectionEndpoint.findConnections(connectionDto){
-    // RO, Read Committed
-    while(1){
-      connection = Connection."<<create>>";
-      connections =
-        ConnectionService.findConnections(connection){
-        connections = 
-          ConnectionFacade.find(connection)
+if(validData) {
+    displayConnections = ConnectionSearchPage.findConnections(query) {
+        connectionDtos = ConnectionController.find(query) {
+            connectionDtos = ConnectionEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    connections = ConnectionService.find(query) {
+                        connections = ConnectionFacade.find(query)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
-}
-else if(invalidData){
-  displayError =
-    ConnectionSearchPage.findConnections(connectionDto){
-    
-      error = 
-        ConnectionController.findConnections(connectionDto){}
-  }
-}
-else if(noResults){
-  displayNoResults =  
-  ConnectionSearchPage.findConnections(connectionDto){
-  
-  emptyList =
-  ConnectionController.findConnections(connectionDto){
-      emptyList =
-  ConnectionEndpoint.findConnections(connectionDto){
-    // RO, Read Committed
-    while(1){
-      connection = Connection."<<create>>";
-      emptyList =
-        ConnectionService.findConnections(connection){
-        emptyList = 
-          ConnectionFacade.find(connection)
+} else if(invalidData) {
+    displayError = ConnectionSearchPage.findConnections(query) {
+        error = ConnectionController.find(query)
+    }
+} else if(noResults) {
+    displayNoResults = ConnectionSearchPage.findConnections(query) {
+        emptyList = ConnectionController.find(query) {
+            emptyList = ConnectionEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    emptyList = ConnectionService.find(query) {
+                        emptyList = ConnectionFacade.find(query)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
 }

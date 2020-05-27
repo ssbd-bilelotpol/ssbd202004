@@ -1,7 +1,67 @@
-#diagram .starter .participant {
-     border-radius: 50%;
- }
+#diagram {
+    padding-top: 8px;
+}
+
+#diagram .sequence-diagram::before {
+    content: "sd/MOL.11 Odwołaj lot";
+    border: 2px solid rgba(3,3,3,.1);
+
+    font-size: 15px;
+    border-left: none;
+    padding: 5px;
+    display: block;
+    width: auto;
+    margin-bottom: 10px;
+}
+
+#diagram .sequence-diagram {
+    margin-top: 0;
+}
+
 
 #diagram .fragment.loop .header {
     display: none;
+}
+
+#diagram .starter .participant {
+    border-radius: 0%;
+    border: 0px;
+    padding: 0px;
+}
+
+
+#diagram .starter .participant:before{
+    content: "";
+    display: block;
+    height: 45px;
+    width: 88px;
+    background-size: 80px;
+    background-image: url("data:image/png;base64,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");
+    background-size: 35%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+#FlightEndpoint::before {
+    content: "REQUIRES_NEW"
+}
+
+#FlightService::before {
+    content: "MANDATORY"
+}
+
+#FlightFacade::before {
+    content: "MANDATORY"
+}
+#SeatClassEndpoint::before {
+    content: "REQUIRES_NEW"
+}
+
+#SeatClassService::before {
+    content: "MANDATORY"
+}
+
+#EmailService::before {
+    content: "SUPPORTS"
 }

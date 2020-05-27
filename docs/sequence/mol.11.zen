@@ -3,56 +3,56 @@ FlightController
 FlightEndpoint
 FlightService
 FlightFacade
-MailSender
+EmailService
 
 @Starter(Manager)
-  displayFlightForm = FlightModifyPage.choose(flightId) {
-  flight = FlightController.get(flightId) {
-      flight = FlightEndpoint.get(flightId) {
-    // RO, Read Committed
-    while(1) {
-      flight = FlightService.find(flightId) {
-        flight = FlightFacade.find(flightId)
-      }
-    }
-    }
-  }
-}
-if(validOperation){
 
-  displaySuccess = FlightModifyPage.cancel(flightDto) {
-    success = FlightController.cancel(flightDto) {
-          success = FlightEndpoint.cancel(flightDto) {
-      // RW, Read Committed
-      while(1) {
-        flight = FlightService.find(flightId) {
-          flight = FlightFacade.find(flightId)
+displayFlightForm = FlightModifyPage.chooseFlight(id) {
+    flightDto = FlightController.findById(id) {
+        flightDto = FlightEndpoint.findById(id) {
+        // RO, Read Committed
+            while(1) {
+                flight = FlightService.findById(id) {
+                    flight = FlightFacade.find(id)
+                }
+            }
         }
-        Flight.setStatus(flightDto)
-        success = FlightService.edit(flight) {
-          success = FlightFacade.edit(flight)
+    }
+}
+if(validOperation) {
+    displaySuccess = FlightModifyPage.cancelFlight(id) {
+        success = FlightController.delete(id) {
+            success = FlightEndpoint.cancel(id) {
+                // RW, Read Committed
+                while(1) {
+                    flight = FlightService.findById(id) {
+                        flight = FlightFacade.find(id)
+                    }
+                    Flight.setStatus(false)
+                    success = FlightService.edit(flight) {
+                        success = FlightFacade.edit(flight)
+                    }
+                    success = EmailService.sendMailToCustomers(flightDto)
+                }
+            }
         }
-      }
-            success = MailSender.sendMailToCustomers(flightDto)
     }
-    }
-  }  
 }
 if(flightDeleted){
-    displayError = FlightModifyPage.cancel(flightDto) {
-    error = FlightController.cancel(flightDto) {
-          error = FlightEndpoint.cancel(flightDto) {
-      // RW, Read Committed
-      while(1) {
-        flight = FlightService.find(flightId) {
-          flight = FlightFacade.find(flightId)
+    displayError = FlightModifyPage.cancelFlight(id) {
+        error = FlightController.delete(id) {
+            error = FlightEndpoint.cancel(id) {
+                // RW, Read Committed
+                while(1) {
+                    flight = FlightService.findById(id) {
+                        flight = FlightFacade.find(id)
+                    }
+                    Flight.setStatus(false)
+                    error = FlightService.edit(flight) {
+                        error = FlightFacade.edit(flight)
+                    }
+                }
+            }
         }
-      Flight.setStatus(flightDto)
-        error = FlightService.edit(flight) {
-          error = FlightFacade.edit(flight)
-        }
-      }
     }
-    }
-  } 
 }

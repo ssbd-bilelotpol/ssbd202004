@@ -1,4 +1,4 @@
-ConnectiontAddPage
+ConnectionAddPage
 ConnectionController
 ConnectionEndpoint
 ConnectionService
@@ -8,90 +8,63 @@ Connection
 
 @Starter(Manager)
 
-if(validData){
-  displaySuccess =  
-  ConnectiontAddPage.addConnection(connectionDto){
-  
-  success =
-  ConnectionController.addConnection(connectionDto){
-      success =
-  ConnectionEndpoint.addConnection(connectionDto){
-
-    // RW, Read Committed
-    while(1){
-      destinationinationAirport =                AirportFacade.find(destinationAirportId)
-      targetAirport = AirportFacade.find(targetAirportId)
-      connection = Connection."<<create>>";
-      success =
-        ConnectionService.addConnection(connection){
-        success = 
-          ConnectionFacade.add(connection)
+if(validData) {
+    displaySuccess = ConnectionAddPage.addConnection(connectionDto) {
+        success = ConnectionController.create(connectionDto) {
+            success = ConnectionEndpoint.create(connectionDto) {
+                // RW, Read Committed
+                while(1) {
+                    destinationAirport = AirportFacade.find(destinationAirportId)
+                    targetAirport = AirportFacade.find(targetAirportId)
+                    connection = Connection."<<create>>";
+                    success = ConnectionService.create(connection) {
+                        success = ConnectionFacade.create(connection)
+                    }
+                }
+            }
         }
-      }
-      }
     }
-  }
-}
-else if(invalidData){
-  displayError =
-    ConnectiontAddPage.addConnection(connectionDto){
-      error = 
-        ConnectionController.addConnection(connectionDto){}
-  }
-}
-else if(connectionExists){
-  displayError =  
-  ConnectiontAddPage.addConnection(connectionDto){
-  
-  error =
-  ConnectionController.addConnection(connectionDto){
-      error =
-  ConnectionEndpoint.addConnection(connectionDto){
-    // RW, Read Committed
-    while(1){
-      destinationinationAirport =            AirportFacade.find(destinationAirportId)
-      targetAirport = AirportFacade.find(targetAirportId)
-      connection = Connection."<<create>>";
-      error =
-        ConnectionService.addConnection(connection){
-        error = 
-          ConnectionFacade.add(connection)
+} else if(invalidData) {
+    displayError = ConnectionAddPage.addConnection(connectionDto) {
+        error = ConnectionController.create(connectionDto)
+    }
+} else if(connectionExists) {
+    displayError = ConnectionAddPage.addConnection(connectionDto) {
+        error = ConnectionController.create(connectionDto) {
+            error = ConnectionEndpoint.create(connectionDto) {
+                // RW, Read Committed
+                while(1) {
+                    destinationAirport = AirportFacade.find(destinationAirportId)
+                    targetAirport = AirportFacade.find(targetAirportId)
+                    connection = Connection."<<create>>";
+                    error = ConnectionService.create(connection) {
+                        error = ConnectionFacade.create(connection)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
-}
-else if(targetAiportNoExists){
-  displayError=  
-  ConnectiontAddPage.addConnection(connectionDto){
-  
-  error =
-  ConnectionController.addConnection(connectionDto){
-      error =
-  ConnectionEndpoint.addConnection(connectionDto){
-    // RW, Read Committed
-    while(1){ 
-      destinationinationAirport = AirportFacade.find(destinationAirportId)
-      error = AirportFacade.find(targetAirportId)
-      }
+} else if(targetAirportNoExists) {
+    displayError = ConnectionAddPage.addConnection(connectionDto) {
+        error = ConnectionController.create(connectionDto) {
+            error = ConnectionEndpoint.create(connectionDto) {
+                // RW, Read Committed
+                while(1) {
+                    destinationAirport = AirportFacade.find(destinationAirportId)
+                    error = AirportFacade.find(targetAirportId)
+                }
+            }
+        }
     }
-  }
-  }
-}
-else if(destinationAiportNoExists){
-  displayError=  
-  ConnectiontAddPage.addConnection(connectionDto){
-  
-  error =
-  ConnectionController.addConnection(connectionDto){
-      error =
-  ConnectionEndpoint.addConnection(connectionDto){
-    // RW, Read Committed
-    while(1){    
-      error = AirportFacade.find(destinationAirportId)
-      }
+} else if(destinationAirportNoExists) {
+    displayError = ConnectionAddPage.addConnection(connectionDto) {
+        error = ConnectionController.create(connectionDto) {
+            error = ConnectionEndpoint.create(connectionDto) {
+                // RW, Read Committed
+                while(1) {
+                    error = AirportFacade.find(destinationAirportId)
+                }
+            }
+        }
     }
-  }
-  }
 }

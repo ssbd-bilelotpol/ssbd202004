@@ -7,59 +7,42 @@ AirplaneSchemaFacade
 Flight
 FlightFacade
 
-
 @Starter(Manager)
 
-if(validData){
-  displaySuccess =  
-  FlightAddPage.addFlight(flightDto){
-  
-  success =
-  FlightController.addFlight(flightDto){
-      success =
-  FlightEndpoint.addFlight(flightDto){
-    // RW, Read Committed
-    while(1){
-      connection = ConnectionFacade.find(connectionId)
-      airplaneSchema = AirplaneSchemaFacade.find(airplaneSchemaId)
-      flight = Flight."<<create>>";
-      success =
-        FlightService.addFlight(flight){
-        success = 
-          FlightFacade.add(flight)
+if(validData) {
+    displaySuccess = FlightAddPage.addFlight(flightDto) {
+        success = FlightController.create(flightDto) {
+            success = FlightEndpoint.create(flightDto) {
+            // RW, Read Committed
+                while(1) {
+                    connection = ConnectionFacade.find(connectionId)
+                    airplaneSchema = AirplaneSchemaFacade.find(airplaneSchemaId)
+                    flight = Flight."<<create>>";
+                    success = FlightService.create(flight, connection, airplaneSchema) {
+                        success = FlightFacade.create(flight)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
-}
-else if(invalidData){
-  displayError =
-    FlightAddPage.addFlight(flightDto){
-      error = 
-        FlightController.addFlight(flightDto){}
-  }
-}
-else if(flightExists){
-  displayError =  
-  FlightAddPage.addFlight(flightDto){
-  
-  error =
-  FlightController.addFlight(flightDto){
-      error =
-  FlightEndpoint.addFlight(flightDto){
-    // RW, Read Committed
-    while(1){
-      connection = ConnectionFacade.find(connectionId)
-      airplaneSchema = AirplaneSchemaFacade.find(airplaneSchemaId)
-      flight = Flight."<<create>>";
-        error =
-        FlightService.addFlight(flight){
-        error = 
-          FlightFacade.add(flight)
+} else if(invalidData) {
+    displayError = FlightAddPage.addFlight(flightDto) {
+        error = FlightController.create(flightDto)
+    }
+} else if(flightExists) {
+    displayError = FlightAddPage.addFlight(flightDto) {
+        error = FlightController.create(flightDto) {
+            error = FlightEndpoint.create(flightDto) {
+                // RW, Read Committed
+                while(1) {
+                    connection = ConnectionFacade.find(connectionId)
+                    airplaneSchema = AirplaneSchemaFacade.find(airplaneSchemaId)
+                    flight = Flight."<<create>>";
+                    error = FlightService.create(flight, connection, airplaneSchema) {
+                        error = FlightFacade.create(flight)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
 }

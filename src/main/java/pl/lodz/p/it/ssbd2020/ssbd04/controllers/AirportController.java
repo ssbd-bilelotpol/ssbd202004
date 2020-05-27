@@ -23,8 +23,8 @@ public class AirportController extends AbstractController {
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param query kryterium
-     * @return lotniska spełniające podane kryterium
+     * @param query kryterium.
+     * @return lotniska spełniające podane kryterium.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -35,8 +35,8 @@ public class AirportController extends AbstractController {
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska
-     * @return lotnisko o podanym identyfikatorze
+     * @param id identyfikator lotniska.
+     * @return lotnisko o podanym identyfikatorze.
      */
     @GET
     @Path("/{id}")
@@ -69,8 +69,8 @@ public class AirportController extends AbstractController {
 
     /**
      * Modyfikuje istniejące lotnisko.
-     * @param id identyfikator lotniska, które ma zostać zmodyfikowane
-     * @param airportDto dane, które mają zostać zapisane
+     * @param id identyfikator lotniska, które ma zostać zmodyfikowane.
+     * @param airportDto dane, które mają zostać zapisane.
      */
     @PUT
     @Path("/{id}")

@@ -33,7 +33,6 @@ public class SeatClassController extends AbstractController {
         throw new UnsupportedOperationException();
     }
 
-
     /**
      * Zwraca wszystkie dostępne dodatki, które mogą zostać przypisane do klas miejsc.
      *
@@ -60,7 +59,6 @@ public class SeatClassController extends AbstractController {
         throw new UnsupportedOperationException();
     }
 
-
     /**
      * Tworzy nową klasę miejsc.
      *
@@ -78,7 +76,7 @@ public class SeatClassController extends AbstractController {
     /**
      * Usuwa klasę miejsc.
      *
-     * @param name nazwa klasy miejsc
+     * @param name nazwa klasy miejsc.
      * @throws AppBaseException gdy klasa miejsc nie istnieje, jest używana przez siedzenie, bądź operacja nie powiodła się.
      */
     @DELETE
@@ -86,7 +84,6 @@ public class SeatClassController extends AbstractController {
     public void delete(@NotNull @PathParam("name") String name) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Aktualizuję klasę miejsc.

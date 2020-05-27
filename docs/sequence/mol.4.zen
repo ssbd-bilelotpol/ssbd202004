@@ -5,76 +5,73 @@ AirportService
 AirportFacade
 
 @Starter(Manager)
-  displayAirportForm = AirportEditPage.choose(airportId) {
-  airportDto = AirportController.get(airportId) {
-      airportDto = AirportEndpoint.get(airportId) {
-    // RO, Read Committed
-    while(1) {
-      airportDto = AirportService.find(airportId) {
-        airportDto = AirportFacade.find(airportId)
-      }
-    }
-      }
-  }
-}
-if(validData){
-  displaySuccess = AirportEditPage.save(airportDto) {
-    success = AirportController.patch(airportDto) {
-          success = AirportEndpoint.patch(airportDto) {
-      // RW, Read Committed
-      while(1) {
-        airport = AirportService.find(airportId) {
-          airport = AirportFacade.find(airportId)
-        }
-      Airport.setData(airportDto)
-        success = AirportService.edit(airport) {
-          success = AirportFacade.edit(airport)
-        }
-      }
-    }
-    }
-  }
-}
-else if(invalidData) {
-  displayError =  
-  AirportEditPage.save(airportDto){
-  error =
-  AirportController.patch(airportDto){
 
-    }
-  }
-}
-else if(codeExists){
-displayError = AirportEditPage.save(airportDto) {
-    error = AirportController.patch(airportDto) {
-          error = AirportEndpoint.patch(airportDto) {
-      // RW, Read Committed
-      while(1) {
-        airport = AirportService.find(airportId) {
-          airport = AirportFacade.find(airportId)
+displayAirportForm = AirportEditPage.chooseAirport(id) {
+    airportDto = AirportController.findById(id) {
+        airportDto = AirportEndpoint.findById(id) {
+            // RO, Read Committed
+            while(1) {
+                airport = AirportService.findById(id) {
+                    airport = AirportFacade.find(id)
+                }
+            }
         }
-      Airport.setData(airportDto)
-        error = AirportService.edit(airport) {
-          error = AirportFacade.edit(airport)
-        }
-      }
-    }
-  }
-}
-else if(airportDeleted){
-displayError= AirportEditPage.save(airportDto) {
-    error = AirportController.patch(airportDto) {
-      // RW, Read Committed
-      while(1) {
-        airport = AirportService.find(airportId) {
-          airport = AirportFacade.find(airportId)
-        }
-      Airport.setData(airportDto)
-        error = AirportService.edit(airport) {
-          error = AirportFacade.edit(airport)
-        }
-      }
-    }
     }
 }
+if(validData) {
+    displaySuccess = AirportEditPage.update(id, airportDto) {
+        success = AirportController.update(id, airportDto) {
+            success = AirportEndpoint.update(id, airportDto) {
+                // RW, Read Committed
+                while(1) {
+                    airport = AirportService.findById(id) {
+                        airport = AirportFacade.find(id)
+                    }
+                    Airport.setData(airportDto)
+                    success = AirportService.update(airport) {
+                        success = AirportFacade.edit(airport)
+                    }
+                }
+            }
+        }
+    }
+} else if(invalidData) {
+    displayError = AirportEditPage.update(id, airportDto) {
+        error = AirportController.update(id, airportDto)
+    }
+}
+else if(codeExists) {
+    displayError = AirportEditPage.update(id, airportDto) {
+        error = AirportController.update(id, airportDto) {
+            error = AirportEndpoint.update(id, airportDto) {
+                // RW, Read Committed
+                while(1) {
+                    airport = AirportService.findById(id) {
+                        airport = AirportFacade.find(id)
+                    }
+                    Airport.setData(airportDto)
+                    error = AirportService.update(airport) {
+                        error = AirportFacade.edit(airport)
+                    }
+                }
+            }
+        }
+    }
+} else if(airportDeleted) {
+    displayError= AirportEditPage.update(id, airportDto) {
+        error = AirportController.update(id, airportDto) {
+            error = AirportEndpoint.update(id, airportDto) {
+                // RW, Read Committed
+                while(1) {
+                    airport = AirportService.findById(id) {
+                        airport = AirportFacade.find(id)
+                    }
+                    Airport.setData(airportDto)
+                    error = AirportService.update(airport) {
+                        error = AirportFacade.edit(airport)
+                    }
+                }
+            }
+        }
+    }
 }

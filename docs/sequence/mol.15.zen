@@ -9,8 +9,8 @@ SeatClassFacade
 @Starter(Manager)
 
 displaySeatClass = SeatClassInfoPage.getSeatClass(name) {
-  seatClass = SeatClassController.findByName(name) {
-    seatClass = SeatClassEndpoint.findByName(name) {
+  seatClassDto = SeatClassController.findByName(name) {
+    seatClassDto = SeatClassEndpoint.findByName(name) {
       //RO, Read Committed
       while (1) {
         seatClass = SeatClassService.findByName(name) {

@@ -1,54 +1,38 @@
-AiportSearchPage
+AirportSearchPage
 AirportController
 AirportEndpoint
 AirportService
 AirportFacade
 
 @Starter(GuestOrManager)
-if(validData){
-  displayAirports =  
-  AiportSearchPage.findAirports(query){
-  
-  airports =
-  AirportController.findAirports(query){
-    airports = AirportEndpoint.findAirports(query) {
-    // RO, Read Committed
-    while(1){
-      airports =
-        AirportService.findAirports(query){
-        airports = 
-          AirportFacade.find(query)
+if(validData) {
+    displayAirports = AirportSearchPage.findAirports(query) {
+        airportDtos = AirportController.find(query) {
+            airportDtos = AirportEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    airports = AirportService.find(query) {
+                        airports = AirportFacade.find(query)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
-  }
-else if(invalidData){
-  displayError =
-    AiportSearchPage.findAirports(query){
-    
-      error = 
-        AirportController.findAirports(query){}
-  }
-}
-else if(noResults){
-  displayNoResults =  
-  AiportSearchPage.findAirports(query){
-  
-  emptyList =
-  AirportController.findAirports(query){
-      emptyList =
-  AirportEndpoint.findAirports(query) {
-    // RO, Read Committed
-    while(1){
-      emptyList =
-        AirportService.findAirports(query){
-        emptyList = 
-          AirportFacade.find(query)
+} else if(invalidData) {
+    displayError = AirportSearchPage.find(query) {
+        error = AirportController.find(query)
+    }
+} else if(noResults) {
+    displayNoResults = AirportSearchPage.find(query) {
+        emptyList = AirportController.find(query) {
+            emptyList = AirportEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    emptyList = AirportService.find(query) {
+                        emptyList = AirportFacade.find(query)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
 }

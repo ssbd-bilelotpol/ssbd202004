@@ -1,4 +1,4 @@
-AiportAddPage
+AirportAddPage
 AirportController
 AirportEndpoint
 AirportService
@@ -8,53 +8,35 @@ Airport
 @Starter(Manager)
 
 if(validData){
-  displaySuccess =  
-  AiportAddPage.addAirport(airportDto){
-  
-  success =
-  AirportController.addAirport(airportDto){
-      success =
-  AirportEndpoint.addAirport(airportDto){
-    // RW, Read Committed
-    while(1){
-      airport = Airport."<<create>>";
-      
-      success =
-        AirportService.addAirport(airport){
-        success = 
-          AirportFacade.add(airport)
+    displaySuccess = AirportAddPage.addAirport(airportDto) {
+        success = AirportController.create(airportDto) {
+            success = AirportEndpoint.create(airportDto) {
+                // RW, Read Committed
+                while(1) {
+                    airport = Airport."<<create>>";
+                    success = AirportService.create(airport) {
+                        success = AirportFacade.create(airport)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
-}
-else if(invalidData){
-  displayError =
-    AiportAddPage.addAirport(airportDto){
-      error = 
-        AirportController.addAirport(airportDto){}
-  }
-}
-else if(codeExists){
-  displayError =  
-  AiportAddPage.addAirport(airportDto){
-  
-  error =
-  AirportController.addAirport(airportDto){
-    error =
-  AirportEndpoint.addAirport(airportDto){
-    // RW, Read Committed
-    while(1){
-    airport = Airpoert."<<create>>";
-    
-      error =
-        AirportService.addAirport(airport){
-        error = 
-          AirportFacade.add(airport)
+} else if(invalidData) {
+    displayError = AirportAddPage.addAirport(airportDto) {
+        error = AirportController.create(airportDto)
+    }
+} else if(codeExists) {
+    displayError = AirportAddPage.addAirport(airportDto) {
+        error = AirportController.create(airportDto) {
+            error = AirportEndpoint.create(airportDto) {
+                // RW, Read Committed
+                while(1) {
+                    airport = Airport."<<create>>";
+                    error = AirportService.create(airport) {
+                        error = AirportFacade.create(airport)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
 }

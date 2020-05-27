@@ -6,51 +6,34 @@ FlightFacade
 
 @Starter(GuestOrManager)
 
-if(validData){
-  displayFlights =  
-  FlightSearchPage.findFlights(query){
-  
-  flights =
-  FlightController.findFlights(query){
-      flights =
-  FlightEndpoint.findFlights(query){
-    // RO, Read Committed
-    while(1){
-      flights =
-        FlightService.findFlights(query){
-        flights = 
-          FlightFacade.find(query)
+if(validData) {
+    displayFlights = FlightSearchPage.findFlights(query) {
+        flightDtos = FlightController.find(query) {
+            flightDtos = FlightEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    flights = FlightService.find(query) {
+                        flights = FlightFacade.find(query)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
-}
-else if(invalidData){
-  displayError =
-    FlightSearchPage.findFlights(query){
-    
-      error = 
-        FlightController.findFlights(query){}
-  }
-}
-else if(noResults){
-  displayNoResults =  
-  FlightSearchPage.findFlights(query){
-  
-  emptyList =
-  FlightController.findFlights(query){
-      emptyList =
-  FlightEndpoint.findFlights(query){
-    // RO, Read Committed
-    while(1){
-      emptyList =
-        FlightService.findFlights(query){
-        emptyList = 
-          FlightFacade.find(query)
+} else if(invalidData) {
+    displayError = FlightSearchPage.findFlights(query) {
+        error = FlightController.find(query)
+    }
+} else if(noResults) {
+    displayNoResults = FlightSearchPage.findFlights(query) {
+        emptyList = FlightController.find(query) {
+            emptyList = FlightEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    emptyList = FlightService.find(query) {
+                        emptyList = FlightFacade.find(query)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  }
 }

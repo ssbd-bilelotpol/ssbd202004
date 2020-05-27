@@ -1,4 +1,3 @@
-FlightPanelPage
 FlightEditPage
 FlightController
 FlightEndpoint
@@ -7,80 +6,71 @@ FlightFacade
 
 @Starter(Manager)
 
-
-  displayFlightForm = FlightEditPage.choose(flightId) {
-  flight = FlightController.get(flightId) {
-      flight = FlightEndpoint.get(flightId) {
-    // RO, Read Committed
-    while(1) {
-      flight = FlightService.find(flightId) {
-        flight = FlightFacade.find(flightId)
-      }
-    }
-  }
-  }
-}
-if(validData){
-
-  displaySuccess = FlightEditPage.save(flightDto) {
-    success = FlightController.patch(flightDto) {
-          success = FlightEndpoint.patch(flightDto) {
-      // RW, Read Committed
-      while(1) {
-        flight = FlightService.find(flightId) {
-          flight = FlightFacade.find(flightId)
+displayFlightForm = FlightEditPage.chooseFlight(id) {
+    flightDto = FlightController.findById(id) {
+        flightDto = FlightEndpoint.findById(id) {
+            // RO, Read Committed
+            while(1) {
+                flight = FlightService.findById(id) {
+                    flight = FlightFacade.find(id)
+                }
+            }
         }
-      Flight.setData(flightDto)
-        success = FlightService.edit(flight) {
-          success = FlightFacade.edit(flight)
-        }
-      }
-    }
-    }
-  }  
-}
-else if(invalidData){
-  displayError =  
-  FlightEditPage.save(params){
-  error =
-  FlightController.patch(params){
-
-    }
-  }
-}
-else if(codeExists){
-displayError = FlightEditPage.save(flightDto) {
-    error = FlightController.patch(flightDto) {
-          error = FlightEndpoint.patch(flightDto) {
-      // RW, Read Committed
-      while(1) {
-        flight = FlightService.find(flightId) {
-          flight = FlightFacade.find(flightId)
-        }
-      Flight.setData(flightDto)
-        error = FlightService.edit(flight) {
-          error = FlightFacade.edit(flight)
-        }
-      }
-          }
-    }
-  }
-}
-else if(flightDeleted){
-displayError = FlightEditPage.save(flightDto) {
-    error = FlightController.patch(flightDto) {
-          error = FlightEndpoint.patch(flightDto) {
-      // RW, Read Committed
-      while(1) {
-        flight = FlightService.find(flightId) {
-          flight = FlightFacade.find(flightId)
-        }
-      Flight.setData(flightDto)
-        error = FlightService.edit(flight) {
-          error = FlightFacade.edit(flight)
-        }
-      }
-          }
     }
 }
+if(validData) {
+    displaySuccess = FlightEditPage.update(id, flightDto) {
+        success = FlightController.update(id, flightDto) {
+            success = FlightEndpoint.update(id, flightDto) {
+                // RW, Read Committed
+                while(1) {
+                    flight = FlightService.findById(id) {
+                        flight = FlightFacade.find(id)
+                    }
+                    Flight.setData(flightDto)
+                    success = FlightService.update(flight) {
+                        success = FlightFacade.edit(flight)
+                    }
+                }
+            }
+        }
+    }
+} else if(invalidData) {
+    displayError = FlightEditPage.update(id, flightDto) {
+        error = FlightController.update(id, flightDto)
+    }
+} else if(codeExists) {
+    displayError = FlightEditPage.update(id, flightDto) {
+        error = FlightController.update(id, flightDto) {
+            error = FlightEndpoint.update(id, flightDto) {
+                // RW, Read Committed
+                while(1) {
+                    flight = FlightService.findById(id) {
+                        flight = FlightFacade.find(id)
+                    }
+                    Flight.setData(flightDto)
+                    error = FlightService.update(flight) {
+                        error = FlightFacade.edit(flight)
+                    }
+                }
+            }
+        }
+    }
+} else if(flightDeleted){
+    displayError = FlightEditPage.update(id, flightDto) {
+        error = FlightController.update(id, flightDto) {
+            error = FlightEndpoint.update(id, flightDto) {
+                // RW, Read Committed
+                while(1) {
+                    flight = FlightService.findById(id) {
+                        flight = FlightFacade.find(id)
+                    }
+                    Flight.setData(flightDto)
+                    error = FlightService.update(flight) {
+                        error = FlightFacade.edit(flight)
+                    }
+                }
+            }
+        }
+    }
 }
