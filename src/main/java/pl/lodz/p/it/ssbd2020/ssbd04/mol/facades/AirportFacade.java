@@ -1,7 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
+import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
@@ -38,7 +40,15 @@ public class AirportFacade extends AbstractFacade<Airport> {
     @RolesAllowed(Role.CreateAirport)
     @Override
     public void create(Airport entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            super.create(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(Airport.CONSTRAINT_CODE)) {
+                throw AirportException.codeNotUnique(entity);
+            }
+
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override

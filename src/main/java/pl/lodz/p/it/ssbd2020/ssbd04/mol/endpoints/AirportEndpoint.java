@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
@@ -12,7 +13,7 @@ import java.util.List;
  * i jest granicą transakcji aplikacyjnej dla hierarchii klas Airport.
  */
 @Local
-public interface AirportEndpoint {
+public interface AirportEndpoint extends TransactionStarter {
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
      * @param query kryterium

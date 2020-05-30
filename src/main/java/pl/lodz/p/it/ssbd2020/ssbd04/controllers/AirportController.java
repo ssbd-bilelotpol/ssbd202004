@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
@@ -53,8 +54,8 @@ public class AirportController extends AbstractController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AirportDto create(@NotNull @Valid AirportDto airportDto) {
-        throw new UnsupportedOperationException();
+    public AirportDto create(@NotNull @Valid AirportDto airportDto) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.create(airportDto));
     }
 
     /**

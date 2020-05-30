@@ -1,11 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirportService;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -28,6 +30,9 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     @Inject
     private AirportService airportService;
 
+    @Inject
+    private AuthContext auth;
+
     @Override
     @PermitAll
     public List<AirportDto> find(AirportQueryDto query) {
@@ -43,7 +48,14 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     @Override
     @RolesAllowed(Role.CreateAirport)
     public AirportDto create(AirportDto airportDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        Airport airport = new Airport();
+        airport.setCode(airportDto.getCode());
+        airport.setName(airportDto.getName());
+        airport.setCity(airportDto.getCity());
+        airport.setCountry(airportDto.getCountry());
+        airport.setCreatedBy(this.auth.currentUser());
+
+        return new AirportDto(airportService.create(airport));
     }
 
     @Override

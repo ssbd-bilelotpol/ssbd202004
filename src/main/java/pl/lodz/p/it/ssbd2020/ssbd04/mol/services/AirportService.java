@@ -55,7 +55,8 @@ public class AirportService {
      */
     @RolesAllowed(Role.CreateAirport)
     public Airport create(Airport airport) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        airportFacade.create(airport);
+        return airport;
     }
 
     /**
