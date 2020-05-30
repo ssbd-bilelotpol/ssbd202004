@@ -3,7 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AirportFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Przetwarzanie logiki biznesowej lotnisk.
@@ -32,8 +33,8 @@ public class AirportService {
      * @return lotniska spełniające podane kryterium
      */
     @PermitAll
-    public List<Airport> find(AirportQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<AirportDto> find(String name, String code, String country, String city) throws AppBaseException {
+        return airportFacade.find(name, code, country, city).stream().map(AirportDto::new).collect(Collectors.toList());
     }
 
     /**

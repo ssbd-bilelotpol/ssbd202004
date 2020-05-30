@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -19,7 +18,7 @@ public interface AirportEndpoint extends TransactionStarter {
      * @param query kryterium
      * @return lotniska spełniające podane kryterium
      */
-    List<AirportDto> find(AirportQueryDto query);
+    List<AirportDto> find(String name, String code, String country, String city) throws AppBaseException;
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.

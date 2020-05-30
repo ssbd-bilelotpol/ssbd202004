@@ -6,7 +6,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -15,8 +14,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -69,8 +67,21 @@ public class AirportFacade extends AbstractFacade<Airport> {
      * @return lista lotnisk spełniających podane kryteria.
      */
     @PermitAll
-    public List<Airport> find(AirportQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<Airport> find(String name, String code, String country, String city) throws AppBaseException {
+        try {
+            TypedQuery<Airport> airportTypedQuery = em.createNamedQuery("Airport.findByQuery", Airport.class);
+            airportTypedQuery.setFlushMode(FlushModeType.COMMIT);
+            airportTypedQuery.setParameter("code", code == null ? "" : code);
+            airportTypedQuery.setParameter("country", country == null ? "" : country);
+            airportTypedQuery.setParameter("city", city == null ? "" : city);
+            airportTypedQuery.setParameter("name", name == null ? "" : name);
+
+            return airportTypedQuery.getResultList();
+        } catch (NoResultException e) {
+            throw AirportException.notFound();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override

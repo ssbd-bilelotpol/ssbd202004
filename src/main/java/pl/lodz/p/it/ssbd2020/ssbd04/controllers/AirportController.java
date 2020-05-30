@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
 
 import javax.inject.Inject;
@@ -24,14 +23,17 @@ public class AirportController extends AbstractController {
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param query kryterium.
+     * @param city miasto.
+     * @param code kod lotniska.
+     * @param country kraj.
+     * @param name nazwa lotniska.
      * @return lotniska spełniające podane kryterium.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<AirportDto> find(@NotNull @Valid AirportQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<AirportDto> find(@QueryParam("name") String name, @QueryParam("code") String code, @QueryParam("country") String country, @QueryParam("city") String city) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.find(name, code, country, city));
     }
 
     /**

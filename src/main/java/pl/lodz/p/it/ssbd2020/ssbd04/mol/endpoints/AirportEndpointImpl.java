@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirportService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -35,8 +34,8 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
 
     @Override
     @PermitAll
-    public List<AirportDto> find(AirportQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<AirportDto> find(String name, String code, String country, String city) throws AppBaseException {
+        return airportService.find(name, code, country, city);
     }
 
     @Override

@@ -14,6 +14,12 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
  * Klasa lotniska. Posiada informacje o nazwe, kodzie lotniska, mieście i państwie, w którym się znajduje
  */
 
+@NamedQueries({
+        @NamedQuery(name = "Airport.findByQuery",
+            query = "SELECT airport from Airport airport WHERE LOWER(airport.code) LIKE LOWER(CONCAT('%', :code, '%')) " +
+                    "AND LOWER(airport.name) LIKE LOWER(CONCAT('%', :name, '%')) AND LOWER(airport.city) LIKE LOWER(CONCAT('%', :city, '%')) " +
+                    "AND LOWER(airport.country) LIKE LOWER(CONCAT('%', :country, '%'))")
+})
 @Entity
 @Table(
         uniqueConstraints = {
