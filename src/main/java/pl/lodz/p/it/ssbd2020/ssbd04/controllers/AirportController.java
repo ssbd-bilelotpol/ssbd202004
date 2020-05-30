@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -44,8 +45,17 @@ public class AirportController extends AbstractController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AirportDto findById(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public Response findById(@PathParam("id") String id) throws AppBaseException {
+        try {
+            Long airportId = Long.parseLong(id);
+            AirportDto dto = repeat(airportEndpoint, () -> airportEndpoint.findById(airportId));
+            return Response.ok()
+                    .entity(dto)
+                    .build();
+        } catch (NumberFormatException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .build();
+        }
     }
 
     /**

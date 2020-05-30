@@ -41,7 +41,7 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     @Override
     @PermitAll
     public AirportDto findById(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return new AirportDto(airportService.findById(id));
     }
 
     @Override

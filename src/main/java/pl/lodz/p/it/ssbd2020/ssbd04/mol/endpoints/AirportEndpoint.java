@@ -15,7 +15,10 @@ import java.util.List;
 public interface AirportEndpoint extends TransactionStarter {
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param query kryterium
+     * @param city miasto.
+     * @param code kod lotniska.
+     * @param country kraj.
+     * @param name nazwa lotniska.
      * @return lotniska spełniające podane kryterium
      */
     List<AirportDto> find(String name, String code, String country, String city) throws AppBaseException;

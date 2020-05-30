@@ -29,7 +29,10 @@ public class AirportService {
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param query kryterium
+     * @param city miasto.
+     * @param code kod lotniska.
+     * @param country kraj.
+     * @param name nazwa lotniska.
      * @return lotniska spełniające podane kryterium
      */
     @PermitAll
@@ -44,8 +47,8 @@ public class AirportService {
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @PermitAll
-    public Airport findById(Long id) {
-        throw new UnsupportedOperationException();
+    public Airport findById(Long id) throws AppBaseException {
+        return airportFacade.find(id);
     }
 
     /**

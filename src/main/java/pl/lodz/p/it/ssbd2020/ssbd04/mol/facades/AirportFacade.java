@@ -57,13 +57,26 @@ public class AirportFacade extends AbstractFacade<Airport> {
 
     @Override
     @PermitAll
-    public Airport find(Object id) {
-        throw new UnsupportedOperationException();
+    public Airport find(Object id) throws AppBaseException {
+        try {
+            TypedQuery<Airport> airportTypedQuery = em.createNamedQuery("Airport.findById", Airport.class);
+            airportTypedQuery.setFlushMode(FlushModeType.COMMIT);
+            airportTypedQuery.setParameter("id", id);
+
+            return airportTypedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw AirportException.notFound();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**
      * Zwraca wszystkie lotniska spełniające podane kryteria.
-     * @param query kryteria
+     * @param city miasto.
+     * @param code kod lotniska.
+     * @param country kraj.
+     * @param name nazwa lotniska.
      * @return lista lotnisk spełniających podane kryteria.
      */
     @PermitAll
