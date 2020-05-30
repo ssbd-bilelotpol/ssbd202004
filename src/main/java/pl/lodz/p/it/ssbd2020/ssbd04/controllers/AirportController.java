@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
 
@@ -85,14 +86,14 @@ public class AirportController extends AbstractController {
 
     /**
      * Tworzy i zapisuje w bazie lotnisko.
-     * @param airportDto dane nowego lotniska.
+     * @param airportCreateDto dane nowego lotniska.
      * @return stworzone lotnisko.
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AirportDto create(@NotNull @Valid AirportDto airportDto) throws AppBaseException {
-        return repeat(airportEndpoint, () -> airportEndpoint.create(airportDto));
+    public AirportDto create(@NotNull @Valid AirportCreateDto airportCreateDto) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.create(airportCreateDto));
     }
 
     /**

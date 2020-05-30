@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 
 import javax.ejb.Local;
@@ -48,11 +49,11 @@ public interface AirportEndpoint extends TransactionStarter {
 
     /**
      * Tworzy i zapisuje w bazie lotnisko.
-     * @param airportDto dane nowego lotniska
+     * @param airportCreateDto dane nowego lotniska
      * @return stworzone lotnisko
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    AirportDto create(AirportDto airportDto) throws AppBaseException;
+    AirportDto create(AirportCreateDto airportCreateDto) throws AppBaseException;
 
     /**
      * Usuwa lotnisko o podanym identyfikatorze.

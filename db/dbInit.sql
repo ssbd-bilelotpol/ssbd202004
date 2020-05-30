@@ -107,5 +107,14 @@ INSERT INTO account_auth_info (last_ip_address, current_auth, last_success_auth,
 VALUES (null, null, null, null, 0, now(), now(), 0, -6);
 
 -- Airports
-INSERT INTO airport (id, city, code, name, country, version, modification_date_time, creation_date_time) 
-VALUES (0, 'Warszawa', 'WSZ', 'Chopina', 'Polska', 0, now(), now())
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Warszawa', 'WSZ', 'Chopina', 'Polska', 0, now(), now());
+
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Łódź', 'LDZ', 'Reymonta', 'Polska', 0, now(), now());
+
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Radom', 'RDM', 'Port lotniczy', 'Polska', 0, now(), now());
+
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Londyn', 'LDN', 'Heathrow', 'Anglia', 0, now(), now());

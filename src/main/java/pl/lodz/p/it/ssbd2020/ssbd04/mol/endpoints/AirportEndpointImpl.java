@@ -4,9 +4,10 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirportService;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.AuthContext;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -32,7 +33,7 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     private AirportService airportService;
 
     @Inject
-    private AuthContext auth;
+    private AccountService accountService;
 
     @Override
     @PermitAll
@@ -60,13 +61,13 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
 
     @Override
     @RolesAllowed(Role.CreateAirport)
-    public AirportDto create(AirportDto airportDto) throws AppBaseException {
+    public AirportDto create(AirportCreateDto airportCreateDto) throws AppBaseException {
         Airport airport = new Airport();
-        airport.setCode(airportDto.getCode());
-        airport.setName(airportDto.getName());
-        airport.setCity(airportDto.getCity());
-        airport.setCountry(airportDto.getCountry());
-        airport.setCreatedBy(this.auth.currentUser());
+        airport.setCode(airportCreateDto.getCode());
+        airport.setName(airportCreateDto.getName());
+        airport.setCity(airportCreateDto.getCity());
+        airport.setCountry(airportCreateDto.getCountry());
+//        airport.setCreatedBy(this.accountService.getCurrentUser());
 
         return new AirportDto(airportService.create(airport));
     }
