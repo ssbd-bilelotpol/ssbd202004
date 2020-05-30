@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania lotnisk.
@@ -56,6 +57,25 @@ public class AirportController extends AbstractController {
             return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }
+    }
+
+    /**
+     * Zwraca nazwy nazwy krajów dostępnych lotnisk.
+     * @return nazwy krajów dostępnych lotnisk.
+     * @throws AppBaseException
+     */
+    @GET
+    @Path("/countries")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<String> getCountries() throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.getCountries());
+    }
+
+    @GET
+    @Path("/cities")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<String> getCities() throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.getCities());
     }
 
     /**

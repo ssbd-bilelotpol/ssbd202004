@@ -51,8 +51,8 @@ public class AirportFacade extends AbstractFacade<Airport> {
 
     @Override
     @PermitAll
-    public List<Airport> findAll() {
-        throw new UnsupportedOperationException();
+    public List<Airport> findAll() throws AppBaseException {
+        return super.findAll();
     }
 
     @Override

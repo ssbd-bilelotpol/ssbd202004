@@ -52,6 +52,16 @@ public class AirportService {
     }
 
     /**
+     * Zwraca listę wszystkich lotnisk.
+     * @return lista wszystkich lotnisk
+     * @throws AppBaseException
+     */
+    @PermitAll
+    public List<Airport> findAll() throws AppBaseException {
+        return airportFacade.findAll();
+    }
+
+    /**
      * Zapisuje w bazie lotnisko.
      * @param airport lotnisko do zapisania.
      * @return stworzone lotnisko

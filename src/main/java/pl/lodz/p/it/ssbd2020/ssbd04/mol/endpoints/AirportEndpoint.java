@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 
 import javax.ejb.Local;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
@@ -30,6 +31,20 @@ public interface AirportEndpoint extends TransactionStarter {
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     AirportDto findById(Long id) throws AppBaseException;
+
+    /**
+     * Zwraca set z nazwami krajów dostępnych lotnisk.
+     * @return set nazw krajów.
+     * @throws AppBaseException
+     */
+    Set<String> getCountries() throws AppBaseException;
+
+    /**
+     * Zwraca set z nazwami miast dostępnych lotnisk.
+     * @return set nazw miast
+     * @throws AppBaseException
+     */
+    Set<String> getCities() throws AppBaseException;
 
     /**
      * Tworzy i zapisuje w bazie lotnisko.
