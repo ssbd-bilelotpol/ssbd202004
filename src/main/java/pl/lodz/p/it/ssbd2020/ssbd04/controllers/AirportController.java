@@ -71,6 +71,11 @@ public class AirportController extends AbstractController {
         return repeat(airportEndpoint, () -> airportEndpoint.getCountries());
     }
 
+    /**
+     * Zwraca nazwy miast dostępnych lotnisk.
+     * @return nazwy miast dostępnych lotnisk
+     * @throws AppBaseException
+     */
     @GET
     @Path("/cities")
     @Produces(MediaType.APPLICATION_JSON)
