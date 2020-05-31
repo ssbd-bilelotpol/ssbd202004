@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
 
@@ -10,9 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania lotnisk.
@@ -34,30 +31,21 @@ public class AirportController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public List<AirportDto> find(@QueryParam("name") String name, @QueryParam("code") String code, @QueryParam("country") String country, @QueryParam("city") String city) throws AppBaseException {
         return repeat(airportEndpoint, () -> airportEndpoint.find(name, code, country, city));
     }
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska.
+     * @param code kod lotniska.
      * @return lotnisko o podanym identyfikatorze.
      */
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findById(@PathParam("id") String id) throws AppBaseException {
-        try {
-            Long airportId = Long.parseLong(id);
-            AirportDto dto = repeat(airportEndpoint, () -> airportEndpoint.findById(airportId));
-            return Response.ok()
-                    .entity(dto)
-                    .build();
-        } catch (NumberFormatException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .build();
-        }
+    public AirportDto findByCode(@PathParam("id") String code) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.findByCode(code));
+
     }
 
     /**
@@ -68,7 +56,7 @@ public class AirportController extends AbstractController {
     @GET
     @Path("/countries")
     @Produces(MediaType.APPLICATION_JSON)
-    public Set<String> getCountries() throws AppBaseException {
+    public List<String> getCountries() throws AppBaseException {
         return repeat(airportEndpoint, () -> airportEndpoint.getCountries());
     }
 
@@ -80,20 +68,20 @@ public class AirportController extends AbstractController {
     @GET
     @Path("/cities")
     @Produces(MediaType.APPLICATION_JSON)
-    public Set<String> getCities() throws AppBaseException {
+    public List<String> getCities() throws AppBaseException {
         return repeat(airportEndpoint, () -> airportEndpoint.getCities());
     }
 
     /**
      * Tworzy i zapisuje w bazie lotnisko.
-     * @param airportCreateDto dane nowego lotniska.
+     * @param airportDto dane nowego lotniska.
      * @return stworzone lotnisko.
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AirportDto create(@NotNull @Valid AirportCreateDto airportCreateDto) throws AppBaseException {
-        return repeat(airportEndpoint, () -> airportEndpoint.create(airportCreateDto));
+    public AirportDto create(@NotNull @Valid AirportDto airportDto) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.create(airportDto));
     }
 
     /**

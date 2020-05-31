@@ -2,12 +2,10 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 
 import javax.ejb.Local;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
@@ -31,29 +29,29 @@ public interface AirportEndpoint extends TransactionStarter {
      * @return lotnisko o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    AirportDto findById(Long id) throws AppBaseException;
+    AirportDto findByCode(String id) throws AppBaseException;
 
     /**
-     * Zwraca set z nazwami krajów dostępnych lotnisk.
-     * @return set nazw krajów.
+     * Zwraca listę  z nazwami krajów dostępnych lotnisk.
+     * @return lista nazw krajów.
      * @throws AppBaseException
      */
-    Set<String> getCountries() throws AppBaseException;
+    List<String> getCountries() throws AppBaseException;
 
     /**
-     * Zwraca set z nazwami miast dostępnych lotnisk.
-     * @return set nazw miast
+     * Zwraca listę z nazwami miast dostępnych lotnisk.
+     * @return lista nazw miast
      * @throws AppBaseException
      */
-    Set<String> getCities() throws AppBaseException;
+    List<String> getCities() throws AppBaseException;
 
     /**
      * Tworzy i zapisuje w bazie lotnisko.
-     * @param airportCreateDto dane nowego lotniska
+     * @param airportDto dane nowego lotniska
      * @return stworzone lotnisko
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    AirportDto create(AirportCreateDto airportCreateDto) throws AppBaseException;
+    AirportDto create(AirportDto airportDto) throws AppBaseException;
 
     /**
      * Usuwa lotnisko o podanym identyfikatorze.

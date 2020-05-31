@@ -4,7 +4,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirportService;
@@ -18,8 +17,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
@@ -43,31 +40,26 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
 
     @Override
     @PermitAll
-    public AirportDto findById(Long id) throws AppBaseException {
-        return new AirportDto(airportService.findById(id));
+    public AirportDto findByCode(String code) throws AppBaseException {
+        return new AirportDto(airportService.findByCode(code));
     }
 
     @PermitAll
-    public Set<String> getCountries() throws AppBaseException {
-        List<Airport> airports = airportService.findAll();
-        return airports.stream().map(Airport::getCountry).collect(Collectors.toSet());
+    public List<String> getCountries() throws AppBaseException {
+        return airportService.getCountries();
     }
 
     @PermitAll
-    public Set<String> getCities() throws AppBaseException {
-        List<Airport> airports = airportService.findAll();
-        return airports.stream().map(Airport::getCity).collect(Collectors.toSet());
+    public List<String> getCities() throws AppBaseException {
+        return airportService.getCities();
     }
 
     @Override
     @RolesAllowed(Role.CreateAirport)
-    public AirportDto create(AirportCreateDto airportCreateDto) throws AppBaseException {
-        Airport airport = new Airport();
-        airport.setCode(airportCreateDto.getCode());
-        airport.setName(airportCreateDto.getName());
-        airport.setCity(airportCreateDto.getCity());
-        airport.setCountry(airportCreateDto.getCountry());
-//        airport.setCreatedBy(this.accountService.getCurrentUser());
+    public AirportDto create(AirportDto airportDto) throws AppBaseException {
+        Airport airport = new Airport(airportDto.getCode(), airportDto.getName(), airportDto.getCountry(),
+                airportDto.getCity());
+        airport.setCreatedBy(this.accountService.getCurrentUser());
 
         return new AirportDto(airportService.create(airport));
     }

@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -19,8 +20,12 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
             query = "SELECT airport from Airport airport WHERE LOWER(airport.code) LIKE LOWER(CONCAT('%', :code, '%')) " +
                     "AND LOWER(airport.name) LIKE LOWER(CONCAT('%', :name, '%')) AND LOWER(airport.city) LIKE LOWER(CONCAT('%', :city, '%')) " +
                     "AND LOWER(airport.country) LIKE LOWER(CONCAT('%', :country, '%'))"),
-        @NamedQuery(name = "Airport.findById",
-                query = "SELECT airport from Airport airport WHERE airport.id = :id")
+        @NamedQuery(name = "Airport.findByCode",
+                query = "SELECT airport from Airport airport WHERE airport.code = :code"),
+        @NamedQuery(name = "Airport.getUniqueCities",
+            query = "SELECT DISTINCT airport.city from Airport airport"),
+        @NamedQuery(name = "Airport.getUniqueCountries",
+            query = "SELECT DISTINCT airport.country from Airport airport")
 })
 @Entity
 @Table(
@@ -58,7 +63,7 @@ public class Airport extends AbstractEntity implements Serializable {
     public Airport() {
     }
 
-    public Airport(String code, @NotNull @Size(min = 2, max = 32) String name, @NotNull @Size(min = 2, max = 32)
+    public Airport(@NotBlank String code, @NotNull @Size(min = 2, max = 32) String name, @NotNull @Size(min = 2, max = 32)
             String country, @NotNull @Size(min = 2, max = 32) String city) {
         this.code = code;
         this.name = name;

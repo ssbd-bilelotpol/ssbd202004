@@ -17,7 +17,6 @@ import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -55,13 +54,18 @@ public class AirportFacade extends AbstractFacade<Airport> {
         return super.findAll();
     }
 
+    /**
+     * Zwraca lotnisko o podanym kodzie.
+     * @param code kod lotniska
+     * @return obiekt lotniska
+     * @throws AppBaseException
+     */
     @Override
     @PermitAll
-    public Airport find(Object id) throws AppBaseException {
+    public Airport find(Object code) throws AppBaseException {
         try {
-            TypedQuery<Airport> airportTypedQuery = em.createNamedQuery("Airport.findById", Airport.class);
-            airportTypedQuery.setFlushMode(FlushModeType.COMMIT);
-            airportTypedQuery.setParameter("id", id);
+            TypedQuery<Airport> airportTypedQuery = em.createNamedQuery("Airport.findByCode", Airport.class);
+            airportTypedQuery.setParameter("code", code);
 
             return airportTypedQuery.getSingleResult();
         } catch (NoResultException e) {
@@ -78,20 +82,50 @@ public class AirportFacade extends AbstractFacade<Airport> {
      * @param country kraj.
      * @param name nazwa lotniska.
      * @return lista lotnisk spełniających podane kryteria.
+     * @throws AppBaseException
      */
     @PermitAll
     public List<Airport> find(String name, String code, String country, String city) throws AppBaseException {
         try {
             TypedQuery<Airport> airportTypedQuery = em.createNamedQuery("Airport.findByQuery", Airport.class);
-            airportTypedQuery.setFlushMode(FlushModeType.COMMIT);
             airportTypedQuery.setParameter("code", code == null ? "" : code);
             airportTypedQuery.setParameter("country", country == null ? "" : country);
             airportTypedQuery.setParameter("city", city == null ? "" : city);
             airportTypedQuery.setParameter("name", name == null ? "" : name);
 
             return airportTypedQuery.getResultList();
-        } catch (NoResultException e) {
-            throw AirportException.notFound();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
+
+    /**
+     * Zwraca listę nazw krajów w bazie danych.
+     * @return lista nazw krajów
+     * @throws AppBaseException
+     */
+    @PermitAll
+    public List<String> getCountries() throws AppBaseException {
+        try {
+            TypedQuery<String> airportTypedQuery = em.createNamedQuery("Airport.getUniqueCountries", String.class);
+
+            return airportTypedQuery.getResultList();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
+
+    /**
+     * Zwraca listę nazw miast w bazie danych.
+     * @return lista nazw miast
+     * @throws AppBaseException
+     */
+    @PermitAll
+    public List<String> getCities() throws AppBaseException {
+        try {
+            TypedQuery<String> airportTypedQuery = em.createNamedQuery("Airport.getUniqueCities", String.class);
+
+            return airportTypedQuery.getResultList();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }

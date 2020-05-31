@@ -15,7 +15,7 @@ import javax.persistence.*;
 
 
 /**
- * Odpowiada za logikę biznesową kont użytkownika w MOK.
+ * Odpowiada za logikę biznesową kont użytkownika w MOL.
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless

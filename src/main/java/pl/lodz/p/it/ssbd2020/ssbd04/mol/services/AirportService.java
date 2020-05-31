@@ -42,13 +42,13 @@ public class AirportService {
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska
+     * @param code identyfikator lotniska
      * @return lotnisko o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @PermitAll
-    public Airport findById(Long id) throws AppBaseException {
-        return airportFacade.find(id);
+    public Airport findByCode(String code) throws AppBaseException {
+        return airportFacade.find(code);
     }
 
     /**
@@ -59,6 +59,16 @@ public class AirportService {
     @PermitAll
     public List<Airport> findAll() throws AppBaseException {
         return airportFacade.findAll();
+    }
+
+    @PermitAll
+    public List<String> getCountries() throws AppBaseException {
+        return airportFacade.getCountries();
+    }
+
+    @PermitAll
+    public List<String> getCities() throws AppBaseException {
+        return airportFacade.getCities();
     }
 
     /**
