@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Label, Message, Placeholder, Table } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { getAccountAuthReport } from '../../actions/accounts';
+import { ContentCard } from '../shared/Dashboard';
 
 const TableBorder = styled(Table)`
     &&& {
@@ -24,7 +25,7 @@ const AccountAuthReport = () => {
     }, [dispatch]);
 
     return (
-        <>
+        <ContentCard fluid>
             <Label attached="top">{t('Last valid authentication report')}</Label>
             {!loading && !error && users.length === 0 && (
                 <Message content={t('No results in the database')} />
@@ -69,7 +70,7 @@ const AccountAuthReport = () => {
             {error && (
                 <Message error header={t('Failed to retrieve data')} content={t(error.message)} />
             )}
-        </>
+        </ContentCard>
     );
 };
 

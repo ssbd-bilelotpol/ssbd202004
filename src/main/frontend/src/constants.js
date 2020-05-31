@@ -107,7 +107,75 @@ export const routes = {
         breadcrumb: 'Confirm account',
     },
     [roles.manager]: {
+        title: roles.manager,
         path: '/manager',
+        breadcrumb: roles.manager,
+        subroutes: {
+            airports: {
+                path: '/airports',
+                breadcrumb: 'Airports',
+                subroutes: {
+                    list: {
+                        title: 'List airports',
+                        path: '/list',
+                        breadcrumb: 'List airports',
+                    },
+                    add: {
+                        title: 'Add airport',
+                        path: '/add',
+                        breadcrumb: 'New airport',
+                    },
+                },
+            },
+            relations: {
+                path: '/relations',
+                breadcrumb: 'relations',
+                subroutes: {
+                    list: {
+                        title: 'List relations',
+                        path: '/list',
+                        breadcrumb: 'List relations',
+                    },
+                    add: {
+                        title: 'Add relation',
+                        path: '/add',
+                        breadcrumb: 'New relation',
+                    },
+                },
+            },
+            flights: {
+                path: '/flights',
+                breadcrumb: 'flights',
+                subroutes: {
+                    list: {
+                        title: 'List flights',
+                        path: '/list',
+                        breadcrumb: 'List flights',
+                    },
+                    add: {
+                        title: 'Add flight',
+                        path: '/add',
+                        breadcrumb: 'New flight',
+                    },
+                },
+            },
+            planes: {
+                path: '/planes',
+                breadcrumb: 'planes',
+                subroutes: {
+                    list: {
+                        title: 'List planes',
+                        path: '/list',
+                        breadcrumb: 'List planes',
+                    },
+                    add: {
+                        title: 'Add plane',
+                        path: '/add',
+                        breadcrumb: 'New plane',
+                    },
+                },
+            },
+        },
     },
     [roles.customerService]: {
         path: '/customer-service',

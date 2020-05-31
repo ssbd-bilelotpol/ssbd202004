@@ -71,3 +71,10 @@ export const PasswordResetSchema = Yup.object().shape({
 export const AccountAccessLevelEditSchema = Yup.object().shape({
     accessLevels: Yup.array().min(1),
 });
+
+export const AirportSchema = Yup.object().shape({
+    code: Yup.string().min(1).required(),
+    name: Yup.string().min(2).max(32).required(),
+    country: Yup.string().required(),
+    city: Yup.string().min(2).max(32).required(),
+});

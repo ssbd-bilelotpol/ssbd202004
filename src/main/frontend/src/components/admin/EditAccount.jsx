@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Card, Message } from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAccountDetails } from '../../api/profile';
@@ -10,12 +9,7 @@ import EditAccountAccessLevel from './accounts/EditAccountAccessLevel';
 import AccountDetails from './accounts/AccountDetails';
 import { useTitle } from '../Title';
 import { useBreadcrumb } from '../Breadcrumbs';
-
-const ContentCard = styled(Card)`
-    &&& {
-        padding: 12px;
-    }
-`;
+import { ContentCard } from '../shared/Dashboard';
 
 const EditAccount = () => {
     const { t } = useTranslation();

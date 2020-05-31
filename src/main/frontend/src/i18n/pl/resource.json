@@ -107,5 +107,11 @@
     "incorrect_login": "Login może składać się tylko z liter angielskiego alfabetu oraz separatorów - (myślnik), . (kropka), _ (znak podkreślenia)",
     "incorrect_phone": "Nieprawidłowy numer telefonu",
     "incorrect_name": "Imie zawiera niedozwolone znaki",
-    "incorrect_lastName": "Nazwisko zawiera niedozwolone znaki"
+    "incorrect_lastName": "Nazwisko zawiera niedozwolone znaki",
+    "Search for users": "Szukaj użytkowników",
+    "Airport code": "Kod lotniska",
+    "Airport name": "Nazwa lotniska",
+    "Country": "Kraj",
+    "City": "Miasto",
+    "Add": "Dodaj"
 }
