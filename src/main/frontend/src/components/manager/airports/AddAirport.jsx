@@ -4,10 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import * as i18nISOCountries from 'i18n-iso-countries';
 import styled from 'styled-components';
+import { useHistory } from 'react-router';
+import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { ContentCard } from '../../shared/Dashboard';
 import { AirportSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
+import { createAirport } from '../../../api/airport';
+import { route } from '../../../routing';
 
 const AddAirport = () => {
     const { t } = useTranslation();
@@ -20,18 +24,30 @@ const AddAirport = () => {
     );
 };
 
-const getCountryOptions = (t) => {
-    return Object.keys(i18nISOCountries.getAlpha2Codes()).map((code) => ({
-        key: code,
-        value: code.toLowerCase(),
-        text: t(code),
-    }));
-};
-
 const AirportAddForm = () => {
     const { t } = useTranslation();
-    const handleSubmit = () => console.log('not implemented');
-    const [error] = useState(false);
+    const history = useHistory();
+    const [error, setError] = useState(false);
+    const makeCancellable = useCancellablePromise();
+
+    const handleSubmit = async (values) => {
+        try {
+            const airport = await makeCancellable(createAirport(values));
+            history.push(route('manager.airports.airport.edit', { code: airport.code }));
+        } catch (err) {
+            setError(err);
+        }
+    };
+
+    const getCountryOptions = () => {
+        return Object.keys(i18nISOCountries.getAlpha2Codes()).map((code) => ({
+            key: code,
+            value: code.toLowerCase(),
+            text: t(code),
+        }));
+    };
+    const countryOptions = useMemo(getCountryOptions, []);
+
     const translate = (msg) => {
         if (msg.key) {
             return t(msg.key, msg.value);
@@ -39,108 +55,104 @@ const AirportAddForm = () => {
 
         return t(msg);
     };
-    const countryOptions = useMemo(() => getCountryOptions(t), []);
+
     return (
-        <Formik
-            initialValues={{
-                code: '',
-                name: '',
-                country: '',
-                city: '',
-            }}
-            onSubmit={handleSubmit}
-            validationSchema={AirportSchema}
-        >
-            {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-                setFieldValue,
-                setFieldTouched,
-            }) => (
-                <Form error={!!error} onSubmit={handleSubmit}>
-                    <Form.Input
-                        name="code"
-                        fluid
-                        placeholder={t('Airport code')}
-                        control={AsteriskInput}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.code}
-                        error={
-                            touched.code &&
-                            errors.code && {
-                                content: translate(errors.code),
-                                pointing: 'below',
+        <>
+            <Formik
+                initialValues={{
+                    code: '',
+                    name: '',
+                    country: '',
+                    city: '',
+                }}
+                onSubmit={handleSubmit}
+                validationSchema={AirportSchema}
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    setFieldValue,
+                }) => (
+                    <Form error={!!error} onSubmit={handleSubmit}>
+                        <Message error content={error && t(error.message)} />
+                        <Form.Input
+                            name="code"
+                            fluid
+                            placeholder={t('Airport code')}
+                            control={AsteriskInput}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.code}
+                            error={
+                                touched.code &&
+                                errors.code && {
+                                    content: translate(errors.code),
+                                    pointing: 'below',
+                                }
                             }
-                        }
-                    />
-                    <Form.Input
-                        name="name"
-                        fluid
-                        placeholder={t('Airport name')}
-                        control={AsteriskInput}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.name}
-                        error={
-                            touched.name &&
-                            errors.name && {
-                                content: translate(errors.name),
-                                pointing: 'below',
+                        />
+                        <Form.Input
+                            name="name"
+                            fluid
+                            placeholder={t('Airport name')}
+                            control={AsteriskInput}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.name}
+                            error={
+                                touched.name &&
+                                errors.name && {
+                                    content: translate(errors.name),
+                                    pointing: 'below',
+                                }
                             }
-                        }
-                    />
-                    <RequiredDropdown
-                        name="country"
-                        placeholder={t('Country')}
-                        options={countryOptions}
-                        onChange={(_, { value }) => setFieldValue('country', value)}
-                        onBlur={(_, { value }) => setFieldTouched('country', value)}
-                        value={values.country}
-                        error={
-                            touched.country &&
-                            errors.country && {
-                                content: translate(errors.country),
-                                pointing: 'below',
+                        />
+                        <RequiredDropdown
+                            name="country"
+                            placeholder={t('Country')}
+                            options={countryOptions}
+                            onChange={(_, { value }) => setFieldValue('country', value)}
+                            value={values.country}
+                            error={
+                                touched.country &&
+                                errors.country && {
+                                    content: translate(errors.country),
+                                    pointing: 'below',
+                                }
                             }
-                        }
-                    />
-                    <Form.Input
-                        name="city"
-                        fluid
-                        placeholder={t('City')}
-                        control={AsteriskInput}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.city}
-                        error={
-                            touched.city &&
-                            errors.city && {
-                                content: translate(errors.city),
-                                pointing: 'below',
+                        />
+                        <Form.Input
+                            name="city"
+                            fluid
+                            placeholder={t('City')}
+                            control={AsteriskInput}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.city}
+                            error={
+                                touched.city &&
+                                errors.city && {
+                                    content: translate(errors.city),
+                                    pointing: 'below',
+                                }
                             }
-                        }
-                    />
-                    <Message
-                        error
-                        header={t('Sign in error')}
-                        content={error && t(error.message)}
-                    />
-                    <ConfirmSubmit
-                        onSubmit={handleSubmit}
-                        disabled={isSubmitting}
-                        loading={isSubmitting}
-                    >
-                        {t('Add')}
-                    </ConfirmSubmit>
-                </Form>
-            )}
-        </Formik>
+                        />
+                        <ConfirmSubmit
+                            onSubmit={handleSubmit}
+                            disabled={isSubmitting}
+                            loading={isSubmitting}
+                        >
+                            {t('Add')}
+                        </ConfirmSubmit>
+                    </Form>
+                )}
+            </Formik>
+        </>
     );
 };
 
