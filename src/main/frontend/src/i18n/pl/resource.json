@@ -113,5 +113,12 @@
     "Airport name": "Nazwa lotniska",
     "Country": "Kraj",
     "City": "Miasto",
-    "Add": "Dodaj"
+    "Add": "Dodaj",
+    "Code": "Kod",
+    "Search for airports": "Szukaj lotnisk",
+    "No such airport": "Nie ma takiego lotniska",
+    "New airport": "Nowe lotnisko",
+    "New relation": "Nowa relacja",
+    "New plane": "Nowy samolot",
+    "New flight": "Nowy lot"
 }

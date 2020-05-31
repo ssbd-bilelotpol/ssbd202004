@@ -13,6 +13,11 @@ import ConfirmSubmit from '../../controls/ConfirmSubmit';
 import { createAirport } from '../../../api/airport';
 import { route } from '../../../routing';
 
+const AlignedFormGroup = styled(Form.Group)`
+    &&& {
+        align-items: flex-end;
+    }
+`;
 const AddAirport = () => {
     const { t } = useTranslation();
 
@@ -80,38 +85,42 @@ const AirportAddForm = () => {
                 }) => (
                     <Form error={!!error} onSubmit={handleSubmit}>
                         <Message error content={error && t(error.message)} />
-                        <Form.Input
-                            name="code"
-                            fluid
-                            placeholder={t('Airport code')}
-                            control={AsteriskInput}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.code}
-                            error={
-                                touched.code &&
-                                errors.code && {
-                                    content: translate(errors.code),
-                                    pointing: 'below',
+                        <AlignedFormGroup>
+                            <Form.Input
+                                width={6}
+                                name="code"
+                                fluid
+                                placeholder={t('Airport code')}
+                                control={AsteriskInput}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.code}
+                                error={
+                                    touched.code &&
+                                    errors.code && {
+                                        content: translate(errors.code),
+                                        pointing: 'below',
+                                    }
                                 }
-                            }
-                        />
-                        <Form.Input
-                            name="name"
-                            fluid
-                            placeholder={t('Airport name')}
-                            control={AsteriskInput}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.name}
-                            error={
-                                touched.name &&
-                                errors.name && {
-                                    content: translate(errors.name),
-                                    pointing: 'below',
+                            />
+                            <Form.Input
+                                width={10}
+                                name="name"
+                                fluid
+                                placeholder={t('Airport name')}
+                                control={AsteriskInput}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.name}
+                                error={
+                                    touched.name &&
+                                    errors.name && {
+                                        content: translate(errors.name),
+                                        pointing: 'below',
+                                    }
                                 }
-                            }
-                        />
+                            />
+                        </AlignedFormGroup>
                         <RequiredDropdown
                             name="country"
                             placeholder={t('Country')}
@@ -171,7 +180,7 @@ const DropdownLabel = styled(Label)`
 const LabeledDropdown = styled(Form.Dropdown)`
     &&& {
         .icon {
-            right: 4em !important;
+            right: 3em !important;
         }
     }
 `;

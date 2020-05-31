@@ -4,6 +4,7 @@ import React from 'react';
 import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
 import AddAirport from './airports/AddAirport';
+import AirportsList from './airports/AirportsList';
 
 const ManagerDashboard = () => {
     const { t } = useTranslation();
@@ -71,7 +72,9 @@ const ManagerDashboard = () => {
                 <Route exact path={route('manager.airports')}>
                     <Redirect to={route('manager.airports.list')} />
                 </Route>
-                <Route path={route('manager.airports.list')} />
+                <Route path={route('manager.airports.list')}>
+                    <AirportsList />
+                </Route>
                 <Route path={route('manager.airports.add')}>
                     <AddAirport />
                 </Route>
