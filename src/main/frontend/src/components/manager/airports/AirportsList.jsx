@@ -19,8 +19,9 @@ const ButtonCell = styled(Table.Cell)`
     }
 `;
 
-const AirportSearchBar = ({ filterData, setFilterData }) => {
+const AirportSearchBar = ({ setFilterData }) => {
     const { t } = useTranslation();
+    const [filterData, setFormFilterData] = useState({ code: '', name: '', country: '', city: '' });
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
 
     const getCountryOptions = () => {
@@ -35,10 +36,11 @@ const AirportSearchBar = ({ filterData, setFilterData }) => {
     const countryOptions = useMemo(getCountryOptions, []);
 
     const handleChange = (_, data) => {
-        debounceLoadData({
+        setFormFilterData({
             ...filterData,
             [data.name]: data.value,
         });
+        debounceLoadData(filterData);
     };
 
     return (
@@ -81,10 +83,9 @@ const AirportSearchBar = ({ filterData, setFilterData }) => {
 
 const AirportTable = ({ airports, loading }) => {
     const { t } = useTranslation();
-
     return (
         <>
-            {airports && airports.length > 0 && (
+            {airports && (
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
@@ -124,7 +125,7 @@ const AirportTable = ({ airports, loading }) => {
 let searchCounter = 0;
 const AirportsList = () => {
     const [airports, setAirports] = useState(null);
-    const [filterData, setFilterData] = useState({});
+    const [filterData, setFilterData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { t } = useTranslation();
@@ -164,7 +165,7 @@ const AirportsList = () => {
             ) : (
                 <>
                     <AirportTable airports={airports} loading={loading} />
-                    {searchCounter > 0 && airports.length === 0 && (
+                    {filterData && airports && (
                         <Message
                             header={t('No such airport')}
                             content={t('There are no results matching criteria')}

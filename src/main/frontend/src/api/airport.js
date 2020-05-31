@@ -6,7 +6,7 @@ export const createAirport = (data) => {
 
 export const listAirports = async (query) =>
     get(
-        `/accounts?name=${query.name || ''}&code=${query.code || ''}&country=${
+        `/airports?name=${query.name || ''}&code=${query.code || ''}&country=${
             query.country || ''
         }&city=${query.city || ''}`
     );
