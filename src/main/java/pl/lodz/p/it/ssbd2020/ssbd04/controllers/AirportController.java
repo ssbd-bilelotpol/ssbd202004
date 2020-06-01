@@ -3,6 +3,10 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -31,7 +35,8 @@ public class AirportController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AirportDto> find(@QueryParam("name") String name, @QueryParam("code") String code, @QueryParam("country") String country, @QueryParam("city") String city) throws AppBaseException {
+    public List<AirportDto> find(@AirportName @Valid @QueryParam("name") String name, @AirportCode @Valid @QueryParam("code") String code,
+                                 @AirportCountry @Valid @QueryParam("country") String country, @AirportCity @Valid @QueryParam("city") String city) throws AppBaseException {
         return repeat(airportEndpoint, () -> airportEndpoint.find(name, code, country, city));
     }
 
@@ -41,9 +46,9 @@ public class AirportController extends AbstractController {
      * @return lotnisko o podanym identyfikatorze.
      */
     @GET
-    @Path("/{id}")
+    @Path("/{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AirportDto findByCode(@PathParam("id") String code) throws AppBaseException {
+    public AirportDto findByCode(@AirportCode @Valid @PathParam("code") String code) throws AppBaseException {
         return repeat(airportEndpoint, () -> airportEndpoint.findByCode(code));
 
     }

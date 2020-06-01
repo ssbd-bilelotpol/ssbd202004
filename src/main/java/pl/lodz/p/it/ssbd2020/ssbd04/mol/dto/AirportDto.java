@@ -2,6 +2,10 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,17 +17,21 @@ import javax.validation.constraints.Size;
 public class AirportDto implements Signable {
 
     @NotBlank
+    @AirportCode
     private String code;
 
     @NotNull
+    @AirportName
     @Size(min = 2, max = 32)
     private String name;
 
     @NotNull
+    @AirportCountry
     @Size(min = 2, max = 32)
     private String country;
 
     @NotNull
+    @AirportCity
     @Size(min = 2, max = 32)
     private String city;
 
