@@ -1,20 +1,24 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
+import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatClassException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
-import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -26,32 +30,48 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     @PersistenceContext(unitName = "ssbd04molPU")
     private EntityManager em;
 
+    public SeatClassFacade() {
+        super(SeatClass.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public SeatClassFacade() {
-        super(SeatClass.class);
-    }
-
     @PermitAll
     public SeatClass findByName(String name) throws AppBaseException {
-        // throws SeatClassNotFound
-        throw new UnsupportedOperationException();
+        try {
+            TypedQuery<SeatClass> seatClassTypedQuery = em.createNamedQuery("SeatClass.findByName", SeatClass.class);
+            seatClassTypedQuery.setFlushMode(FlushModeType.COMMIT);
+            seatClassTypedQuery.setParameter("name", name);
+            return seatClassTypedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw SeatClassException.notFound(e);
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override
     @PermitAll
     public List<SeatClass> findAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return super.findAll();
     }
 
     @Override
     @RolesAllowed(Role.CreateSeatClass)
     public void create(SeatClass entity) throws AppBaseException {
-        // throws: BenefitAlreadyExists
-        // throws: SeatClassNameTaken
+        try {
+            super.create(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(SeatClass.CONSTRAINT_NAME)) {
+                throw SeatClassException.nameTaken(entity);
+            } else if (e.getConstraintName().equals(Benefit.CONSTRAINT_NAME)) {
+                throw SeatClassException.benefitExists(entity);
+            }
+            throw AppBaseException.databaseOperation(e);
+        }
         throw new UnsupportedOperationException();
     }
 

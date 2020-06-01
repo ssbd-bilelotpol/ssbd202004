@@ -29,8 +29,8 @@ public class SeatClassController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SeatClassDto> getAll() {
-        throw new UnsupportedOperationException();
+    public List<SeatClassDto> getAll() throws AppBaseException {
+        return repeat(seatClassEndpoint, () -> seatClassEndpoint.getAll());
     }
 
     /**
@@ -56,7 +56,7 @@ public class SeatClassController extends AbstractController {
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public SeatClassDto findByName(@NotNull @PathParam("name") String name) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return repeat(seatClassEndpoint, () -> seatClassEndpoint.findByName(name));
     }
 
     /**

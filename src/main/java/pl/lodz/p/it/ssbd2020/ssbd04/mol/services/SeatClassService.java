@@ -34,9 +34,9 @@ public class SeatClassService {
      * @return dane klasy miejsc.
      * @throws AppBaseException gdy operacja nie powiedzie się, bądź klasa miejsc nie istnieje.
      */
-    @PermitAll
+    @RolesAllowed(Role.FindSeatClassByName)
     public SeatClass findByName(String name) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return seatClassFacade.findByName(name);
     }
 
     /**
@@ -46,7 +46,7 @@ public class SeatClassService {
      */
     @PermitAll
     public List<SeatClass> getAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return seatClassFacade.findAll();
     }
 
     /**

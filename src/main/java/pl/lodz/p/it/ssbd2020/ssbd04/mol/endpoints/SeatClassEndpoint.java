@@ -35,7 +35,7 @@ public interface SeatClassEndpoint extends TransactionStarter {
      *
      * @return listę wszystkich klas miejsc.
      */
-    List<SeatClassDto> getAll();
+    List<SeatClassDto> getAll() throws AppBaseException ;
 
     /**
      * Tworzy nową klasę miejsc.

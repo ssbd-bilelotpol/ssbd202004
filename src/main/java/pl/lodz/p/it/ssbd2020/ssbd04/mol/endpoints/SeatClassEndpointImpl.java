@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
@@ -17,6 +18,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
@@ -33,9 +35,10 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     private BenefitFacade benefitFacade;
 
     @Override
-    @PermitAll
+    @RolesAllowed(Role.FindSeatClassByName)
     public SeatClassDto findByName(String name) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        SeatClass seatClass = seatClassService.findByName(name);
+        return new SeatClassDto(seatClass);
     }
 
     @Override
@@ -46,8 +49,10 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
 
     @Override
     @PermitAll
-    public List<SeatClassDto> getAll() {
-        throw new UnsupportedOperationException();
+    public List<SeatClassDto> getAll() throws AppBaseException {
+        return seatClassService.getAll().stream()
+                .map(sc -> new SeatClassDto(sc))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -88,11 +88,17 @@
     <security-role>
         <role-name>createSeatClass</role-name>
     </security-role>
+
     <security-role>
         <role-name>deleteSeatClass</role-name>
     </security-role>
+
     <security-role>
         <role-name>updateSeatClass</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>findSeatClassByName</role-name>
     </security-role>
 
     <security-role>

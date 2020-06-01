@@ -15,6 +15,10 @@ import java.util.Set;
 /**
  * Informacje o klasie siedzenia i związanymi z nią benefitami
  */
+@NamedQueries({
+        @NamedQuery(name = "SeatClass.findByName",
+                query = "SELECT seatClass FROM SeatClass seatClass WHERE LOWER(seatClass.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+})
 @Entity
 @Table(
         name = "seat_class",

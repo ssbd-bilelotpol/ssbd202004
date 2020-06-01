@@ -37,6 +37,6 @@ public class BenefitFacade extends AbstractFacade<Benefit> {
     @Override
     @PermitAll
     public List<Benefit> findAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return super.findAll();
     }
 }

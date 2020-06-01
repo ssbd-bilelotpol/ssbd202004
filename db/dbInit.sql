@@ -104,3 +104,12 @@ VALUES ('client', 0, -6, now(), now());
 INSERT INTO account_auth_info (last_ip_address, current_auth, last_success_auth, last_incorrect_auth,
                                incorrect_auth_count, creation_date_time, modification_date_time, version, account_id)
 VALUES (null, null, null, null, 0, now(), now(), 0, -6);
+
+--SeatClasses
+
+INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
+VALUES ('Bilelotpol Economic Class', 100.00, now(), null, -1, 0);
+INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
+VALUES ('Bilelotpol Premium Class', 200.00, now(), null, -1, 0);
+INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
+VALUES ('Bilelotpol Business Class', 300.00, now(), null, -1, 0);
