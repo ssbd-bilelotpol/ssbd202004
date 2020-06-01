@@ -8,7 +8,6 @@ const DropdownLabel = styled(Label)`
         right: 1px;
         top: 1px;
         font-size: 0.64285714em;
-        z-index: 100;
         overflow: hidden;
         border-radius: 0 0.28571429rem 0 0;
     }
@@ -56,16 +55,16 @@ const StyledField = styled(Form.Field)`
     }
 `;
 
-const DropdownControl = (props) => {
+const DropdownControl = ({ required, ...props }) => {
     return (
         <div style={{ position: 'relative' }}>
-            <DropdownLabel icon="asterisk" corner="right" />
+            {required && <DropdownLabel icon="asterisk" corner="right" />}
             <LabeledDropdown search selection {...props} />
         </div>
     );
 };
-const RequiredDropdown = ({ error, ...props }) => {
+const RequireableDropdown = ({ error, ...props }) => {
     return <StyledField error={error} control={DropdownControl} {...props} />;
 };
 
-export default RequiredDropdown;
+export default RequireableDropdown;

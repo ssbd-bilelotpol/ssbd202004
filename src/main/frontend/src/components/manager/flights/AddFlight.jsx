@@ -1,20 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Label, Message } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
-import debounce from 'lodash.debounce';
 import { ContentCard } from '../../shared/Dashboard';
 import { FlightSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
 import { createFlight } from '../../../api/flight';
 import { route } from '../../../routing';
-import RequiredDropdown from '../../shared/RequiredDropdown';
 import { errorColor, errorLighterColor } from '../../../constants';
-import { fetchConnectionsByCodes } from '../../../api/connections';
+import ConnectionDropdown from './ConnectionDropdown';
+import SchemaDropdown from './SchemaDropdown';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -65,50 +64,11 @@ const DateTimeInput = ({ min, children, ...props }) => {
     );
 };
 
-let searchCounter = 0;
 const FlightAddForm = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const [error, setError] = useState(false);
-    const [isFetching, setFetching] = useState(false);
     const makeCancellable = useCancellablePromise();
-    const [connections, setConnections] = useState([]);
-
-    const fetchConnections = useCallback(
-        async (searchCodes) => {
-            searchCounter += 1;
-            const before = searchCounter;
-            try {
-                setFetching(true);
-                let connectionsDto = await fetchConnectionsByCodes(searchCodes);
-                connectionsDto = connectionsDto.map((connection) => ({
-                    key: connection.code,
-                    value: connection.code,
-                    text: `${connection.source.code} - ${connection.destination.code}`,
-                    description: `${t(connection.source.country.toUpperCase())} - ${t(
-                        connection.destination.country.toUpperCase()
-                    )}`,
-                    'data-price': connection.price,
-                }));
-                setConnections(connectionsDto);
-            } catch (err) {
-                setError(err);
-            } finally {
-                if (searchCounter === before) {
-                    setFetching(false);
-                }
-            }
-        },
-        [t]
-    );
-
-    useEffect(() => {
-        fetchConnections('');
-    }, [fetchConnections]);
-
-    const getConnectionPrice = (code) =>
-        connections.find((connection) => connection.value === code)['data-price'];
-    const updateSearchQuery = useCallback(debounce(fetchConnections, 250), []);
 
     const handleSubmit = async (values) => {
         try {
@@ -195,21 +155,17 @@ const FlightAddForm = () => {
                                 <input />
                                 <Label icon="asterisk" corner="right" />
                             </SquishedInput>
-                            <RequiredDropdown
+                            <ConnectionDropdown
                                 width={8}
                                 name="connection"
                                 placeholder={t('Connection')}
-                                options={connections}
-                                onChange={(_, { value }) => {
-                                    setFieldValue('connection', value);
-                                    setFieldValue('price', getConnectionPrice(value));
-                                }}
-                                onSearchChange={(_, { searchQuery }) =>
-                                    updateSearchQuery(searchQuery)
-                                }
                                 value={values.connection}
-                                loading={isFetching}
-                                disabled={isFetching}
+                                onChange={(value, price) => {
+                                    setFieldValue('connection', value);
+                                    setFieldValue('price', price);
+                                }}
+                                setError={setError}
+                                required
                                 error={
                                     touched.connection &&
                                     errors.connection && {
@@ -219,6 +175,21 @@ const FlightAddForm = () => {
                                 }
                             />
                         </AlignedFormGroup>
+                        <SchemaDropdown
+                            name="airplaneSchema"
+                            placeholder={t('Airplane')}
+                            value={values.airplaneSchema}
+                            onChange={(value) => setFieldValue('airplaneSchema', value)}
+                            setError={setError}
+                            required
+                            error={
+                                touched.airplaneSchema &&
+                                errors.airplaneSchema && {
+                                    content: translate(errors.airplaneSchema),
+                                    pointing: 'below',
+                                }
+                            }
+                        />
                         <AlignedFormGroup>
                             <DateTimeInput
                                 width={8}
