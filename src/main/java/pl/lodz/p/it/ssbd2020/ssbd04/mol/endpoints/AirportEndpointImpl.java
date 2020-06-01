@@ -59,7 +59,7 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     public AirportDto create(AirportDto airportDto) throws AppBaseException {
         Airport airport = new Airport(airportDto.getCode(), airportDto.getName(), airportDto.getCountry(),
                 airportDto.getCity());
-        airport.setCreatedBy(this.accountService.getCurrentUser());
+        airport.setCreatedBy(accountService.getCurrentUser());
 
         return new AirportDto(airportService.create(airport));
     }
