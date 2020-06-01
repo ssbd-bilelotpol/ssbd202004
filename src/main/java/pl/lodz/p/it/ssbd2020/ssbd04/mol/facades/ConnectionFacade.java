@@ -1,9 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
+import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -15,6 +18,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 
@@ -38,7 +43,12 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @RolesAllowed(Role.CreateConnection)
     @Override
     public void create(Connection entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            super.create(entity);
+        } catch (ConstraintViolationException e) {
+
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override
@@ -51,6 +61,19 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @PermitAll
     public Connection find(Object id) {
         throw new UnsupportedOperationException();
+    }
+
+    @PermitAll
+    public Connection findByAirports(String sourceCode, String destinationCode) throws AppBaseException {
+        try {
+            TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findByAirports", Connection.class);
+            connectionTypedQuery.setParameter("sourceCode", sourceCode == null ? "" : sourceCode);
+            connectionTypedQuery.setParameter("destinationCode", destinationCode == null ? "" : destinationCode);
+
+            return connectionTypedQuery.getSingleResult();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**

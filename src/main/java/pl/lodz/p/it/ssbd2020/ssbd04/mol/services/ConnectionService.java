@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -49,6 +50,18 @@ public class ConnectionService {
     }
 
     /**
+     * Zwraca połączenie o zgodnych lotniskach źródłowym i docelowym.
+     * @param sourceCode kod lotniska wylotu.
+     * @param destinationCode kot lotniska przylotu.
+     * @return połączenie spełniające podane kryterium.
+     * @throws AppBaseException
+     */
+    @PermitAll
+    public Connection findByAirports(String sourceCode, String destinationCode) throws AppBaseException {
+        return connectionFacade.findByAirports(sourceCode, destinationCode);
+    }
+
+    /**
      * Zapisuje w bazie połączenie.
      * @param connection nowe połączenie
      * @return stworzone połączenie
@@ -56,7 +69,10 @@ public class ConnectionService {
      */
     @RolesAllowed(Role.CreateConnection)
     public Connection create(Connection connection, Airport sourceAirport, Airport destinationAirport) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        connection.setSource(sourceAirport);
+        connection.setDestination(destinationAirport);
+        connectionFacade.create(connection);
+        return connection;
     }
 
     /**

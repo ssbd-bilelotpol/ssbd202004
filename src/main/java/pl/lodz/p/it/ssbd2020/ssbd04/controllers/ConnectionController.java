@@ -1,9 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.ConnectionEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -45,15 +48,29 @@ public class ConnectionController extends AbstractController {
     }
 
     /**
+     * Zwraca połączenie o zgodnych lotniskach źródłowym i docelowym.
+     * @param sourceCode kod lotniska wylotu.
+     * @param destinationCode kot lotniska przylotu.
+     * @return połączenie spełniające podane kryterium.
+     * @throws AppBaseException
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public ConnectionDto findByAirports(@QueryParam("sourceCode") String sourceCode, @QueryParam("destinationCode") String destinationCode) throws AppBaseException {
+        return repeat(connectionEndpoint, () -> connectionEndpoint.findByAirports(sourceCode, destinationCode));
+    }
+
+    /**
      * Tworzy i zapisuje w bazie połączenie.
      * @param connectionDto dane nowego połączenia.
      * @return stworzone połączenie.
      */
     @POST
+    @RolesAllowed(Role.CreateConnection)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ConnectionDto create(@NotNull @Valid ConnectionDto connectionDto) {
-        throw new UnsupportedOperationException();
+    public ConnectionDto create(@NotNull @Valid ConnectionDto connectionDto) throws AppBaseException {
+        return repeat(connectionEndpoint, () -> connectionEndpoint.create(connectionDto));
     }
 
     /**

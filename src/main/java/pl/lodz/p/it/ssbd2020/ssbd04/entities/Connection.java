@@ -14,6 +14,12 @@ import java.util.Objects;
  * te loty odlatują oraz bazowej cenie połączenia
  */
 
+@NamedQueries({
+        @NamedQuery(name = "Airport.findByAirports",
+                query = "SELECT connection from Connection connection WHERE LOWER(connection.source.code) LIKE LOWER(CONCAT('%', :sourceCode, '%'))" +
+                        "AND LOWER(connection.destination.code) LIKE LOWER(CONCAT('%', :destinationCode, '%'))")
+})
+
 @Entity
 @Table(
         indexes = {
@@ -51,9 +57,7 @@ public class Connection extends AbstractEntity implements Serializable {
     public Connection() {
     }
 
-    public Connection(Airport destination, Airport source, @Digits(integer = 7, fraction = 2) @NotNull BigDecimal basePrice) {
-        this.destination = destination;
-        this.source = source;
+    public Connection(@Digits(integer = 7, fraction = 2) @NotNull BigDecimal basePrice) {
         this.basePrice = basePrice;
     }
 
