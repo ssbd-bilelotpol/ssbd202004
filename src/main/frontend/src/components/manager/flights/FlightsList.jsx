@@ -9,7 +9,7 @@ import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import debounce from 'lodash.debounce';
 import { route } from '../../../routing';
 import { ContentCard } from '../../shared/Dashboard';
-import { listAirports } from '../../../api/airport';
+import { listFlights } from '../../../api/flight';
 
 const ButtonCell = styled(Table.Cell)`
     &&& {
@@ -19,7 +19,7 @@ const ButtonCell = styled(Table.Cell)`
     }
 `;
 
-const AirportSearchBar = ({ setFilterData }) => {
+const FlightSearchBar = ({ setFilterData }) => {
     const { t } = useTranslation();
     const [filterData, setFormFilterData] = useState({ code: '', name: '', country: '', city: '' });
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
@@ -47,14 +47,14 @@ const AirportSearchBar = ({ setFilterData }) => {
         <Form>
             <Form.Group>
                 <Form.Input
-                    placeholder={t('Airport code')}
+                    placeholder={t('Flight code')}
                     width={3}
                     name="code"
                     onChange={handleChange}
                     value={filterData.code}
                 />
                 <Form.Input
-                    placeholder={t('Airport name')}
+                    placeholder={t('Flight name')}
                     width={8}
                     name="name"
                     onChange={handleChange}
@@ -81,32 +81,32 @@ const AirportSearchBar = ({ setFilterData }) => {
     );
 };
 
-const AirportTable = ({ airports, loading }) => {
+const FlightTable = ({ flights, loading }) => {
     const { t } = useTranslation();
     return (
         <>
-            {airports && (
+            {flights && (
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell width={2}>{t('Code')}</Table.HeaderCell>
-                            <Table.HeaderCell width={4}>{t('Airport name')}</Table.HeaderCell>
+                            <Table.HeaderCell width={4}>{t('Flight name')}</Table.HeaderCell>
                             <Table.HeaderCell width={4}>{t('Country')}</Table.HeaderCell>
                             <Table.HeaderCell width={6}>{t('City')}</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {airports.map((airport) => (
-                            <Table.Row key={airport.code} disabled={loading}>
-                                <Table.Cell>{airport.code}</Table.Cell>
-                                <Table.Cell>{airport.name}</Table.Cell>
-                                <Table.Cell>{t(airport.country.toUpperCase())}</Table.Cell>
+                        {flights.map((flight) => (
+                            <Table.Row key={flight.code} disabled={loading}>
+                                <Table.Cell>{flight.code}</Table.Cell>
+                                <Table.Cell>{flight.name}</Table.Cell>
+                                <Table.Cell>{t(flight.country.toUpperCase())}</Table.Cell>
                                 <ButtonCell>
-                                    {airport.city}
+                                    {flight.city}
                                     <Button
                                         as={Link}
-                                        to={route('manager.airports.airport.edit', {
-                                            code: airport.code,
+                                        to={route('manager.flights.flight.edit', {
+                                            code: flight.code,
                                         })}
                                         size="small"
                                     >
@@ -123,8 +123,8 @@ const AirportTable = ({ airports, loading }) => {
 };
 
 let searchCounter = 0;
-const AirportsList = () => {
-    const [airports, setAirports] = useState(null);
+const FlightsList = () => {
+    const [flights, setFlights] = useState(null);
     const [filterData, setFilterData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -132,14 +132,14 @@ const AirportsList = () => {
     const makeCancellable = useCancellablePromise();
 
     useEffect(() => {
-        const fetchAirports = async () => {
+        const fetchFlights = async () => {
             searchCounter += 1;
             const before = searchCounter;
             try {
                 setLoading(true);
-                const airports = await makeCancellable(listAirports(filterData));
+                const flights = await makeCancellable(listFlights(filterData));
                 if (searchCounter === before) {
-                    setAirports(airports.content);
+                    setFlights(flights.content);
                 }
             } catch (err) {
                 setError(err);
@@ -149,13 +149,13 @@ const AirportsList = () => {
                 }
             }
         };
-        fetchAirports();
+        fetchFlights();
     }, [filterData, makeCancellable]);
 
     return (
         <ContentCard fluid>
-            <Label attached="top">{t('Search for airports')}</Label>
-            <AirportSearchBar filterData={filterData} setFilterData={setFilterData} />
+            <Label attached="top">{t('Search for flights')}</Label>
+            <FlightSearchBar filterData={filterData} setFilterData={setFilterData} />
             {error ? (
                 <Message
                     error
@@ -164,10 +164,10 @@ const AirportsList = () => {
                 />
             ) : (
                 <>
-                    <AirportTable airports={airports} loading={loading} />
-                    {filterData && airports && (
+                    <FlightTable flights={flights} loading={loading} />
+                    {filterData && flights && (
                         <Message
-                            header={t('No such airport')}
+                            header={t('No such flight')}
                             content={t('There are no results matching criteria')}
                         />
                     )}
@@ -177,4 +177,4 @@ const AirportsList = () => {
     );
 };
 
-export default AirportsList;
+export default FlightsList;

@@ -1,0 +1,71 @@
+import React from 'react';
+import styled from 'styled-components';
+import { Form, Label } from 'semantic-ui-react';
+
+const DropdownLabel = styled(Label)`
+    &&& {
+        position: absolute;
+        right: 1px;
+        top: 1px;
+        font-size: 0.64285714em;
+        z-index: 100;
+        overflow: hidden;
+        border-radius: 0 0.28571429rem 0 0;
+    }
+`;
+
+const LabeledDropdown = styled(Form.Dropdown)`
+    &&& {
+        justify-content: flex-start;
+        .icon {
+            right: auto !important;
+            left: auto !important;
+            margin-left: 0.1em !important;
+        }
+        .loading {
+            .icon {
+                left: 0 !important;
+                right: auto !important;
+                margin-left: 0 !important;
+            }
+            .text {
+                padding-left: 1em !important;
+            }
+            input {
+                padding-left: 2em !important;
+            }
+        }
+        .disabled {
+            opacity: 1 !important;
+        }
+    }
+
+    &&&.disabled {
+        opacity: 1 !important;
+    }
+
+    .active:not(.loading) .dropdown.icon {
+        display: none;
+    }
+`;
+
+const StyledField = styled(Form.Field)`
+    &&&.disabled {
+        z-index: 99 !important;
+        opacity: 1 !important;
+    }
+`;
+
+const DropdownControl = (props) => {
+    return (
+        <div style={{ position: 'relative' }}>
+            <DropdownLabel icon="asterisk" corner="right" />
+            <LabeledDropdown search selection {...props} />
+        </div>
+    );
+};
+const RequiredDropdown = ({ error, ...props }) => {
+    return <StyledField error={error} control={DropdownControl} {...props} />;
+};
+
+export default RequiredDropdown;

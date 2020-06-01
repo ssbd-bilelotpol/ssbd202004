@@ -125,18 +125,6 @@ export const routes = {
                         path: '/add',
                         breadcrumb: 'New airport',
                     },
-                    airport: {
-                        path: '/:code',
-                        breadcrumb: '{code|Loading}',
-                        breadcrumbLink: false,
-                        subroutes: {
-                            edit: {
-                                title: 'Edit airport',
-                                path: '/edit',
-                                breadcrumb: 'Edit',
-                            },
-                        },
-                    },
                 },
             },
             relations: {
@@ -169,6 +157,18 @@ export const routes = {
                         path: '/add',
                         breadcrumb: 'New flight',
                     },
+                    flight: {
+                        path: '/:code',
+                        breadcrumb: '{code|Loading}',
+                        breadcrumbLink: false,
+                        subroutes: {
+                            edit: {
+                                title: 'Edit flight',
+                                path: '/edit',
+                                breadcrumb: 'Edit',
+                            },
+                        },
+                    },
                 },
             },
             planes: {
@@ -196,3 +196,6 @@ export const routes = {
         path: '/',
     },
 };
+
+export const errorColor = '#9f3a38';
+export const errorLighterColor = '#e0b4b4';

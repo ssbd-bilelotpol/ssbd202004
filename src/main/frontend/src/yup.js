@@ -72,9 +72,21 @@ export const AccountAccessLevelEditSchema = Yup.object().shape({
     accessLevels: Yup.array().min(1),
 });
 
-export const AirportSchema = Yup.object().shape({
-    code: Yup.string().min(1).required(),
-    name: Yup.string().min(2).max(32).required(),
-    country: Yup.string().required(),
-    city: Yup.string().min(2).max(32).required(),
+export const FlightSchema = Yup.object().shape({
+    code: Yup.string().min(5).max(30).required(),
+    price: Yup.string()
+        .matches(/^[0-9]+([.,][0-9]{2})?$/)
+        .required(),
+    connection: Yup.number().required(),
+    airplaneSchema: Yup.number().required(),
+    departureTime: Yup.date()
+        .required()
+        .test('is-future', 'departure_min_date', (value) => value > new Date()),
+    arrivalTime: Yup.date()
+        .required()
+        .when(
+            'departureTime',
+            (departureTime, schema) =>
+                departureTime && schema.min(departureTime, 'arrival_before_departure')
+        ),
 });

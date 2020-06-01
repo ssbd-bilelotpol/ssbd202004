@@ -3,8 +3,8 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import React from 'react';
 import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
-import AddAirport from './airports/AddAirport';
-import AirportsList from './airports/AirportsList';
+import AddFlight from './flights/AddFlight';
+import FlightsList from './flights/FlightsList';
 
 const ManagerDashboard = () => {
     const { t } = useTranslation();
@@ -67,16 +67,16 @@ const ManagerDashboard = () => {
         <Dashboard menuItems={menuItems}>
             <Switch>
                 <Route exact path={route('manager')}>
-                    <Redirect to={route('manager.airports.list')} />
+                    <Redirect to={route('manager.flights.list')} />
                 </Route>
-                <Route exact path={route('manager.airports')}>
-                    <Redirect to={route('manager.airports.list')} />
+                <Route exact path={route('manager.flights')}>
+                    <Redirect to={route('manager.flights.list')} />
                 </Route>
-                <Route path={route('manager.airports.list')}>
-                    <AirportsList />
+                <Route path={route('manager.flights.list')}>
+                    <FlightsList />
                 </Route>
-                <Route path={route('manager.airports.add')}>
-                    <AddAirport />
+                <Route path={route('manager.flights.add')}>
+                    <AddFlight />
                 </Route>
             </Switch>
         </Dashboard>

@@ -103,7 +103,7 @@
     "phone_number_only_numbers": "Numer telefonu może składać się wyłącznie z cyfr",
     "Passwords must match": "Oba hasła muszą być identyczne",
     "access_levels_too_short": "Musisz wybrać co najmniej 1 poziom dostępu",
-    "incorrect_regex": "Wprowadzono niedozwolone znaki",
+    "incorrect_regex": "Wprowadzono niedozwolone znaki lub format jest nieprawidłowy",
     "incorrect_login": "Login może składać się tylko z liter angielskiego alfabetu oraz separatorów - (myślnik), . (kropka), _ (znak podkreślenia)",
     "incorrect_phone": "Nieprawidłowy numer telefonu",
     "incorrect_name": "Imie zawiera niedozwolone znaki",
@@ -120,5 +120,7 @@
     "New airport": "Nowe lotnisko",
     "New relation": "Nowa relacja",
     "New plane": "Nowy samolot",
-    "New flight": "Nowy lot"
+    "New flight": "Nowy lot",
+    "departure_min_date": "Data wylotu nieaktualna",
+    "arrival_before_departure": "Data przylotu przed datą wylotu"
 }
