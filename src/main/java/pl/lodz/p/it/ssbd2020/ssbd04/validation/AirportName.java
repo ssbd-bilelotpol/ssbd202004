@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Pattern(regexp = Regex.AIRPORT_NAME)
 public @interface AirportName {
-    String message() default "{valudation.error.airport_name}";
+    String message() default "{validation.error.airport_name}";
 
     Class<?>[] groups() default {};
 
