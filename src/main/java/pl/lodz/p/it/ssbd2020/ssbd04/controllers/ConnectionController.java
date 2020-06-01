@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.ConnectionEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -56,7 +57,7 @@ public class ConnectionController extends AbstractController {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public ConnectionDto findByAirports(@QueryParam("sourceCode") String sourceCode, @QueryParam("destinationCode") String destinationCode) throws AppBaseException {
+    public ConnectionDto findByAirports(@AirportCode @Valid @QueryParam("sourceCode") String sourceCode, @AirportCode @Valid @QueryParam("destinationCode") String destinationCode) throws AppBaseException {
         return repeat(connectionEndpoint, () -> connectionEndpoint.findByAirports(sourceCode, destinationCode));
     }
 
