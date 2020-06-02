@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -37,6 +38,7 @@ public class SeatClass extends AbstractEntity implements Serializable {
     @NotNull
     @Size(min = 2, max = 30)
     @Column(nullable = false, length = 30)
+    @SeatClassName
     private String name;
 
     @Digits(integer = 7, fraction = 2)
