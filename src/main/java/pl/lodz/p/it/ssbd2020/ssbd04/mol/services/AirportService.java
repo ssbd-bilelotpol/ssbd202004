@@ -3,7 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AirportFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Przetwarzanie logiki biznesowej lotnisk.
@@ -28,23 +29,46 @@ public class AirportService {
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param query kryterium
+     * @param city miasto.
+     * @param code kod lotniska.
+     * @param country kraj.
+     * @param name nazwa lotniska.
      * @return lotniska spełniające podane kryterium
      */
     @PermitAll
-    public List<Airport> find(AirportQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<AirportDto> find(String name, String code, String country, String city) throws AppBaseException {
+        return airportFacade.find(name, code, country, city).stream().map(AirportDto::new).collect(Collectors.toList());
     }
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska
+     * @param code identyfikator lotniska
      * @return lotnisko o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @PermitAll
-    public Airport findById(Long id) {
-        throw new UnsupportedOperationException();
+    public Airport findByCode(String code) throws AppBaseException {
+        return airportFacade.find(code);
+    }
+
+    /**
+     * Zwraca listę wszystkich lotnisk.
+     * @return lista wszystkich lotnisk
+     * @throws AppBaseException
+     */
+    @PermitAll
+    public List<Airport> findAll() throws AppBaseException {
+        return airportFacade.findAll();
+    }
+
+    @PermitAll
+    public List<String> getCountries() throws AppBaseException {
+        return airportFacade.getCountries();
+    }
+
+    @PermitAll
+    public List<String> getCities() throws AppBaseException {
+        return airportFacade.getCities();
     }
 
     /**
@@ -55,7 +79,8 @@ public class AirportService {
      */
     @RolesAllowed(Role.CreateAirport)
     public Airport create(Airport airport) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        airportFacade.create(airport);
+        return airport;
     }
 
     /**

@@ -1,10 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirportService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -28,22 +29,39 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     @Inject
     private AirportService airportService;
 
+    @Inject
+    private AccountService accountService;
+
     @Override
     @PermitAll
-    public List<AirportDto> find(AirportQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<AirportDto> find(String name, String code, String country, String city) throws AppBaseException {
+        return airportService.find(name, code, country, city);
     }
 
     @Override
     @PermitAll
-    public AirportDto findById(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public AirportDto findByCode(String code) throws AppBaseException {
+        return new AirportDto(airportService.findByCode(code));
+    }
+
+    @PermitAll
+    public List<String> getCountries() throws AppBaseException {
+        return airportService.getCountries();
+    }
+
+    @PermitAll
+    public List<String> getCities() throws AppBaseException {
+        return airportService.getCities();
     }
 
     @Override
     @RolesAllowed(Role.CreateAirport)
     public AirportDto create(AirportDto airportDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        Airport airport = new Airport(airportDto.getCode(), airportDto.getName(), airportDto.getCountry(),
+                airportDto.getCity());
+        airport.setCreatedBy(accountService.getCurrentUser());
+
+        return new AirportDto(airportService.create(airport));
     }
 
     @Override
