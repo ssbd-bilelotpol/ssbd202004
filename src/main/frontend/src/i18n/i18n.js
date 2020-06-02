@@ -1,6 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import plDateLocale from 'date-fns/locale/pl';
+import { registerLocale } from 'react-datepicker';
 import pl from './pl';
 
 const resources = {
@@ -16,5 +18,7 @@ i18n.use(initReactI18next) // passes i18n down to react-i18next
             escapeValue: false, // react already safes from xss
         },
     });
+
+registerLocale('pl-PL', plDateLocale);
 
 export default i18n;

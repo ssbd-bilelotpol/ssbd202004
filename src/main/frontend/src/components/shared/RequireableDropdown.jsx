@@ -27,7 +27,8 @@ const LabeledDropdown = styled(Form.Dropdown)`
                 right: auto !important;
                 margin-left: 0 !important;
             }
-            .text {
+            .text.filtered,
+            .text.default {
                 padding-left: 1em !important;
             }
             input {

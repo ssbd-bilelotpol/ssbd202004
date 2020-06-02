@@ -1,26 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Label, Message, Table } from 'semantic-ui-react';
+import { Button, Label, Message, Placeholder, Table } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import debounce from 'lodash.debounce';
+import i18next from 'i18next';
 import { route } from '../../../routing';
 import { ContentCard } from '../../shared/Dashboard';
 import { listFlights } from '../../../api/flight';
 import ConnectionDropdown from './ConnectionDropdown';
 import SchemaDropdown from './SchemaDropdown';
-
-const ButtonCell = styled.div`
-    &&& {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-`;
+import SemanticDatePicker from '../../shared/Datepicker';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -34,7 +26,8 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
         code: '',
         connection: '',
         airplane: '',
-        date: '',
+        fromDate: '',
+        toDate: '',
     });
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
 
@@ -66,23 +59,41 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                 />
                 <SchemaDropdown
                     placeholder={t('Airplane')}
-                    width={4}
                     name="airplane"
                     value={filterData.airplane}
                     onChange={(value) => handleChange(null, { name: 'airplane', value })}
                     setError={setError}
                 />
-                <Form.Input
-                    width={5}
-                    name="date"
-                    type="date"
-                    onChange={handleChange}
-                    value={filterData.date}
-                    labelPosition="left"
-                >
-                    <Label basic content={t('Date')} />
-                    <input />
-                </Form.Input>
+                <Form.Field width={3}>
+                    <SemanticDatePicker
+                        placeholderText={t('From')}
+                        isClearable={filterData.fromDate}
+                        name="date"
+                        selectsStart
+                        selected={filterData.fromDate}
+                        startDate={filterData.fromDate}
+                        endDate={filterData.toDate}
+                        setFieldValue={(_, value) =>
+                            handleChange(null, { name: 'fromDate', value })
+                        }
+                        locale={i18next.language}
+                        dateFormat="P"
+                    />
+                </Form.Field>
+                <Form.Field width={3}>
+                    <SemanticDatePicker
+                        placeholderText={t('To')}
+                        isClearable={filterData.toDate}
+                        name="date"
+                        selectsEnd
+                        selected={filterData.toDate}
+                        startDate={filterData.fromDate}
+                        endDate={filterData.toDate}
+                        setFieldValue={(_, value) => handleChange(null, { name: 'toDate', value })}
+                        locale={i18next.language}
+                        dateFormat="P"
+                    />
+                </Form.Field>
             </AlignedFormGroup>
         </Form>
     );
@@ -90,9 +101,14 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
 
 const FlightTable = ({ flights, loading }) => {
     const { t } = useTranslation();
+    const [init, setInit] = useState(true);
+    if (init && !loading) {
+        setInit(false);
+    }
+
     return (
         <>
-            {flights && flights.length > 0 && (
+            {(init || (flights && flights.length > 0)) && (
                 <Table celled structured striped size="small">
                     <Table.Header>
                         <Table.Row>
@@ -105,9 +121,10 @@ const FlightTable = ({ flights, loading }) => {
                             <Table.HeaderCell width={3} rowSpan="2" textAlign="center">
                                 {t('Airplane')}
                             </Table.HeaderCell>
-                            <Table.HeaderCell width={5} rowSpan="2" textAlign="center">
+                            <Table.HeaderCell width={4} rowSpan="2" textAlign="center">
                                 {t('Date')}
                             </Table.HeaderCell>
+                            <Table.HeaderCell width={1} rowSpan="2" textAlign="center" />
                         </Table.Row>
                         <Table.Row>
                             <Table.HeaderCell textAlign="center">{t('Airports')}</Table.HeaderCell>
@@ -115,34 +132,46 @@ const FlightTable = ({ flights, loading }) => {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {flights.map((flight) => (
-                            <Table.Row key={flight.code} disabled={loading}>
-                                <Table.Cell>{flight.code}</Table.Cell>
-                                <Table.Cell>
-                                    {`${flight.source.code} - ${flight.destination.code}`}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {`${t(flight.source.country.toUpperCase())} - ${t(
-                                        flight.destination.country.toUpperCase()
-                                    )}`}
-                                </Table.Cell>
-                                <Table.Cell>{flight.airplane}</Table.Cell>
-                                <Table.Cell>
-                                    <ButtonCell>
-                                        {flight.date}
-                                        <Button
-                                            as={Link}
-                                            to={route('manager.flights.flight.edit', {
-                                                code: flight.code,
-                                            })}
-                                            size="small"
-                                        >
-                                            {t('Edit')}
-                                        </Button>
-                                    </ButtonCell>
-                                </Table.Cell>
-                            </Table.Row>
-                        ))}
+                        {init
+                            ? [...Array(5).keys()].map((value) => (
+                                  <Table.Row key={value}>
+                                      {[...Array(6).keys()].map((value) => (
+                                          <Table.Cell key={value}>
+                                              <Placeholder>
+                                                  <Placeholder.Paragraph>
+                                                      <Placeholder.Line />
+                                                      <Placeholder.Line />
+                                                  </Placeholder.Paragraph>
+                                              </Placeholder>
+                                          </Table.Cell>
+                                      ))}
+                                  </Table.Row>
+                              ))
+                            : flights.map((flight) => (
+                                  <Table.Row key={flight.code} disabled={loading}>
+                                      <Table.Cell>{flight.code}</Table.Cell>
+                                      <Table.Cell>
+                                          {flight.source.code} - {flight.destination.code}
+                                      </Table.Cell>
+                                      <Table.Cell>
+                                          {t(flight.source.country.toUpperCase())} -{' '}
+                                          {t(flight.destination.country.toUpperCase())}
+                                      </Table.Cell>
+                                      <Table.Cell>{flight.airplane}</Table.Cell>
+                                      <Table.Cell>{flight.date}</Table.Cell>
+                                      <Table.Cell textAlign="center">
+                                          <Button
+                                              as={Link}
+                                              to={route('manager.flights.flight.edit', {
+                                                  code: flight.code,
+                                              })}
+                                              size="small"
+                                          >
+                                              {t('Edit')}
+                                          </Button>
+                                      </Table.Cell>
+                                  </Table.Row>
+                              ))}
                     </Table.Body>
                 </Table>
             )}

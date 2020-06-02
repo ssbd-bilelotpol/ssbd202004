@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
+import i18next from 'i18next';
 import { ContentCard } from '../../shared/Dashboard';
 import { FlightSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
@@ -14,6 +15,7 @@ import { route } from '../../../routing';
 import { errorColor, errorLighterColor } from '../../../constants';
 import ConnectionDropdown from './ConnectionDropdown';
 import SchemaDropdown from './SchemaDropdown';
+import SemanticDatePicker from '../../shared/Datepicker';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -52,18 +54,6 @@ const AddFlight = () => {
     );
 };
 
-const DateTimeInput = ({ min, children, ...props }) => {
-    return (
-        <Form.Input
-            type="datetime-local"
-            min={min && min.toISOString().split(':', 2).join(':')}
-            {...props}
-        >
-            {children}
-        </Form.Input>
-    );
-};
-
 const FlightAddForm = () => {
     const { t } = useTranslation();
     const history = useHistory();
@@ -94,8 +84,8 @@ const FlightAddForm = () => {
                     price: '',
                     connection: '',
                     airplaneSchema: '',
-                    departureTime: '',
-                    arrivalTime: '',
+                    departureTime: undefined,
+                    arrivalTime: undefined,
                 }}
                 onSubmit={handleSubmit}
                 validationSchema={FlightSchema}
@@ -152,7 +142,7 @@ const FlightAddForm = () => {
                                 >
                                     PLN
                                 </LeftSideLabel>
-                                <input />
+                                <input type="number" step="0.01" />
                                 <Label icon="asterisk" corner="right" />
                             </SquishedInput>
                             <ConnectionDropdown
@@ -165,6 +155,7 @@ const FlightAddForm = () => {
                                     setFieldValue('price', price);
                                 }}
                                 setError={setError}
+                                onBlur={handleBlur}
                                 required
                                 error={
                                     touched.connection &&
@@ -179,7 +170,7 @@ const FlightAddForm = () => {
                             name="airplaneSchema"
                             placeholder={t('Airplane')}
                             value={values.airplaneSchema}
-                            onChange={(value) => setFieldValue('airplaneSchema', value)}
+                            setFieldValue={setFieldValue}
                             setError={setError}
                             required
                             error={
@@ -191,62 +182,53 @@ const FlightAddForm = () => {
                             }
                         />
                         <AlignedFormGroup>
-                            <DateTimeInput
-                                width={8}
-                                name="departureTime"
-                                labelPosition="right corner"
-                                control={SquishedInput}
-                                value={values.departureTime}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                min={new Date()}
-                                error={
-                                    touched.departureTime &&
-                                    errors.departureTime && {
-                                        content: translate(errors.departureTime),
-                                        pointing: 'below',
+                            <Form.Field width={8}>
+                                <SemanticDatePicker
+                                    placeholderText={t('Departure time')}
+                                    label={t('Departure time')}
+                                    name="departureTime"
+                                    required
+                                    showTimeInput
+                                    timeInputLabel={`${t('Time')}:`}
+                                    selected={values.departureTime}
+                                    setFieldValue={setFieldValue}
+                                    onBlur={handleBlur}
+                                    minDate={new Date()}
+                                    locale={i18next.language}
+                                    dateFormat="Pp"
+                                    error={
+                                        touched.departureTime &&
+                                        errors.departureTime && {
+                                            content: translate(errors.departureTime),
+                                            pointing: 'below',
+                                        }
                                     }
-                                }
-                            >
-                                <LeftSideLabel
-                                    className={
-                                        touched.departureTime && errors.departureTime && 'warning'
+                                />
+                            </Form.Field>
+                            <Form.Field width={8}>
+                                <SemanticDatePicker
+                                    width={8}
+                                    placeholderText={t('Arrival time')}
+                                    label={t('Arrival time')}
+                                    name="arrivalTime"
+                                    required
+                                    showTimeInput
+                                    timeInputLabel={`${t('Time')}:`}
+                                    selected={values.arrivalTime}
+                                    setFieldValue={setFieldValue}
+                                    onBlur={handleBlur}
+                                    minDate={new Date()}
+                                    locale={i18next.language}
+                                    dateFormat="Pp"
+                                    error={
+                                        touched.arrivalTime &&
+                                        errors.arrivalTime && {
+                                            content: translate(errors.arrivalTime),
+                                            pointing: 'below',
+                                        }
                                     }
-                                    basic
-                                >
-                                    {t('Departure time')}
-                                </LeftSideLabel>
-                                <input />
-                                <Label icon="asterisk" corner="right" />
-                            </DateTimeInput>
-                            <DateTimeInput
-                                width={8}
-                                name="arrivalTime"
-                                labelPosition="right corner"
-                                control={SquishedInput}
-                                value={values.arrivalTime}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                min={new Date()}
-                                error={
-                                    touched.arrivalTime &&
-                                    errors.arrivalTime && {
-                                        content: translate(errors.arrivalTime),
-                                        pointing: 'below',
-                                    }
-                                }
-                            >
-                                <LeftSideLabel
-                                    className={
-                                        touched.arrivalTime && errors.arrivalTime && 'warning'
-                                    }
-                                    basic
-                                >
-                                    {t('Arrival time')}
-                                </LeftSideLabel>
-                                <input />
-                                <Label icon="asterisk" corner="right" />
-                            </DateTimeInput>
+                                />
+                            </Form.Field>
                         </AlignedFormGroup>
                         <ConfirmSubmit
                             onSubmit={handleSubmit}

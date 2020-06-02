@@ -145,7 +145,7 @@ export const routes = {
             },
             flights: {
                 path: '/flights',
-                breadcrumb: 'flights',
+                breadcrumb: 'Flights',
                 subroutes: {
                     list: {
                         title: 'List flights',

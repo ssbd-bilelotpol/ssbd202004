@@ -120,6 +120,7 @@
     "New flight": "Nowy lot",
     "departure_min_date": "Data wylotu nieaktualna",
     "arrival_before_departure": "Data przylotu przed datą wylotu",
+    "departure_after_arrival": "Data odlotu po dacie przylotu",
     "Flight code": "Kod lotu",
     "Price": "Cena",
     "Connection": "Relacja",
@@ -128,5 +129,6 @@
     "Arrival time": "Czas przylotu",
     "Date": "Data",
     "Countries": "Kraje",
-    "Search for flights": "Szukaj lotów"
+    "Search for flights": "Szukaj lotów",
+    "value_too_low": "Minimalna wartość to {{min}}"
 }
