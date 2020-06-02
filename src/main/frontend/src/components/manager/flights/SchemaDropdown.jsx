@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import debounce from 'lodash.debounce';
+import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import RequireableDropdown from '../../shared/RequireableDropdown';
 import { fetchAirplaneSchemasByName } from '../../../api/airplaneSchemas';
 
@@ -7,6 +8,7 @@ let searchCounter = 0;
 const SchemaDropdown = ({ setError, required, setFieldValue, name, ...props }) => {
     const [isFetching, setFetching] = useState(false);
     const [schemas, setSchemas] = useState([]);
+    const makeCancellable = useCancellablePromise();
 
     const fetchSchemas = useCallback(
         async (searchName) => {
@@ -14,7 +16,7 @@ const SchemaDropdown = ({ setError, required, setFieldValue, name, ...props }) =
             const before = searchCounter;
             try {
                 setFetching(true);
-                let schemasDto = await fetchAirplaneSchemasByName(searchName);
+                let schemasDto = await makeCancellable(fetchAirplaneSchemasByName(searchName));
                 schemasDto = schemasDto.map((schema) => ({
                     key: schema.id,
                     value: schema.id,
@@ -29,7 +31,7 @@ const SchemaDropdown = ({ setError, required, setFieldValue, name, ...props }) =
                 }
             }
         },
-        [setError]
+        [setError, makeCancellable]
     );
 
     const updateSearchQuery = useCallback(debounce(fetchSchemas, 250), []);

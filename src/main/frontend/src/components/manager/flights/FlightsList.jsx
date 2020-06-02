@@ -61,7 +61,7 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                     placeholder={t('Airplane')}
                     name="airplane"
                     value={filterData.airplane}
-                    onChange={(value) => handleChange(null, { name: 'airplane', value })}
+                    setFieldValue={(_, value) => handleChange(null, { name: 'airplane', value })}
                     setError={setError}
                 />
                 <Form.Field width={3}>

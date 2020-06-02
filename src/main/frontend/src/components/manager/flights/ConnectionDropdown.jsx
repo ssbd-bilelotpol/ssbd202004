@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import debounce from 'lodash.debounce';
 import { useTranslation } from 'react-i18next';
+import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { fetchConnectionsByCodes } from '../../../api/connections';
 import RequireableDropdown from '../../shared/RequireableDropdown';
 
@@ -9,6 +10,7 @@ const ConnectionDropdown = ({ onChange, setError, required, ...props }) => {
     const [isFetching, setFetching] = useState(false);
     const [connections, setConnections] = useState([]);
     const { t } = useTranslation();
+    const makeCancellable = useCancellablePromise();
 
     const fetchConnections = useCallback(
         async (searchCodes) => {
@@ -16,7 +18,7 @@ const ConnectionDropdown = ({ onChange, setError, required, ...props }) => {
             const before = searchCounter;
             try {
                 setFetching(true);
-                let connectionsDto = await fetchConnectionsByCodes(searchCodes);
+                let connectionsDto = await makeCancellable(fetchConnectionsByCodes(searchCodes));
                 connectionsDto = connectionsDto.map((connection) => ({
                     key: connection.code,
                     value: connection.code,
@@ -35,7 +37,7 @@ const ConnectionDropdown = ({ onChange, setError, required, ...props }) => {
                 }
             }
         },
-        [t, setError]
+        [t, setError, makeCancellable]
     );
 
     const updateSearchQuery = useCallback(debounce(fetchConnections, 250), []);
