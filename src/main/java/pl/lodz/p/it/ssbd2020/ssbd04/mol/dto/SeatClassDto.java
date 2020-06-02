@@ -65,16 +65,8 @@ public class SeatClassDto implements Signable {
         this.benefits = benefits;
     }
 
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
     @Override
     public String createMessage() {
-        return String.format("%d.%d", this.version, this.name);
+        return String.format("%d.%s", this.version, this.name);
     }
 }

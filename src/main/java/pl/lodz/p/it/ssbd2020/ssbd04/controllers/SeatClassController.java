@@ -1,15 +1,18 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.SeatClassEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -21,6 +24,9 @@ public class SeatClassController extends AbstractController {
 
     @Inject
     private SeatClassEndpoint seatClassEndpoint;
+
+    @Inject
+    private MessageSigner messageSigner;
 
     /**
      * Zwraca wszystkie dostępne klasy miejsc, które mogą zostać przypisane do siedzeń.
@@ -55,8 +61,12 @@ public class SeatClassController extends AbstractController {
     @GET
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public SeatClassDto findByName(@NotNull @PathParam("name") String name) throws AppBaseException {
-        return repeat(seatClassEndpoint, () -> seatClassEndpoint.findByName(name));
+    public Response findByName(@NotNull @PathParam("name") String name) throws AppBaseException {
+        SeatClassDto seatClassDto = repeat(seatClassEndpoint, () -> seatClassEndpoint.findByName(name));
+        return Response.ok()
+                .entity(seatClassDto)
+                .tag(messageSigner.sign(seatClassDto))
+                .build();
     }
 
     /**

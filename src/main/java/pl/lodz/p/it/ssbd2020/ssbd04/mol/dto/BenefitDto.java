@@ -49,6 +49,6 @@ public class BenefitDto implements Signable {
 
     @Override
     public String createMessage() {
-        return String.format("%d.%d", this.version, this.name);
+        return String.format("%d.%s", this.version, this.name);
     }
 }
