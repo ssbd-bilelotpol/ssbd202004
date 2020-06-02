@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
@@ -8,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.BenefitFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.SeatClassService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -34,7 +36,7 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     private SeatClassService seatClassService;
 
     @Inject
-    private BenefitFacade benefitFacade;
+    private AccountService accountService;
 
     @Override
     @RolesAllowed(Role.FindSeatClassByName)
@@ -62,12 +64,18 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     @Override
     @RolesAllowed(Role.CreateSeatClass)
     public SeatClassDto create(SeatClassDto seatClassDto) throws AppBaseException {
+        Account account = accountService.getCurrentUser();
         Set<Benefit> benefits = seatClassDto.getBenefits().stream()
-                .map(b -> new Benefit(b.getName(), b.getDescription()))
+                .map(b -> {
+                    Benefit benefit = new Benefit(b.getName(), b.getDescription());
+                    benefit.setCreatedBy(account);
+                    return benefit;
+                })
                 .collect(Collectors.toSet());
         SeatClass seatClass = new SeatClass();
         seatClass.setName(seatClassDto.getName());
         seatClass.setPrice(seatClassDto.getPrice());
+        seatClass.setCreatedBy(account);
         return new SeatClassDto(seatClassService.create(seatClass, benefits));
     }
 
