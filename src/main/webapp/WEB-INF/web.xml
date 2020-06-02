@@ -102,6 +102,10 @@
     </security-role>
 
     <security-role>
+        <role-name>getAllSeatClasses</role-name>
+    </security-role>
+
+    <security-role>
         <role-name>createAirplaneSchema</role-name>
     </security-role>
     <security-role>

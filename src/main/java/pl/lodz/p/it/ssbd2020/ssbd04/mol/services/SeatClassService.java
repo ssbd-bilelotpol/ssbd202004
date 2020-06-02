@@ -44,7 +44,7 @@ public class SeatClassService {
      *
      * @return listę wszystkich klas miejsc.
      */
-    @PermitAll
+    @RolesAllowed(Role.GetAllSeatClasses)
     public List<SeatClass> getAll() throws AppBaseException {
         return seatClassFacade.findAll();
     }
@@ -58,8 +58,10 @@ public class SeatClassService {
      * @throws AppBaseException gdy nazwa klasy miejsc jest już zajęta, bądź operacja nie powiodła się.
      */
     @RolesAllowed(Role.CreateSeatClass)
-    public void create(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public SeatClass create(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
+        seatClass.setBenefits(benefits);
+        seatClassFacade.create(seatClass);
+        return seatClass;
     }
 
     /**

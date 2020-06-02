@@ -2,8 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.BenefitName;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,6 +14,7 @@ public class BenefitDto implements Signable {
 
     @NotNull
     @Size(min = 1, max = 128)
+    @BenefitName
     private String name;
 
     @NotNull

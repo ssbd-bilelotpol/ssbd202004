@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.SeatClassEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -61,7 +62,7 @@ public class SeatClassController extends AbstractController {
     @GET
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByName(@NotNull @PathParam("name") String name) throws AppBaseException {
+    public Response findByName(@NotNull @SeatClassName @PathParam("name") String name) throws AppBaseException {
         SeatClassDto seatClassDto = repeat(seatClassEndpoint, () -> seatClassEndpoint.findByName(name));
         return Response.ok()
                 .entity(seatClassDto)
@@ -80,7 +81,7 @@ public class SeatClassController extends AbstractController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public SeatClassDto create(@NotNull @Valid SeatClassDto seatClassDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return repeat(seatClassEndpoint, () -> seatClassEndpoint.create(seatClassDto));
     }
 
     /**

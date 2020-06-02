@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -18,6 +19,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -48,7 +50,7 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     }
 
     @Override
-    @PermitAll
+    @RolesAllowed(Role.GetAllSeatClasses)
     public List<SeatClassDto> getAll() throws AppBaseException {
         return seatClassService.getAll().stream()
                 .map(sc -> new SeatClassDto(sc))
@@ -58,7 +60,13 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     @Override
     @RolesAllowed(Role.CreateSeatClass)
     public SeatClassDto create(SeatClassDto seatClassDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        Set<Benefit> benefits = seatClassDto.getBenefits().stream()
+                .map(b -> new Benefit(b.getName(), b.getDescription()))
+                .collect(Collectors.toSet());
+        SeatClass seatClass = new SeatClass();
+        seatClass.setName(seatClassDto.getName());
+        seatClass.setPrice(seatClassDto.getPrice());
+        return new SeatClassDto(seatClassService.create(seatClass, benefits));
     }
 
     @Override

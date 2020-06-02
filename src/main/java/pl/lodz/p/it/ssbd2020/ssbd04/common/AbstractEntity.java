@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * Abstrakcyjna encja pozwalająca zdefiniować wspólne dane dla wszystkich encji.
  */
 @MappedSuperclass
-@EntityListeners(AuditEntityListener.class)
+//@EntityListeners(AuditEntityListener.class)
 public abstract class AbstractEntity {
     @NotNull
     @Column(name = "creation_date_time", nullable = false, updatable = false)

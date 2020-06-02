@@ -54,7 +54,7 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     }
 
     @Override
-    @PermitAll
+    @RolesAllowed(Role.GetAllSeatClasses)
     public List<SeatClass> findAll() throws AppBaseException {
         return super.findAll();
     }
@@ -72,7 +72,6 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
             }
             throw AppBaseException.databaseOperation(e);
         }
-        throw new UnsupportedOperationException();
     }
 
     @Override

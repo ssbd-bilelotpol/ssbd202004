@@ -1,15 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
-import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +18,7 @@ public class SeatClassDto implements Signable {
 
     @NotNull
     @Size(min = 2, max = 30)
+    @SeatClassName
     private String name;
 
     @Digits(integer = 7, fraction = 2)

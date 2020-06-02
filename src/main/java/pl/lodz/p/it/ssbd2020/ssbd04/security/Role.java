@@ -30,6 +30,7 @@ public class Role {
     public static final String DeleteSeatClass = "deleteSeatClass";
     public static final String UpdateSeatClass = "updateSeatClass";
     public static final String FindSeatClassByName = "findSeatClassByName";
+    public static final String GetAllSeatClasses = "getAllSeatClasses";
 
     public static final String CreateAirplaneSchema = "createAirplaneSchema";
     public static final String UpdateAirplaneSchema = "updateAirplaneSchema";
