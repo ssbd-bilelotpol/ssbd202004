@@ -48,8 +48,8 @@ public class SeatClassController extends AbstractController {
     @GET
     @Path("/benefits")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BenefitDto> getAllBenefits() {
-        throw new UnsupportedOperationException();
+    public List<BenefitDto> getAllBenefits() throws AppBaseException {
+        return repeat(seatClassEndpoint, () -> seatClassEndpoint.getAllBenefits());
     }
 
     /**

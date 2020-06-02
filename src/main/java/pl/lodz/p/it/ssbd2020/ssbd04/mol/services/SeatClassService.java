@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.BenefitFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.SeatClassFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -27,6 +28,9 @@ public class SeatClassService {
     @Inject
     private SeatClassFacade seatClassFacade;
 
+    @Inject
+    private BenefitFacade benefitFacade;
+
     /**
      * Znajduje klasę miejsc na podstawie jej nazwy.
      *
@@ -47,6 +51,16 @@ public class SeatClassService {
     @RolesAllowed(Role.GetAllSeatClasses)
     public List<SeatClass> getAll() throws AppBaseException {
         return seatClassFacade.findAll();
+    }
+
+    /**
+     * Zwraca wszystkie dostępne benefity, które mogą zostać przypisane do klasy miejsc.
+     *
+     * @return listę wszystkich klas miejsc.
+     */
+    @RolesAllowed(Role.GetAllBenefits)
+    public List<Benefit> getAllBenefits() throws AppBaseException {
+        return benefitFacade.findAll();
     }
 
     /**

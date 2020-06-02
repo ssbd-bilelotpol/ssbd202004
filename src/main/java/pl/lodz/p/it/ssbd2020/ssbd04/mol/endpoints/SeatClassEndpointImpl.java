@@ -44,9 +44,11 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     }
 
     @Override
-    @PermitAll
-    public List<BenefitDto> getAllBenefits() {
-        throw new UnsupportedOperationException();
+    @RolesAllowed(Role.GetAllBenefits)
+    public List<BenefitDto> getAllBenefits() throws AppBaseException {
+        return seatClassService.getAllBenefits().stream()
+                .map(b -> new BenefitDto(b))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -106,6 +106,10 @@
     </security-role>
 
     <security-role>
+        <role-name>getAllBenefits</role-name>
+    </security-role>
+
+    <security-role>
         <role-name>createAirplaneSchema</role-name>
     </security-role>
     <security-role>
