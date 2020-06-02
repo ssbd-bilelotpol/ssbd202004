@@ -120,7 +120,7 @@ VALUES ('Bilelotpol Business Class', 300.00, now(), null, -1, 0);
 INSERT INTO benefit (creation_date_time, modification_date_time, version, description, name, created_by, modified_by)
 VALUES (now(), null, 0, 'Exclusive lunch and drinks', 'Sky bar', -1, null);
 INSERT INTO benefit (creation_date_time, modification_date_time, version, description, name, created_by, modified_by)
-VALUES (now(), null, 0, 'Free access to movies from the offer', 'TV packet', -1, null);
+VALUES (now(), null, 0, 'Free access to movies from the offer', 'TV package', -1, null);
 
 --SeatClassBenefits
 
