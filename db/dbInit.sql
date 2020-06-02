@@ -124,7 +124,7 @@ VALUES (now(), null, 0, 'Free access to movies from the offer', 'TV package', -1
 
 --SeatClassBenefits
 
-INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (2, 1)
+INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (2, 2)
 INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (3, 1)
 INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (3, 2)
 
