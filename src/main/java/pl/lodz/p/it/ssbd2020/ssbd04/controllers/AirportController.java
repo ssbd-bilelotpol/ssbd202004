@@ -1,8 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -23,26 +27,54 @@ public class AirportController extends AbstractController {
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param query kryterium.
+     * @param city miasto.
+     * @param code kod lotniska.
+     * @param country kraj.
+     * @param name nazwa lotniska.
      * @return lotniska spełniające podane kryterium.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public List<AirportDto> find(@NotNull @Valid AirportQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<AirportDto> find(@AirportName @Valid @QueryParam("name") String name, @AirportCode @Valid @QueryParam("code") String code,
+                                 @AirportCountry @Valid @QueryParam("country") String country, @AirportCity @Valid @QueryParam("city") String city) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.find(name, code, country, city));
     }
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska.
+     * @param code kod lotniska.
      * @return lotnisko o podanym identyfikatorze.
      */
     @GET
-    @Path("/{id}")
+    @Path("/{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AirportDto findById(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public AirportDto findByCode(@AirportCode @Valid @PathParam("code") String code) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.findByCode(code));
+
+    }
+
+    /**
+     * Zwraca nazwy nazwy krajów dostępnych lotnisk.
+     * @return nazwy krajów dostępnych lotnisk.
+     * @throws AppBaseException
+     */
+    @GET
+    @Path("/countries")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> getCountries() throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.getCountries());
+    }
+
+    /**
+     * Zwraca nazwy miast dostępnych lotnisk.
+     * @return nazwy miast dostępnych lotnisk
+     * @throws AppBaseException
+     */
+    @GET
+    @Path("/cities")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> getCities() throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.getCities());
     }
 
     /**
@@ -53,8 +85,8 @@ public class AirportController extends AbstractController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AirportDto create(@NotNull @Valid AirportDto airportDto) {
-        throw new UnsupportedOperationException();
+    public AirportDto create(@NotNull @Valid AirportDto airportDto) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.create(airportDto));
     }
 
     /**

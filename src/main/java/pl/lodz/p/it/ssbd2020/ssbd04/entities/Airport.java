@@ -1,8 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -14,6 +19,18 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
  * Klasa lotniska. Posiada informacje o nazwe, kodzie lotniska, mieście i państwie, w którym się znajduje
  */
 
+@NamedQueries({
+        @NamedQuery(name = "Airport.findByQuery",
+            query = "SELECT airport from Airport airport WHERE LOWER(airport.code) LIKE LOWER(CONCAT('%', :code, '%')) " +
+                    "AND LOWER(airport.name) LIKE LOWER(CONCAT('%', :name, '%')) AND LOWER(airport.city) LIKE LOWER(CONCAT('%', :city, '%')) " +
+                    "AND LOWER(airport.country) LIKE LOWER(CONCAT('%', :country, '%'))"),
+        @NamedQuery(name = "Airport.findByCode",
+                query = "SELECT airport from Airport airport WHERE airport.code = :code"),
+        @NamedQuery(name = "Airport.getUniqueCities",
+            query = "SELECT DISTINCT airport.city from Airport airport"),
+        @NamedQuery(name = "Airport.getUniqueCountries",
+            query = "SELECT DISTINCT airport.country from Airport airport")
+})
 @Entity
 @Table(
         uniqueConstraints = {
@@ -30,28 +47,32 @@ public class Airport extends AbstractEntity implements Serializable {
 
     @Column(nullable = false, updatable = false)
     @NotNull
+    @AirportCode
     private String code;
 
     @NotNull
     @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
+    @AirportName
     private String name;
 
     @NotNull
     @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
+    @AirportCountry
     private String country;
 
     @NotNull
     @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
+    @AirportCity
     private String city;
 
     public Airport() {
     }
 
-    public Airport(String code, @NotNull @Size(min = 2, max = 32) String name, @NotNull @Size(min = 2, max = 32)
-            String country, @NotNull @Size(min = 2, max = 32) String city) {
+    public Airport(@NotBlank @AirportCode String code, @NotNull @AirportName @Size(min = 2, max = 32) String name,
+                   @NotNull @AirportCountry @Size(min = 2, max = 32) String country, @NotNull @AirportCity @Size(min = 2, max = 32) String city) {
         this.code = code;
         this.name = name;
         this.country = country;

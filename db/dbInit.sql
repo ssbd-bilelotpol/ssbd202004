@@ -1,3 +1,4 @@
+-- Accounts
 -- bcrypt(12345678) = $2y$12$WSEHsn4jxmPQAEAHUAPfMOTwRi52jbaBfA0QOoZHvPgkr2CoxQ5sS
 DELETE
 FROM account_access_level;
@@ -104,3 +105,16 @@ VALUES ('client', 0, -6, now(), now());
 INSERT INTO account_auth_info (last_ip_address, current_auth, last_success_auth, last_incorrect_auth,
                                incorrect_auth_count, creation_date_time, modification_date_time, version, account_id)
 VALUES (null, null, null, null, 0, now(), now(), 0, -6);
+
+-- Airports
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Warszawa', 'WSZ', 'Chopina', 'PL', 0, now(), now());
+
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Łódź', 'LDZ', 'Reymonta', 'PL', 0, now(), now());
+
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Radom', 'RDM', 'Port lotniczy', 'PL', 0, now(), now());
+
+INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
+VALUES ('Londyn', 'LDN', 'Heathrow', 'GB', 0, now(), now());
