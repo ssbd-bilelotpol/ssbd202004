@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -66,7 +66,7 @@ const SemanticDatePicker = ({
     placeholderText,
     ...props
 }) => {
-    const ref = React.createRef();
+    const ref = useRef(null);
     const handleChange = useCallback((date) => setFieldValue && setFieldValue(name, date), [
         name,
         setFieldValue,
