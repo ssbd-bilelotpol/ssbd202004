@@ -129,7 +129,7 @@ export const routes = {
             },
             relations: {
                 path: '/relations',
-                breadcrumb: 'relations',
+                breadcrumb: 'Relations',
                 subroutes: {
                     list: {
                         title: 'List relations',
@@ -173,7 +173,7 @@ export const routes = {
             },
             planes: {
                 path: '/planes',
-                breadcrumb: 'planes',
+                breadcrumb: 'Planes',
                 subroutes: {
                     list: {
                         title: 'List planes',
