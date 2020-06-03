@@ -31,7 +31,7 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
     });
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
 
-    const handleChange = (_, data) => {
+    const handleChange = (data) => {
         setFormFilterData({
             ...filterData,
             [data.name]: data.value,
@@ -46,7 +46,7 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                     placeholder={t('Flight code')}
                     width={2}
                     name="code"
-                    onChange={handleChange}
+                    onChange={(_, value) => handleChange(value)}
                     value={filterData.code}
                 />
                 <ConnectionDropdown
@@ -54,14 +54,14 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                     width={5}
                     name="connection"
                     value={filterData.connection}
-                    onChange={(value) => handleChange(null, { name: 'connection', value })}
+                    onChange={(value) => handleChange({ name: 'connection', value })}
                     setError={setError}
                 />
                 <SchemaDropdown
                     placeholder={t('Airplane')}
                     name="airplane"
                     value={filterData.airplane}
-                    setFieldValue={(_, value) => handleChange(null, { name: 'airplane', value })}
+                    setFieldValue={(_, value) => handleChange({ name: 'airplane', value })}
                     setError={setError}
                 />
                 <Form.Field width={3}>
@@ -73,9 +73,7 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                         selected={filterData.fromDate}
                         startDate={filterData.fromDate}
                         endDate={filterData.toDate}
-                        setFieldValue={(_, value) =>
-                            handleChange(null, { name: 'fromDate', value })
-                        }
+                        setFieldValue={(_, value) => handleChange({ name: 'fromDate', value })}
                         locale={i18next.language}
                         dateFormat="P"
                     />
@@ -89,7 +87,7 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                         selected={filterData.toDate}
                         startDate={filterData.fromDate}
                         endDate={filterData.toDate}
-                        setFieldValue={(_, value) => handleChange(null, { name: 'toDate', value })}
+                        setFieldValue={(_, value) => handleChange({ name: 'toDate', value })}
                         locale={i18next.language}
                         dateFormat="P"
                     />
