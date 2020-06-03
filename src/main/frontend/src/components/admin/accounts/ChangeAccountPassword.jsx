@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label } from 'semantic-ui-react';
-import { changeAccountPassword } from '../../../api/profile';
+import { changeAccountPassword } from '../../../api/profiles';
 import AccountChangePasswordForm from '../../shared/AccountChangePasswordForm';
 
 const ChangeAccountPassword = ({ etag, refetch, login, loading }) => {

@@ -9,7 +9,7 @@ import debounce from 'lodash.debounce';
 import i18next from 'i18next';
 import { route } from '../../../routing';
 import { ContentCard } from '../../shared/Dashboard';
-import { listFlights } from '../../../api/flight';
+import { listFlights } from '../../../api/flights';
 import ConnectionDropdown from './ConnectionDropdown';
 import SchemaDropdown from './SchemaDropdown';
 import SemanticDatePicker from '../../shared/Datepicker';

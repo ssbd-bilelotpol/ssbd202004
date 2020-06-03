@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Label, Message, Placeholder } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
-import { editAccountAccessLevels, useAccountAccessLevels } from '../../../api/profile';
+import { editAccountAccessLevels, useAccountAccessLevels } from '../../../api/profiles';
 import AccountAccessLevelEditForm from './AccountAccessLevelEditForm';
 
 const EditAccountAccessLevel = ({ etagAccountDetails, login, refetchAccountDetails }) => {

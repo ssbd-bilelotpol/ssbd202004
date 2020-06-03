@@ -10,7 +10,7 @@ import { ContentCard } from '../../shared/Dashboard';
 import { FlightSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
-import { createFlight } from '../../../api/flight';
+import { createFlight } from '../../../api/flights';
 import { route } from '../../../routing';
 import { errorColor, errorLighterColor } from '../../../constants';
 import ConnectionDropdown from './ConnectionDropdown';

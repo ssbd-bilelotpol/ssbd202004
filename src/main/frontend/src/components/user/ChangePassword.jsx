@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import AccountChangePasswordForm from '../shared/AccountChangePasswordForm';
-import { changeCurrentAccountPassword, useCurrentAccountDetails } from '../../api/profile';
+import { changeCurrentAccountPassword, useCurrentAccountDetails } from '../../api/profiles';
 
 const ChangePassword = () => {
     const { etag, refetch } = useCurrentAccountDetails();

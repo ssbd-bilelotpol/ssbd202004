@@ -2,7 +2,7 @@ import React from 'react';
 import { Message } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAccountDetails } from '../../api/profile';
+import { useAccountDetails } from '../../api/profiles';
 import ChangeAccountPassword from './accounts/ChangeAccountPassword';
 import EditAccountDetails from './accounts/EditAccountDetails';
 import EditAccountAccessLevel from './accounts/EditAccountAccessLevel';
