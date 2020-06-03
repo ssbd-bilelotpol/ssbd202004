@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.ConnectionEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
-import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -13,7 +12,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania połączeń.
@@ -32,8 +30,8 @@ public class ConnectionController extends AbstractController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<ConnectionDto> find(@NotNull @Valid ConnectionQueryDto query) {
-        throw new UnsupportedOperationException();
+    public ConnectionDto find(@NotNull @Valid ConnectionQueryDto query) throws AppBaseException {
+        return repeat(connectionEndpoint, () -> connectionEndpoint.find(query));
     }
 
     /**
@@ -48,18 +46,18 @@ public class ConnectionController extends AbstractController {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Zwraca połączenie o zgodnych lotniskach źródłowym i docelowym.
-     * @param sourceCode kod lotniska wylotu.
-     * @param destinationCode kot lotniska przylotu.
-     * @return połączenie spełniające podane kryterium.
-     * @throws AppBaseException
-     */
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public ConnectionDto findByAirports(@AirportCode @Valid @QueryParam("sourceCode") String sourceCode, @AirportCode @Valid @QueryParam("destinationCode") String destinationCode) throws AppBaseException {
-        return repeat(connectionEndpoint, () -> connectionEndpoint.findByAirports(sourceCode, destinationCode));
-    }
+//    /**
+//     * Zwraca połączenie o zgodnych lotniskach źródłowym i docelowym.
+//     * @param sourceCode kod lotniska wylotu.
+//     * @param destinationCode kot lotniska przylotu.
+//     * @return połączenie spełniające podane kryterium.
+//     * @throws AppBaseException
+//     */
+//    @GET
+//    @Produces({MediaType.APPLICATION_JSON})
+//    public ConnectionDto findByAirports(@AirportCode @Valid @QueryParam("sourceCode") String sourceCode, @AirportCode @Valid    @QueryParam("destinationCode") String destinationCode) throws AppBaseException {
+//        return repeat(connectionEndpoint, () -> connectionEndpoint.findByAirports(sourceCode, destinationCode));
+//    }
 
     /**
      * Tworzy i zapisuje w bazie połączenie.

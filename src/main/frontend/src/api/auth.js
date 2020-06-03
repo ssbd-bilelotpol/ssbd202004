@@ -3,7 +3,10 @@ import { post } from './index';
 
 export const changeRoleApi = (role) => post(`/auth/change-role/${role}`);
 
-export const registerApi = (user) => post(`/accounts`, user);
+export const registerApi = (user) => {
+    // console.log(user);
+    return post(`/accounts`, user);
+};
 
 export const confirmApi = (tokenId) => post(`/accounts/confirm/${tokenId}`);
 

@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
@@ -16,17 +15,17 @@ public class ConnectionDto implements Signable {
     private BigDecimal basePrice;
 
     @NotNull
-    private Airport destination;
+    private AirportDto destination;
 
     @NotNull
-    private Airport source;
+    private AirportDto source;
 
     private Long version;
 
     public ConnectionDto(Connection connection) {
         this.basePrice = connection.getBasePrice();
-        this.destination = connection.getDestination();
-        this.source = connection.getSource();
+        this.destination = new AirportDto(connection.getDestination());
+        this.source = new AirportDto(connection.getSource());
         this.version = connection.getVersion();
     }
 
@@ -46,24 +45,24 @@ public class ConnectionDto implements Signable {
         this.version = version;
     }
 
-    public Airport getSource() {
+    public AirportDto getSource() {
         return source;
     }
 
-    public void setSource(Airport source) {
+    public void setSource(AirportDto source) {
         this.source = source;
     }
 
-    public Airport getDestination() {
+    public AirportDto getDestination() {
         return destination;
     }
 
-    public void setDestination(Airport destination) {
+    public void setDestination(AirportDto destination) {
         this.destination = destination;
     }
 
     @Override
     public String createMessage() {
-        return String.format("%d.%d.%d", this.version, this.source.getId(), this.destination.getId());
+        return String.format("%d.%d.%d", this.version, this.source.getCode(), this.destination.getCode());
     }
 }

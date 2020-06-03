@@ -15,9 +15,8 @@ import java.util.Objects;
  */
 
 @NamedQueries({
-        @NamedQuery(name = "Airport.findByAirports",
-                query = "SELECT connection from Connection connection WHERE LOWER(connection.source.code) LIKE LOWER(CONCAT('%', :sourceCode, '%'))" +
-                        "AND LOWER(connection.destination.code) LIKE LOWER(CONCAT('%', :destinationCode, '%'))")
+        @NamedQuery(name = "Connection.findBetween",
+                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId AND connection.destination.id = :destinationId")
 })
 
 @Entity

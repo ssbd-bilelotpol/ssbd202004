@@ -4,7 +4,9 @@ import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
@@ -16,10 +18,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -64,13 +63,15 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     }
 
     @PermitAll
-    public Connection findByAirports(String sourceCode, String destinationCode) throws AppBaseException {
+    public Connection find(Airport destination, Airport source) throws AppBaseException {
         try {
-            TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findByAirports", Connection.class);
-            connectionTypedQuery.setParameter("sourceCode", sourceCode == null ? "" : sourceCode);
-            connectionTypedQuery.setParameter("destinationCode", destinationCode == null ? "" : destinationCode);
+            TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findBetween", Connection.class);
+            connectionTypedQuery.setParameter("destinationId", destination == null ? "" : destination.getId());
+            connectionTypedQuery.setParameter("sourceId", source == null ? "" : source.getId());
 
             return connectionTypedQuery.getSingleResult();
+        } catch(NoResultException e) {
+            throw ConnectionException.notFound();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }

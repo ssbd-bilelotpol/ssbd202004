@@ -38,6 +38,7 @@ export async function get(url) {
 }
 
 export async function post(url, body) {
+    console.log(JSON.stringify(body));
     return api(url, {
         method: 'POST',
         body: body && JSON.stringify(body),

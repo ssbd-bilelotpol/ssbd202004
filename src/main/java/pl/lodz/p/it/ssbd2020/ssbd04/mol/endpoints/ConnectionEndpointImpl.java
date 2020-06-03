@@ -18,7 +18,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.List;
 
 @Interceptors({TrackingInterceptor.class})
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -35,8 +34,8 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
 
     @Override
     @PermitAll
-    public List<ConnectionDto> find(ConnectionQueryDto query) {
-        throw new UnsupportedOperationException();
+    public ConnectionDto find(ConnectionQueryDto query) throws AppBaseException {
+        return new ConnectionDto(connectionService.find(query));
     }
 
     @Override
@@ -45,11 +44,11 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    @PermitAll
-    public ConnectionDto findByAirports(String sourceCode, String destinationCode) throws AppBaseException {
-        return new ConnectionDto(connectionService.findByAirports(sourceCode, destinationCode));
-    }
+//    @Override
+//    @PermitAll
+//    public ConnectionDto findByAirports(String sourceCode, String destinationCode) throws AppBaseException {
+//        return new ConnectionDto(connectionService.findByAirports(sourceCode, destinationCode));
+//    }
 
     @Override
     @RolesAllowed(Role.CreateConnection)
