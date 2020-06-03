@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -63,12 +64,12 @@ public class ConnectionService {
     public Connection create(Connection connection, AirportDto sourceAirport, AirportDto destinationAirport) throws AppBaseException {
         try {
             connection.setSource(airportFacade.find(sourceAirport.getCode()));
-        } catch (NoResultException e) {
+        } catch (AirportException e) {
             throw ConnectionException.sourceAirportNotFound();
         }
         try {
             connection.setDestination(airportFacade.find(destinationAirport.getCode()));
-        } catch (NoResultException e) {
+        } catch (AirportException e) {
             throw ConnectionException.destinationAirportNotFound();
         }
         connectionFacade.create(connection);

@@ -97,5 +97,5 @@ INSERT INTO airport (city, code, name, country, version, modification_date_time,
 VALUES ('Londyn', 'LDN', 'Heathrow', 'GB', 0, now(), now());
 
 -- Connections
-INSERT INTO connection (creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
-VALUES (now(), now(), 0, 150, 1, 2);
+INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
+VALUES (-1, now(), now(), 0, 150, 1, 2);

@@ -1,5 +1,3 @@
-DROP OWNED BY ssbd04admin;
-
 CREATE TABLE account
 (
     id                     bigint                      NOT NULL,

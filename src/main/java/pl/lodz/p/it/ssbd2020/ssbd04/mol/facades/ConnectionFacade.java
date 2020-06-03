@@ -44,11 +44,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @RolesAllowed(Role.CreateConnection)
     @Override
     public void create(Connection entity) throws AppBaseException {
-        try {
-            super.create(entity);
-        } catch (ConstraintViolationException e) {
-            throw AppBaseException.databaseOperation(e);
-        }
+        super.create(entity);
     }
 
     @Override
