@@ -109,24 +109,24 @@ VALUES (null, null, null, null, 0, now(), now(), 0, -6);
 --SeatClasses
 
 INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
-VALUES ('Bilelotpol Economic Class', 100.00, now(), null, -1, 0);
+VALUES ('Klasa ekonomiczna', 100.00, now(), null, -1, 0);
 INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
-VALUES ('Bilelotpol Premium Class', 200.00, now(), null, -1, 0);
+VALUES ('Klasa premium', 200.00, now(), null, -1, 0);
 INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
-VALUES ('Bilelotpol Business Class', 300.00, now(), null, -1, 0);
+VALUES ('Klasa biznes', 300.00, now(), null, -1, 0);
 
 --Benefits
 
 INSERT INTO benefit (creation_date_time, modification_date_time, version, description, name, created_by, modified_by)
-VALUES (now(), null, 0, 'Exclusive lunch and drinks', 'Sky bar', -1, null);
+VALUES (now(), null, 0, 'Rozszerzone menu baru pokładowego', 'Sky bar', -1, null);
 INSERT INTO benefit (creation_date_time, modification_date_time, version, description, name, created_by, modified_by)
-VALUES (now(), null, 0, 'Free access to movies from the offer', 'TV package', -1, null);
+VALUES (now(), null, 0, 'Darmowy dostęp do filmów z oferty', 'Pakiet telewizyjny', -1, null);
 
 --SeatClassBenefits
 
-INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (2, 2)
-INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (3, 1)
-INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (3, 2)
+INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (2, 2);
+INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (3, 1);
+INSERT INTO seat_class_benefits (seat_class_id, benefit_id) VALUES (3, 2);
 
 -- Airports
 INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
