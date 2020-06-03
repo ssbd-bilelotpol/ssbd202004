@@ -38,9 +38,11 @@ public class I18n {
     public static final String CAPTCHA_INVALID = "error.captcha.invalid";
     public static final String CAPTCHA_FORMAT_INVALID = "error.captcha.format.invalid";
     public static final String CAPTCHA_CANT_CONNECT = "error.captcha.cantConnect";
+
     public static final String AIRPORT_CODE_NOT_UNIQUE = "error.airport.codeNotUnique";
     public static final String AIRPORT_NOT_FOUND = "error.airport.notFound";
     public static final String AIRPORT_IN_USE = "error.airport.inUse";
+
     public static final String CONNECTION_EXISTS = "error.connection.exists";
     public static final String CONNECTION_TARGET_NOT_FOUND = "error.connection.targetNotFound";
     public static final String CONNECTION_SOURCE_NOT_FOUND = "error.connection.sourceNotFound";

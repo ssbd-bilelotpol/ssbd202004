@@ -8,6 +8,6 @@ public class Regex {
     public static final String UUID = "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
     public static final String AIRPORT_CODE = "[A-Z]{3}";
     public static final String AIRPORT_NAME = "(?ui)^\\p{L}*'?\\p{L}+([ -]\\p{L}*'?\\p{L}+)*$";
-    public static final String AIRPORT_CITY = "^[a-zA-Z0-9\\s]+$";
-    public static final String AIRPORT_COUNTRY = "^[a-zA-Z0-9\\s]++$";
+    public static final String AIRPORT_CITY = "(?ui)^[\\p{L}]+(?:[\\s-][\\p{L}]+)*$";
+    public static final String AIRPORT_COUNTRY = "^[A-Z]{2}$";
 }

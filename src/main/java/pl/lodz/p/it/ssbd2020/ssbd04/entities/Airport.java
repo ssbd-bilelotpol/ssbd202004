@@ -1,6 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -43,28 +47,32 @@ public class Airport extends AbstractEntity implements Serializable {
 
     @Column(nullable = false, updatable = false)
     @NotNull
+    @AirportCode
     private String code;
 
     @NotNull
     @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
+    @AirportName
     private String name;
 
     @NotNull
     @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
+    @AirportCountry
     private String country;
 
     @NotNull
     @Size(min = 2, max = 32)
     @Column(nullable = false, length = 32)
+    @AirportCity
     private String city;
 
     public Airport() {
     }
 
-    public Airport(@NotBlank String code, @NotNull @Size(min = 2, max = 32) String name, @NotNull @Size(min = 2, max = 32)
-            String country, @NotNull @Size(min = 2, max = 32) String city) {
+    public Airport(@NotBlank @AirportCode String code, @NotNull @AirportName @Size(min = 2, max = 32) String name,
+                   @NotNull @AirportCountry @Size(min = 2, max = 32) String country, @NotNull @AirportCity @Size(min = 2, max = 32) String city) {
         this.code = code;
         this.name = name;
         this.country = country;

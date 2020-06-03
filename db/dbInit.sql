@@ -85,16 +85,16 @@ VALUES (null, null, null, null, 0, now(), now(), 0, -6);
 
 -- Airports
 INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
-VALUES ('Warszawa', 'WSZ', 'Chopina', 'Polska', 0, now(), now());
+VALUES ('Warszawa', 'WSZ', 'Chopina', 'PL', 0, now(), now());
 
 INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
-VALUES ('Łódź', 'LDZ', 'Reymonta', 'Polska', 0, now(), now());
+VALUES ('Łódź', 'LDZ', 'Reymonta', 'PL', 0, now(), now());
 
 INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
-VALUES ('Radom', 'RDM', 'Port lotniczy', 'Polska', 0, now(), now());
+VALUES ('Radom', 'RDM', 'Port lotniczy', 'PL', 0, now(), now());
 
 INSERT INTO airport (city, code, name, country, version, modification_date_time, creation_date_time)
-VALUES ('Londyn', 'LDN', 'Heathrow', 'Anglia', 0, now(), now());
+VALUES ('Londyn', 'LDN', 'Heathrow', 'GB', 0, now(), now());
 
 -- Connections
 INSERT INTO connection (creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
