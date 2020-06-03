@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
