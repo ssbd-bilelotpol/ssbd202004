@@ -53,18 +53,6 @@ public class ConnectionService {
         throw new UnsupportedOperationException();
     }
 
-//    /**
-//     * Zwraca połączenie o zgodnych lotniskach źródłowym i docelowym.
-//     * @param sourceCode kod lotniska wylotu.
-//     * @param destinationCode kot lotniska przylotu.
-//     * @return połączenie spełniające podane kryterium.
-//     * @throws AppBaseException
-//     */
-//    @PermitAll
-//    public Connection findByAirports(String sourceCode, String destinationCode) throws AppBaseException {
-//        return connectionFacade.findByAirports(sourceCode, destinationCode);
-//    }
-
     /**
      * Zapisuje w bazie połączenie.
      * @param connection nowe połączenie

@@ -4,11 +4,9 @@ import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -20,7 +18,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
-
 
 @Interceptors({TrackingInterceptor.class})
 @Stateless
@@ -39,13 +36,17 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
         super(Connection.class);
     }
 
+    /**
+     * Zapisuje w bazie połączenie.
+     * @param entity nowe połączenie
+     * @throws AppBaseException gdy połączenie już istnieje
+     */
     @RolesAllowed(Role.CreateConnection)
     @Override
     public void create(Connection entity) throws AppBaseException {
         try {
             super.create(entity);
         } catch (ConstraintViolationException e) {
-
             throw AppBaseException.databaseOperation(e);
         }
     }
@@ -62,13 +63,19 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Wyszukuje połączenia na podstawie ID lotniska docelowego i źródłowego.
+     * @param destination lotnisko przylotu
+     * @param source lotnisko wylotu
+     * @return znaleziona relacja
+     * @throws AppBaseException gdy nie znaleziono połączenia
+     */
     @PermitAll
     public Connection find(Airport destination, Airport source) throws AppBaseException {
         try {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findBetween", Connection.class);
             connectionTypedQuery.setParameter("destinationId", destination == null ? "" : destination.getId());
             connectionTypedQuery.setParameter("sourceId", source == null ? "" : source.getId());
-
             return connectionTypedQuery.getSingleResult();
         } catch(NoResultException e) {
             throw ConnectionException.notFound();

@@ -46,19 +46,6 @@ public class ConnectionController extends AbstractController {
         throw new UnsupportedOperationException();
     }
 
-//    /**
-//     * Zwraca połączenie o zgodnych lotniskach źródłowym i docelowym.
-//     * @param sourceCode kod lotniska wylotu.
-//     * @param destinationCode kot lotniska przylotu.
-//     * @return połączenie spełniające podane kryterium.
-//     * @throws AppBaseException
-//     */
-//    @GET
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public ConnectionDto findByAirports(@AirportCode @Valid @QueryParam("sourceCode") String sourceCode, @AirportCode @Valid    @QueryParam("destinationCode") String destinationCode) throws AppBaseException {
-//        return repeat(connectionEndpoint, () -> connectionEndpoint.findByAirports(sourceCode, destinationCode));
-//    }
-
     /**
      * Tworzy i zapisuje w bazie połączenie.
      * @param connectionDto dane nowego połączenia.
