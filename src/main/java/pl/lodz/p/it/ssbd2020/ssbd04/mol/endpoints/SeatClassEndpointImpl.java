@@ -54,7 +54,7 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     }
 
     @Override
-    @RolesAllowed(Role.GetAllSeatClasses)
+    @PermitAll
     public List<SeatClassDto> getAll() throws AppBaseException {
         return seatClassService.getAll().stream()
                 .map(sc -> new SeatClassDto(sc))

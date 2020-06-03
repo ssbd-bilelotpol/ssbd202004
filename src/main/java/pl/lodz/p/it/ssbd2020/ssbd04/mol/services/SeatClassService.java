@@ -48,7 +48,7 @@ public class SeatClassService {
      *
      * @return listę wszystkich klas miejsc.
      */
-    @RolesAllowed(Role.GetAllSeatClasses)
+    @PermitAll
     public List<SeatClass> getAll() throws AppBaseException {
         return seatClassFacade.findAll();
     }

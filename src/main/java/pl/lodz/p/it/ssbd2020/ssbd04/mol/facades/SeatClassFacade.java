@@ -43,7 +43,6 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     public SeatClass findByName(String name) throws AppBaseException {
         try {
             TypedQuery<SeatClass> seatClassTypedQuery = em.createNamedQuery("SeatClass.findByName", SeatClass.class);
-            seatClassTypedQuery.setFlushMode(FlushModeType.COMMIT);
             seatClassTypedQuery.setParameter("name", name);
             return seatClassTypedQuery.getSingleResult();
         } catch (NoResultException e) {
@@ -54,7 +53,7 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     }
 
     @Override
-    @RolesAllowed(Role.GetAllSeatClasses)
+    @PermitAll
     public List<SeatClass> findAll() throws AppBaseException {
         return super.findAll();
     }
