@@ -44,12 +44,6 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
         throw new UnsupportedOperationException();
     }
 
-//    @Override
-//    @PermitAll
-//    public ConnectionDto findByAirports(String sourceCode, String destinationCode) throws AppBaseException {
-//        return new ConnectionDto(connectionService.findByAirports(sourceCode, destinationCode));
-//    }
-
     @Override
     @RolesAllowed(Role.CreateConnection)
     public ConnectionDto create(ConnectionDto connectionDto) throws AppBaseException {

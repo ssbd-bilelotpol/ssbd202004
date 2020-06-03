@@ -28,15 +28,6 @@ public interface ConnectionEndpoint extends TransactionStarter {
      */
     ConnectionDto findById(Long id) throws AppBaseException;
 
-//    /**
-//     * Zwraca połączenie o zgodnych lotniskach źródłowym i docelowym.
-//     * @param sourceCode kod lotniska wylotu.
-//     * @param destinationCode kot lotniska przylotu.
-//     * @return połączenie spełniające podane kryterium.
-//     * @throws AppBaseException
-//     */
-//    ConnectionDto findByAirports(String sourceCode, String destinationCode) throws AppBaseException;
-
     /**
      * Tworzy i zapisuje w bazie połączenie.
      * @param connectionDto dane nowego połączenia.
