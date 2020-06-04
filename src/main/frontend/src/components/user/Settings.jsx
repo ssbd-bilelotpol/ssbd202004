@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Message, Placeholder } from 'semantic-ui-react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { editCurrentAccountDetails, useCurrentAccountDetails } from '../../api/profile';
+import { editCurrentAccountDetails, useCurrentAccountDetails } from '../../api/profiles';
 import AccountEditForm from '../shared/AccountEditForm';
 
 const Settings = () => {

@@ -1,11 +1,17 @@
 import React from 'react';
+import { Container } from 'semantic-ui-react';
 import TopMenu from '../TopMenu';
+import { Breadcrumbs } from '../Breadcrumbs';
+import ManagerDashboard from './ManagerDashboard';
 
 const ManagerApp = () => {
     return (
         <>
             <TopMenu backgroundColor="#2e9ba8" />
-            <h1>Manager App</h1>
+            <Container>
+                <Breadcrumbs />
+                <ManagerDashboard />
+            </Container>
         </>
     );
 };

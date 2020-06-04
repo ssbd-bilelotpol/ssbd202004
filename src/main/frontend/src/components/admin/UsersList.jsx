@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Input, Message, Button } from 'semantic-ui-react';
+import { Table, Input, Message, Button, Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import debounce from 'lodash.debounce';
 import { listAccountsApi } from '../../api/accounts';
 import { route } from '../../routing';
+import { ContentCard } from '../shared/Dashboard';
 
 const StyledInput = styled(Input)`
     &&& {
@@ -116,7 +117,8 @@ const FilterableUsersTable = () => {
     }, [nameToFind, makeCancellable]);
 
     return (
-        <>
+        <ContentCard fluid>
+            <Label attached="top">{t('Search for users')}</Label>
             <SearchBar filterUsers={filterUsers} loading={users ? loading : false} />
             {!error && (
                 <>
@@ -136,7 +138,7 @@ const FilterableUsersTable = () => {
                     content={error && t(error.message)}
                 />
             )}
-        </>
+        </ContentCard>
     );
 };
 

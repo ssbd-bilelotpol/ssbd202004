@@ -14,7 +14,7 @@ describe('login', () => {
         cy.get('[name=password]').type(password);
         cy.get('#loginFormButton').click();
 
-        cy.location('pathname').should('equal', '/admin');
+        cy.location('pathname').should('equal', '/admin/accounts/list');
         cy.contains('admin')
             .should('be.visible')
             .then(() => {

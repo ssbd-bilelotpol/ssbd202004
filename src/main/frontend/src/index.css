@@ -14,3 +14,20 @@ code {
 .grecaptcha-badge {
   visibility: hidden;
 }
+
+.react-datepicker__input-time-container {
+  display: flex;
+  align-items: center;
+}
+
+.react-datepicker__close-icon {
+  margin-right: 0.5em;
+}
+
+.react-datepicker__close-icon::after {
+  background-color: transparent !important;
+  color: black !important;
+  font-weight: bolder !important;
+  font-size: 1.1em !important;
+  opacity: 0.7;
+}

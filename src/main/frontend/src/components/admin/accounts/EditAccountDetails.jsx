@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label, Placeholder } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
-import { editAccountDetails } from '../../../api/profile';
+import { editAccountDetails } from '../../../api/profiles';
 import AccountEditForm from '../../shared/AccountEditForm';
 
 const EditAccountDetails = ({ data, etag, loading, refetch, login }) => {

@@ -14,6 +14,9 @@ Yup.setLocale({
     array: {
         min: ({ min }) => ({ key: 'access_levels_too_short', value: { min } }),
     },
+    number: {
+        min: ({ min }) => ({ key: 'value_too_low', value: { min } }),
+    },
 });
 
 const loginRegex = /^[a-zA-Z0-9]+([-._][a-zA-Z0-9])*$/iu;
@@ -71,3 +74,28 @@ export const PasswordResetSchema = Yup.object().shape({
 export const AccountAccessLevelEditSchema = Yup.object().shape({
     accessLevels: Yup.array().min(1),
 });
+
+export const FlightSchema = Yup.object().shape(
+    {
+        code: Yup.string().min(5).max(30).required(),
+        price: Yup.number().required().min(0.01),
+        connection: Yup.number().required(),
+        airplaneSchema: Yup.number().required(),
+        departureTime: Yup.date()
+            .required()
+            .test('is-future', 'departure_min_date', (value) => value > new Date())
+            .when(
+                'arrivalTime',
+                (arrivalTime, schema) =>
+                    arrivalTime && schema.max(arrivalTime, 'departure_after_arrival')
+            ),
+        arrivalTime: Yup.date()
+            .required()
+            .when(
+                'departureTime',
+                (departureTime, schema) =>
+                    departureTime && schema.min(departureTime, 'arrival_before_departure')
+            ),
+    },
+    ['departureTime', 'arrivalTime']
+);

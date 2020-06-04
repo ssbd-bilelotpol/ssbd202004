@@ -1,3 +1,4 @@
+import codesPl from 'i18n-iso-countries/langs/pl.json';
 import { errors, roles } from '../constants';
 import translations from './pl/resource.json';
 
@@ -62,6 +63,7 @@ export default {
             'error.ticket.seatTaken': 'Wybrane miejsca są już zajęte',
             'error.ticket.returnTimeExpired': 'Minął czas na zwrot biletu',
             ...translations,
+            ...codesPl.countries,
         },
     },
 };

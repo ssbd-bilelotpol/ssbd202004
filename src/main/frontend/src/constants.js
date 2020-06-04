@@ -107,7 +107,87 @@ export const routes = {
         breadcrumb: 'Confirm account',
     },
     [roles.manager]: {
+        title: roles.manager,
         path: '/manager',
+        breadcrumb: roles.manager,
+        subroutes: {
+            airports: {
+                path: '/airports',
+                breadcrumb: 'Airports',
+                subroutes: {
+                    list: {
+                        title: 'List airports',
+                        path: '/list',
+                        breadcrumb: 'List airports',
+                    },
+                    add: {
+                        title: 'Add airport',
+                        path: '/add',
+                        breadcrumb: 'New airport',
+                    },
+                },
+            },
+            relations: {
+                path: '/relations',
+                breadcrumb: 'Relations',
+                subroutes: {
+                    list: {
+                        title: 'List relations',
+                        path: '/list',
+                        breadcrumb: 'List relations',
+                    },
+                    add: {
+                        title: 'Add relation',
+                        path: '/add',
+                        breadcrumb: 'New relation',
+                    },
+                },
+            },
+            flights: {
+                path: '/flights',
+                breadcrumb: 'Flights',
+                subroutes: {
+                    list: {
+                        title: 'List flights',
+                        path: '/list',
+                        breadcrumb: 'List flights',
+                    },
+                    add: {
+                        title: 'Add flight',
+                        path: '/add',
+                        breadcrumb: 'New flight',
+                    },
+                    flight: {
+                        path: '/:code',
+                        breadcrumb: '{code|Loading}',
+                        breadcrumbLink: false,
+                        subroutes: {
+                            edit: {
+                                title: 'Edit flight',
+                                path: '/edit',
+                                breadcrumb: 'Edit',
+                            },
+                        },
+                    },
+                },
+            },
+            planes: {
+                path: '/planes',
+                breadcrumb: 'Planes',
+                subroutes: {
+                    list: {
+                        title: 'List planes',
+                        path: '/list',
+                        breadcrumb: 'List planes',
+                    },
+                    add: {
+                        title: 'Add plane',
+                        path: '/add',
+                        breadcrumb: 'New plane',
+                    },
+                },
+            },
+        },
     },
     [roles.customerService]: {
         path: '/customer-service',
@@ -116,3 +196,6 @@ export const routes = {
         path: '/',
     },
 };
+
+export const errorColor = '#9f3a38';
+export const errorLighterColor = '#e0b4b4';
