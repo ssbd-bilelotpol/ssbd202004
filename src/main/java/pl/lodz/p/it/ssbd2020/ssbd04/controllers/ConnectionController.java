@@ -18,6 +18,7 @@ import java.util.List;
  */
 @Path("/connections")
 public class ConnectionController extends AbstractController {
+
     @Inject
     private ConnectionEndpoint connectionEndpoint;
 
