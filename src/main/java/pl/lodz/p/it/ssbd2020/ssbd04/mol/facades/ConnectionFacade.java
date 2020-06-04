@@ -58,7 +58,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     }
 
     /**
-     * Wyszukuje połączenia na podstawie ID lotniska docelowego i źródłowego.
+     * Wyszukuje połączenia na podstawie ID lotnisk przylotu oraz wylotu.
      * @param destination lotnisko przylotu
      * @param source lotnisko wylotu
      * @return znaleziona relacja
@@ -79,7 +79,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     }
 
     /**
-     * Wyszukuje połączenia na podstawie ID lotniska docelowego i źródłowego.
+     * Wyszukuje połączenia na podstawie ID lotniska przylotu.
      * @param destination lotnisko przylotu
      * @return znaleziona relacja
      * @throws AppBaseException gdy nie znaleziono połączenia
