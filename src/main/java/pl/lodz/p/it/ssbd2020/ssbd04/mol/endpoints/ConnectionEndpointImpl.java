@@ -4,10 +4,9 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirportService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.ConnectionService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -18,6 +17,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.List;
 
 @Interceptors({TrackingInterceptor.class})
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -27,30 +27,27 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
     private ConnectionService connectionService;
 
     @Inject
-    private AirportService airportService;
-
-    @Inject
     private AccountService accountService;
 
     @Override
     @PermitAll
-    public ConnectionDto find(ConnectionQueryDto query) throws AppBaseException {
-        return new ConnectionDto(connectionService.find(query));
+    public List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException {
+        return connectionService.find(destinationCode, sourceCode);
     }
 
     @Override
     @PermitAll
     public ConnectionDto findById(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return new ConnectionDto(connectionService.findById(id));
     }
 
     @Override
     @RolesAllowed(Role.CreateConnection)
-    public ConnectionDto create(ConnectionDto connectionDto) throws AppBaseException {
-        Connection connection = new Connection(connectionDto.getBasePrice());
+    public ConnectionDto create(ConnectionCreateDto connectionCreateDto) throws AppBaseException {
+        Connection connection = new Connection(connectionCreateDto.getBasePrice());
         connection.setCreatedBy(accountService.getCurrentUser());
 
-        return new ConnectionDto(connectionService.create(connection, connectionDto.getDestination(), connectionDto.getSource()));
+        return new ConnectionDto(connectionService.create(connection, connectionCreateDto.getDestinationCode(), connectionCreateDto.getSourceCode()));
     }
 
     @Override

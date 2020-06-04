@@ -5,8 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AirportFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -18,6 +17,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Przetwarzanie logiki biznesowej połączeń.
@@ -33,13 +34,22 @@ public class ConnectionService {
     private AirportFacade airportFacade;
 
     /**
-     * Wyszukuje połączenia na podstawie przekazanego kryterium.
-     * @param query kryterium
+     * Wyszukuje połączenia pomiędzy lotniskami o danych kodach.
+     * @param destinationCode kod lotniska przylotu
+     * @param sourceCode kod lotniska wylotu
      * @return połączenia spełniające podane kryterium
      */
     @PermitAll
-    public Connection find(ConnectionQueryDto query) throws AppBaseException {
-        return connectionFacade.find(airportFacade.find(query.getDestinationCode()), airportFacade.find(query.getSourceCode()));
+    public List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException {
+        if (destinationCode != "" && sourceCode != "") {
+            return connectionFacade.find(airportFacade.find(destinationCode), airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
+        } else if (destinationCode != "") {
+            return connectionFacade.findByDestination(airportFacade.find(destinationCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
+        } else if (sourceCode != "") {
+            return connectionFacade.findBySource(airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
+        } else {
+            throw ConnectionException.emptyQuery();
+        }
     }
 
     /**
@@ -49,8 +59,8 @@ public class ConnectionService {
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @PermitAll
-    public Connection findById(Long id) {
-        throw new UnsupportedOperationException();
+    public Connection findById(Long id) throws AppBaseException {
+        return connectionFacade.find(id);
     }
 
     /**
@@ -60,16 +70,16 @@ public class ConnectionService {
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.CreateConnection)
-    public Connection create(Connection connection, AirportDto sourceAirport, AirportDto destinationAirport) throws AppBaseException {
+    public Connection create(Connection connection, String destinationCode, String sourceCode) throws AppBaseException {
         try {
-            connection.setSource(airportFacade.find(sourceAirport.getCode()));
-        } catch (AirportException e) {
-            throw ConnectionException.sourceAirportNotFound();
-        }
-        try {
-            connection.setDestination(airportFacade.find(destinationAirport.getCode()));
+            connection.setDestination(airportFacade.find(destinationCode));
         } catch (AirportException e) {
             throw ConnectionException.destinationAirportNotFound();
+        }
+        try {
+            connection.setSource(airportFacade.find(sourceCode));
+        } catch (AirportException e) {
+            throw ConnectionException.sourceAirportNotFound();
         }
         connectionFacade.create(connection);
         return connection;

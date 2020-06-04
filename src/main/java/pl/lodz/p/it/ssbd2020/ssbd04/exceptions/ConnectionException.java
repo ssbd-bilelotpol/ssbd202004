@@ -71,4 +71,12 @@ public class ConnectionException extends AppBaseException {
     public static ConnectionException notFound() {
         return new ConnectionException(CONNECTION_NOT_FOUND);
     }
+
+    /**
+     * Tworzy wyjątek reprezentujący sytuację, w której relacja nie istnieje.
+     * @return stworzony wyjątek
+     */
+    public static ConnectionException emptyQuery() {
+        return new ConnectionException(CONNECTION_EMPTY_QUERY);
+    }
 }

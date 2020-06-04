@@ -6,7 +6,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -54,8 +53,8 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     @Override
     @PermitAll
-    public Connection find(Object id) {
-        throw new UnsupportedOperationException();
+    public Connection find(Object id) throws AppBaseException {
+        return super.find(id);
     }
 
     /**
@@ -66,12 +65,12 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
      * @throws AppBaseException gdy nie znaleziono połączenia
      */
     @PermitAll
-    public Connection find(Airport destination, Airport source) throws AppBaseException {
+    public List<Connection> find(Airport destination, Airport source) throws AppBaseException {
         try {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findBetween", Connection.class);
-            connectionTypedQuery.setParameter("destinationId", destination == null ? "" : destination.getId());
-            connectionTypedQuery.setParameter("sourceId", source == null ? "" : source.getId());
-            return connectionTypedQuery.getSingleResult();
+            connectionTypedQuery.setParameter("destinationId", destination.getId());
+            connectionTypedQuery.setParameter("sourceId", source.getId());
+            return connectionTypedQuery.getResultList();
         } catch(NoResultException e) {
             throw ConnectionException.notFound();
         } catch (PersistenceException e) {
@@ -80,13 +79,41 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     }
 
     /**
-     * Zwraca wszystkie połączenia spełniające podane kryteria.
-     * @param query kryteria
-     * @return lista połączeń spełniających podane kryteria.
+     * Wyszukuje połączenia na podstawie ID lotniska docelowego i źródłowego.
+     * @param destination lotnisko przylotu
+     * @return znaleziona relacja
+     * @throws AppBaseException gdy nie znaleziono połączenia
      */
     @PermitAll
-    public List<Connection> find(ConnectionQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<Connection> findByDestination(Airport destination) throws AppBaseException {
+        try {
+            TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findByDestination", Connection.class);
+            connectionTypedQuery.setParameter("destinationId", destination.getId());
+            return connectionTypedQuery.getResultList();
+        } catch(NoResultException e) {
+            throw ConnectionException.notFound();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
+
+    /**
+     * Wyszukuje połączenia na podstawie ID lotniska wylotu.
+     * @param source lotnisko wylotu
+     * @return znaleziona relacja
+     * @throws AppBaseException gdy nie znaleziono połączenia
+     */
+    @PermitAll
+    public List<Connection> findBySource(Airport source) throws AppBaseException {
+        try {
+            TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findBySource", Connection.class);
+            connectionTypedQuery.setParameter("sourceId", source.getId());
+            return connectionTypedQuery.getResultList();
+        } catch(NoResultException e) {
+            throw ConnectionException.notFound();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override

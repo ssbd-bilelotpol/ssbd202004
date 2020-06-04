@@ -16,7 +16,11 @@ import java.util.Objects;
 
 @NamedQueries({
         @NamedQuery(name = "Connection.findBetween",
-                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId AND connection.destination.id = :destinationId")
+                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId AND connection.destination.id = :destinationId"),
+        @NamedQuery(name = "Connection.findByDestination",
+                query = "SELECT connection from Connection connection WHERE connection.destination.id = :destinationId"),
+        @NamedQuery(name = "Connection.findBySource",
+                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId")
 })
 
 @Entity
