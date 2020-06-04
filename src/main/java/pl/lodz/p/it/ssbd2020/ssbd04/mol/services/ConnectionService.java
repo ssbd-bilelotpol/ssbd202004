@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Utils;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
@@ -41,11 +42,11 @@ public class ConnectionService {
      */
     @PermitAll
     public List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException {
-        if (!"".equals(destinationCode) && !"".equals(sourceCode)) {
+        if (!Utils.isNullOrEmpty(destinationCode) && !Utils.isNullOrEmpty(sourceCode)) {
             return connectionFacade.find(airportFacade.find(destinationCode), airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
-        } else if (!"".equals(destinationCode)) {
+        } else if (!Utils.isNullOrEmpty(destinationCode)) {
             return connectionFacade.findByDestination(airportFacade.find(destinationCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
-        } else if (!"".equals(sourceCode)) {
+        } else if (!Utils.isNullOrEmpty(sourceCode)) {
             return connectionFacade.findBySource(airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
         } else {
             throw ConnectionException.emptyQuery();

@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -10,6 +11,9 @@ import java.math.BigDecimal;
  * Reprezentuje połączenie
  */
 public class ConnectionDto implements Signable {
+
+    @Id
+    private Long id;
 
     @NotNull
     private BigDecimal basePrice;
@@ -29,16 +33,20 @@ public class ConnectionDto implements Signable {
         this.version = connection.getVersion();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public BigDecimal getBasePrice() {
         return basePrice;
     }
 
     public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
-    }
-
-    public Long getVersion() {
-        return version;
     }
 
     public void setVersion(Long version) {

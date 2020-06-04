@@ -1,16 +1,20 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.ConnectionEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
+
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania połączeń.
@@ -22,6 +26,9 @@ public class ConnectionController extends AbstractController {
     @Inject
     private ConnectionEndpoint connectionEndpoint;
 
+    @Inject
+    private MessageSigner messageSigner;
+
     /**
      * Wyszukuje połączenia pomiędzy lotniskami o danych kodach.
      * @param destinationCode kod lotniska przylotu
@@ -31,8 +38,15 @@ public class ConnectionController extends AbstractController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<ConnectionDto> find(@QueryParam("destinationCode") String destinationCode, @QueryParam("sourceCode") String sourceCode) throws AppBaseException {
-        return repeat(connectionEndpoint, () -> connectionEndpoint.find(destinationCode, sourceCode));
+    public Response find(@QueryParam("destinationCode") String destinationCode, @QueryParam("sourceCode") String sourceCode) throws AppBaseException {
+        try {
+            return Response.ok()
+                    .entity(repeat(connectionEndpoint, () -> connectionEndpoint.find(destinationCode, sourceCode)))
+                    .build();
+        } catch (ConnectionException e) {
+            return Response
+                    .status(NOT_FOUND).build();
+        }
     }
 
     /**
@@ -43,8 +57,12 @@ public class ConnectionController extends AbstractController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ConnectionDto findById(@PathParam("id") Long id) throws AppBaseException {
-        return repeat(connectionEndpoint, () -> connectionEndpoint.findById(id));
+    public Response findById(@PathParam("id") Long id) throws AppBaseException {
+        ConnectionDto connectionDto = repeat(connectionEndpoint, () -> connectionEndpoint.findById(id));
+        return Response.ok()
+                .entity(connectionDto)
+                .tag(messageSigner.sign(connectionDto))
+                .build();
     }
 
     /**

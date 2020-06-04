@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -48,6 +49,7 @@ public class Connection extends AbstractEntity implements Serializable {
     @JoinColumn(name = "source_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "connection_airport_src_fk"))
     private Airport source;
 
+    @DecimalMin("0.0")
     @Digits(integer = 7, fraction = 2)
     @NotNull
     @Column(precision = 7, scale = 2, nullable = false, name = "base_price")

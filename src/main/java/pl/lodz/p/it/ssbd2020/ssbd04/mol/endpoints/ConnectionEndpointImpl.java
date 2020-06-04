@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
@@ -32,7 +33,11 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
     @Override
     @PermitAll
     public List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException {
-        return connectionService.find(destinationCode, sourceCode);
+        List<ConnectionDto> connections = connectionService.find(destinationCode, sourceCode);
+        if (connections == null) {
+            throw ConnectionException.notFound();
+        }
+        return connections;
     }
 
     @Override
