@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.BenefitFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.SeatClassFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -27,6 +28,9 @@ public class SeatClassService {
     @Inject
     private SeatClassFacade seatClassFacade;
 
+    @Inject
+    private BenefitFacade benefitFacade;
+
     /**
      * Znajduje klasę miejsc na podstawie jej nazwy.
      *
@@ -34,9 +38,9 @@ public class SeatClassService {
      * @return dane klasy miejsc.
      * @throws AppBaseException gdy operacja nie powiedzie się, bądź klasa miejsc nie istnieje.
      */
-    @PermitAll
+    @RolesAllowed(Role.FindSeatClassByName)
     public SeatClass findByName(String name) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return seatClassFacade.findByName(name);
     }
 
     /**
@@ -46,7 +50,17 @@ public class SeatClassService {
      */
     @PermitAll
     public List<SeatClass> getAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return seatClassFacade.findAll();
+    }
+
+    /**
+     * Zwraca wszystkie dostępne benefity, które mogą zostać przypisane do klasy miejsc.
+     *
+     * @return listę wszystkich klas miejsc.
+     */
+    @RolesAllowed(Role.GetAllBenefits)
+    public List<Benefit> getAllBenefits() throws AppBaseException {
+        return benefitFacade.findAll();
     }
 
     /**
@@ -58,8 +72,10 @@ public class SeatClassService {
      * @throws AppBaseException gdy nazwa klasy miejsc jest już zajęta, bądź operacja nie powiodła się.
      */
     @RolesAllowed(Role.CreateSeatClass)
-    public void create(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public SeatClass create(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
+        seatClass.setBenefits(benefits);
+        seatClassFacade.create(seatClass);
+        return seatClass;
     }
 
     /**

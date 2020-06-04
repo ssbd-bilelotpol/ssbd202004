@@ -830,19 +830,16 @@ GRANT
     SELECT,
     INSERT,
     UPDATE,
-    DELETE ON benefit TO ssbd04mob;
+    DELETE ON benefit TO ssbd04mol;
 
 GRANT
     SELECT ON benefit TO ssbd04mok;
 
 GRANT
-    SELECT ON benefit TO ssbd04mol;
+    SELECT ON benefit TO ssbd04mob;
 
 GRANT
-    USAGE, SELECT ON benefit_id_seq TO ssbd04mob;
-
-GRANT
-    SELECT ON benefit_id_seq TO ssbd04mol;
+    USAGE, SELECT ON benefit_id_seq TO ssbd04mol;
 
 -- SeatClass
 

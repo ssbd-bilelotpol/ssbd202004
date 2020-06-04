@@ -1,15 +1,19 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.SeatClassEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -22,6 +26,9 @@ public class SeatClassController extends AbstractController {
     @Inject
     private SeatClassEndpoint seatClassEndpoint;
 
+    @Inject
+    private MessageSigner messageSigner;
+
     /**
      * Zwraca wszystkie dostępne klasy miejsc, które mogą zostać przypisane do siedzeń.
      *
@@ -29,8 +36,8 @@ public class SeatClassController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SeatClassDto> getAll() {
-        throw new UnsupportedOperationException();
+    public List<SeatClassDto> getAll() throws AppBaseException {
+        return repeat(seatClassEndpoint, () -> seatClassEndpoint.getAll());
     }
 
     /**
@@ -41,8 +48,8 @@ public class SeatClassController extends AbstractController {
     @GET
     @Path("/benefits")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BenefitDto> getAllBenefits() {
-        throw new UnsupportedOperationException();
+    public List<BenefitDto> getAllBenefits() throws AppBaseException {
+        return repeat(seatClassEndpoint, () -> seatClassEndpoint.getAllBenefits());
     }
 
     /**
@@ -55,8 +62,12 @@ public class SeatClassController extends AbstractController {
     @GET
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public SeatClassDto findByName(@NotNull @PathParam("name") String name) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public Response findByName(@NotNull @SeatClassName @PathParam("name") String name) throws AppBaseException {
+        SeatClassDto seatClassDto = repeat(seatClassEndpoint, () -> seatClassEndpoint.findByName(name));
+        return Response.ok()
+                .entity(seatClassDto)
+                .tag(messageSigner.sign(seatClassDto))
+                .build();
     }
 
     /**
@@ -70,7 +81,7 @@ public class SeatClassController extends AbstractController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public SeatClassDto create(@NotNull @Valid SeatClassDto seatClassDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return repeat(seatClassEndpoint, () -> seatClassEndpoint.create(seatClassDto));
     }
 
     /**

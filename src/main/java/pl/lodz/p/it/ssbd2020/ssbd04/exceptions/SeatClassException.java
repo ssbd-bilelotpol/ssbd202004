@@ -36,8 +36,8 @@ public class SeatClassException extends AppBaseException {
      *
      * @return wyjątek reprezentujący brak danej klasy siedzeń.
      */
-    public static SeatClassException notFound() {
-        return new SeatClassException(SEAT_CLASS_NOT_FOUND);
+    public static SeatClassException notFound(Throwable cause) {
+        return new SeatClassException(SEAT_CLASS_NOT_FOUND, cause);
     }
 
     /**

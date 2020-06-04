@@ -28,14 +28,14 @@ public interface SeatClassEndpoint extends TransactionStarter {
      *
      * @return listę wszystkich dodatków.
      */
-    List<BenefitDto> getAllBenefits();
+    List<BenefitDto> getAllBenefits() throws AppBaseException;
 
     /**
      * Zwraca wszystkie dostępne klasy miejsc, które mogą zostać przypisane do siedzeń.
      *
      * @return listę wszystkich klas miejsc.
      */
-    List<SeatClassDto> getAll();
+    List<SeatClassDto> getAll() throws AppBaseException ;
 
     /**
      * Tworzy nową klasę miejsc.

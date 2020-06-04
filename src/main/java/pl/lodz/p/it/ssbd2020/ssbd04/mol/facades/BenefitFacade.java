@@ -4,9 +4,11 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -35,8 +37,8 @@ public class BenefitFacade extends AbstractFacade<Benefit> {
     }
 
     @Override
-    @PermitAll
+    @RolesAllowed(Role.GetAllBenefits)
     public List<Benefit> findAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return super.findAll();
     }
 }

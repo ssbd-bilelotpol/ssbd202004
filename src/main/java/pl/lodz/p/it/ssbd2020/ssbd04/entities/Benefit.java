@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.BenefitName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,6 +32,7 @@ public class Benefit extends AbstractEntity implements Serializable {
     @NotNull
     @Column(nullable = false, length = 128)
     @Size(min = 1, max = 128)
+    @BenefitName
     private String name;
 
     @NotNull
