@@ -45,7 +45,8 @@ public class ConnectionController extends AbstractController {
                     .build();
         } catch (ConnectionException e) {
             return Response
-                    .status(NOT_FOUND).build();
+                    .status(NOT_FOUND)
+                    .build();
         }
     }
 
