@@ -41,11 +41,11 @@ public class ConnectionService {
      */
     @PermitAll
     public List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException {
-        if (destinationCode != "" && sourceCode != "") {
+        if (!"".equals(destinationCode) && !"".equals(sourceCode)) {
             return connectionFacade.find(airportFacade.find(destinationCode), airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
-        } else if (destinationCode != "") {
+        } else if (!"".equals(destinationCode)) {
             return connectionFacade.findByDestination(airportFacade.find(destinationCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
-        } else if (sourceCode != "") {
+        } else if (!"".equals(sourceCode)) {
             return connectionFacade.findBySource(airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
         } else {
             throw ConnectionException.emptyQuery();
