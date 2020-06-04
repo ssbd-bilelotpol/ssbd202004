@@ -18,7 +18,7 @@ import java.util.Set;
  */
 @NamedQueries({
         @NamedQuery(name = "SeatClass.findByName",
-                query = "SELECT seatClass FROM SeatClass seatClass WHERE LOWER(seatClass.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+                query = "SELECT seatClass FROM SeatClass seatClass WHERE seatClass.name = :name")
 })
 @Entity
 @Table(
