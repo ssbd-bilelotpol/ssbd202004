@@ -1,11 +1,12 @@
 import { get } from './index';
 
 export const listAirports = async (filterData) => {
-    if (!filterData) {
-        return get('/airports');
-    }
-
     const params = new URLSearchParams(filterData);
+    Object.keys(filterData).forEach((key) => {
+        if (filterData[key] === '') {
+            params.delete(key);
+        }
+    });
     return get(`/airports?${params.toString()}`);
 };
 

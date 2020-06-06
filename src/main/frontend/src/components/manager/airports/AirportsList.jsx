@@ -31,11 +31,11 @@ const CountriesDropdown = ({ updateSearch }) => {
             }));
             setCountries(countries);
         } catch (err) {
-            // setError(err);
+            // mayhaps error handling in the future?
         } finally {
             setFetching(false);
         }
-    }, [t, makeCancellable, setCountries, setFetching]);
+    }, [makeCancellable]);
 
     useEffect(() => {
         fetchCountries();
@@ -51,23 +51,13 @@ const CountriesDropdown = ({ updateSearch }) => {
     );
 };
 
-const AirportSearchBar = ({ setFilterData }) => {
+const AirportSearchBar = ({ setFilterData, filterData }) => {
     const { t } = useTranslation();
-
-    const [filterData, setFormFilterData] = useState(null);
 
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
 
     const handleChange = (data) => {
-        if (data.value === '') {
-            delete filterData[data.name];
-        } else {
-            setFormFilterData({
-                ...filterData,
-                [data.name]: data.value,
-            });
-        }
-        debounceLoadData(filterData);
+        debounceLoadData({ ...filterData, [data.name]: data.value });
     };
 
     return (
@@ -78,29 +68,19 @@ const AirportSearchBar = ({ setFilterData }) => {
                     width={4}
                     name="name"
                     onChange={(_, value) => handleChange(value)}
-                    // value={filterData.name}
                 />
                 <Form.Input
                     placeholder={t('Airport code')}
                     width={2}
                     name="code"
                     onChange={(_, value) => handleChange(value)}
-                    // value={filterData.code}
                 />
                 <Form.Input
                     placeholder={t('City')}
                     width={4}
                     name="city"
                     onChange={(_, value) => handleChange(value)}
-                    // value={filterData.city}
                 />
-                {/* <Form.Input 
-                    placeholder={t('Country')}
-                    width={4}
-                    name="country"
-                    onChange={(_, value) => handleChange(value)}
-                    value={filterData.country}
-                /> */}
                 <CountriesDropdown updateSearch={handleChange} />
             </AlignedFormGroup>
         </Form>
@@ -175,7 +155,7 @@ const AirportsList = () => {
     const [airports, setAirports] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [filterData, setFilterData] = useState(null);
+    const [filterData, setFilterData] = useState({});
     const makeCancellable = useCancellablePromise();
     const { t } = useTranslation();
 
@@ -193,12 +173,12 @@ const AirportsList = () => {
             }
         };
         fetchAirports();
-    }, [filterData, makeCancellable]);
+    }, [filterData]);
 
     return (
         <ContentCard fluid>
             <Label attached="top">{t('Search for airports')}</Label>
-            <AirportSearchBar setFilterData={setFilterData} />
+            <AirportSearchBar filterData={filterData} setFilterData={setFilterData} />
             {error ? (
                 <Message
                     error
