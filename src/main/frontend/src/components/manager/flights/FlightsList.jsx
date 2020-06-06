@@ -104,6 +104,7 @@ const FlightTable = ({ flights, loading }) => {
         setInit(false);
     }
 
+    console.log(flights);
     return (
         <>
             {(init || (flights && flights.length > 0)) && (

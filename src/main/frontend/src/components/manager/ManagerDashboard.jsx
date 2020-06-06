@@ -5,6 +5,7 @@ import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
 import AddFlight from './flights/AddFlight';
 import FlightsList from './flights/FlightsList';
+import AirportsList from './airports/AirportsList';
 
 const ManagerDashboard = () => {
     const { t } = useTranslation();
@@ -68,6 +69,9 @@ const ManagerDashboard = () => {
             <Switch>
                 <Route exact path={route('manager')}>
                     <Redirect to={route('manager.flights.list')} />
+                </Route>
+                <Route path={route('manager.airports.list')}>
+                    <AirportsList />
                 </Route>
                 <Route exact path={route('manager.flights')}>
                     <Redirect to={route('manager.flights.list')} />
