@@ -14,7 +14,7 @@ const AlignedFormGroup = styled(Form.Group)`
     }
 `;
 
-const CountriesDropdown = ({ updateSearch }) => {
+const CountriesDropdown = ({ updateSearch, setError }) => {
     const { t } = useTranslation();
     const [countries, setCountries] = useState([]);
     const [isFetching, setFetching] = useState(false);
@@ -31,11 +31,11 @@ const CountriesDropdown = ({ updateSearch }) => {
             }));
             setCountries(countries);
         } catch (err) {
-            // mayhaps error handling in the future?
+            setError(err);
         } finally {
             setFetching(false);
         }
-    }, [makeCancellable]);
+    }, [t, makeCancellable, setError]);
 
     useEffect(() => {
         fetchCountries();
@@ -47,11 +47,12 @@ const CountriesDropdown = ({ updateSearch }) => {
             loading={isFetching}
             disabled={isFetching}
             onChange={(_, _value) => updateSearch({ name: 'country', value: _value.value })}
+            placeholder={t('Country')}
         />
     );
 };
 
-const AirportSearchBar = ({ setFilterData, filterData }) => {
+const AirportSearchBar = ({ setFilterData, filterData, setError }) => {
     const { t } = useTranslation();
 
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
@@ -81,7 +82,7 @@ const AirportSearchBar = ({ setFilterData, filterData }) => {
                     name="city"
                     onChange={(_, value) => handleChange(value)}
                 />
-                <CountriesDropdown updateSearch={handleChange} />
+                <CountriesDropdown updateSearch={handleChange} setError={setError} />
             </AlignedFormGroup>
         </Form>
     );
@@ -157,6 +158,7 @@ const AirportsList = () => {
     const [error, setError] = useState(null);
     const [filterData, setFilterData] = useState({});
     const makeCancellable = useCancellablePromise();
+    const [countriesError, setCountriesError] = useState(null);
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -173,13 +175,17 @@ const AirportsList = () => {
             }
         };
         fetchAirports();
-    }, [filterData]);
+    }, [filterData, makeCancellable]);
 
     return (
         <ContentCard fluid>
             <Label attached="top">{t('Search for airports')}</Label>
-            <AirportSearchBar filterData={filterData} setFilterData={setFilterData} />
-            {error ? (
+            <AirportSearchBar
+                filterData={filterData}
+                setFilterData={setFilterData}
+                setError={setCountriesError}
+            />
+            {error || countriesError ? (
                 <Message
                     error
                     header={t('Failed to retrieve data')}
