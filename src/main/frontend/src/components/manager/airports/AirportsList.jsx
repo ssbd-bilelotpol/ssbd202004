@@ -1,8 +1,111 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Table, Button, Message, Placeholder } from 'semantic-ui-react';
+import { Table, Button, Message, Placeholder, Form, Label } from 'semantic-ui-react';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
-import { listAirports } from '../../../api/airports';
+import styled from 'styled-components';
+import debounce from 'lodash.debounce';
+import { listAirports, getCountries } from '../../../api/airports';
+import { ContentCard } from '../../shared/Dashboard';
+import RequireableDropdown from '../../shared/RequireableDropdown';
+
+const AlignedFormGroup = styled(Form.Group)`
+    &&& {
+        align-items: flex-end;
+    }
+`;
+
+const CountriesDropdown = ({ updateSearch }) => {
+    const { t } = useTranslation();
+    const [countries, setCountries] = useState([]);
+    const [isFetching, setFetching] = useState(false);
+    const makeCancellable = useCancellablePromise();
+
+    const fetchCountries = useCallback(async () => {
+        try {
+            setFetching(true);
+            let countries = await makeCancellable(getCountries());
+            countries = countries.content.map((country) => ({
+                key: country,
+                value: country,
+                text: t(country),
+            }));
+            setCountries(countries);
+        } catch (err) {
+            // setError(err);
+        } finally {
+            setFetching(false);
+        }
+    }, [t, makeCancellable, setCountries, setFetching]);
+
+    useEffect(() => {
+        fetchCountries();
+    }, [fetchCountries]);
+
+    return (
+        <RequireableDropdown
+            options={countries}
+            loading={isFetching}
+            disabled={isFetching}
+            onChange={(_, _value) => updateSearch({ name: 'country', value: _value.value })}
+        />
+    );
+};
+
+const AirportSearchBar = ({ setFilterData }) => {
+    const { t } = useTranslation();
+
+    const [filterData, setFormFilterData] = useState(null);
+
+    const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
+
+    const handleChange = (data) => {
+        if (data.value === '') {
+            delete filterData[data.name];
+        } else {
+            setFormFilterData({
+                ...filterData,
+                [data.name]: data.value,
+            });
+        }
+        debounceLoadData(filterData);
+    };
+
+    return (
+        <Form>
+            <AlignedFormGroup>
+                <Form.Input
+                    placeholder={t('Airport name')}
+                    width={4}
+                    name="name"
+                    onChange={(_, value) => handleChange(value)}
+                    // value={filterData.name}
+                />
+                <Form.Input
+                    placeholder={t('Airport code')}
+                    width={2}
+                    name="code"
+                    onChange={(_, value) => handleChange(value)}
+                    // value={filterData.code}
+                />
+                <Form.Input
+                    placeholder={t('City')}
+                    width={4}
+                    name="city"
+                    onChange={(_, value) => handleChange(value)}
+                    // value={filterData.city}
+                />
+                {/* <Form.Input 
+                    placeholder={t('Country')}
+                    width={4}
+                    name="country"
+                    onChange={(_, value) => handleChange(value)}
+                    value={filterData.country}
+                /> */}
+                <CountriesDropdown updateSearch={handleChange} />
+            </AlignedFormGroup>
+        </Form>
+    );
+};
 
 const AirportsTable = ({ airports, loading }) => {
     const { t } = useTranslation();
@@ -29,6 +132,9 @@ const AirportsTable = ({ airports, loading }) => {
                             <Table.HeaderCell width={4} textAlign="center">
                                 {t('Country')}
                             </Table.HeaderCell>
+                            <Table.HeaderCell width={1} textAlign="center">
+                                {t('Action')}
+                            </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -52,7 +158,7 @@ const AirportsTable = ({ airports, loading }) => {
                                       <Table.Cell>{airport.name}</Table.Cell>
                                       <Table.Cell>{airport.code}</Table.Cell>
                                       <Table.Cell>{airport.city}</Table.Cell>
-                                      <Table.Cell>{airport.country}</Table.Cell>
+                                      <Table.Cell>{t(airport.country)}</Table.Cell>
                                       <Table.Cell textAlign="center">
                                           <Button size="small">{t('Edit')}</Button>
                                       </Table.Cell>
@@ -69,14 +175,16 @@ const AirportsList = () => {
     const [airports, setAirports] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [filterData, setFilterData] = useState(null);
     const makeCancellable = useCancellablePromise();
     const { t } = useTranslation();
 
     useEffect(() => {
         const fetchAirports = async () => {
+            setError(null);
             try {
                 setLoading(true);
-                const airports = await makeCancellable(listAirports());
+                const airports = await makeCancellable(listAirports(filterData));
                 setAirports(airports.content);
             } catch (err) {
                 setError(err);
@@ -85,10 +193,12 @@ const AirportsList = () => {
             }
         };
         fetchAirports();
-    }, [makeCancellable]);
+    }, [filterData, makeCancellable]);
 
     return (
-        <>
+        <ContentCard fluid>
+            <Label attached="top">{t('Search for airports')}</Label>
+            <AirportSearchBar setFilterData={setFilterData} />
             {error ? (
                 <Message
                     error
@@ -96,9 +206,17 @@ const AirportsList = () => {
                     content={error && t(error.message)}
                 />
             ) : (
-                <AirportsTable airports={airports} loading={loading} />
+                <>
+                    <AirportsTable airports={airports} loading={loading} />
+                    {airports && airports.length === 0 && (
+                        <Message
+                            header={t('No airport found')}
+                            content={t('There are no results matching criteria')}
+                        />
+                    )}
+                </>
             )}
-        </>
+        </ContentCard>
     );
 };
 
