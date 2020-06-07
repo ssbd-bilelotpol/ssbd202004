@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Formik } from 'formik';
 import { Message, Form, Label } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
+import * as i18nISOCountries from 'i18n-iso-countries';
 import { addAirport } from '../../../api/airports';
 import { AirportSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import { ContentCard } from '../../shared/Dashboard';
-import CountriesDropdown from './CountriesDropdown';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
 import { route } from '../../../routing';
+import RequireableDropdown from '../../shared/RequireableDropdown';
+
+const getCountryOptions = (t) => {
+    return Object.keys(i18nISOCountries.getAlpha2Codes()).map((code) => ({
+        key: code,
+        value: code.toUpperCase(),
+        text: t(code),
+    }));
+};
 
 const AddAirportForm = () => {
     const { t } = useTranslation();
     const [error, setError] = useState(false);
     const history = useHistory();
     const makeCancellable = useCancellablePromise();
+    const countryOptions = useMemo(() => getCountryOptions(t), [t]);
 
     const handleSubmit = async (values) => {
         try {
@@ -105,12 +115,12 @@ const AddAirportForm = () => {
                                     }
                                 }
                             />
-                            <CountriesDropdown
+                            <RequireableDropdown
+                                options={countryOptions}
                                 name="country"
                                 placeholder={t('Country')}
-                                value={values.city}
-                                onChange={(value) => setFieldValue('country', value.value)}
-                                setError={setError}
+                                value={values.country}
+                                onChange={(_, value) => setFieldValue('country', value.value)}
                                 required
                                 error={
                                     touched.city &&
