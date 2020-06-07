@@ -3,21 +3,25 @@ import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Formik } from 'formik';
 import { Message, Form, Label } from 'semantic-ui-react';
+import { useHistory } from 'react-router-dom';
 import { addAirport } from '../../../api/airports';
 import { AirportSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import { ContentCard } from '../../shared/Dashboard';
 import CountriesDropdown from './CountriesDropdown';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
+import { route } from '../../../routing';
 
 const AddAirportForm = () => {
     const { t } = useTranslation();
     const [error, setError] = useState(false);
+    const history = useHistory();
     const makeCancellable = useCancellablePromise();
 
     const handleSubmit = async (values) => {
         try {
             await makeCancellable(addAirport(values));
+            history.push(route('manager.airports.list'));
         } catch (err) {
             setError(err);
         }
