@@ -1,4 +1,4 @@
-import { get } from './index';
+import { get, post } from './index';
 
 export const listAirports = async (filterData) => {
     const params = new URLSearchParams(filterData);
@@ -11,3 +11,5 @@ export const listAirports = async (filterData) => {
 };
 
 export const getCountries = async () => get('/airports/countries');
+
+export const addAirport = async (data) => post('/airports', data);

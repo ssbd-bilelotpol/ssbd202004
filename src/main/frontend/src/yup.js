@@ -99,3 +99,13 @@ export const FlightSchema = Yup.object().shape(
     },
     ['departureTime', 'arrivalTime']
 );
+
+const cityRegex = /^\p{L}*'?\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
+const airportCodeRegex = /[A-Z]{3}/;
+
+export const AirportSchema = Yup.object().shape({
+    name: Yup.string().min(2).max(32).required(),
+    code: Yup.string().length(3).matches(airportCodeRegex, 'incorrect_airport_code').required(),
+    city: Yup.string().min(2).max(32).matches(cityRegex, 'incorrent_city').required(),
+    country: Yup.string().length(2).required(),
+});

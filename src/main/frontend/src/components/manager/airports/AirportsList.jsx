@@ -4,53 +4,15 @@ import { Table, Button, Message, Placeholder, Form, Label } from 'semantic-ui-re
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
-import { listAirports, getCountries } from '../../../api/airports';
+import { listAirports } from '../../../api/airports';
 import { ContentCard } from '../../shared/Dashboard';
-import RequireableDropdown from '../../shared/RequireableDropdown';
+import CountriesDropdown from './CountriesDropdown';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
         align-items: flex-end;
     }
 `;
-
-const CountriesDropdown = ({ updateSearch, setError }) => {
-    const { t } = useTranslation();
-    const [countries, setCountries] = useState([]);
-    const [isFetching, setFetching] = useState(false);
-    const makeCancellable = useCancellablePromise();
-
-    const fetchCountries = useCallback(async () => {
-        try {
-            setFetching(true);
-            let countries = await makeCancellable(getCountries());
-            countries = countries.content.map((country) => ({
-                key: country,
-                value: country,
-                text: t(country),
-            }));
-            setCountries(countries);
-        } catch (err) {
-            setError(err);
-        } finally {
-            setFetching(false);
-        }
-    }, [t, makeCancellable, setError]);
-
-    useEffect(() => {
-        fetchCountries();
-    }, [fetchCountries]);
-
-    return (
-        <RequireableDropdown
-            options={countries}
-            loading={isFetching}
-            disabled={isFetching}
-            onChange={(_, _value) => updateSearch({ name: 'country', value: _value.value })}
-            placeholder={t('Country')}
-        />
-    );
-};
 
 const AirportSearchBar = ({ setFilterData, filterData, setError }) => {
     const { t } = useTranslation();
@@ -82,7 +44,7 @@ const AirportSearchBar = ({ setFilterData, filterData, setError }) => {
                     name="city"
                     onChange={(_, value) => handleChange(value)}
                 />
-                <CountriesDropdown updateSearch={handleChange} setError={setError} />
+                <CountriesDropdown onChange={handleChange} setError={setError} />
             </AlignedFormGroup>
         </Form>
     );
