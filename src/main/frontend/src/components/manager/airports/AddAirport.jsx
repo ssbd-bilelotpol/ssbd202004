@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import { Message, Form, Label } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import * as i18nISOCountries from 'i18n-iso-countries';
+import styled from 'styled-components';
 import { addAirport } from '../../../api/airports';
 import { AirportSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
@@ -12,6 +13,12 @@ import { ContentCard } from '../../shared/Dashboard';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
 import { route } from '../../../routing';
 import RequireableDropdown from '../../shared/RequireableDropdown';
+
+const AlignedFormGroup = styled(Form.Group)`
+    &&& {
+        align-items: flex-end;
+    }
+`;
 
 const getCountryOptions = (t) => {
     return Object.keys(i18nISOCountries.getAlpha2Codes()).map((code) => ({
@@ -35,6 +42,13 @@ const AddAirportForm = () => {
         } catch (err) {
             setError(err);
         }
+    };
+
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+        return t(msg);
     };
 
     return (
@@ -61,7 +75,7 @@ const AddAirportForm = () => {
                 }) => (
                     <Form error={!!error} onSubmit={handleSubmit}>
                         <Message error content={error && error.message} />
-                        <Form.Group>
+                        <AlignedFormGroup>
                             <Form.Input
                                 width={12}
                                 name="name"
@@ -74,7 +88,7 @@ const AddAirportForm = () => {
                                 error={
                                     touched.name &&
                                     errors.name && {
-                                        content: t(errors.name),
+                                        content: translate(errors.name),
                                         pointing: 'below',
                                     }
                                 }
@@ -91,13 +105,13 @@ const AddAirportForm = () => {
                                 error={
                                     touched.code &&
                                     errors.code && {
-                                        content: t(errors.code),
+                                        content: translate(errors.code),
                                         pointing: 'below',
                                     }
                                 }
                             />
-                        </Form.Group>
-                        <Form.Group>
+                        </AlignedFormGroup>
+                        <AlignedFormGroup>
                             <Form.Input
                                 width={14}
                                 name="city"
@@ -110,7 +124,7 @@ const AddAirportForm = () => {
                                 error={
                                     touched.city &&
                                     errors.city && {
-                                        content: t(errors.city),
+                                        content: translate(errors.city),
                                         pointing: 'below',
                                     }
                                 }
@@ -125,12 +139,12 @@ const AddAirportForm = () => {
                                 error={
                                     touched.country &&
                                     errors.country && {
-                                        content: t(errors.country),
+                                        content: translate(errors.country),
                                         pointing: 'below',
                                     }
                                 }
                             />
-                        </Form.Group>
+                        </AlignedFormGroup>
                         <ConfirmSubmit
                             onSubmit={handleSubmit}
                             disabled={isSubmitting}

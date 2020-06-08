@@ -138,5 +138,8 @@
     "From": "Od",
     "To": "Do",
     "Search for airports": "Wyszukaj lotnisko",
-    "No airport found": "Nie znaleziono lotniska"
+    "No airport found": "Nie znaleziono lotniska",
+    "incorrect_airport_name": "Nieprawidłowa nazwa lotniska",
+    "incorrect_airport_code": "Nieprawidłowy kod lotniska",
+    "incorrect_city": "Nieprawidłowa nazwa miasta"
 }
