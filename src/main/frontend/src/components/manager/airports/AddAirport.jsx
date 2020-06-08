@@ -123,9 +123,9 @@ const AddAirportForm = () => {
                                 onChange={(_, value) => setFieldValue('country', value.value)}
                                 required
                                 error={
-                                    touched.city &&
-                                    errors.city && {
-                                        content: t(errors.city),
+                                    touched.country &&
+                                    errors.country && {
+                                        content: t(errors.country),
                                         pointing: 'below',
                                     }
                                 }
