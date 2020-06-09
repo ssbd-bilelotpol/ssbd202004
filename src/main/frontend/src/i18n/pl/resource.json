@@ -141,5 +141,6 @@
     "No airport found": "Nie znaleziono lotniska",
     "incorrect_airport_name": "Nieprawidłowa nazwa lotniska",
     "incorrect_airport_code": "Nieprawidłowy kod lotniska",
-    "incorrect_city": "Nieprawidłowa nazwa miasta"
+    "incorrect_city": "Nieprawidłowa nazwa miasta",
+    "field_must_be": "Pole musi mieć dokładnie {{length}} znaków"
 }

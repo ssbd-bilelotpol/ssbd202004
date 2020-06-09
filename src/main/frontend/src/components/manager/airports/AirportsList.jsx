@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Table, Button, Message, Placeholder, Form, Label } from 'semantic-ui-react';
-import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
 import { Formik } from 'formik';
-import { listAirports } from '../../../api/airports';
+import { useListAirports } from '../../../api/airports';
 import { ContentCard } from '../../shared/Dashboard';
 import CountriesDropdown from './CountriesDropdown';
 import { AirportSearchBarSchema } from '../../../yup';
@@ -22,7 +21,11 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
 
     const search = (data) => {
-        debounceLoadData({ ...filterData, [data.name]: data.value });
+        AirportSearchBarSchema.isValid({ [data.name]: data.value }).then((valid) => {
+            if (valid || data.value === '') {
+                debounceLoadData({ ...filterData, [data.name]: data.value });
+            }
+        });
     };
 
     const translate = (msg) => {
@@ -43,7 +46,7 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
             }}
             validateOnChange
         >
-            {({ errors, values, setFieldValue, handleBlur, isValid }) => (
+            {({ errors, values, setFieldValue, handleBlur }) => (
                 <Form>
                     <AlignedFormGroup>
                         <Form.Input
@@ -52,10 +55,8 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
                             name="name"
                             value={values.name}
                             onChange={(event) => {
-                                setFieldValue(event.target.name, event.target.value, true);
-                                if (isValid) {
-                                    search({ name: event.target.name, value: event.target.value });
-                                }
+                                setFieldValue(event.target.name, event.target.value);
+                                search({ name: event.target.name, value: event.target.value });
                             }}
                             onBlur={handleBlur}
                             error={
@@ -72,9 +73,7 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
                             value={values.code}
                             onChange={(event) => {
                                 setFieldValue(event.target.name, event.target.value);
-                                if (isValid) {
-                                    search({ name: event.target.name, value: event.target.value });
-                                }
+                                search({ name: event.target.name, value: event.target.value });
                             }}
                             error={
                                 errors.code && {
@@ -89,9 +88,7 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
                             name="city"
                             onChange={(event) => {
                                 setFieldValue(event.target.name, event.target.value);
-                                if (isValid) {
-                                    search({ name: event.target.name, value: event.target.value });
-                                }
+                                search({ name: event.target.name, value: event.target.value });
                             }}
                             value={values.city}
                             error={
@@ -180,37 +177,12 @@ const AirportsTable = ({ airports, loading }) => {
     );
 };
 
-let searchCounter = 0;
 const AirportsList = () => {
-    const [airports, setAirports] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [filterData, setFilterData] = useState({});
-    const makeCancellable = useCancellablePromise();
     const [countriesError, setCountriesError] = useState(null);
     const { t } = useTranslation();
 
-    useEffect(() => {
-        searchCounter += 1;
-        const before = searchCounter;
-        const fetchAirports = async () => {
-            setError(null);
-            try {
-                setLoading(true);
-                const airports = await makeCancellable(listAirports(filterData));
-                if (searchCounter === before) {
-                    setAirports(airports.content);
-                }
-            } catch (err) {
-                setError(err);
-            } finally {
-                if (searchCounter === before) {
-                    setLoading(false);
-                }
-            }
-        };
-        fetchAirports();
-    }, [filterData, makeCancellable]);
+    const { data, loading, error } = useListAirports(filterData);
 
     return (
         <ContentCard fluid>
@@ -228,8 +200,8 @@ const AirportsList = () => {
                 />
             ) : (
                 <>
-                    <AirportsTable airports={airports} loading={loading} />
-                    {airports && airports.length === 0 && (
+                    <AirportsTable airports={data} loading={loading} />
+                    {data && data.length === 0 && (
                         <Message
                             header={t('No airport found')}
                             content={t('There are no results matching criteria')}

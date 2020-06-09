@@ -19,7 +19,7 @@ const CountriesDropdown = ({ onChange, setError }) => {
                 value: country,
                 text: t(country),
             }));
-            setCountries([{ key: 'placeholder', value: '', text: '' }, ...countries]);
+            setCountries(countries);
         } catch (err) {
             setError(err);
         } finally {

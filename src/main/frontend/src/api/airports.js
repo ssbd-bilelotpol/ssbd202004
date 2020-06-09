@@ -1,13 +1,14 @@
 import { get, post } from './index';
+import { useGet } from './hooks';
 
-export const listAirports = async (filterData) => {
+export const useListAirports = (filterData) => {
     const params = new URLSearchParams(filterData);
     Object.keys(filterData).forEach((key) => {
         if (filterData[key] === '') {
             params.delete(key);
         }
     });
-    return get(`/airports?${params.toString()}`);
+    return useGet(`/airports?${params.toString()}`);
 };
 
 export const getCountries = async () => get('/airports/countries');

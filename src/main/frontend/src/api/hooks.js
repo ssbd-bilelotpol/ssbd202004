@@ -10,6 +10,7 @@ export const useGet = (url) => {
     const makeCancellable = useCancellablePromise();
 
     const fetchData = useCallback(async () => {
+        setLoading(true);
         try {
             const result = await makeCancellable(get(url));
             setData(result.content);

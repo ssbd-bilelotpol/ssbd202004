@@ -15,18 +15,12 @@ const DropdownLabel = styled(Label)`
 
 const LabeledDropdown = styled(Form.Dropdown)`
     &&& {
-        justify-content: flex-start;
+        justify-content: space-between;
         .icon {
-            right: auto !important;
             left: auto !important;
             margin-left: 0.1em !important;
         }
         .loading {
-            .icon {
-                left: 0 !important;
-                right: auto !important;
-                margin-left: 0 !important;
-            }
             .text.filtered,
             .text.default {
                 padding-left: 1em !important;
@@ -60,7 +54,7 @@ const DropdownControl = ({ required, ...props }) => {
     return (
         <div style={{ position: 'relative' }}>
             {required && <DropdownLabel icon="asterisk" corner="right" />}
-            <LabeledDropdown search selection {...props} />
+            <LabeledDropdown clearable search selection {...props} />
         </div>
     );
 };

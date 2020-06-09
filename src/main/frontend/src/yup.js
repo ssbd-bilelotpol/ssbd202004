@@ -10,6 +10,7 @@ Yup.setLocale({
         min: ({ min }) => ({ key: 'field_too_short', value: { min } }),
         max: ({ max }) => ({ key: 'field_too_long', value: { max } }),
         matches: 'incorrect_regex',
+        length: ({ length }) => ({ key: 'field_must_be', value: { length } }),
     },
     array: {
         min: ({ min }) => ({ key: 'access_levels_too_short', value: { min } }),
@@ -116,13 +117,8 @@ export const AirportSchema = Yup.object().shape({
 });
 
 export const AirportSearchBarSchema = Yup.object().shape({
-    name: Yup.string()
-        // .optional()
-        .matches(airportNameRegex, 'incorrect_airport_name'),
-    code: Yup.string()
-        .length(3)
-        // .optional()
-        .matches(airportCodeRegex, 'incorrect_airport_code'),
-    city: Yup.string().min(2).max(32).matches(cityRegex, 'incorrect_city').optional(),
-    country: Yup.string().length(2).optional(),
+    name: Yup.string().matches(airportNameRegex, 'incorrect_airport_name'),
+    code: Yup.string().length(3).matches(airportCodeRegex, 'incorrect_airport_code'),
+    city: Yup.string().matches(cityRegex, 'incorrect_city'),
+    country: Yup.string().length(2),
 });
