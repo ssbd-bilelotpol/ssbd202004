@@ -103,7 +103,7 @@ export const FlightSchema = Yup.object().shape(
 
 const cityRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
 const airportCodeRegex = /[A-Z]{3}/;
-const airportNameRegex = /^\p{L}*'?\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
+const airportNameRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
 
 export const AirportSchema = Yup.object().shape({
     name: Yup.string()

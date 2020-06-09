@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Table, Button, Message, Placeholder, Form, Label } from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -18,12 +18,10 @@ const AlignedFormGroup = styled(Form.Group)`
 const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
     const { t } = useTranslation();
 
-    const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
-
     const search = (data) => {
         AirportSearchBarSchema.isValid({ [data.name]: data.value }).then((valid) => {
             if (valid || data.value === '') {
-                debounceLoadData({ ...filterData, [data.name]: data.value });
+                debounce(setFilterData, 250)({ ...filterData, [data.name]: data.value });
             }
         });
     };
