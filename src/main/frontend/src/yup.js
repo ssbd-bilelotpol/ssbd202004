@@ -114,3 +114,15 @@ export const AirportSchema = Yup.object().shape({
     city: Yup.string().min(2).max(32).matches(cityRegex, 'incorrect_city').required(),
     country: Yup.string().length(2).required(),
 });
+
+export const AirportSearchBarSchema = Yup.object().shape({
+    name: Yup.string()
+        // .optional()
+        .matches(airportNameRegex, 'incorrect_airport_name'),
+    code: Yup.string()
+        .length(3)
+        // .optional()
+        .matches(airportCodeRegex, 'incorrect_airport_code'),
+    city: Yup.string().min(2).max(32).matches(cityRegex, 'incorrect_city').optional(),
+    country: Yup.string().length(2).optional(),
+});

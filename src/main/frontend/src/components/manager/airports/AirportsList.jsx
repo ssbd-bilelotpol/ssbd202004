@@ -4,9 +4,11 @@ import { Table, Button, Message, Placeholder, Form, Label } from 'semantic-ui-re
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
+import { Formik } from 'formik';
 import { listAirports } from '../../../api/airports';
 import { ContentCard } from '../../shared/Dashboard';
 import CountriesDropdown from './CountriesDropdown';
+import { AirportSearchBarSchema } from '../../../yup';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -14,39 +16,103 @@ const AlignedFormGroup = styled(Form.Group)`
     }
 `;
 
-const AirportSearchBar = ({ setFilterData, filterData, setError }) => {
+const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
     const { t } = useTranslation();
 
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
 
-    const handleChange = (data) => {
+    const search = (data) => {
         debounceLoadData({ ...filterData, [data.name]: data.value });
     };
 
+    const translate = (msg) => {
+        if (msg.key) {
+            return t(msg.key, msg.value);
+        }
+        return t(msg);
+    };
+
     return (
-        <Form>
-            <AlignedFormGroup>
-                <Form.Input
-                    placeholder={t('Airport name')}
-                    width={4}
-                    name="name"
-                    onChange={(_, value) => handleChange(value)}
-                />
-                <Form.Input
-                    placeholder={t('Airport code')}
-                    width={2}
-                    name="code"
-                    onChange={(_, value) => handleChange(value)}
-                />
-                <Form.Input
-                    placeholder={t('City')}
-                    width={4}
-                    name="city"
-                    onChange={(_, value) => handleChange(value)}
-                />
-                <CountriesDropdown onChange={handleChange} setError={setError} />
-            </AlignedFormGroup>
-        </Form>
+        <Formik
+            validationSchema={AirportSearchBarSchema}
+            initialValues={{
+                name: '',
+                city: '',
+                code: '',
+                country: '',
+            }}
+            validateOnChange
+        >
+            {({ errors, values, setFieldValue, handleBlur, isValid }) => (
+                <Form>
+                    <AlignedFormGroup>
+                        <Form.Input
+                            placeholder={t('Airport name')}
+                            width={4}
+                            name="name"
+                            value={values.name}
+                            onChange={(event) => {
+                                setFieldValue(event.target.name, event.target.value, true);
+                                if (isValid) {
+                                    search({ name: event.target.name, value: event.target.value });
+                                }
+                            }}
+                            onBlur={handleBlur}
+                            error={
+                                errors.name && {
+                                    content: translate(errors.name),
+                                    pointing: 'below',
+                                }
+                            }
+                        />
+                        <Form.Input
+                            placeholder={t('Airport code')}
+                            width={2}
+                            name="code"
+                            value={values.code}
+                            onChange={(event) => {
+                                setFieldValue(event.target.name, event.target.value);
+                                if (isValid) {
+                                    search({ name: event.target.name, value: event.target.value });
+                                }
+                            }}
+                            error={
+                                errors.code && {
+                                    content: translate(errors.code),
+                                    pointing: 'below',
+                                }
+                            }
+                        />
+                        <Form.Input
+                            placeholder={t('City')}
+                            width={4}
+                            name="city"
+                            onChange={(event) => {
+                                setFieldValue(event.target.name, event.target.value);
+                                if (isValid) {
+                                    search({ name: event.target.name, value: event.target.value });
+                                }
+                            }}
+                            value={values.city}
+                            error={
+                                errors.city && {
+                                    content: translate(errors.city),
+                                    pointing: 'below',
+                                }
+                            }
+                        />
+                        <CountriesDropdown
+                            onChange={(value) => {
+                                setFieldValue(value.name, value.value);
+                                search(value);
+                            }}
+                            value={values.country}
+                            setError={setError}
+                        />
+                    </AlignedFormGroup>
+                </Form>
+            )}
+        </Formik>
     );
 };
 
@@ -114,6 +180,7 @@ const AirportsTable = ({ airports, loading }) => {
     );
 };
 
+let searchCounter = 0;
 const AirportsList = () => {
     const [airports, setAirports] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -124,16 +191,22 @@ const AirportsList = () => {
     const { t } = useTranslation();
 
     useEffect(() => {
+        searchCounter += 1;
+        const before = searchCounter;
         const fetchAirports = async () => {
             setError(null);
             try {
                 setLoading(true);
                 const airports = await makeCancellable(listAirports(filterData));
-                setAirports(airports.content);
+                if (searchCounter === before) {
+                    setAirports(airports.content);
+                }
             } catch (err) {
                 setError(err);
             } finally {
-                setLoading(false);
+                if (searchCounter === before) {
+                    setLoading(false);
+                }
             }
         };
         fetchAirports();
