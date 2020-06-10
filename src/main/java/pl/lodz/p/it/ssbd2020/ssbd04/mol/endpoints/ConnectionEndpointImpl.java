@@ -44,9 +44,7 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
         if (connection == null) {
             throw ConnectionException.notFound();
         }
-        ConnectionDto connectionDto = new ConnectionDto(connection);
-        connectionDto.setId(connection.getId());
-        return connectionDto;
+        return new ConnectionDto(connection);
     }
 
     @Override
