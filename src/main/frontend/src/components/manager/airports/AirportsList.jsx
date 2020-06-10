@@ -102,7 +102,7 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
                                 search(value);
                             }}
                             value={values.country}
-                            setError={setError}
+                            onError={setError}
                             clearable
                         />
                     </AlignedFormGroup>

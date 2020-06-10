@@ -1,4 +1,4 @@
-import { get, post } from './index';
+import { post } from './index';
 import { useGet } from './hooks';
 
 export const useListAirports = (filterData) => {
@@ -11,6 +11,6 @@ export const useListAirports = (filterData) => {
     return useGet(`/airports?${params.toString()}`);
 };
 
-export const getCountries = async () => get('/airports/countries');
+export const useGetCountries = () => useGet('/airports/countries', []);
 
 export const addAirport = async (data) => post('/airports', data);
