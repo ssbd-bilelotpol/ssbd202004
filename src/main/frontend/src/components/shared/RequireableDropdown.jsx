@@ -15,12 +15,24 @@ const DropdownLabel = styled(Label)`
 
 const LabeledDropdown = styled(Form.Dropdown)`
     &&& {
-        justify-content: space-between;
+        justify-content: flex-start;
         .icon {
-            left: auto !important;
-            margin-left: 0.1em !important;
+            right: auto !important;
+            left: 0 !important;
+            margin-left: 0 !important;
+        }
+        .text.default {
+            padding-left: 1em !important;
+        }
+        .text {
+            padding-left: 1em !important;
         }
         .loading {
+            .icon {
+                left: 0 !important;
+                right: auto !important;
+                margin-left: 0 !important;
+            }
             .text.filtered,
             .text.default {
                 padding-left: 1em !important;
