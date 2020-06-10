@@ -71,6 +71,6 @@ public class ConnectionDto implements Signable {
 
     @Override
     public String createMessage() {
-        return String.format("%d.%d.%d", version, source.getCode(), destination.getCode());
+        return String.format("%d.%s.%s", version, source.getCode(), destination.getCode());
     }
 }

@@ -98,4 +98,10 @@ VALUES ('Londyn', 'LDN', 'Heathrow', 'GB', 0, now(), now());
 
 -- Connections
 INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
-VALUES (-1, now(), now(), 0, 150, 1, 2);
+VALUES (-1, now(), now(), 1, 150, 1, 2);
+INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
+VALUES (-2, now(), now(), 1, 150, 2, 4);
+INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
+VALUES (-3, now(), now(), 1, 150, 1, 4);
+INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
+VALUES (-4, now(), now(), 1, 150, 3, 2);

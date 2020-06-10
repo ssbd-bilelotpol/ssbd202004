@@ -60,7 +60,7 @@ public class ConnectionController extends AbstractController {
                     .status(NOT_FOUND)
                     .build();
         }
-        return Response.ok()
+            return Response.ok()
                 .entity(connectionDto)
                 .tag(messageSigner.sign(connectionDto))
                 .build();
