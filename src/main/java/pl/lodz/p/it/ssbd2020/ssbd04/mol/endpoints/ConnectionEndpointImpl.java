@@ -19,6 +19,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Interceptors({TrackingInterceptor.class})
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -33,17 +34,17 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
     @Override
     @PermitAll
     public List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException {
-        List<ConnectionDto> connections = connectionService.find(destinationCode, sourceCode);
-        if (connections == null) {
-            throw ConnectionException.notFound();
-        }
-        return connections;
+        return connectionService.find(destinationCode, sourceCode).stream().map(ConnectionDto::new).collect(Collectors.toList());
     }
 
     @Override
     @PermitAll
     public ConnectionDto findById(Long id) throws AppBaseException {
-        return new ConnectionDto(connectionService.findById(id));
+        Connection connection = connectionService.findById(id);
+        if (connection == null) {
+            throw ConnectionException.notFound();
+        }
+        return new ConnectionDto(connection);
     }
 
     @Override

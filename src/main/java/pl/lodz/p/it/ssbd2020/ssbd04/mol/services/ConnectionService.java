@@ -41,13 +41,13 @@ public class ConnectionService {
      * @return połączenia spełniające podane kryterium
      */
     @PermitAll
-    public List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException {
+    public List<Connection> find(String destinationCode, String sourceCode) throws AppBaseException {
         if (!Utils.isNullOrEmpty(destinationCode) && !Utils.isNullOrEmpty(sourceCode)) {
-            return connectionFacade.find(airportFacade.find(destinationCode), airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
+            return connectionFacade.find(airportFacade.find(destinationCode), airportFacade.find(sourceCode));
         } else if (!Utils.isNullOrEmpty(destinationCode)) {
-            return connectionFacade.findByDestination(airportFacade.find(destinationCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
+            return connectionFacade.findByDestination(airportFacade.find(destinationCode));
         } else if (!Utils.isNullOrEmpty(sourceCode)) {
-            return connectionFacade.findBySource(airportFacade.find(sourceCode)).stream().map(ConnectionDto::new).collect(Collectors.toList());
+            return connectionFacade.findBySource(airportFacade.find(sourceCode));
         } else {
             throw ConnectionException.emptyQuery();
         }

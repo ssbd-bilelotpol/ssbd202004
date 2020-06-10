@@ -37,17 +37,10 @@ public class ConnectionController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response find(@QueryParam("destinationCode") String destinationCode, @QueryParam("sourceCode") String sourceCode) throws AppBaseException {
-        try {
-            return Response.ok()
+        return Response.ok()
                     .entity(repeat(connectionEndpoint, () -> connectionEndpoint.find(destinationCode, sourceCode)))
                     .build();
-        } catch (ConnectionException e) {
-            return Response
-                    .status(NOT_FOUND)
-                    .build();
-        }
     }
 
     /**
@@ -59,7 +52,14 @@ public class ConnectionController extends AbstractController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) throws AppBaseException {
-        ConnectionDto connectionDto = repeat(connectionEndpoint, () -> connectionEndpoint.findById(id));
+        ConnectionDto connectionDto;
+        try {
+            connectionDto = repeat(connectionEndpoint, () -> connectionEndpoint.findById(id));
+        } catch (ConnectionException e) {
+            return Response
+                    .status(NOT_FOUND)
+                    .build();
+        }
         return Response.ok()
                 .entity(connectionDto)
                 .tag(messageSigner.sign(connectionDto))
