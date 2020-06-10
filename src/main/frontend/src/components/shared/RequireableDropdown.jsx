@@ -18,14 +18,8 @@ const LabeledDropdown = styled(Form.Dropdown)`
         justify-content: flex-start;
         .icon {
             right: auto !important;
-            left: 0 !important;
+            left: auto !important;
             margin-left: 0 !important;
-        }
-        .text.default {
-            padding-left: 1em !important;
-        }
-        .text {
-            padding-left: 1em !important;
         }
         .loading {
             .icon {
