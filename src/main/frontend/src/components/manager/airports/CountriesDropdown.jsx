@@ -4,7 +4,7 @@ import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import RequireableDropdown from '../../shared/RequireableDropdown';
 import { getCountries } from '../../../api/airports';
 
-const CountriesDropdown = ({ onChange, setError }) => {
+const CountriesDropdown = ({ onChange, setError, ...props }) => {
     const { t } = useTranslation();
     const [countries, setCountries] = useState([]);
     const [isFetching, setFetching] = useState(false);
@@ -38,6 +38,7 @@ const CountriesDropdown = ({ onChange, setError }) => {
             disabled={isFetching}
             onChange={(_, _value) => onChange({ name: 'country', value: _value.value })}
             placeholder={t('Country')}
+            {...props}
         />
     );
 };

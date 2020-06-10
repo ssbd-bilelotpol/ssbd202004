@@ -113,7 +113,7 @@ const AddAirportForm = () => {
                         </AlignedFormGroup>
                         <AlignedFormGroup>
                             <Form.Input
-                                width={14}
+                                width={8}
                                 name="city"
                                 fluid
                                 placeholder={t('City')}
@@ -131,6 +131,7 @@ const AddAirportForm = () => {
                             />
                             <RequireableDropdown
                                 options={countryOptions}
+                                width={8}
                                 name="country"
                                 placeholder={t('Country')}
                                 value={values.country}

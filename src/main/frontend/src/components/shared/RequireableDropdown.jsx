@@ -54,7 +54,7 @@ const DropdownControl = ({ required, ...props }) => {
     return (
         <div style={{ position: 'relative' }}>
             {required && <DropdownLabel icon="asterisk" corner="right" />}
-            <LabeledDropdown clearable search selection {...props} />
+            <LabeledDropdown search selection {...props} />
         </div>
     );
 };

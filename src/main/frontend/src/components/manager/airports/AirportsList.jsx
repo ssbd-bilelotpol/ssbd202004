@@ -44,19 +44,18 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
             }}
             validateOnChange
         >
-            {({ errors, values, setFieldValue, handleBlur }) => (
+            {({ errors, values, setFieldValue }) => (
                 <Form>
                     <AlignedFormGroup>
                         <Form.Input
                             placeholder={t('Airport name')}
-                            width={4}
+                            width={5}
                             name="name"
                             value={values.name}
                             onChange={(event) => {
                                 setFieldValue(event.target.name, event.target.value);
                                 search({ name: event.target.name, value: event.target.value });
                             }}
-                            onBlur={handleBlur}
                             error={
                                 errors.name && {
                                     content: translate(errors.name),
@@ -66,7 +65,7 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
                         />
                         <Form.Input
                             placeholder={t('Airport code')}
-                            width={2}
+                            width={3}
                             name="code"
                             value={values.code}
                             onChange={(event) => {
@@ -97,12 +96,14 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
                             }
                         />
                         <CountriesDropdown
+                            width={3}
                             onChange={(value) => {
                                 setFieldValue(value.name, value.value);
                                 search(value);
                             }}
                             value={values.country}
                             setError={setError}
+                            clearable
                         />
                     </AlignedFormGroup>
                 </Form>
