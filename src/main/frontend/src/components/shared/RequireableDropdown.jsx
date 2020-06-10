@@ -13,11 +13,11 @@ const DropdownLabel = styled(Label)`
     }
 `;
 
-const LabeledDropdown = styled(Form.Dropdown)`
+const LabeledDropdownWithoutAsterisk = styled(Form.Dropdown)`
     &&& {
         justify-content: flex-start;
         .icon {
-            right: auto !important;
+            right: 10px !important;
             left: auto !important;
             margin-left: 0 !important;
         }
@@ -49,6 +49,16 @@ const LabeledDropdown = styled(Form.Dropdown)`
     }
 `;
 
+const LabeledDropdownWithAsterisk = styled(LabeledDropdownWithoutAsterisk)`
+    &&& {
+        .icon {
+            right: 30px !important;
+            left: auto !important;
+            margin-left: 0 !important;
+        }
+    }
+`;
+
 const StyledField = styled(Form.Field)`
     &&&.disabled {
         z-index: 99 !important;
@@ -60,7 +70,11 @@ const DropdownControl = ({ required, ...props }) => {
     return (
         <div style={{ position: 'relative' }}>
             {required && <DropdownLabel icon="asterisk" corner="right" />}
-            <LabeledDropdown search selection {...props} />
+            {required ? (
+                <LabeledDropdownWithAsterisk search selection {...props} />
+            ) : (
+                <LabeledDropdownWithoutAsterisk search selection {...props} />
+            )}
         </div>
     );
 };
