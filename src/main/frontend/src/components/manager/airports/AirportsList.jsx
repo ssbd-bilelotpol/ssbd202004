@@ -15,13 +15,13 @@ const AlignedFormGroup = styled(Form.Group)`
     }
 `;
 
-const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
+const AirportSearchBar = ({ filterData, onChange, onError }) => {
     const { t } = useTranslation();
 
     const search = (data) => {
         AirportSearchBarSchema.isValid({ [data.name]: data.value }).then((valid) => {
             if (valid || data.value === '') {
-                debounce(setFilterData, 250)({ ...filterData, [data.name]: data.value });
+                debounce(onChange, 250)({ ...filterData, [data.name]: data.value });
             }
         });
     };
@@ -102,7 +102,7 @@ const AirportSearchBar = ({ filterData, setFilterData, setError }) => {
                                 search(value);
                             }}
                             value={values.country}
-                            onError={setError}
+                            onError={onError}
                             clearable
                         />
                     </AlignedFormGroup>
@@ -188,8 +188,8 @@ const AirportsList = () => {
             <Label attached="top">{t('Search for airports')}</Label>
             <AirportSearchBar
                 filterData={filterData}
-                setFilterData={setFilterData}
-                setError={setCountriesError}
+                onChange={setFilterData}
+                onError={setCountriesError}
             />
             {error || countriesError ? (
                 <Message
