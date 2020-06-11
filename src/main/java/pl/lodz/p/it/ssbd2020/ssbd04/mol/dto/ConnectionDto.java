@@ -4,6 +4,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
 import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -15,6 +17,8 @@ public class ConnectionDto implements Signable {
     @Id
     private Long id;
 
+    @Digits(integer = 7, fraction = 2)
+    @DecimalMin("0.0")
     @NotNull
     private BigDecimal basePrice;
 

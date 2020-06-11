@@ -1,12 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.common.Utils;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AirportFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -19,7 +17,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.Utils.*;
 
 /**
  * Przetwarzanie logiki biznesowej połączeń.
@@ -42,11 +41,11 @@ public class ConnectionService {
      */
     @PermitAll
     public List<Connection> find(String destinationCode, String sourceCode) throws AppBaseException {
-        if (!Utils.isNullOrEmpty(destinationCode) && !Utils.isNullOrEmpty(sourceCode)) {
+        if (!isNullOrEmpty(destinationCode) && !isNullOrEmpty(sourceCode)) {
             return connectionFacade.find(airportFacade.find(destinationCode), airportFacade.find(sourceCode));
-        } else if (!Utils.isNullOrEmpty(destinationCode)) {
+        } else if (!isNullOrEmpty(destinationCode)) {
             return connectionFacade.findByDestination(airportFacade.find(destinationCode));
-        } else if (!Utils.isNullOrEmpty(sourceCode)) {
+        } else if (!isNullOrEmpty(sourceCode)) {
             return connectionFacade.findBySource(airportFacade.find(sourceCode));
         } else {
             throw ConnectionException.emptyQuery();

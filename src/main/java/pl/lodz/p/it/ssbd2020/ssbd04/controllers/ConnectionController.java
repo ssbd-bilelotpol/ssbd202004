@@ -14,6 +14,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.List;
+
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 /**
@@ -37,10 +39,8 @@ public class ConnectionController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response find(@QueryParam("destinationCode") String destinationCode, @QueryParam("sourceCode") String sourceCode) throws AppBaseException {
-        return Response.ok()
-                    .entity(repeat(connectionEndpoint, () -> connectionEndpoint.find(destinationCode, sourceCode)))
-                    .build();
+    public List<ConnectionDto> find(@QueryParam("destinationCode") String destinationCode, @QueryParam("sourceCode") String sourceCode) throws AppBaseException {
+        return repeat(connectionEndpoint, () -> connectionEndpoint.find(destinationCode, sourceCode));
     }
 
     /**
