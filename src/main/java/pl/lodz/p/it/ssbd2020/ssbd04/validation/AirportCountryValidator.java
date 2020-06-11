@@ -13,6 +13,9 @@ public class AirportCountryValidator implements ConstraintValidator<AirportCount
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return true;
+        }
         return Locale.getISOCountries(Locale.IsoCountryCode.PART1_ALPHA2).contains(value);
     }
 }

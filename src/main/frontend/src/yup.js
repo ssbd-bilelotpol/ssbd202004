@@ -10,6 +10,7 @@ Yup.setLocale({
         min: ({ min }) => ({ key: 'field_too_short', value: { min } }),
         max: ({ max }) => ({ key: 'field_too_long', value: { max } }),
         matches: 'incorrect_regex',
+        length: ({ length }) => ({ key: 'field_must_be', value: { length } }),
     },
     array: {
         min: ({ min }) => ({ key: 'access_levels_too_short', value: { min } }),
@@ -99,3 +100,25 @@ export const FlightSchema = Yup.object().shape(
     },
     ['departureTime', 'arrivalTime']
 );
+
+const cityRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
+const airportCodeRegex = /[a-zA-Z]{3}/;
+const airportNameRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
+
+export const AirportSchema = Yup.object().shape({
+    name: Yup.string()
+        .min(2)
+        .max(32)
+        .matches(airportNameRegex, 'incorrect_airport_name')
+        .required(),
+    code: Yup.string().length(3).matches(airportCodeRegex, 'incorrect_airport_code').required(),
+    city: Yup.string().min(2).max(32).matches(cityRegex, 'incorrect_city').required(),
+    country: Yup.string().length(2).required(),
+});
+
+export const AirportSearchBarSchema = Yup.object().shape({
+    name: Yup.string().matches(airportNameRegex, 'incorrect_airport_name'),
+    code: Yup.string().length(3).matches(airportCodeRegex, 'incorrect_airport_code'),
+    city: Yup.string().matches(cityRegex, 'incorrect_city'),
+    country: Yup.string().length(2),
+});

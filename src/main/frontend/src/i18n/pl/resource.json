@@ -130,5 +130,17 @@
     "Date": "Data",
     "Countries": "Kraje",
     "Search for flights": "Szukaj lotów",
-    "value_too_low": "Minimalna wartość to {{min}}"
+    "value_too_low": "Minimalna wartość to {{min}}",
+    "Airport name": "Nazwa lotniska",
+    "Airport code": "Kod lotniska",
+    "Action": "Akcja",
+    "Time": "Czas",
+    "From": "Od",
+    "To": "Do",
+    "Search for airports": "Wyszukaj lotnisko",
+    "No airport found": "Nie znaleziono lotniska",
+    "incorrect_airport_name": "Nieprawidłowa nazwa lotniska",
+    "incorrect_airport_code": "Nieprawidłowy kod lotniska",
+    "incorrect_city": "Nieprawidłowa nazwa miasta",
+    "field_must_be": "Pole musi mieć dokładnie {{length}} znaków"
 }

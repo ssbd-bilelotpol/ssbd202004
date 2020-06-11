@@ -10,7 +10,7 @@ public class Regex {
     public static final String SEAT_CLASS_NAME = "(?ui)^\\p{L}*'?\\p{L}+([ -]\\p{L}*'?\\p{L}+)*$";
     public static final String BENEFIT_NAME = "(?ui)^\\p{L}*'?\\p{L}+([ -]\\p{L}*'?\\p{L}+)*$";
 
-    public static final String AIRPORT_CODE = "[A-Z]{3}";
+    public static final String AIRPORT_CODE = "[a-zA-Z]{3}";
     public static final String AIRPORT_NAME = "(?ui)^\\p{L}*'?\\p{L}+([ -]\\p{L}*'?\\p{L}+)*$";
     public static final String AIRPORT_CITY = "(?ui)^[\\p{L}]+(?:[\\s-][\\p{L}]+)*$";
     public static final String AIRPORT_COUNTRY = "^[A-Z]{2}$";

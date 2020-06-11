@@ -25,7 +25,7 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
                     "AND LOWER(airport.name) LIKE LOWER(CONCAT('%', :name, '%')) AND LOWER(airport.city) LIKE LOWER(CONCAT('%', :city, '%')) " +
                     "AND LOWER(airport.country) LIKE LOWER(CONCAT('%', :country, '%'))"),
         @NamedQuery(name = "Airport.findByCode",
-                query = "SELECT airport from Airport airport WHERE airport.code = :code"),
+                query = "SELECT airport from Airport airport WHERE airport.code = UPPER(:code)"),
         @NamedQuery(name = "Airport.getUniqueCities",
             query = "SELECT DISTINCT airport.city from Airport airport"),
         @NamedQuery(name = "Airport.getUniqueCountries",
