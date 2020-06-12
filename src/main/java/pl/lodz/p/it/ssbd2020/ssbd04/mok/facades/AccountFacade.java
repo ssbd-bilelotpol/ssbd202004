@@ -21,7 +21,6 @@ import java.util.List;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.FindAccountsByName;
 
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

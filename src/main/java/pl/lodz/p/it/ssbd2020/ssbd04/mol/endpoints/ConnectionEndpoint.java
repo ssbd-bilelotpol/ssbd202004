@@ -1,8 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionQueryDto;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -12,13 +13,14 @@ import java.util.List;
  * i jest granicą transakcji aplikacyjnej dla hierarchii klas Connection.
  */
 @Local
-public interface ConnectionEndpoint {
+public interface ConnectionEndpoint extends TransactionStarter {
     /**
-     * Wyszukuje połączenia na podstawie przekazanego kryterium.
-     * @param query kryterium
+     * Wyszukuje połączenia pomiędzy lotniskami o danych kodach.
+     * @param destinationCode kod lotniska przylotu
+     * @param sourceCode kod lotniska wylotu
      * @return połączenia spełniające podane kryterium
      */
-    List<ConnectionDto> find(ConnectionQueryDto query);
+    List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException;
 
     /**
      * Zwraca połączenie o podanym identyfikatorze.
@@ -30,11 +32,11 @@ public interface ConnectionEndpoint {
 
     /**
      * Tworzy i zapisuje w bazie połączenie.
-     * @param connectionDto dane nowego połączenia
-     * @return stworzone połączenie.
+     * @param connectionCreateDto dane nowego połączenia
+     * @return stworzone połączenie
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    ConnectionDto create(ConnectionDto connectionDto) throws AppBaseException;
+    ConnectionDto create(ConnectionCreateDto connectionCreateDto) throws AppBaseException;
 
     /**
      * Usuwa połączenie o podanym identyfikatorze.

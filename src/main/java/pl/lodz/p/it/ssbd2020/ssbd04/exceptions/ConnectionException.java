@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
@@ -43,7 +42,7 @@ public class ConnectionException extends AppBaseException {
      * Tworzy wyjątek reprezentujący sytuację, w której lotnisko docelowe nie istnieje.
      * @return stworzony wyjątek
      */
-    public static ConnectionException targetAirportNotFound() {
+    public static ConnectionException destinationAirportNotFound() {
         return new ConnectionException(CONNECTION_TARGET_NOT_FOUND);
     }
 
@@ -63,5 +62,21 @@ public class ConnectionException extends AppBaseException {
      */
     public static ConnectionException inUse(Connection connection) {
         return new ConnectionException(CONNECTION_IN_USE, connection);
+    }
+
+    /**
+     * Tworzy wyjątek reprezentujący sytuację, w której relacja nie istnieje.
+     * @return stworzony wyjątek
+     */
+    public static ConnectionException notFound() {
+        return new ConnectionException(CONNECTION_NOT_FOUND);
+    }
+
+    /**
+     * Tworzy wyjątek reprezentujący sytuację, w której nie został podany żaden kod lotniska.
+     * @return stworzony wyjątek
+     */
+    public static ConnectionException emptyQuery() {
+        return new ConnectionException(CONNECTION_EMPTY_QUERY);
     }
 }
