@@ -26,6 +26,8 @@ public class ConnectionCreateDto implements Signable {
     @NotNull
     private String sourceCode;
 
+    public ConnectionCreateDto() {}
+
     public ConnectionCreateDto(BigDecimal basePrice, String sourceCode, String destinationCode) {
         this.basePrice = basePrice;
         this.destinationCode = destinationCode;

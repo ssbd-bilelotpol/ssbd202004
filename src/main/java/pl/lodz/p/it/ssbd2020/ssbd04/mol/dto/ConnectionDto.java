@@ -3,10 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
-import javax.persistence.Id;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -14,23 +10,20 @@ import java.math.BigDecimal;
  */
 public class ConnectionDto implements Signable {
 
-    @Id
     private Long id;
 
-    @Digits(integer = 7, fraction = 2)
-    @DecimalMin("0.0")
-    @NotNull
     private BigDecimal basePrice;
 
-    @NotNull
     private AirportDto destination;
 
-    @NotNull
     private AirportDto source;
 
     private Long version;
 
+    public ConnectionDto() {}
+
     public ConnectionDto(Connection connection) {
+        this.id = connection.getId();
         this.basePrice = connection.getBasePrice();
         this.destination = new AirportDto(connection.getDestination());
         this.source = new AirportDto(connection.getSource());
