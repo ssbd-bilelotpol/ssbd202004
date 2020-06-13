@@ -43,7 +43,7 @@ export default {
                 'Klasa siedzeń nie została znaleziona, mogła zostać usunięta',
             'error.seatClass.inUse': 'Klasa siedzeń jest używana przez co najmniej jedno siedzenie',
             'error.seatClass.nameTaken': 'Klasa siedzeń o takiej nazwie już istnieje',
-            'error.seatClass.benefitExists': 'Dodatek o takiej nazwie już istnieje',
+            'error.seatClass.benefitExists': 'Korzyść o takiej nazwie już istnieje',
             'error.airport.codeNotUnique': 'Kod lotniska nie jest unikatowy',
             'error.airport.notFound': 'Nie znaleziono lotniska',
             'error.airport.inUse': 'Lotnisko jest używane przez co najmniej jedno połączenie',

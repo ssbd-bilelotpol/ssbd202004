@@ -171,6 +171,34 @@ export const routes = {
                     },
                 },
             },
+            seatClasses: {
+                path: '/seatClasses',
+                breadcrumb: 'Seat classes',
+                subroutes: {
+                    list: {
+                        title: 'List seat classes',
+                        path: '/list',
+                        breadcrumb: 'List seat classes',
+                    },
+                    add: {
+                        title: 'Add seat class',
+                        path: '/add',
+                        breadcrumb: 'New seat class',
+                    },
+                    seatClass: {
+                        path: '/:name',
+                        breadcrumb: '{name|Loading}',
+                        breadcrumbLink: false,
+                        subroutes: {
+                            edit: {
+                                title: 'Edit seat class',
+                                path: '/edit',
+                                breadcrumb: 'Edit',
+                            },
+                        },
+                    },
+                },
+            },
             planes: {
                 path: '/planes',
                 breadcrumb: 'Planes',

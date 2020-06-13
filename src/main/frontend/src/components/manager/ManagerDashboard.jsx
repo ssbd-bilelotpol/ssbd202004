@@ -5,6 +5,8 @@ import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
 import AddFlight from './flights/AddFlight';
 import FlightsList from './flights/FlightsList';
+import SeatClassesList from './seatClasses/SeatClassesList';
+import AddSeatClass from './seatClasses/AddSeatClass';
 import AirportsList from './airports/AirportsList';
 import AddAirport from './airports/AddAirport';
 
@@ -63,6 +65,19 @@ const ManagerDashboard = () => {
                 },
             ],
         },
+        {
+            header: t('Seat classes'),
+            items: [
+                {
+                    name: t('List seat classes'),
+                    route: 'manager.seatClasses.list',
+                },
+                {
+                    name: t('Add seat class'),
+                    route: 'manager.seatClasses.add',
+                },
+            ],
+        },
     ];
 
     return (
@@ -85,6 +100,16 @@ const ManagerDashboard = () => {
                 </Route>
                 <Route path={route('manager.flights.add')}>
                     <AddFlight />
+                </Route>
+
+                <Route exact path={route('manager.seatClasses')}>
+                    <Redirect to={route('manager.seatClasses.list')} />
+                </Route>
+                <Route path={route('manager.seatClasses.list')}>
+                    <SeatClassesList />
+                </Route>
+                <Route path={route('manager.seatClasses.add')}>
+                    <AddSeatClass />
                 </Route>
             </Switch>
         </Dashboard>
