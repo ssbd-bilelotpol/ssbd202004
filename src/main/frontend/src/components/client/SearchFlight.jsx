@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { Container, Dropdown, Form } from 'semantic-ui-react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import { Container, Form, Input } from 'semantic-ui-react';
+import styled, { keyframes } from 'styled-components';
+import { fadeInDown } from 'react-animations';
 import { useTranslation } from 'react-i18next';
-
-const airports = [
-    { key: 'ldz', text: 'Łódź', value: 'ldz' },
-    { key: 'wwa', text: 'Warszawa', value: 'wwa' },
-    { key: 'rdm', text: 'Radom', value: 'rdm' },
-];
+import SemanticDatePicker from '../shared/Datepicker';
+import GroupedDropdown from '../shared/GroupedDropdown';
+import { useFindAirports } from '../../api/airports';
+import { useListFlightDates } from '../../api/flights';
 
 const WhiteRadio = styled(Form.Radio)`
     &&& label {
@@ -44,17 +43,71 @@ const SearchButton = styled(Form.Button)`
         background-image: none;
     }
 `;
-const BigDropdown = (props) => <Dropdown {...props} fluid options={airports} search selection />;
 
-const SearchFlight = () => {
-    const [type, setType] = useState('twoway');
+const FormGroupFadeIn = styled(Form.Group)`
+    animation: 0.3s ${keyframes(fadeInDown)};
+`;
 
-    const handleTypeChange = (e, { value }) => {
-        setType(value);
-    };
-
+const SearchFlight = ({ onSubmit }) => {
     const { t } = useTranslation();
 
+    const [type, setType] = useState('twoway');
+    const [departureQuery, setDepartureQuery] = useState('');
+    const [departureAirport, setDepartureAirport] = useState();
+    const [destinationQuery, setDestinationQuery] = useState('');
+    const [destinationAirport, setDestinationAirport] = useState();
+    const [departureDate, setDepartureDate] = useState();
+    const [returnDate, setReturnDate] = useState();
+    const [passengersCount, setPassengersCount] = useState(1);
+    const [bothSelected, setBothSelected] = useState(false);
+
+    useEffect(() => {
+        if (departureAirport && destinationAirport) {
+            setBothSelected(true);
+        }
+    }, [departureAirport, destinationAirport]);
+
+    const { data: dates } = useListFlightDates();
+    const { data: allAirports } = useFindAirports();
+
+    const filterAirports = React.useCallback(
+        (airports, query) => {
+            if (!airports || !Array.isArray(airports)) {
+                return [];
+            }
+
+            // Filter airports by query
+            const filtered = airports.filter(
+                (e) =>
+                    !query ||
+                    e.name.toLowerCase().includes(query.toLowerCase()) ||
+                    e.city.toLowerCase().includes(query.toLowerCase()) ||
+                    t(e.country).toLowerCase().includes(query.toLowerCase())
+            );
+
+            // Group airports by country
+            return filtered.reduce((rv, x) => {
+                // eslint-disable-next-line no-param-reassign
+                (rv[x.country] = rv[x.country] || []).push(x);
+                return rv;
+            }, {});
+        },
+        [t]
+    );
+
+    const departureAirports = React.useMemo(() => filterAirports(allAirports, departureQuery), [
+        allAirports,
+        departureQuery,
+        filterAirports,
+    ]);
+    const destinationAirports = React.useMemo(() => filterAirports(allAirports, destinationQuery), [
+        allAirports,
+        destinationQuery,
+        filterAirports,
+    ]);
+
+    const entryRenderer = (e) => `${e.name} - ${e.city}`;
+    const groupRenderer = (e) => t(e);
     return (
         <SearchContainer>
             <Form>
@@ -63,20 +116,108 @@ const SearchFlight = () => {
                         label={t('One way')}
                         value="oneway"
                         checked={type === 'oneway'}
-                        onChange={handleTypeChange}
+                        onChange={(e, { value }) => setType(value)}
                     />
                     <WhiteRadio
                         label={t('Return trip')}
                         value="twoway"
                         checked={type === 'twoway'}
-                        onChange={handleTypeChange}
+                        onChange={(e, { value }) => setType(value)}
                     />
                 </Form.Group>
                 <Form.Group>
-                    <GrowingField control={BigDropdown} placeholder={t('Departure')} />
-                    <GrowingField control={BigDropdown} placeholder={t('Destination')} />
-                    <SearchButton size="big">{t('Search')}</SearchButton>
+                    <GrowingField>
+                        <GroupedDropdown
+                            fluid
+                            search
+                            placeholder={t('Departure')}
+                            onSearchChange={(searchQuery) => setDepartureQuery(searchQuery)}
+                            onChange={(entry) => setDepartureAirport(entry)}
+                            groups={departureAirports}
+                            renderEntry={entryRenderer}
+                            renderGroup={groupRenderer}
+                            className="selection"
+                        />
+                    </GrowingField>
+
+                    <GrowingField>
+                        <GroupedDropdown
+                            fluid
+                            search
+                            placeholder={t('Destination')}
+                            onSearchChange={(searchQuery) => setDestinationQuery(searchQuery)}
+                            onChange={(entry) => setDestinationAirport(entry)}
+                            groups={destinationAirports}
+                            renderEntry={entryRenderer}
+                            renderGroup={groupRenderer}
+                            className="selection"
+                        />
+                    </GrowingField>
+
+                    <SearchButton
+                        size="big"
+                        style={{ visibility: !bothSelected ? 'visible' : 'hidden' }}
+                        disabled={!bothSelected || !departureDate || !returnDate}
+                    >
+                        {t('Search')}
+                    </SearchButton>
                 </Form.Group>
+                {bothSelected && (
+                    <FormGroupFadeIn>
+                        <GrowingField>
+                            <SemanticDatePicker
+                                placeholderText={t('Departure date')}
+                                selected={departureDate}
+                                endDate={returnDate}
+                                includeDates={dates}
+                                selectsStart
+                                setFieldValue={(_, value) => setDepartureDate(value)}
+                            />
+                        </GrowingField>
+                        {type === 'twoway' && (
+                            <GrowingField>
+                                <SemanticDatePicker
+                                    placeholderText={t('Return date')}
+                                    selected={returnDate}
+                                    startDate={departureDate}
+                                    minDate={departureDate}
+                                    includeDates={dates}
+                                    selectsEnd
+                                    setFieldValue={(_, value) => setReturnDate(value)}
+                                />
+                            </GrowingField>
+                        )}
+                        <GrowingField>
+                            <Input
+                                min={1}
+                                max={25}
+                                type="number"
+                                label={t('Passengers')}
+                                labelPosition="left"
+                                icon="users"
+                                value={passengersCount}
+                                onChange={(e, { value }) => setPassengersCount(+value)}
+                            />
+                        </GrowingField>
+
+                        <SearchButton
+                            onClick={() =>
+                                onSubmit({
+                                    departureAirport,
+                                    destinationAirport,
+                                    departureDate,
+                                    returnDate,
+                                    type,
+                                    passengersCount,
+                                })
+                            }
+                            size="big"
+                            disabled={!bothSelected || !departureDate || !returnDate}
+                        >
+                            {t('Search')}
+                        </SearchButton>
+                    </FormGroupFadeIn>
+                )}
             </Form>
         </SearchContainer>
     );

@@ -1,9 +1,9 @@
 import { post } from './index';
 import { useGet } from './hooks';
 
-export const useListAirports = (filterData) => {
+export const useFindAirports = (filterData) => {
     const params = new URLSearchParams(filterData);
-    Object.keys(filterData).forEach((key) => {
+    Object.keys(filterData || {}).forEach((key) => {
         if (filterData[key] === '') {
             params.delete(key);
         }

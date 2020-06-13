@@ -11,7 +11,7 @@ export const useGet = (url, defaultValue = Object) => {
 
     const fetchData = useCallback(async () => {
         setLoading(true);
-        setError();
+        setError(undefined);
         try {
             const result = await makeCancellable(get(url));
             setData(result.content);

@@ -4,7 +4,7 @@ import { Table, Button, Message, Placeholder, Form, Label } from 'semantic-ui-re
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
 import { Formik } from 'formik';
-import { useListAirports } from '../../../api/airports';
+import { useFindAirports } from '../../../api/airports';
 import { ContentCard } from '../../shared/Dashboard';
 import CountriesDropdown from './CountriesDropdown';
 import { AirportSearchBarSchema } from '../../../yup';
@@ -181,7 +181,7 @@ const AirportsList = () => {
     const [countriesError, setCountriesError] = useState(null);
     const { t } = useTranslation();
 
-    const { data, loading, error } = useListAirports(filterData);
+    const { data, loading, error } = useFindAirports(filterData);
 
     return (
         <ContentCard fluid>
