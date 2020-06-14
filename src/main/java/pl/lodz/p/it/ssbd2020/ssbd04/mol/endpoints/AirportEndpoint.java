@@ -62,9 +62,9 @@ public interface AirportEndpoint extends TransactionStarter {
 
     /**
      * Modyfikuje istniejące lotnisko.
-     * @param id identyfikator lotniska, które ma zostać zmodyfikowane
+     * @param code identyfikator lotniska, które ma zostać zmodyfikowane
      * @param airportDto dane, które mają zostać zapisane
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    void update(Long id, AirportDto airportDto) throws AppBaseException;
+    void update(String code, AirportDto airportDto) throws AppBaseException;
 }

@@ -72,7 +72,17 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
 
     @Override
     @RolesAllowed(Role.UpdateAirport)
-    public void update(Long id, AirportDto airportDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void update(String code, AirportDto airportDto) throws AppBaseException {
+        Airport airport = airportService.findByCode(code);
+        AirportDto currentAirportDto = new AirportDto(airport);
+        if (!verifyEtag(currentAirportDto)) {
+            throw AppBaseException.optimisticLock();
+        }
+
+        airport.setCountry(airportDto.getCountry());
+        airport.setCity(airportDto.getCity());
+        airport.setName(airportDto.getName());
+
+        airportService.update(airport);
     }
 }

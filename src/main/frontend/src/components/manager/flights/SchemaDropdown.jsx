@@ -5,7 +5,7 @@ import RequireableDropdown from '../../shared/RequireableDropdown';
 import { fetchAirplaneSchemasByName } from '../../../api/airplaneSchemas';
 
 let searchCounter = 0;
-const SchemaDropdown = ({ setError, required, setFieldValue, name, ...props }) => {
+const SchemaDropdown = ({ setError, asterisk, setFieldValue, name, ...props }) => {
     const [isFetching, setFetching] = useState(false);
     const [schemas, setSchemas] = useState([]);
     const makeCancellable = useCancellablePromise();
@@ -47,7 +47,7 @@ const SchemaDropdown = ({ setError, required, setFieldValue, name, ...props }) =
             onSearchChange={(_, { searchQuery }) => updateSearchQuery(searchQuery)}
             loading={isFetching}
             disabled={isFetching}
-            required={required}
+            asterisk={asterisk}
             {...props}
         />
     );

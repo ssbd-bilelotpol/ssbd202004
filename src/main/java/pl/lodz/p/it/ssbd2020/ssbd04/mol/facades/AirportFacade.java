@@ -134,7 +134,15 @@ public class AirportFacade extends AbstractFacade<Airport> {
     @Override
     @RolesAllowed({Role.UpdateAirport})
     public void edit(Airport entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            super.edit(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(Airport.CONSTRAINT_CODE)) {
+                throw AirportException.codeNotUnique(entity);
+            }
+
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override

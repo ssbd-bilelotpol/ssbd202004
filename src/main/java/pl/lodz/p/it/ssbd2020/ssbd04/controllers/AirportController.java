@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -24,6 +26,9 @@ public class AirportController extends AbstractController {
 
     @Inject
     private AirportEndpoint airportEndpoint;
+
+    @Inject
+    private MessageSigner messageSigner;
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
@@ -48,8 +53,13 @@ public class AirportController extends AbstractController {
     @GET
     @Path("/{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AirportDto findByCode(@AirportCode @Valid @PathParam("code") String code) throws AppBaseException {
-        return repeat(airportEndpoint, () -> airportEndpoint.findByCode(code));
+    public Response findByCode(@AirportCode @Valid @PathParam("code") String code) throws AppBaseException {
+        AirportDto airportDto = repeat(airportEndpoint, () -> airportEndpoint.findByCode(code));
+        return Response
+                .ok()
+                .entity(airportDto)
+                .tag(messageSigner.sign(airportDto))
+                .build();
 
     }
 
@@ -107,7 +117,7 @@ public class AirportController extends AbstractController {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(@PathParam("id") Long id, AirportDto airportDto) {
-        throw new UnsupportedOperationException();
+    public void update(@PathParam("id") @AirportCode String code, AirportDto airportDto) throws AppBaseException {
+        repeat(airportEndpoint, () -> airportEndpoint.update(code, airportDto));
     }
 }

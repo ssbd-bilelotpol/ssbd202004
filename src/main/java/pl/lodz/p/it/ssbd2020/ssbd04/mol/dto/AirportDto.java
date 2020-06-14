@@ -80,9 +80,13 @@ public class AirportDto implements Signable {
         this.city = city;
     }
 
+    public Long getVersion() {
+        return version;
+    }
+
     @Override
     public String createMessage() {
-        return String.format("%d.%d", this.version, this.code);
+        return String.format("%d.%s", this.version, this.code);
     }
 
     @Override

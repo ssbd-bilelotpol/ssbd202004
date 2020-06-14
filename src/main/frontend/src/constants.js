@@ -125,6 +125,18 @@ export const routes = {
                         path: '/add',
                         breadcrumb: 'New airport',
                     },
+                    airport: {
+                        path: '/:code',
+                        breadcrumb: '{airportName|Loading}',
+                        breadcrumbLink: false,
+                        subroutes: {
+                            edit: {
+                                path: '/edit',
+                                breadcrumb: 'Edit airport',
+                                title: 'Edit airport',
+                            },
+                        },
+                    },
                 },
             },
             relations: {

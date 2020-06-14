@@ -6,7 +6,7 @@ import { fetchConnectionsByCodes } from '../../../api/connections';
 import RequireableDropdown from '../../shared/RequireableDropdown';
 
 let searchCounter = 0;
-const ConnectionDropdown = ({ onChange, setError, required, ...props }) => {
+const ConnectionDropdown = ({ onChange, setError, asterisk, ...props }) => {
     const [isFetching, setFetching] = useState(false);
     const [connections, setConnections] = useState([]);
     const { t } = useTranslation();
@@ -55,7 +55,7 @@ const ConnectionDropdown = ({ onChange, setError, required, ...props }) => {
             onSearchChange={(_, { searchQuery }) => updateSearchQuery(searchQuery)}
             loading={isFetching}
             disabled={isFetching}
-            required={required}
+            asterisk={asterisk}
             {...props}
         />
     );

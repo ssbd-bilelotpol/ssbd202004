@@ -4,7 +4,6 @@ import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Formik } from 'formik';
 import { Message, Form, Label } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
-import * as i18nISOCountries from 'i18n-iso-countries';
 import styled from 'styled-components';
 import { addAirport } from '../../../api/airports';
 import { AirportSchema } from '../../../yup';
@@ -13,20 +12,13 @@ import { ContentCard } from '../../shared/Dashboard';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
 import { route } from '../../../routing';
 import RequireableDropdown from '../../shared/RequireableDropdown';
+import { getCountryOptions } from '../../../i18n/countries';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
         align-items: flex-end;
     }
 `;
-
-const getCountryOptions = (t) => {
-    return Object.keys(i18nISOCountries.getAlpha2Codes()).map((code) => ({
-        key: code,
-        value: code.toUpperCase(),
-        text: t(code),
-    }));
-};
 
 const AddAirportForm = () => {
     const { t } = useTranslation();
@@ -136,7 +128,7 @@ const AddAirportForm = () => {
                                 placeholder={t('Country')}
                                 value={values.country}
                                 onChange={(_, value) => setFieldValue('country', value.value)}
-                                required
+                                asterisk
                                 error={
                                     touched.country &&
                                     errors.country && {

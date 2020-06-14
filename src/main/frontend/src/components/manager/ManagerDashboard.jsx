@@ -11,6 +11,7 @@ import SeatClassesList from './seatClasses/SeatClassesList';
 import AddSeatClass from './seatClasses/AddSeatClass';
 import AirportsList from './airports/AirportsList';
 import AddAirport from './airports/AddAirport';
+import EditAirport from './airports/EditAirport';
 
 const ManagerDashboard = () => {
     const { t } = useTranslation();
@@ -87,6 +88,9 @@ const ManagerDashboard = () => {
             <Switch>
                 <Route exact path={route('manager')}>
                     <Redirect to={route('manager.flights.list')} />
+                </Route>
+                <Route path={route('manager.airports.airport.edit')}>
+                    <EditAirport />
                 </Route>
                 <Route path={route('manager.airports.list')}>
                     <AirportsList />

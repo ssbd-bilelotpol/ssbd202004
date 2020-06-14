@@ -4,10 +4,12 @@ import { Table, Button, Message, Placeholder, Form, Label } from 'semantic-ui-re
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
 import { Formik } from 'formik';
+import { Link } from 'react-router-dom';
 import { useFindAirports } from '../../../api/airports';
 import { ContentCard } from '../../shared/Dashboard';
 import CountriesDropdown from './CountriesDropdown';
 import { AirportSearchBarSchema } from '../../../yup';
+import { route } from '../../../routing';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -96,7 +98,7 @@ const AirportSearchBar = ({ filterData, onChange, onError }) => {
                             }
                         />
                         <CountriesDropdown
-                            width={3}
+                            width={4}
                             onChange={(value) => {
                                 setFieldValue(value.name, value.value);
                                 search(value);
@@ -165,7 +167,15 @@ const AirportsTable = ({ airports, loading }) => {
                                       <Table.Cell>{airport.city}</Table.Cell>
                                       <Table.Cell>{t(airport.country)}</Table.Cell>
                                       <Table.Cell textAlign="center">
-                                          <Button size="small">{t('Edit')}</Button>
+                                          <Button
+                                              size="small"
+                                              as={Link}
+                                              to={route('manager.airports.airport.edit', {
+                                                  code: airport.code,
+                                              })}
+                                          >
+                                              {t('Edit')}
+                                          </Button>
                                       </Table.Cell>
                                   </Table.Row>
                               ))}

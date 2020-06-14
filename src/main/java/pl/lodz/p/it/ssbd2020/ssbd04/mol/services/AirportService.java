@@ -100,6 +100,6 @@ public class AirportService {
      */
     @RolesAllowed(Role.UpdateAirport)
     public void update(Airport airport) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        airportFacade.edit(airport);
     }
 }

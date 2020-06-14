@@ -66,11 +66,11 @@ const StyledField = styled(Form.Field)`
     }
 `;
 
-const DropdownControl = ({ required, ...props }) => {
+const DropdownControl = ({ asterisk, ...props }) => {
     return (
         <div style={{ position: 'relative' }}>
-            {required && <DropdownLabel icon="asterisk" corner="right" />}
-            {required ? (
+            {asterisk && <DropdownLabel icon="asterisk" corner="right" />}
+            {asterisk ? (
                 <LabeledDropdownWithAsterisk search selection {...props} />
             ) : (
                 <LabeledDropdownWithoutAsterisk search selection {...props} />

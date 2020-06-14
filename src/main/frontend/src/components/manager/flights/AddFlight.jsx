@@ -156,7 +156,7 @@ const FlightAddForm = () => {
                                 }}
                                 setError={setError}
                                 onBlur={handleBlur}
-                                required
+                                asterisk
                                 error={
                                     touched.connection &&
                                     errors.connection && {
@@ -172,7 +172,7 @@ const FlightAddForm = () => {
                             value={values.airplaneSchema}
                             setFieldValue={setFieldValue}
                             setError={setError}
-                            required
+                            asterisk
                             error={
                                 touched.airplaneSchema &&
                                 errors.airplaneSchema && {
