@@ -11,6 +11,7 @@ import SeatClassesList from './seatClasses/SeatClassesList';
 import AddSeatClass from './seatClasses/AddSeatClass';
 import AirportsList from './airports/AirportsList';
 import AddAirport from './airports/AddAirport';
+import EditSeatClass from './seatClasses/EditSeatClass';
 import EditAirport from './airports/EditAirport';
 
 const ManagerDashboard = () => {
@@ -121,6 +122,9 @@ const ManagerDashboard = () => {
                 </Route>
                 <Route path={route('manager.seatClasses.add')}>
                     <AddSeatClass />
+                </Route>
+                <Route path={route('manager.seatClasses.seatClass.edit')}>
+                    <EditSeatClass />
                 </Route>
             </Switch>
         </Dashboard>

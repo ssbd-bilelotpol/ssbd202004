@@ -19,6 +19,9 @@ const SeatClassTable = ({ seatClasses, loading }) => {
                         <Table.HeaderCell width={2} rowSpan="2" textAlign="center">
                             {t('Price')}
                         </Table.HeaderCell>
+                        <Table.HeaderCell width={2} rowSpan="2" textAlign="center">
+                            {t('Color')}
+                        </Table.HeaderCell>
                         <Table.HeaderCell width={1} rowSpan="2" textAlign="center" />
                     </Table.Row>
                 </Table.Header>
@@ -26,7 +29,7 @@ const SeatClassTable = ({ seatClasses, loading }) => {
                     {loading
                         ? [...Array(5).keys()].map((value) => (
                               <Table.Row key={value}>
-                                  {[...Array(2).keys()].map((value) => (
+                                  {[...Array(3).keys()].map((value) => (
                                       <Table.Cell key={value}>
                                           <Placeholder>
                                               <Placeholder.Paragraph>
@@ -43,6 +46,9 @@ const SeatClassTable = ({ seatClasses, loading }) => {
                               <Table.Row key={seatClass.name} disabled={loading}>
                                   <Table.Cell>{seatClass.name}</Table.Cell>
                                   <Table.Cell>{seatClass.price} PLN</Table.Cell>
+                                  <Table.Cell textAlign="center">
+                                      <Label circular color={seatClass.color.toLowerCase()} empty />
+                                  </Table.Cell>
                                   <Table.Cell textAlign="center">
                                       <Button
                                           as={Link}

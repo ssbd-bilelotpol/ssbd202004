@@ -1,11 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mok.dto.AccountDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.SeatClassEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.ReCAPTCHAService;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
 import javax.inject.Inject;
@@ -104,8 +104,13 @@ public class SeatClassController extends AbstractController {
      */
     @PUT
     @Path("/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(@NotNull @PathParam("name") String name, @NotNull @Valid SeatClassDto seatClassDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public Response update(@NotNull @PathParam("name") String name, @NotNull @Valid SeatClassDto seatClassDto) throws AppBaseException {
+        SeatClassDto seatClassEditDto = repeat(seatClassEndpoint, () -> seatClassEndpoint.update(seatClassDto));
+        return Response.ok()
+                .entity(seatClassEditDto)
+                .tag(messageSigner.sign(seatClassEditDto))
+                .build();
     }
 }

@@ -2,11 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatClassException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -83,8 +80,13 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     @Override
     @RolesAllowed(Role.UpdateSeatClass)
     public void edit(SeatClass entity) throws AppBaseException {
-        // throws: SeatClassNameTaken
-        // throws: BenefitAlreadyExists
-        throw new UnsupportedOperationException();
+        try {
+            super.edit(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(Benefit.CONSTRAINT_NAME)) {
+                throw SeatClassException.benefitExists(entity);
+            }
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 }

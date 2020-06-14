@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatClassException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.BenefitFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.SeatClassFacade;
@@ -15,6 +16,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Set;
 
@@ -67,14 +69,13 @@ public class SeatClassService {
      * Tworzy nową klasę miejsc.
      *
      * @param seatClass dane klasy miejsc.
-     * @param benefits  lista dodatków.
+     * @param existingBenefits  lista dodatków.
      * @return utworzoną klasę miejsc.
      * @throws AppBaseException gdy nazwa klasy miejsc jest już zajęta, bądź operacja nie powiodła się.
      */
     @RolesAllowed(Role.CreateSeatClass)
-    public SeatClass create(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
-        seatClass.setBenefits(benefits);
-        seatClassFacade.create(seatClass);
+    public SeatClass create(SeatClass seatClass, Set<Benefit> existingBenefits) throws AppBaseException {
+        seatClassFacade.create(addExistingBenefits(seatClass, existingBenefits));
         return seatClass;
     }
 
@@ -96,7 +97,16 @@ public class SeatClassService {
      * @throws AppBaseException gdy klasa miejsc nie istnieje, bądź operacja nie powiodła się.
      */
     @RolesAllowed(Role.UpdateSeatClass)
-    public void update(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public SeatClass update(SeatClass seatClass, Set<Benefit> existingBenefits) throws AppBaseException {
+        seatClassFacade.edit(addExistingBenefits(seatClass, existingBenefits));
+        return seatClass;
+    }
+
+    private SeatClass addExistingBenefits(SeatClass seatClass, Set<Benefit> benefits) throws AppBaseException {
+        for (Benefit b : benefits) {
+            Benefit benefit = benefitFacade.findByName(b.getName());
+            seatClass.getBenefits().add(benefit);
+        }
+        return seatClass;
     }
 }

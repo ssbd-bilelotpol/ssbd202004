@@ -12,6 +12,22 @@ export const roleColors = {
     client: '',
 };
 
+export const seatClassColors = [
+    'RED',
+    'ORANGE',
+    'YELLOW',
+    'OLIVE',
+    'GREEN',
+    'TEAL',
+    'BLUE',
+    'VIOLET',
+    'PURPLE',
+    'PINK',
+    'BROWN',
+    'GREY',
+    'BLACK',
+];
+
 export const errors = {
     api: {
         connection: 'error.rest.connection',

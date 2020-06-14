@@ -60,5 +60,5 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * @param seatClassDto dane klasy miejsc.
      * @throws AppBaseException gdy wystąpił problem konkurencyjnej modyfikacji, klasa miejsc nie istnieje, bądź operacja nie powiodła się.
      */
-    void update(SeatClassDto seatClassDto) throws AppBaseException;
+    SeatClassDto update(SeatClassDto seatClassDto) throws AppBaseException;
 }

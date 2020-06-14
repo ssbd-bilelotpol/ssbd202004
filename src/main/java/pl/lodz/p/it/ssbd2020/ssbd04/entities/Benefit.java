@@ -15,6 +15,10 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit.CONSTRAINT_NAME;
 /**
  * Informacje o możliwych do wykupienia benefitach
  */
+@NamedQueries({
+        @NamedQuery(name = "Benefit.findByName",
+                query = "SELECT benefit FROM Benefit benefit WHERE benefit.name = :name")
+})
 @Entity
 @Table(
         uniqueConstraints = {

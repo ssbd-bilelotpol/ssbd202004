@@ -141,6 +141,7 @@ export const SeatClassSchema = Yup.object().shape({
         .max(30)
         .required()
         .matches(seatClassRegex, 'incorrect_seatClass_name'),
+    color: Yup.string().required(),
     price: Yup.number().required().min(0.01),
     benefits: Yup.array().of(
         Yup.object().shape({

@@ -30,6 +30,8 @@ public class SeatClassDto implements Signable {
 
     private Long version;
 
+    private Set<BenefitDto> existingBenefits;
+
     private SeatClassColor color;
 
     public SeatClassDto() {
@@ -66,6 +68,18 @@ public class SeatClassDto implements Signable {
 
     public void setBenefits(Set<BenefitDto> benefits) {
         this.benefits = benefits;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public Set<BenefitDto> getExistingBenefits() {
+        return existingBenefits;
+    }
+
+    public void setExistingBenefits(Set<BenefitDto> existingBenefits) {
+        this.existingBenefits = existingBenefits;
     }
 
     public SeatClassColor getColor() {
