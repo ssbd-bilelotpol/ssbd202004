@@ -41,6 +41,11 @@ public class SeatClass extends AbstractEntity implements Serializable {
     @SeatClassName
     private String name;
 
+    @NotNull
+    @Column(nullable = false, length = 64)
+    @Enumerated(EnumType.STRING)
+    private SeatClassColor color;
+
     @Digits(integer = 7, fraction = 2)
     @NotNull
     @Column(precision = 7, scale = 2, nullable = false)
@@ -101,6 +106,14 @@ public class SeatClass extends AbstractEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public SeatClassColor getColor() {
+        return color;
+    }
+
+    public void setColor(SeatClassColor color) {
+        this.color = color;
     }
 
     @Override

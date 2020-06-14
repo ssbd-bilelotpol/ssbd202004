@@ -85,12 +85,12 @@ VALUES (null, null, null, null, 0, now(), now(), 0, -6);
 
 --SeatClasses
 
-INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
-VALUES ('Klasa ekonomiczna', 100.00, now(), null, -1, 0);
-INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
-VALUES ('Klasa premium', 200.00, now(), null, -1, 0);
-INSERT INTO seat_class (name, price, creation_date_time, modification_date_time,  created_by, version)
-VALUES ('Klasa biznes', 300.00, now(), null, -1, 0);
+INSERT INTO seat_class (name, price, color, creation_date_time, modification_date_time,  created_by, version)
+VALUES ('Klasa ekonomiczna', 100.00, 'BLUE', now(), null, -1, 0);
+INSERT INTO seat_class (name, price, color, creation_date_time, modification_date_time,  created_by, version)
+VALUES ('Klasa premium', 200.00, 'RED', now(), null, -1, 0);
+INSERT INTO seat_class (name, price, color, creation_date_time, modification_date_time,  created_by, version)
+VALUES ('Klasa biznes', 300.00, 'PURPLE', now(), null, -1, 0);
 
 --Benefits
 

@@ -261,6 +261,7 @@ CREATE TABLE seat_class
     version                bigint,
     name                   character varying(30)       NOT NULL,
     price                  numeric(9, 2)               NOT NULL,
+    color                  character varying(64)       NOT NULL,
     created_by             bigint,
     modified_by            bigint
 );

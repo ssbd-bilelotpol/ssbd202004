@@ -24,6 +24,7 @@ const loginRegex = /^[a-zA-Z0-9]+([-._][a-zA-Z0-9])*$/iu;
 const nameRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
 const lastNameRegex = /^\p{L}*'?\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
 const phoneRegex = /^\+?[0-9]+$/;
+const planeRegex = /^[\p{L}0-9-](\s?[\p{L}0-9-])*$/iu;
 const seatClassRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
 const benefitRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
 const cityRegex = /^\p{L}+([ -]\p{L}*'?\p{L}+)*$/iu;
@@ -105,6 +106,16 @@ export const FlightSchema = Yup.object().shape(
     },
     ['departureTime', 'arrivalTime']
 );
+
+export const PlaneSchema = Yup.object().shape({
+    name: Yup.string().min(5).max(60).required().matches(planeRegex, 'incorrect_plane_name'),
+    plane: Yup.object().shape({
+        columns: Yup.number().required().min(2),
+        rows: Yup.number().required().min(3),
+        emptyColumns: Yup.array().optional(),
+        emptyRows: Yup.array().optional(),
+    }),
+});
 
 export const AirportSchema = Yup.object().shape({
     name: Yup.string()

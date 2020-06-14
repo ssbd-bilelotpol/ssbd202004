@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClassColor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
@@ -29,6 +30,8 @@ public class SeatClassDto implements Signable {
 
     private Long version;
 
+    private SeatClassColor color;
+
     public SeatClassDto() {
     }
 
@@ -38,6 +41,7 @@ public class SeatClassDto implements Signable {
         this.version = seatClass.getVersion();
         this.benefits = seatClass.getBenefits().stream()
                 .map(b -> new BenefitDto(b)).collect(Collectors.toSet());
+        this.color = seatClass.getColor();
     }
 
     public String getName() {
@@ -62,6 +66,14 @@ public class SeatClassDto implements Signable {
 
     public void setBenefits(Set<BenefitDto> benefits) {
         this.benefits = benefits;
+    }
+
+    public SeatClassColor getColor() {
+        return color;
+    }
+
+    public void setColor(SeatClassColor color) {
+        this.color = color;
     }
 
     @Override

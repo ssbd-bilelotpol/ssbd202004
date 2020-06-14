@@ -5,6 +5,8 @@ import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
 import AddFlight from './flights/AddFlight';
 import FlightsList from './flights/FlightsList';
+import AddPlane from './planes/AddPlane';
+import PlanesList from './planes/PlanesList';
 import SeatClassesList from './seatClasses/SeatClassesList';
 import AddSeatClass from './seatClasses/AddSeatClass';
 import AirportsList from './airports/AirportsList';
@@ -101,7 +103,12 @@ const ManagerDashboard = () => {
                 <Route path={route('manager.flights.add')}>
                     <AddFlight />
                 </Route>
-
+                <Route path={route('manager.planes.add')}>
+                    <AddPlane />
+                </Route>
+                <Route path={route('manager.planes.list')}>
+                    <PlanesList />
+                </Route>
                 <Route exact path={route('manager.seatClasses')}>
                     <Redirect to={route('manager.seatClasses.list')} />
                 </Route>

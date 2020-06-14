@@ -213,6 +213,18 @@ export const routes = {
                         path: '/add',
                         breadcrumb: 'New plane',
                     },
+                    plane: {
+                        path: '/:id',
+                        breadcrumb: '{id|Loading}',
+                        breadcrumbLink: false,
+                        subroutes: {
+                            edit: {
+                                title: 'Edit plane',
+                                path: '/edit',
+                                breadcrumb: 'Edit',
+                            },
+                        },
+                    },
                 },
             },
         },

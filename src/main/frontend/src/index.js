@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
+import 'rc-slider/assets/index.css';
 import './i18n/i18n';
 import './index.css';
 import App from './App';

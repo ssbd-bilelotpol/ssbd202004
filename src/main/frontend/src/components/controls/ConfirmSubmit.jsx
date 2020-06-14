@@ -18,7 +18,9 @@ const ConfirmSubmit = (props) => {
 
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
-    const onConfirm = () => {
+    const onConfirm = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         onSubmit();
         hide();
     };

@@ -148,6 +148,13 @@
     "Countries": "Kraje",
     "Search for flights": "Szukaj lotów",
     "value_too_low": "Minimalna wartość to {{min}}",
+    "Columns": "Liczba kolumn",
+    "Rows": "Liczba rzędów",
+    "Active seat class": "Aktywna klasa miejsc",
+    "Airplane name": "Nazwa samolotu",
+    "Search for planes": "Szukaj samolotu",
+    "No such plane": "Samolot nie istnieje",
+    "Name": "Nazwa",
     "Airport name": "Nazwa lotniska",
     "Airport code": "Kod lotniska",
     "Action": "Akcja",
@@ -159,5 +166,6 @@
     "incorrect_airport_name": "Nieprawidłowa nazwa lotniska",
     "incorrect_airport_code": "Nieprawidłowy kod lotniska",
     "incorrect_city": "Nieprawidłowa nazwa miasta",
-    "field_must_be": "Pole musi mieć dokładnie {{length}} znaków"
+    "field_must_be": "Pole musi mieć dokładnie {{length}} znaków",
+    "incorrect_plane_name": "Nieprawidłowa nazwa samolotu"
 }
