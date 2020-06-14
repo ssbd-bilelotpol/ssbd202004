@@ -55,10 +55,10 @@ public interface AirportEndpoint extends TransactionStarter {
 
     /**
      * Usuwa lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska do usunięcia
+     * @param code identyfikator lotniska do usunięcia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    void delete(Long id) throws AppBaseException;
+    void delete(String code) throws AppBaseException;
 
     /**
      * Modyfikuje istniejące lotnisko.

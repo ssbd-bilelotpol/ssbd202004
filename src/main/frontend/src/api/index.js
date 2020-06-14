@@ -53,3 +53,12 @@ export async function put(url, body, etag) {
         },
     }).then((result) => result.content);
 }
+
+export async function httpDelete(url, etag) {
+    return api(url, {
+        method: 'DELETE',
+        headers: {
+            'If-Match': etag,
+        },
+    }).then((result) => result.content);
+}

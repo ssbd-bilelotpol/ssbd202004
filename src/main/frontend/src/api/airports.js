@@ -1,4 +1,4 @@
-import { post, put } from './index';
+import { post, put, httpDelete } from './index';
 import { useGet } from './hooks';
 
 export const useFindAirports = (filterData) => {
@@ -18,3 +18,5 @@ export const addAirport = async (data) => post('/airports', data);
 export const useAirport = (code) => useGet(`/airports/${code}`);
 
 export const updateAirport = (code, data, etag) => put(`/airports/${code}`, data, etag);
+
+export const deleteAirport = (code, etag) => httpDelete(`/airports/${code}`, etag);

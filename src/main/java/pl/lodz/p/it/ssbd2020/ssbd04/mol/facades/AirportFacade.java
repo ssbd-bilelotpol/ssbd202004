@@ -1,10 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
+import org.apache.http.annotation.Contract;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -148,6 +150,15 @@ public class AirportFacade extends AbstractFacade<Airport> {
     @Override
     @RolesAllowed({Role.DeleteAirport})
     public void remove(Airport entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            super.remove(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(Airport.CONSTRAINT_DST_IN_USE)
+                    || e.getConstraintName().equals(Airport.CONSTRAINT_SRC_IN_USE)) {
+                throw AirportException.inUse();
+            }
+
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 }

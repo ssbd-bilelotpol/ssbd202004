@@ -66,8 +66,14 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
 
     @Override
     @RolesAllowed(Role.DeleteAirport)
-    public void delete(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void delete(String code) throws AppBaseException {
+        Airport airport = airportService.findByCode(code);
+        AirportDto dto = new AirportDto(airport);
+        if (!verifyEtag(dto)) {
+            throw AppBaseException.optimisticLock();
+        }
+
+        airportService.delete(airport);
     }
 
     @Override

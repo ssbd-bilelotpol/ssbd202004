@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Label, Button, Transition } from 'semantic-ui-react';
+import { Label, Button, Transition, Icon } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -11,7 +11,17 @@ const ExtendingButton = styled(Button)`
 `;
 
 const ConfirmSubmit = (props) => {
-    const { onSubmit, confirmMessage, cancelText, confirmText, children } = props;
+    const {
+        onSubmit,
+        confirmMessage,
+        cancelText,
+        confirmText,
+        children,
+        labelPosition,
+        negative,
+        icon,
+        ...otherProps
+    } = props;
     const { t } = useTranslation();
 
     const [visible, setVisible] = useState(false);
@@ -33,7 +43,10 @@ const ConfirmSubmit = (props) => {
                     onClick={visible ? hide : show}
                     data-extended={visible}
                     {...props}
+                    negative={!visible && negative}
+                    labelPosition={icon && 'left'}
                 >
+                    {icon && <Icon name={icon} />}
                     {visible ? cancelText || t('Cancel') : children || t('Save')}
                 </ExtendingButton>
 
@@ -41,7 +54,7 @@ const ConfirmSubmit = (props) => {
                     <Button.Or text={t('or')} />
                 </Transition>
                 <Transition visible={visible} animation="fade right" duration={500}>
-                    <Button positive onClick={onConfirm} type="submit" {...props}>
+                    <Button {...otherProps} positive onClick={onConfirm} type="submit">
                         {confirmText || t('Confirm')}
                     </Button>
                 </Transition>

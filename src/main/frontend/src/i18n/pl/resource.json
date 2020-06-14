@@ -171,5 +171,6 @@
     "Airport details": "Dane lotniska",
     "Airport updated successfully": "Dane lotniska pomyślnie zaktualizowane",
     "Edit airport": "Edytuj lotnisko",
-    "incorrect_plane_name": "Nieprawidłowa nazwa samolotu"
+    "incorrect_plane_name": "Nieprawidłowa nazwa samolotu",
+    "Delete": "Usuń"
 }

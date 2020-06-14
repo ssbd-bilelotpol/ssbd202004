@@ -39,6 +39,8 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
 )
 public class Airport extends AbstractEntity implements Serializable {
     public static final String CONSTRAINT_CODE = "airport_code_unique";
+    public static final String CONSTRAINT_SRC_IN_USE = "connection_airport_src_fk";
+    public static final String CONSTRAINT_DST_IN_USE = "connection_airport_dst_fk";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

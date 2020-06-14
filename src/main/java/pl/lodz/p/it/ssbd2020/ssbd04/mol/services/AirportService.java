@@ -90,7 +90,7 @@ public class AirportService {
      */
     @RolesAllowed(Role.DeleteAirport)
     public void delete(Airport airport) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        airportFacade.remove(airport);
     }
 
     /**

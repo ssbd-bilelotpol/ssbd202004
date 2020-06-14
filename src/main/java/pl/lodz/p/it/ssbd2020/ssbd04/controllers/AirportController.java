@@ -101,12 +101,12 @@ public class AirportController extends AbstractController {
 
     /**
      * Usuwa lotnisko o podanym identyfikatorze.
-     * @param id identyfikator lotniska do usunięcia.
+     * @param code identyfikator lotniska do usunięcia.
      */
     @DELETE
-    @Path("/{id}")
-    public void delete(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    @Path("/{code}")
+    public void delete(@PathParam("code") @AirportCode String code) throws AppBaseException {
+        repeat(airportEndpoint, () -> airportEndpoint.delete(code));
     }
 
     /**
