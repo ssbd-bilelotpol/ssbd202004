@@ -23,6 +23,15 @@ public interface ConnectionEndpoint extends TransactionStarter {
     List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException;
 
     /**
+     * Wszykuje połączenie na podstawie frazy.
+     * @param phrase fraza do szukania(np. WSZ - LDZ)
+     * @return znalezione połączenia
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
+    List<ConnectionDto> findByPhrase(String phrase) throws AppBaseException;
+
+
+    /**
      * Zwraca połączenie o podanym identyfikatorze.
      * @param id identyfikator połączenia
      * @return połączenie o podanym identyfikatorze

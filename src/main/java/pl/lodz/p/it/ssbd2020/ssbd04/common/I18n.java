@@ -48,8 +48,8 @@ public class I18n {
     public static final String CONNECTION_SOURCE_NOT_FOUND = "error.connection.sourceNotFound";
     public static final String CONNECTION_IN_USE = "error.connection.inUse";
     public static final String CONNECTION_NOT_FOUND = "error.connection.notFound";
-    public static final String CONNECTION_EMPTY_QUERY = "error.connection.emptyQuery";
     public static final String FLIGHT_EXISTS = "error.flight.exists";
+    public static final String FLIGHT_NOT_FOUND = "error.flight.notFound";
 
     public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
     public static final String ACCOUNT_REGISTER_MAIL_CONTENT = "account.register.mail.content";

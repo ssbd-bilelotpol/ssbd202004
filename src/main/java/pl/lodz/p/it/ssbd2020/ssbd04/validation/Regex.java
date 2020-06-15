@@ -14,4 +14,6 @@ public class Regex {
     public static final String AIRPORT_NAME = "(?ui)^\\p{L}*'?\\p{L}+([ -]\\p{L}*'?\\p{L}+)*$";
     public static final String AIRPORT_CITY = "(?ui)^[\\p{L}]+(?:[\\s-][\\p{L}]+)*$";
     public static final String AIRPORT_COUNTRY = "^[A-Z]{2}$";
+
+    public static final String FLIGHT_CODE = "^[A-Za-z0-9]{5}$";
 }

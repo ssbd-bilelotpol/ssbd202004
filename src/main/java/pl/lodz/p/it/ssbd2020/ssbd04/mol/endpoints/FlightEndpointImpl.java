@@ -1,9 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirplaneSchemaService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.ConnectionService;
@@ -18,14 +23,16 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Interceptors({TrackingInterceptor.class})
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @Stateful
-public class FlightEndpointImpl implements FlightEndpoint {
+public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoint {
     @Inject
-    private FlightService fightService;
+    private FlightService flightService;
     @Inject
     private ConnectionService connectionService;
     @Inject
@@ -35,20 +42,37 @@ public class FlightEndpointImpl implements FlightEndpoint {
 
     @Override
     @PermitAll
-    public List<FlightDto> find(FlightQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<FlightDto> find(String code, Long connection, Long airplane,
+                                LocalDateTime from, LocalDateTime to) throws AppBaseException {
+        return flightService.find(code,
+                connection,
+                airplane,
+                from,
+                to)
+                .stream()
+                .map(FlightDto::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     @PermitAll
-    public FlightDto findById(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public FlightDto findByCode(String code) throws AppBaseException {
+        return new FlightDto(flightService.findByCode(code));
     }
 
     @Override
     @RolesAllowed(Role.CreateFlight)
-    public FlightDto create(FlightDto flightDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public FlightDto create(FlightCreateDto flightDto) throws AppBaseException {
+        Flight flight = new Flight(flightDto.getFlightCode(),
+                flightDto.getPrice(),
+                null,
+                null,
+                flightDto.getDepartureTime(),
+                flightDto.getArrivalTime(),
+                FlightStatus.ACTIVE);
+        Connection connection = connectionService.findById(flightDto.getConnectionId());
+        AirplaneSchema airplaneSchema = schemaService.findById(flightDto.getAirplaneSchemaId());
+        return new FlightDto(flightService.create(flight, connection, airplaneSchema));
     }
 
     @Override

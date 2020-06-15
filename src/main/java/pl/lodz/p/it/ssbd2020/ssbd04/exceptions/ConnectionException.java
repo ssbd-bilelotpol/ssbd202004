@@ -71,12 +71,4 @@ public class ConnectionException extends AppBaseException {
     public static ConnectionException notFound() {
         return new ConnectionException(CONNECTION_NOT_FOUND);
     }
-
-    /**
-     * Tworzy wyjątek reprezentujący sytuację, w której nie został podany żaden kod lotniska.
-     * @return stworzony wyjątek
-     */
-    public static ConnectionException emptyQuery() {
-        return new ConnectionException(CONNECTION_EMPTY_QUERY);
-    }
 }

@@ -57,7 +57,8 @@ public class AirplaneSchemaService {
      */
     @PermitAll
     public AirplaneSchema findById(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        // TODO: implement properly
+        return airplaneSchemaFacade.find(id);
     }
 
     /**

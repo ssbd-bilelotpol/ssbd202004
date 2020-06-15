@@ -15,6 +15,10 @@ import java.util.Objects;
  * Informacje o konkretnym locie, połączeniu, którego jest częścią, kodzie lotu, samolocie oraz dacie początku i końca
  * przelotu
  */
+@NamedQueries({
+        @NamedQuery(name = "Flight.findByCode",
+                query = "SELECT flight from Flight flight WHERE flight.flightCode = :code"),
+})
 @Entity
 @Table(
         indexes = {

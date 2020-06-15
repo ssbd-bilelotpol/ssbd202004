@@ -1,10 +1,15 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
+import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Utils;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight_;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.FlightException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -13,8 +18,13 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,7 +48,14 @@ public class FlightFacade extends AbstractFacade<Flight> {
     @RolesAllowed(Role.CreateFlight)
     @Override
     public void create(Flight entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            super.create(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(Flight.CONSTRAINT_FLIGHT_CODE)) {
+                throw FlightException.exists();
+            }
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override
@@ -49,18 +66,54 @@ public class FlightFacade extends AbstractFacade<Flight> {
 
     @Override
     @PermitAll
-    public Flight find(Object id) {
-        throw new UnsupportedOperationException();
+    public Flight find(Object code) throws AppBaseException {
+        try {
+            TypedQuery<Flight> flightTypedQuery = em.createNamedQuery("Flight.findByCode", Flight.class);
+            flightTypedQuery.setParameter("code", code);
+            return flightTypedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw FlightException.notFound();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**
      * Zwraca wszystkie loty spełniające podane kryteria.
-     * @param query kryteria
+     * @param code kod lotu
+     * @param connection połączenie
+     * @param airplaneSchema schemat samolotu
+     * @param from data, po której zaczyna się lot
+     * @param to data, przed którą zaczyna się lot
      * @return lista lotów spełniających podane kryteria.
      */
     @PermitAll
-    public List<Flight> find(FlightQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<Flight> find(String code, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime from,
+                             LocalDateTime to) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Flight> query = builder.createQuery(Flight.class);
+        Root<Flight> root = query.from(Flight.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(!Utils.isNullOrEmpty(code)) {
+            predicates.add(builder.like(root.get(Flight_.flightCode), code+"%"));
+        }
+        if(connection != null) {
+            predicates.add(builder.equal(root.get(Flight_.connection), connection));
+        }
+        if(airplaneSchema != null) {
+            predicates.add(builder.equal(root.get(Flight_.airplaneSchema), airplaneSchema));
+        }
+        if(from != null) {
+            predicates.add(builder.greaterThanOrEqualTo(root.get(Flight_.startDateTime), from));
+        }
+        if(to != null) {
+            predicates.add(builder.lessThanOrEqualTo(root.get(Flight_.startDateTime), to));
+        }
+        query.where(builder.and(predicates.toArray(new Predicate[0])));
+        query.select(root);
+
+        TypedQuery<Flight> typedQuery = em.createQuery(query);
+        return typedQuery.getResultList();
     }
 
     @Override

@@ -6,7 +6,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AirplaneSchemaFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.FlightFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -17,6 +18,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,26 +32,47 @@ import java.util.List;
 public class FlightService {
     @Inject
     private FlightFacade flightFacade;
+    @Inject
+    private ConnectionFacade connectionFacade;
+    @Inject
+    private AirplaneSchemaFacade airplaneSchemaFacade;
 
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
-     * @param query kryterium
+     * @param code kod lotu
+     * @param connectionId id połączenia
+     * @param airplaneId id lotniska
+     * @param from data, po której wylatuje lot
+     * @param to dat, przed którą wylatuje lot
      * @return loty spełniające podane kryterium
      */
     @PermitAll
-    public List<Flight> find(FlightQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<Flight> find(String code, Long connectionId, Long airplaneId, LocalDateTime from, LocalDateTime to)
+            throws AppBaseException {
+        Connection connection = null;
+        AirplaneSchema airplaneSchema = null;
+        if(connectionId != null) {
+            connection = connectionFacade.find(connectionId);
+            if(connection == null)
+                return new ArrayList<>();
+        }
+        if(airplaneId != null) {
+            airplaneSchema = airplaneSchemaFacade.find(airplaneId);
+            if(airplaneSchema == null)
+                return new ArrayList<>();
+        }
+        return flightFacade.find(code, connection, airplaneSchema, from, to);
     }
 
     /**
      * Zwraca loty o podanym identyfikatorze.
-     * @param id identyfikator lotu
+     * @param code identyfikator lotu
      * @return lot o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @PermitAll
-    public Flight findById(Long id) {
-        throw new UnsupportedOperationException();
+    public Flight findByCode(String code) throws AppBaseException {
+        return flightFacade.find(code);
     }
 
     /**
@@ -61,7 +85,10 @@ public class FlightService {
      */
     @RolesAllowed(Role.CreateFlight)
     public Flight create(Flight flight, Connection connection, AirplaneSchema airplaneSchema) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        flight.setConnection(connection);
+        flight.setAirplaneSchema(airplaneSchema);
+        flightFacade.create(flight);
+        return flight;
     }
 
     /**

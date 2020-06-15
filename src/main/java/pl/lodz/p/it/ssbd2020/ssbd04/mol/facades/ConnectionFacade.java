@@ -4,7 +4,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -14,7 +13,10 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Interceptors({TrackingInterceptor.class})
@@ -47,14 +49,31 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     @Override
     @PermitAll
-    public List<Connection> findAll() {
-        throw new UnsupportedOperationException();
+    public List<Connection> findAll() throws AppBaseException {
+        return super.findAll();
     }
 
     @Override
     @PermitAll
     public Connection find(Object id) throws AppBaseException {
         return super.find(id);
+    }
+
+    /**
+     * Wszykuje połączenie na podstawie frazy.
+     * @param phrase fraza do szukania(np. WSZ - LDZ)
+     * @return znalezione połączenia
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
+    @PermitAll
+    public List<Connection> findByPhrase(String phrase) throws AppBaseException {
+        try {
+            TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findByPhrase", Connection.class);
+            connectionTypedQuery.setParameter("phrase", phrase);
+            return connectionTypedQuery.getResultList();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**
@@ -71,8 +90,6 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
             connectionTypedQuery.setParameter("destinationId", destination.getId());
             connectionTypedQuery.setParameter("sourceId", source.getId());
             return connectionTypedQuery.getResultList();
-        } catch(NoResultException e) {
-            throw ConnectionException.notFound();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }
@@ -90,8 +107,6 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findByDestination", Connection.class);
             connectionTypedQuery.setParameter("destinationId", destination.getId());
             return connectionTypedQuery.getResultList();
-        } catch(NoResultException e) {
-            throw ConnectionException.notFound();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }
@@ -109,8 +124,6 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findBySource", Connection.class);
             connectionTypedQuery.setParameter("sourceId", source.getId());
             return connectionTypedQuery.getResultList();
-        } catch(NoResultException e) {
-            throw ConnectionException.notFound();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }

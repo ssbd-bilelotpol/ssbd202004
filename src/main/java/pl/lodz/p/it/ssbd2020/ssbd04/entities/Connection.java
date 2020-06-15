@@ -21,7 +21,10 @@ import java.util.Objects;
         @NamedQuery(name = "Connection.findByDestination",
                 query = "SELECT connection from Connection connection WHERE connection.destination.id = :destinationId"),
         @NamedQuery(name = "Connection.findBySource",
-                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId")
+                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId"),
+        @NamedQuery(name = "Connection.findByPhrase",
+                query = "SELECT connection from Connection connection WHERE " +
+                        "UPPER(CONCAT(connection.source.code, ' - ', connection.destination.code)) LIKE UPPER(CONCAT(:phrase, '%'))")
 })
 
 @Entity

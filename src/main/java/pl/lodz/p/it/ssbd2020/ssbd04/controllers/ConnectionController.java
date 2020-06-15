@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Utils;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionCreateDto;
@@ -39,7 +40,12 @@ public class ConnectionController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ConnectionDto> find(@QueryParam("destinationCode") String destinationCode, @QueryParam("sourceCode") String sourceCode) throws AppBaseException {
+    public List<ConnectionDto> find(@QueryParam("destinationCode") String destinationCode,
+                                    @QueryParam("sourceCode") String sourceCode,
+                                    @QueryParam("phrase") String phrase) throws AppBaseException {
+        if(Utils.isNullOrEmpty(sourceCode) && Utils.isNullOrEmpty(destinationCode)) {
+            return repeat(connectionEndpoint, () -> connectionEndpoint.findByPhrase(phrase));
+        }
         return repeat(connectionEndpoint, () -> connectionEndpoint.find(destinationCode, sourceCode));
     }
 

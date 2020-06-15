@@ -3,13 +3,13 @@ import useCancellablePromise from '@rodw95/use-cancelable-promise';
 
 const schemas = [
     {
-        id: 123123,
+        id: 0,
         name: 'Airbus 3000',
         rows: 6,
         columns: 4,
     },
     {
-        id: 18,
+        id: 1,
         name: 'Boeing 3000',
         rows: 10,
         columns: 6,

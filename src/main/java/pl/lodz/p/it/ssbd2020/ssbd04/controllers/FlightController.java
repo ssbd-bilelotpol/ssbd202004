@@ -1,16 +1,19 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightQueryDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.FlightEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.FlightCode;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -24,26 +27,31 @@ public class FlightController extends AbstractController {
 
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
-     * @param query kryterium
+     * @param code kod lotu
+     * @param connectionId id połączenia
+     * @param airplaneId id lotniska
+     * @param from data, po której wylatuje lot
+     * @param to dat, przed którą wylatuje lot
      * @return loty spełniające podane kryterium
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public List<FlightDto> find(@NotNull @Valid FlightQueryDto query) {
-        throw new UnsupportedOperationException();
+    public List<FlightDto> find(@QueryParam("code") String code, @QueryParam("connection") Long connectionId,
+                                @QueryParam("airplane") Long airplaneId, @QueryParam("from") LocalDateTime from,
+                                @QueryParam("to") LocalDateTime to) throws AppBaseException {
+        return repeat(flightEndpoint, () -> flightEndpoint.find(code, connectionId, airplaneId, from, to));
     }
 
     /**
      * Zwraca loty o podanym identyfikatorze.
-     * @param id identyfikator lotu
+     * @param code identyfikator lotu
      * @return lot o podanym identyfikatorze
      */
     @GET
-    @Path("/{id}")
+    @Path("/{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    public FlightDto findById(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public FlightDto findByCode(@PathParam("code") @Valid @FlightCode String code) throws AppBaseException {
+        return repeat(flightEndpoint, () -> flightEndpoint.findByCode(code));
     }
 
     @GET
@@ -61,8 +69,8 @@ public class FlightController extends AbstractController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public FlightDto create(@NotNull @Valid FlightDto flightDto) {
-        throw new UnsupportedOperationException();
+    public FlightDto create(@NotNull @Valid FlightCreateDto flightDto) throws AppBaseException {
+        return repeat(flightEndpoint, () -> flightEndpoint.create(flightDto));
     }
 
     /**

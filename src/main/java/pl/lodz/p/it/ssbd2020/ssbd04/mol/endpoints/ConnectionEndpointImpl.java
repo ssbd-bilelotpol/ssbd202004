@@ -38,6 +38,11 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
     }
 
     @Override
+    public List<ConnectionDto> findByPhrase(String phrase) throws AppBaseException {
+        return connectionService.findByPhrase(phrase).stream().map(ConnectionDto::new).collect(Collectors.toList());
+    }
+
+    @Override
     @PermitAll
     public ConnectionDto findById(Long id) throws AppBaseException {
         Connection connection = connectionService.findById(id);

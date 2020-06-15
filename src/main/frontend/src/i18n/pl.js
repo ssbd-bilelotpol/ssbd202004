@@ -62,6 +62,7 @@ export default {
             'error.ticket.flightNotFound': 'Nie znaleziono lotu',
             'error.ticket.seatTaken': 'Wybrane miejsca są już zajęte',
             'error.ticket.returnTimeExpired': 'Minął czas na zwrot biletu',
+            'error.flight.notFound': 'Nie znaleziono lotu',
             ...translations,
             ...codesPl.countries,
         },

@@ -48,8 +48,9 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
 
     @Override
     @PermitAll
-    public AirplaneSchema find(Object id) {
-        throw new UnsupportedOperationException();
+    public AirplaneSchema find(Object id) throws AppBaseException {
+        // TODO: implement properly
+        return super.find(id);
     }
 
     @Override

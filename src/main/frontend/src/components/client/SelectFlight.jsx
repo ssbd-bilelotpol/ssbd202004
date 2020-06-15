@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import Moment from 'react-moment';
 import { Trans, useTranslation } from 'react-i18next';
-import { useListFlights } from '../../api/flights';
+import { useFlights } from '../../api/flights';
 
 const PageContainer = styled(Container)`
     &&& {
@@ -65,7 +65,9 @@ const PlaneDivider = styled.div`
 
 const Flight = ({ flight }) => {
     const { t } = useTranslation();
-    const flightDuration = moment.utc(moment(flight.endDate).diff(moment(flight.startDate)));
+    const flightDuration = moment.utc(
+        moment(flight.endDateTime).diff(moment(flight.startDateTime))
+    );
 
     return (
         <BackgroundCard>
@@ -74,9 +76,9 @@ const Flight = ({ flight }) => {
                     <GridRow verticalAlign="middle">
                         <GridColumn width={1} textAlign="center">
                             <BlueHeader as="h3">
-                                <Moment format="HH:mm" date={flight.startDate} />
+                                <Moment format="HH:mm" date={flight.startDateTime} />
                             </BlueHeader>
-                            {flight.source.name}
+                            {flight.connection.source.name}
                         </GridColumn>
                         <GridColumn width={5} textAlign="center">
                             <PlaneDivider />
@@ -84,9 +86,9 @@ const Flight = ({ flight }) => {
                         </GridColumn>
                         <GridColumn width={1} textAlign="center">
                             <BlueHeader as="h3">
-                                <Moment format="HH:mm" date={flight.endDate} />
+                                <Moment format="HH:mm" date={flight.endDateTime} />
                             </BlueHeader>
-                            {flight.destination.name}
+                            {flight.connection.destination.name}
                         </GridColumn>
                         <GridColumn textAlign="right">
                             <BlueHeader as="h4">{t('Flight code')}</BlueHeader>
@@ -94,7 +96,7 @@ const Flight = ({ flight }) => {
                         </GridColumn>
                         <GridColumn textAlign="left">
                             <BlueHeader as="h4">{t('Airplane')}</BlueHeader>
-                            {flight.airplane}
+                            {flight.airplaneSchema.name}
                         </GridColumn>
                         <GridColumn textAlign="right">
                             <Button as="div" labelPosition="left">
@@ -149,7 +151,7 @@ const FlightPlaceholder = () => {
 
 const SelectFlight = ({ searchQuery }) => {
     const { t } = useTranslation();
-    const { data, loading } = useListFlights(searchQuery);
+    const { data, loading } = useFlights(searchQuery);
 
     return (
         <PageContainer>

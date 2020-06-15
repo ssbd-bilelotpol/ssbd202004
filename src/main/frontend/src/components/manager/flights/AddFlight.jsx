@@ -3,7 +3,7 @@ import { Form, Label, Message } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import styled from 'styled-components';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import i18next from 'i18next';
 import { ContentCard } from '../../shared/Dashboard';
@@ -80,10 +80,10 @@ const FlightAddForm = () => {
         <>
             <Formik
                 initialValues={{
-                    code: '',
+                    flightCode: '',
                     price: '',
-                    connection: '',
-                    airplaneSchema: '',
+                    connectionId: '',
+                    airplaneSchemaId: '',
                     departureTime: undefined,
                     arrivalTime: undefined,
                 }}
@@ -105,7 +105,7 @@ const FlightAddForm = () => {
                         <AlignedFormGroup>
                             <Form.Input
                                 width={4}
-                                name="code"
+                                name="flightCode"
                                 fluid
                                 placeholder={t('Flight code')}
                                 control={AsteriskInput}
@@ -113,9 +113,9 @@ const FlightAddForm = () => {
                                 onBlur={handleBlur}
                                 value={values.code}
                                 error={
-                                    touched.code &&
-                                    errors.code && {
-                                        content: translate(errors.code),
+                                    touched.flightCode &&
+                                    errors.flightCode && {
+                                        content: translate(errors.flightCode),
                                         pointing: 'below',
                                     }
                                 }
@@ -147,36 +147,36 @@ const FlightAddForm = () => {
                             </SquishedInput>
                             <ConnectionDropdown
                                 width={8}
-                                name="connection"
+                                name="connectionId"
                                 placeholder={t('Connection')}
                                 value={values.connection}
                                 onChange={(value, price) => {
-                                    setFieldValue('connection', value);
+                                    setFieldValue('connectionId', value);
                                     setFieldValue('price', price);
                                 }}
                                 setError={setError}
                                 onBlur={handleBlur}
                                 asterisk
                                 error={
-                                    touched.connection &&
-                                    errors.connection && {
-                                        content: translate(errors.connection),
+                                    touched.connectionId &&
+                                    errors.connectionId && {
+                                        content: translate(errors.connectionId),
                                         pointing: 'below',
                                     }
                                 }
                             />
                         </AlignedFormGroup>
                         <SchemaDropdown
-                            name="airplaneSchema"
+                            name="airplaneSchemaId"
                             placeholder={t('Airplane')}
-                            value={values.airplaneSchema}
+                            value={values.airplaneSchemaId}
                             setFieldValue={setFieldValue}
                             setError={setError}
                             asterisk
                             error={
-                                touched.airplaneSchema &&
-                                errors.airplaneSchema && {
-                                    content: translate(errors.airplaneSchema),
+                                touched.airplaneSchemaId &&
+                                errors.airplaneSchemaId && {
+                                    content: translate(errors.airplaneSchemaId),
                                     pointing: 'below',
                                 }
                             }

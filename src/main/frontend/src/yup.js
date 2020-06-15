@@ -82,12 +82,26 @@ export const AccountAccessLevelEditSchema = Yup.object().shape({
     accessLevels: Yup.array().min(1),
 });
 
+const flightCodeRegex = /^[A-Za-z0-9]{5}$/;
+
 export const FlightSchema = Yup.object().shape(
     {
-        code: Yup.string().min(5).max(30).required(),
-        price: Yup.number().required().min(0.01),
-        connection: Yup.number().required(),
-        airplaneSchema: Yup.number().required(),
+        flightCode: Yup.string()
+            .length(5)
+            .matches(flightCodeRegex, 'incorrect_flight_code')
+            .required(),
+        price: Yup.number()
+            .required()
+            .min(0.01)
+            .test(
+                'is-two-frac-digits',
+                'price_format',
+                (value) =>
+                    value &&
+                    (Number.isInteger(value) || value.toFixed(2).length >= value.toString().length)
+            ),
+        connectionId: Yup.number().required(),
+        airplaneSchemaId: Yup.number().required(),
         departureTime: Yup.date()
             .required()
             .test('is-future', 'departure_min_date', (value) => value > new Date())

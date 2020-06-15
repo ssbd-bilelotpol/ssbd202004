@@ -48,8 +48,19 @@ public class ConnectionService {
         } else if (!isNullOrEmpty(sourceCode)) {
             return connectionFacade.findBySource(airportFacade.find(sourceCode));
         } else {
-            throw ConnectionException.emptyQuery();
+            return connectionFacade.findAll();
         }
+    }
+
+    /**
+     * Wszykuje połączenie na podstawie frazy.
+     * @param phrase fraza do szukania(np. WSZ - LDZ)
+     * @return znalezione połączenia
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
+    @PermitAll
+    public List<Connection> findByPhrase(String phrase) throws AppBaseException {
+        return connectionFacade.findByPhrase(phrase);
     }
 
     /**

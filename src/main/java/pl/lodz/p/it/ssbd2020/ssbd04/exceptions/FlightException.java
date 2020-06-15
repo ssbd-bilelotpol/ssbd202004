@@ -38,4 +38,12 @@ public class FlightException extends AppBaseException {
     public static FlightException exists() {
         return new FlightException(FLIGHT_EXISTS);
     }
+
+    /**
+     * Tworzy wyjątek reprezentujący brak lotu w bazie.
+     * @return stworzony wyjątek
+     */
+    public static FlightException notFound() {
+        return new FlightException(FLIGHT_NOT_FOUND);
+    }
 }

@@ -4,6 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import plDateLocale from 'date-fns/locale/pl';
 import { registerLocale } from 'react-datepicker';
 import pl from './pl';
+import 'moment/locale/pl';
 
 const resources = {
     ...pl,
