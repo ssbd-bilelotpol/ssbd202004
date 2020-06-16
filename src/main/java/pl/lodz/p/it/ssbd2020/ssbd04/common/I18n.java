@@ -73,6 +73,7 @@ public class I18n {
     public static final String UNAUTHORIZED = "error.rest.unauthorized";
 
     public static final String AIRPLANE_SCHEMA_NOT_FOUND = "error.airplaneSchema.notFound";
+    public static final String AIRPLANE_SCHEMA_INVALID_DATA = "error.airplaneSchema.invalidData";
     public static final String AIRPLANE_SCHEMA_IN_USE = "error.airplaneSchema.inUse";
 
     public static final String SEAT_CLASS_NOT_FOUND = "error.seatClass.notFound";

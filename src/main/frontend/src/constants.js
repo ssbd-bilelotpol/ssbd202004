@@ -243,7 +243,7 @@ export const routes = {
                     },
                     plane: {
                         path: '/:id',
-                        breadcrumb: '{id|Loading}',
+                        breadcrumb: '{name|Loading}',
                         breadcrumbLink: false,
                         subroutes: {
                             edit: {

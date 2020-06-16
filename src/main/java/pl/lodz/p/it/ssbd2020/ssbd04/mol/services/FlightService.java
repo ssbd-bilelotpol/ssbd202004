@@ -76,6 +76,17 @@ public class FlightService {
     }
 
     /**
+     * Zwraca loty przypisane do danego schematu samolotu
+     * @param airplaneSchema schemat samolotu
+     * @return lista przypisanych lotów
+     * @throws AppBaseException
+     */
+    @RolesAllowed(Role.UpdateAirplaneSchema)
+    public List<Flight> findByAirplaneSchema(AirplaneSchema airplaneSchema) throws AppBaseException {
+        return flightFacade.findByAirplaneSchema(airplaneSchema);
+    }
+
+    /**
      * Tworzy i zapisuje w bazie lot.
      * @param flight nowy lot
      * @param connection połączenie, którego lot dotyczy

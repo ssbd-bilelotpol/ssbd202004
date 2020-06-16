@@ -16,4 +16,6 @@ public class Regex {
     public static final String AIRPORT_COUNTRY = "^[A-Z]{2}$";
 
     public static final String FLIGHT_CODE = "^[A-Za-z0-9]{5}$";
+    public static final String AIRPLANE_SCHEMA_NAME = "^[\\p{L}0-9-](\\s?[\\p{L}0-9-])*$";
+    public static final String AIRPLANE_SCHEMA_ROW_COL = "^((\\d\\d?)+(,\\d\\d?)*)?$";
 }

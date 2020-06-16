@@ -14,8 +14,7 @@ public class FlightDto {
     private String code;
     private BigDecimal price;
     private ConnectionDto connection;
-    //TODO: change to airplane schema list DTO
-    private AirplaneSchemaDto airplaneSchema;
+    private AirplaneSchemaListDto airplaneSchema;
     @JsonbDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime startDateTime;
     @JsonbDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -29,7 +28,7 @@ public class FlightDto {
         this.code = flight.getFlightCode();
         this.price = flight.getPrice();
         this.connection = new ConnectionDto(flight.getConnection());
-        this.airplaneSchema = new AirplaneSchemaDto(flight.getAirplaneSchema());
+        this.airplaneSchema = new AirplaneSchemaListDto(flight.getAirplaneSchema());
         this.startDateTime = flight.getStartDateTime();
         this.endDateTime = flight.getEndDateTime();
         this.status = flight.getStatus();
@@ -59,11 +58,11 @@ public class FlightDto {
         this.connection = connection;
     }
 
-    public AirplaneSchemaDto getAirplaneSchema() {
+    public AirplaneSchemaListDto getAirplaneSchema() {
         return airplaneSchema;
     }
 
-    public void setAirplaneSchema(AirplaneSchemaDto airplaneSchema) {
+    public void setAirplaneSchema(AirplaneSchemaListDto airplaneSchema) {
         this.airplaneSchema = airplaneSchema;
     }
 

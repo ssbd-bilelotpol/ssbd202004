@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Message, Form, Segment, Placeholder } from 'semantic-ui-react';
-import { Formik } from 'formik';
+import { Label, Message } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { ContentCard } from '../../shared/Dashboard';
-import PlaneInput, { generateSeats } from '../../shared/PlaneInput';
-import AsteriskInput from '../../controls/AsteriskInput';
-import { PlaneSchema } from '../../../yup';
+import { generateSeats } from '../../shared/PlaneInput';
 import { createAirplaneSchema } from '../../../api/airplaneSchemas';
 import { route } from '../../../routing';
 import { useSeatClasses } from '../../../api/seatClasses';
-import ConfirmSubmit from '../../controls/ConfirmSubmit';
+import EditPlaneForm from './EditPlaneForm';
 
-const AddPlaneForm = () => {
+const AddPlane = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const [airplaneSchema, setAirplaneSchema] = useState(null);
@@ -40,6 +37,7 @@ const AddPlaneForm = () => {
         }
         if (seatClasses) {
             setAirplaneSchema({
+                name: '',
                 rows: 3,
                 columns: 2,
                 emptyRows: [],
@@ -49,92 +47,17 @@ const AddPlaneForm = () => {
         }
     }, [seatClasses, seatClassesError, setAirplaneSchema]);
 
-    const translate = (msg) => {
-        if (msg.key) {
-            return t(msg.key, msg.value);
-        }
-        return t(msg);
-    };
-
-    if (loading) {
-        return (
-            <Segment>
-                <Placeholder>
-                    <Placeholder.Paragraph>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                    </Placeholder.Paragraph>
-                    <Placeholder.Paragraph>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                    </Placeholder.Paragraph>
-                </Placeholder>
-            </Segment>
-        );
-    }
-    return (
-        <>
-            <Formik
-                initialValues={{
-                    name: '',
-                    plane: airplaneSchema,
-                }}
-                onSubmit={handleSubmit}
-                validationSchema={PlaneSchema}
-            >
-                {({
-                    values,
-                    handleSubmit,
-                    setFieldValue,
-                    handleChange,
-                    handleBlur,
-                    touched,
-                    errors,
-                    isSubmitting,
-                }) => (
-                    <Form error={!!error} onSubmit={handleSubmit}>
-                        <Message error content={error && t(error.message)} />
-                        <Form.Input
-                            name="name"
-                            fluid
-                            placeholder={t('Airplane name')}
-                            control={AsteriskInput}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.name}
-                            error={
-                                touched.name &&
-                                errors.name && {
-                                    content: translate(errors.name),
-                                    pointing: 'below',
-                                }
-                            }
-                        />
-                        <PlaneInput
-                            seatClasses={seatClasses}
-                            value={values.plane}
-                            onChange={(schema) => setFieldValue('plane', schema)}
-                        />
-                        <ConfirmSubmit
-                            onSubmit={handleSubmit}
-                            disabled={isSubmitting}
-                            loading={isSubmitting}
-                        >
-                            {t('Add')}
-                        </ConfirmSubmit>
-                    </Form>
-                )}
-            </Formik>
-        </>
-    );
-};
-
-const AddPlane = () => {
-    const { t } = useTranslation();
     return (
         <ContentCard fluid>
             <Label attached="top">{t('Add plane')}</Label>
-            <AddPlaneForm />
+            {error && <Message negative content={t(error.message)} />}
+            <EditPlaneForm
+                loading={loading}
+                airplaneSchema={airplaneSchema}
+                onSubmit={handleSubmit}
+                seatClasses={seatClasses}
+                error={error}
+            />
         </ContentCard>
     );
 };

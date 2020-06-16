@@ -129,26 +129,38 @@ INSERT INTO connection (id, creation_date_time, modification_date_time, version,
 VALUES (-4, now(), now(), 0, 150, 3, 2);
 
 -- Schemas
-INSERT INTO public.airplane_schema (id, creation_date_time, modification_date_time, version, cols, rows)
-VALUES (0, now(), now(), 0, 2, 2);
+INSERT INTO public.airplane_schema (id, creation_date_time, modification_date_time, version, cols, rows, name)
+VALUES (-1, now(), now(), 0, 2, 3, 'Boeing 747');
+
+-- Seats
+INSERT INTO public.seat
+    (id, creation_date_time, modification_date_time, version, row, col, airplane_schema_id, seat_class_id, created_by)
+    VALUES
+    (-1, now(), now(), 0, 1, 1, -1, 1, -1),
+    (-2, now(), now(), 0, 1, 2, -1, 1, -1),
+    (-3, now(), now(), 0, 2, 1, -1, 2, -1),
+    (-4, now(), now(), 0, 2, 2, -1, 2, -1),
+    (-5, now(), now(), 0, 3, 1, -1, 3, -1),
+    (-6, now(), now(), 0, 3, 2, -1, 3, -1);
+
 
 -- Flights
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
-VALUES (-1, '2020-07-01 09:00', '2020-07-01 13:00', '00001', 0, -1, 1999.99, 'ACTIVE', 0, now(), now());
+VALUES (-1, '2020-07-01 09:00', '2020-07-01 13:00', '00001', -1, -1, 1999.99, 'ACTIVE', 0, now(), now());
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
-VALUES (-2, '2020-07-02 09:00', '2020-07-02 13:00', '00002', 0, -1, 1999.99, 'ACTIVE', 0, now(), now());
+VALUES (-2, '2020-07-02 09:00', '2020-07-02 13:00', '00002', -1, -1, 1999.99, 'ACTIVE', 0, now(), now());
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
-VALUES (-3, '2020-07-03 09:00', '2020-07-03 13:00', '00003', 0, -1, 1799.99, 'ACTIVE', 0, now(), now());
+VALUES (-3, '2020-07-03 09:00', '2020-07-03 13:00', '00003', -1, -1, 1799.99, 'ACTIVE', 0, now(), now());
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
-VALUES (-4, '2020-07-04 09:00', '2020-07-04 13:00', '00004', 0, -1, 1899.99, 'ACTIVE', 0, now(), now());
+VALUES (-4, '2020-07-04 09:00', '2020-07-04 13:00', '00004', -1, -1, 1899.99, 'ACTIVE', 0, now(), now());
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
-VALUES (-5, '2020-07-01 20:00', '2020-07-02 03:00', '00005', 0, -2, 2999.99, 'ACTIVE', 0, now(), now());
+VALUES (-5, '2020-07-01 20:00', '2020-07-02 03:00', '00005', -1, -2, 2999.99, 'ACTIVE', 0, now(), now());
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
-VALUES (-6, '2020-07-02 13:00', '2020-07-02 15:00', '00006', 0, -3, 859.99, 'ACTIVE', 0, now(), now());
+VALUES (-6, '2020-07-02 13:00', '2020-07-02 15:00', '00006', -1, -3, 859.99, 'ACTIVE', 0, now(), now());
 

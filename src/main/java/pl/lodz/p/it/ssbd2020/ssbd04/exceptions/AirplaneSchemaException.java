@@ -2,8 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AIRPLANE_SCHEMA_IN_USE;
-import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.AIRPLANE_SCHEMA_NOT_FOUND;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 
 /**
  * Reprezentuje błąd występujący podczas przetwarzania
@@ -30,6 +29,10 @@ public class AirplaneSchemaException extends AppBaseException {
     private AirplaneSchemaException(String message, Throwable cause) {
         super(message, cause);
         this.airplaneSchema = null;
+    }
+
+    public static AirplaneSchemaException invalidData() {
+        return new AirplaneSchemaException(AIRPLANE_SCHEMA_INVALID_DATA);
     }
 
 

@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
@@ -105,6 +106,7 @@ public class AirportController extends AbstractController {
      */
     @DELETE
     @Path("/{code}")
+    @EtagBinding
     public void delete(@PathParam("code") @AirportCode String code) throws AppBaseException {
         repeat(airportEndpoint, () -> airportEndpoint.delete(code));
     }
@@ -117,6 +119,7 @@ public class AirportController extends AbstractController {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @EtagBinding
     public void update(@PathParam("id") @AirportCode String code, AirportDto airportDto) throws AppBaseException {
         repeat(airportEndpoint, () -> airportEndpoint.update(code, airportDto));
     }

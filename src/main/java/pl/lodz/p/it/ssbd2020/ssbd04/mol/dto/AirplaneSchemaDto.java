@@ -1,25 +1,70 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirplaneSchemaName;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.Utils.isNullOrEmpty;
 
 /**
  * Przenosi dane schematu samolotu do warstwy prezentacji.
  */
-public class AirplaneSchemaDto {
-    private String name;
+public class AirplaneSchemaDto implements Signable {
     private Long id;
-    private Integer cols;
+
+    @AirplaneSchemaName
+    @NotNull
+    private String name;
+
+    @Min(3)
+    @Max(40)
+    @NotNull
     private Integer rows;
 
+    @Min(2)
+    @Max(9)
+    @NotNull
+    private Integer columns;
+
+    private Set<Integer> emptyRows;
+
+    private Set<Integer> emptyColumns;
+
+    @NotNull
+    private List<SeatDto> seats;
+
+    private Long version;
+
     public AirplaneSchemaDto() {
+
+    }
+
+    private Set<Integer> explode(String nums) {
+        if (isNullOrEmpty(nums)) {
+            return new HashSet<>();
+        }
+        return Arrays.stream(nums.split(","))
+                .map(Integer::valueOf)
+                .collect(Collectors.toSet());
     }
 
     public AirplaneSchemaDto(AirplaneSchema airplaneSchema) {
-        //TODO: remove this
-        this.name = "Airbus 3000";
         this.id = airplaneSchema.getId();
-        this.cols = airplaneSchema.getCols();
+        this.name = airplaneSchema.getName();
         this.rows = airplaneSchema.getRows();
+        this.columns = airplaneSchema.getCols();
+        this.emptyRows = explode(airplaneSchema.getEmptyRows());
+        this.emptyColumns = explode(airplaneSchema.getEmptyColumns());
+        this.seats = airplaneSchema.getSeatList()
+                .stream()
+                .map(s -> new SeatDto(s.getId(), s.getSeatClass().getName(), s.getCol(), s.getRow())).collect(Collectors.toList());
+        this.version = airplaneSchema.getVersion();
     }
 
     public Long getId() {
@@ -30,12 +75,12 @@ public class AirplaneSchemaDto {
         this.id = id;
     }
 
-    public Integer getCols() {
-        return cols;
+    public String getName() {
+        return name;
     }
 
-    public void setCols(Integer cols) {
-        this.cols = cols;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getRows() {
@@ -46,11 +91,40 @@ public class AirplaneSchemaDto {
         this.rows = rows;
     }
 
-    public String getName() {
-        return name;
+    public Integer getColumns() {
+        return columns;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setColumns(Integer columns) {
+        this.columns = columns;
+    }
+
+    public Set<Integer> getEmptyRows() {
+        return emptyRows;
+    }
+
+    public void setEmptyRows(Set<Integer> emptyRows) {
+        this.emptyRows = emptyRows;
+    }
+
+    public Set<Integer> getEmptyColumns() {
+        return emptyColumns;
+    }
+
+    public void setEmptyColumns(Set<Integer> emptyColumns) {
+        this.emptyColumns = emptyColumns;
+    }
+
+    public List<SeatDto> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<SeatDto> seats) {
+        this.seats = seats;
+    }
+
+    @Override
+    public String createMessage() {
+        return String.format("%d.%s.%s", this.version, this.id, this.name);
     }
 }

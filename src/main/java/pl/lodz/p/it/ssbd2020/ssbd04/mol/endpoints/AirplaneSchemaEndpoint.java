@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirplaneSchemaDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirplaneSchemaListDto;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -24,13 +25,6 @@ public interface AirplaneSchemaEndpoint extends TransactionStarter {
     AirplaneSchemaDto create(AirplaneSchemaDto airplaneSchemaDto) throws AppBaseException;
 
     /**
-     * Pobiera wszystkie istniejące schematy samolotów.
-     *
-     * @return listę schematów samolotów.
-     */
-    List<AirplaneSchemaDto> getAll();
-
-    /**
      * Znajduje schemat samolotu na podstawie identyfikatora.
      *
      * @param id identyfikator schematu samolotu.
@@ -42,11 +36,13 @@ public interface AirplaneSchemaEndpoint extends TransactionStarter {
     /**
      * Aktualizuje schemat samolotu.
      *
+     *
+     * @param id
      * @param airplaneSchemaDto dane schematu samolotu.
      * @return zaaktualizowany schemat samolotu.
      * @throws AppBaseException gdy schemat jest już używany, zajdzie problem konkurencyjnej modyfikacji, bądź schemat nie istnieje.
      */
-    AirplaneSchemaDto update(AirplaneSchemaDto airplaneSchemaDto) throws AppBaseException;
+    void update(Long id, AirplaneSchemaDto airplaneSchemaDto) throws AppBaseException;
 
     /**
      * Usuwa schemat samolotu.
@@ -55,4 +51,11 @@ public interface AirplaneSchemaEndpoint extends TransactionStarter {
      * @throws AppBaseException gdy schemat jest używany przez pewien lot, lub gdy schemat nie istnieje.
      */
     void delete(Long id) throws AppBaseException;
+
+    /**
+     * Szuka schematów samolotu po nazwie.
+     * @param name część nazwy schematu samolotu
+     * @return lista obiektów reprezentujących schematy samolotu
+     */
+    List<AirplaneSchemaListDto> findByName(String name) throws AppBaseException;
 }

@@ -124,8 +124,8 @@ export const FlightSchema = Yup.object().shape(
 export const PlaneSchema = Yup.object().shape({
     name: Yup.string().min(5).max(60).required().matches(planeRegex, 'incorrect_plane_name'),
     plane: Yup.object().shape({
-        columns: Yup.number().required().min(2),
-        rows: Yup.number().required().min(3),
+        columns: Yup.number().required().min(2).max(9),
+        rows: Yup.number().required().min(3).max(40),
         emptyColumns: Yup.array().optional(),
         emptyRows: Yup.array().optional(),
     }),

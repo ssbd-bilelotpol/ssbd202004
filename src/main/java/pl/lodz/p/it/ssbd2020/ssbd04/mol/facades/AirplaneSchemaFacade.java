@@ -14,6 +14,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 
@@ -37,7 +39,7 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
     @RolesAllowed(Role.CreateAirplaneSchema)
     @Override
     public void create(AirplaneSchema entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        super.create(entity);
     }
 
     @Override
@@ -49,14 +51,13 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
     @Override
     @PermitAll
     public AirplaneSchema find(Object id) throws AppBaseException {
-        // TODO: implement properly
         return super.find(id);
     }
 
     @Override
     @RolesAllowed({Role.UpdateAirplaneSchema})
     public void edit(AirplaneSchema entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        super.edit(entity);
     }
 
     @Override
@@ -64,5 +65,21 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
     public void remove(AirplaneSchema entity) throws AppBaseException {
         // throws: AirplaneSchemaInUse (is attached to a flight)
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Szuka schematów samolotów których nazwa pasuje do podanej nazwy.
+     * @param name podana nazwa
+     * @return listę schematów samolotów
+     */
+    @RolesAllowed({Role.GetAllAirplaneSchemas})
+    public List<AirplaneSchema> findByName(String name) throws AppBaseException {
+        try {
+            TypedQuery<AirplaneSchema> query = em.createNamedQuery("AirplaneSchema.findByName", AirplaneSchema.class);
+            query.setParameter("name", name == null ? "" : name);
+            return query.getResultList();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 }

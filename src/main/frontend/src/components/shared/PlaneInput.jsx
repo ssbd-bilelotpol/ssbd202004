@@ -183,7 +183,7 @@ const PlaneInput = ({ value, seatClasses, onChange }) => {
                         {t('Columns')}: {columns}
                     </span>
                     <Card fluid>
-                        <Slider min={2} max={12} onChange={handleColumnsChange} value={columns} />
+                        <Slider min={2} max={9} onChange={handleColumnsChange} value={columns} />
                     </Card>
                 </GrowingSlider>
 
@@ -192,7 +192,7 @@ const PlaneInput = ({ value, seatClasses, onChange }) => {
                         {t('Rows')}: {rows}
                     </span>
                     <Card fluid>
-                        <Slider min={3} max={60} onChange={handleRowsChange} value={rows} />
+                        <Slider min={3} max={40} onChange={handleRowsChange} value={rows} />
                     </Card>
                 </GrowingSlider>
             </SlidersContainer>

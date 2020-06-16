@@ -2,13 +2,17 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirplaneSchemaDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirplaneSchemaListDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirplaneSchemaEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -19,6 +23,9 @@ import java.util.List;
 public class AirplaneSchemaController extends AbstractController {
     @Inject
     private AirplaneSchemaEndpoint airplaneSchemaEndpoint;
+
+    @Inject
+    private MessageSigner messageSigner;
 
     /**
      * Tworzy nowy schemat samolotu z ustalonymi miejscami.
@@ -31,20 +38,20 @@ public class AirplaneSchemaController extends AbstractController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public AirplaneSchemaDto create(@NotNull @Valid AirplaneSchemaDto airplaneSchemaDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return repeat(airplaneSchemaEndpoint, () -> airplaneSchemaEndpoint.create(airplaneSchemaDto));
     }
 
     /**
-     * Pobiera wszystkie istniejące schematy samolotów.
-     *
-     * @return listę schematów samolotów.
+     * Znajduje schematy samolotu na podstawie nazwy
+     * @param name nazwa schematu samolotu
+     * @return znalezione schematu samolotu
+     * @throws AppBaseException gdy operacja nie powiedzie się, bądź schemat nie został znaleziony.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AirplaneSchemaDto> getAll() {
-        throw new UnsupportedOperationException();
+    public List<AirplaneSchemaListDto> findByName(@QueryParam("name") String name) throws AppBaseException {
+        return repeat(airplaneSchemaEndpoint, () -> airplaneSchemaEndpoint.findByName(name));
     }
-
 
     /**
      * Znajduje schemat samolotu na podstawie identyfikatora.
@@ -56,8 +63,14 @@ public class AirplaneSchemaController extends AbstractController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AirplaneSchemaDto findById(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public Response findById(@PathParam("id") Long id) throws AppBaseException {
+        AirplaneSchemaDto airplaneSchemaDto = repeat(airplaneSchemaEndpoint, () -> airplaneSchemaEndpoint.findById(id));
+        return Response
+                .ok()
+                .entity(airplaneSchemaDto)
+                .tag(messageSigner.sign(airplaneSchemaDto))
+                .build();
+
     }
 
     /**
@@ -71,8 +84,9 @@ public class AirplaneSchemaController extends AbstractController {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(@PathParam("id") Long id, AirplaneSchemaDto dto) {
-        throw new UnsupportedOperationException();
+    @EtagBinding
+    public void update(@PathParam("id") Long id, @NotNull @Valid AirplaneSchemaDto dto) throws AppBaseException {
+        repeat(airplaneSchemaEndpoint, () -> airplaneSchemaEndpoint.update(id, dto));
     }
 
     /**

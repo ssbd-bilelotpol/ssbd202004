@@ -132,4 +132,15 @@ public class FlightFacade extends AbstractFacade<Flight> {
     public List<Flight> findByConnection(Long connectionId) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
+
+    @RolesAllowed(Role.UpdateAirplaneSchema)
+    public List<Flight> findByAirplaneSchema(AirplaneSchema airplaneSchema) throws AppBaseException {
+        try {
+            TypedQuery<Flight> flightTypedQuery = em.createNamedQuery("Flight.findByAirplaneSchema", Flight.class);
+            flightTypedQuery.setParameter("schemaId", airplaneSchema.getId());
+            return flightTypedQuery.getResultList();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
 }
