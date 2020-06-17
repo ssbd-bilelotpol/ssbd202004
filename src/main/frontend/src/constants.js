@@ -155,7 +155,7 @@ export const routes = {
                     },
                 },
             },
-            relations: {
+            connections: {
                 path: '/relations',
                 breadcrumb: 'Relations',
                 subroutes: {
@@ -168,6 +168,18 @@ export const routes = {
                         title: 'Add relation',
                         path: '/add',
                         breadcrumb: 'New relation',
+                    },
+                    connection: {
+                        path: '/:id',
+                        breadcrumb: '{id|Loading}',
+                        breadcrumbLink: false,
+                        subroutes: {
+                            edit: {
+                                title: 'Edit flight',
+                                path: '/edit',
+                                breadcrumb: 'Edit',
+                            },
+                        },
                     },
                 },
             },

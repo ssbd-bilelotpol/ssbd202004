@@ -5,10 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
-import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
-import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
-import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
-import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -52,7 +49,7 @@ public class AirportController extends AbstractController {
      * @return lotnisko o podanym identyfikatorze.
      */
     @GET
-    @Path("/{code}")
+    @Path("/find/{code}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByCode(@AirportCode @Valid @PathParam("code") String code) throws AppBaseException {
         AirportDto airportDto = repeat(airportEndpoint, () -> airportEndpoint.findByCode(code));
@@ -61,7 +58,19 @@ public class AirportController extends AbstractController {
                 .entity(airportDto)
                 .tag(messageSigner.sign(airportDto))
                 .build();
+    }
 
+    /**
+     * Zwraca lotniska, których kod pasuje do podanej frazy.
+     * @param phrase fraza z kodem lotniska
+     * @return lista lotnisk
+     * @throws AppBaseException
+     */
+    @GET
+    @Path("/{phrase}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<AirportDto> findByMatchingCode(@PathParam("phrase") String phrase) throws AppBaseException {
+        return repeat(airportEndpoint, () -> airportEndpoint.findByMatchingCode(phrase));
     }
 
     /**

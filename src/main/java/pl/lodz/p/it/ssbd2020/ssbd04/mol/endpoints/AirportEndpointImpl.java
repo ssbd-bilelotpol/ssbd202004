@@ -17,6 +17,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
@@ -42,6 +43,12 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     @PermitAll
     public AirportDto findByCode(String code) throws AppBaseException {
         return new AirportDto(airportService.findByCode(code));
+    }
+
+    @Override
+    @PermitAll
+    public List<AirportDto> findByMatchingCode(String phrase) throws AppBaseException {
+        return airportService.findByMatchingCode(phrase).stream().map(AirportDto::new).collect(Collectors.toList());
     }
 
     @PermitAll

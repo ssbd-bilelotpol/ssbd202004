@@ -121,6 +121,18 @@ export const FlightSchema = Yup.object().shape(
     ['departureTime', 'arrivalTime']
 );
 
+export const ConnectionSchema = Yup.object().shape({
+    sourceCode: Yup.string()
+        .length(3)
+        .required()
+        .matches(airportCodeRegex, 'incorrect_airport_code'),
+    destinationCode: Yup.string()
+        .length(3)
+        .required()
+        .matches(airportCodeRegex, 'incorrect_airport_code'),
+    basePrice: Yup.number().min(0.0).max(9999999).required(),
+});
+
 export const PlaneSchema = Yup.object().shape({
     name: Yup.string().min(5).max(60).required().matches(planeRegex, 'incorrect_plane_name'),
     plane: Yup.object().shape({

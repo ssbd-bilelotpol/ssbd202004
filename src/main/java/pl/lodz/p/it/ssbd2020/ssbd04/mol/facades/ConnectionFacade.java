@@ -69,7 +69,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     public List<Connection> findByPhrase(String phrase) throws AppBaseException {
         try {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findByPhrase", Connection.class);
-            connectionTypedQuery.setParameter("phrase", phrase);
+            connectionTypedQuery.setParameter("phrase", phrase == null ? "" : phrase);
             return connectionTypedQuery.getResultList();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
@@ -78,17 +78,17 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Wyszukuje połączenia na podstawie ID lotnisk przylotu oraz wylotu.
-     * @param destination lotnisko przylotu
-     * @param source lotnisko wylotu
+     * @param destinationCode lotnisko przylotu
+     * @param sourceCode lotnisko wylotu
      * @return znaleziona relacja
      * @throws AppBaseException gdy nie znaleziono połączenia
      */
     @PermitAll
-    public List<Connection> find(Airport destination, Airport source) throws AppBaseException {
+    public List<Connection> find(String destinationCode, String sourceCode) throws AppBaseException {
         try {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findBetween", Connection.class);
-            connectionTypedQuery.setParameter("destinationId", destination.getId());
-            connectionTypedQuery.setParameter("sourceId", source.getId());
+            connectionTypedQuery.setParameter("destinationCode", destinationCode == null ? "" : destinationCode);
+            connectionTypedQuery.setParameter("sourceCode", sourceCode == null ? "" : sourceCode);
             return connectionTypedQuery.getResultList();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
@@ -97,15 +97,15 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Wyszukuje połączenia na podstawie ID lotniska przylotu.
-     * @param destination lotnisko przylotu
+     * @param destinationCode lotnisko przylotu
      * @return znaleziona relacja
      * @throws AppBaseException gdy nie znaleziono połączenia
      */
     @PermitAll
-    public List<Connection> findByDestination(Airport destination) throws AppBaseException {
+    public List<Connection> findByDestination(String destinationCode) throws AppBaseException {
         try {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findByDestination", Connection.class);
-            connectionTypedQuery.setParameter("destinationId", destination.getId());
+            connectionTypedQuery.setParameter("destinationCode", destinationCode == null ? "" : destinationCode);
             return connectionTypedQuery.getResultList();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
@@ -114,15 +114,15 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Wyszukuje połączenia na podstawie ID lotniska wylotu.
-     * @param source lotnisko wylotu
+     * @param sourceCode lotnisko wylotu
      * @return znaleziona relacja
      * @throws AppBaseException gdy nie znaleziono połączenia
      */
     @PermitAll
-    public List<Connection> findBySource(Airport source) throws AppBaseException {
+    public List<Connection> findBySource(String sourceCode) throws AppBaseException {
         try {
             TypedQuery<Connection> connectionTypedQuery = em.createNamedQuery("Connection.findBySource", Connection.class);
-            connectionTypedQuery.setParameter("sourceId", source.getId());
+            connectionTypedQuery.setParameter("sourceCode", sourceCode == null ? "" : sourceCode);
             return connectionTypedQuery.getResultList();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);

@@ -42,11 +42,11 @@ public class ConnectionService {
     @PermitAll
     public List<Connection> find(String destinationCode, String sourceCode) throws AppBaseException {
         if (!isNullOrEmpty(destinationCode) && !isNullOrEmpty(sourceCode)) {
-            return connectionFacade.find(airportFacade.find(destinationCode), airportFacade.find(sourceCode));
+            return connectionFacade.find(destinationCode, sourceCode);
         } else if (!isNullOrEmpty(destinationCode)) {
-            return connectionFacade.findByDestination(airportFacade.find(destinationCode));
+            return connectionFacade.findByDestination(destinationCode);
         } else if (!isNullOrEmpty(sourceCode)) {
-            return connectionFacade.findBySource(airportFacade.find(sourceCode));
+            return connectionFacade.findBySource(sourceCode);
         } else {
             return connectionFacade.findAll();
         }

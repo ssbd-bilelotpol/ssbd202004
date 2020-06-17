@@ -5,6 +5,8 @@ import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
 import AddFlight from './flights/AddFlight';
 import FlightsList from './flights/FlightsList';
+import AddConnection from './connections/AddConnection';
+import ConnectionsList from './connections/ConnectionsList';
 import AddPlane from './planes/AddPlane';
 import PlanesList from './planes/PlanesList';
 import SeatClassesList from './seatClasses/SeatClassesList';
@@ -36,11 +38,11 @@ const ManagerDashboard = () => {
             items: [
                 {
                     name: t('List relations'),
-                    route: 'manager.relations.list',
+                    route: 'manager.connections.list',
                 },
                 {
                     name: t('Add relation'),
-                    route: 'manager.relations.add',
+                    route: 'manager.connections.add',
                 },
             ],
         },
@@ -108,6 +110,12 @@ const ManagerDashboard = () => {
                 </Route>
                 <Route path={route('manager.flights.add')}>
                     <AddFlight />
+                </Route>
+                <Route path={route('manager.connections.list')}>
+                    <ConnectionsList />
+                </Route>
+                <Route path={route('manager.connections.add')}>
+                    <AddConnection />
                 </Route>
                 <Route path={route('manager.planes.add')}>
                     <AddPlane />

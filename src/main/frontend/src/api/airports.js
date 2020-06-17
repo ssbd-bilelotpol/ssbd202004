@@ -11,11 +11,13 @@ export const useFindAirports = (filterData) => {
     return useGet(`/airports?${params.toString()}`);
 };
 
+export const useListAirportsByCodePhrase = (phrase) => useGet(`/airports/${phrase}`);
+
 export const useGetCountries = () => useGet('/airports/countries', []);
 
 export const addAirport = async (data) => post('/airports', data);
 
-export const useAirport = (code) => useGet(`/airports/${code}`);
+export const useAirport = (code) => useGet(`/airports/find/${code}`);
 
 export const updateAirport = (code, data, etag) => put(`/airports/${code}`, data, etag);
 

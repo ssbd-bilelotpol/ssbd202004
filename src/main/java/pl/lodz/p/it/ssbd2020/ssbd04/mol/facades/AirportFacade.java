@@ -76,6 +76,25 @@ public class AirportFacade extends AbstractFacade<Airport> {
     }
 
     /**
+     * Zwraca lotniska, których kod pasuje do podanej frazy.
+     * @param phrase fraza z kodem lotniska
+     * @return lista lotnisk
+     * @throws AppBaseException
+     */
+    @PermitAll
+    public List<Airport> findByMatchingCode(String phrase) throws AppBaseException {
+        try {
+            TypedQuery<Airport> airportTypedQuery = em.createNamedQuery("Airport.findByMatchingCode", Airport.class);
+            airportTypedQuery.setParameter("phrase", phrase == null ? "" : phrase);
+            return airportTypedQuery.getResultList();
+        } catch (NoResultException e) {
+            throw AirportException.notFound();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
+
+    /**
      * Zwraca wszystkie lotniska spełniające podane kryteria.
      * @param city miasto.
      * @param code kod lotniska.

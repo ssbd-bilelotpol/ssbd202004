@@ -17,11 +17,11 @@ import java.util.Objects;
 
 @NamedQueries({
         @NamedQuery(name = "Connection.findBetween",
-                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId AND connection.destination.id = :destinationId"),
+                query = "SELECT connection from Connection connection WHERE UPPER(connection.source.code) LIKE UPPER(CONCAT('%', :sourceCode, '%')) AND UPPER(connection.destination.code) LIKE UPPER(CONCAT('%', :destinationCode, '%'))"),
         @NamedQuery(name = "Connection.findByDestination",
-                query = "SELECT connection from Connection connection WHERE connection.destination.id = :destinationId"),
+                query = "SELECT connection from Connection connection WHERE UPPER(connection.destination.code) LIKE UPPER(CONCAT('%', :destinationCode, '%'))"),
         @NamedQuery(name = "Connection.findBySource",
-                query = "SELECT connection from Connection connection WHERE connection.source.id = :sourceId"),
+                query = "SELECT connection from Connection connection WHERE UPPER(connection.source.code) LIKE UPPER(CONCAT('%', :sourceCode, '%'))"),
         @NamedQuery(name = "Connection.findByPhrase",
                 query = "SELECT connection from Connection connection WHERE " +
                         "UPPER(CONCAT(connection.source.code, ' - ', connection.destination.code)) LIKE UPPER(CONCAT(:phrase, '%'))")
