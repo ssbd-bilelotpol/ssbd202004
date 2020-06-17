@@ -93,7 +93,7 @@ public class SeatClassController extends AbstractController {
     @DELETE
     @Path("/{name}")
     public void delete(@NotNull @PathParam("name") String name) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        repeat(seatClassEndpoint, () -> seatClassEndpoint.delete(name));
     }
 
     /**

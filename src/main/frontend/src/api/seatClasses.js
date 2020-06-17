@@ -1,4 +1,4 @@
-import { post, put } from './index';
+import { httpDelete, post, put } from './index';
 import { useGet } from './hooks';
 
 export const useSeatClass = (name) => useGet(`/seat-classes/${name}`);
@@ -12,3 +12,5 @@ export const createSeatClass = (data) => {
 };
 
 export const editSeatClass = (name, data, etag) => put(`/seat-classes/${name}`, data, etag);
+
+export const deleteSeatClass = (name, etag) => httpDelete(`/seat-classes/${name}`, etag);

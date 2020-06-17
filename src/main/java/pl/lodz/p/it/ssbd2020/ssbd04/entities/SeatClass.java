@@ -29,6 +29,7 @@ import java.util.Set;
 )
 public class SeatClass extends AbstractEntity implements Serializable {
     public static final String CONSTRAINT_NAME = "seat_class_name_unique";
+    public static final String CONSTRAINT_SEAT_CLASS_IN_USE = "seat_seat_class_fk";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +52,7 @@ public class SeatClass extends AbstractEntity implements Serializable {
     @Column(precision = 7, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "seat_class_benefits",
             joinColumns = @JoinColumn(name = "seat_class_id", foreignKey = @ForeignKey(name = "seat_class_id")),

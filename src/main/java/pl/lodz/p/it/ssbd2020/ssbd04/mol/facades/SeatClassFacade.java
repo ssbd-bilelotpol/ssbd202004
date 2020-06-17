@@ -2,8 +2,10 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatClassException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -73,8 +75,14 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     @Override
     @RolesAllowed(Role.DeleteSeatClass)
     public void remove(SeatClass entity) throws AppBaseException {
-        // throws: SeatClassInUse
-        throw new UnsupportedOperationException();
+        try {
+            super.remove(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(SeatClass.CONSTRAINT_SEAT_CLASS_IN_USE)) {
+                throw SeatClassException.inUse(entity);
+            }
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override

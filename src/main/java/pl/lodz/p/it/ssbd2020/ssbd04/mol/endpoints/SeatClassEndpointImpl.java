@@ -86,8 +86,13 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     @Override
     @RolesAllowed(Role.DeleteSeatClass)
     public void delete(String name) throws AppBaseException {
-        // throws: SeatClassNotFound
-        throw new UnsupportedOperationException();
+        SeatClass seatClass = seatClassService.findByName(name);
+        SeatClassDto seatClassDto = new SeatClassDto(seatClass);
+        if (!verifyEtag(seatClassDto)) {
+            throw AppBaseException.optimisticLock();
+        }
+
+        seatClassService.delete(seatClass);
     }
 
     @Override

@@ -32,7 +32,7 @@ const AddSeatClass = () => {
                 color={seatClassColors[0]}
                 benefits={[]}
                 existingBenefits={[]}
-                handleSubmit={handleCreate}
+                onSubmit={handleCreate}
                 error={error}
                 benefitsButtonName="Add existing benefits"
             />

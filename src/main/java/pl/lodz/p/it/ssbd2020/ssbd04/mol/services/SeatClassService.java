@@ -87,7 +87,7 @@ public class SeatClassService {
      */
     @RolesAllowed(Role.DeleteSeatClass)
     public void delete(SeatClass seatClass) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        seatClassFacade.remove(seatClass);
     }
 
     /**
