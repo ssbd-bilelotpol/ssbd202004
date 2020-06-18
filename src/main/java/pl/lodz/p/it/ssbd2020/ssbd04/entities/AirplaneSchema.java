@@ -24,6 +24,7 @@ import java.util.Set;
 @Entity
 @Table(name = "airplane_schema")
 public class AirplaneSchema extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_IN_USE = "flight_airplane_schema_fk";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
+import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirplaneSchemaException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -62,11 +66,17 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
 
     @Override
     @RolesAllowed({Role.DeleteAirplaneSchema})
-    public void remove(AirplaneSchema entity) throws AppBaseException {
-        // throws: AirplaneSchemaInUse (is attached to a flight)
-        throw new UnsupportedOperationException();
-    }
+    public void remove(AirplaneSchema airplaneSchema) throws AppBaseException {
+        try {
+            super.remove(airplaneSchema);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(AirplaneSchema.CONSTRAINT_IN_USE)) {
+                throw AirplaneSchemaException.inUse(airplaneSchema);
+            }
 
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
     /**
      * Szuka schematów samolotów których nazwa pasuje do podanej nazwy.
      * @param name podana nazwa

@@ -132,7 +132,15 @@ public class AirplaneSchemaEndpointImpl extends AbstractEndpoint implements Airp
     @Override
     @RolesAllowed(Role.DeleteAirplaneSchema)
     public void delete(Long id) throws AppBaseException {
-        // throws: AirplaneSchemaNotFound
-        throw new UnsupportedOperationException();
+        AirplaneSchema airplaneSchema = airplaneSchemaService.findById(id);
+        if (airplaneSchema == null) {
+            throw AirplaneSchemaException.notFound();
+        }
+        AirplaneSchemaDto dto = new AirplaneSchemaDto(airplaneSchema);
+        if (!verifyEtag(dto)) {
+            throw AppBaseException.optimisticLock();
+        }
+
+        airplaneSchemaService.delete(airplaneSchema);
     }
 }

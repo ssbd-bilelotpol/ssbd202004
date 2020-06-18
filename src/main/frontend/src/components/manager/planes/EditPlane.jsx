@@ -3,12 +3,20 @@ import { useParams } from 'react-router-dom';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Label, Message } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { useTitle } from '../../Title';
 import { useAirplaneSchema, updateAirplaneSchema } from '../../../api/airplaneSchemas';
 import { useBreadcrumb } from '../../Breadcrumbs';
 import { ContentCard } from '../../shared/Dashboard';
 import EditPlaneForm from './EditPlaneForm';
 import { useSeatClasses } from '../../../api/seatClasses';
+import DeletePlane from './DeletePlane';
+
+const StyledDiv = styled.div`
+    &&& {
+        padding-top: 10px;
+    }
+`;
 
 const EditPlane = () => {
     const { t } = useTranslation();
@@ -24,6 +32,7 @@ const EditPlane = () => {
     } = useSeatClasses();
     const [saved, setSaved] = useState(false);
     const [savingError, setSavingError] = useState(null);
+    const [deleteError, setDeleteError] = useState(null);
 
     useTitle(airplaneSchema.name ? airplaneSchema.name : '');
     useBreadcrumb({ name: airplaneSchema.name ? airplaneSchema.name : '' });
@@ -50,6 +59,7 @@ const EditPlane = () => {
                 {seatClassesError && <Message negative content={t(seatClassesError.message)} />}
                 {fetchError && <Message negative content={t(fetchError.message)} />}
                 {savingError && <Message negative content={t(savingError.message)} />}
+                {deleteError && <Message negative content={t(deleteError.message)} />}
                 <EditPlaneForm
                     loading={loading || seatClassesLoading}
                     airplaneSchema={airplaneSchema}
@@ -57,6 +67,11 @@ const EditPlane = () => {
                     onSubmit={handleSubmit}
                     edit
                 />
+                {!loading && (
+                    <StyledDiv>
+                        <DeletePlane id={airplaneSchema.id} etag={etag} setError={setDeleteError} />
+                    </StyledDiv>
+                )}
             </ContentCard>
         </>
     );

@@ -1,4 +1,4 @@
-import { post, put } from './index';
+import { httpDelete, post, put } from './index';
 import { useGet } from './hooks';
 
 export const createAirplaneSchema = async ({ name, plane }) =>
@@ -16,6 +16,8 @@ export const useAirplaneSchemas = (filterData) => {
     });
     return useGet(`/airplane-schemas?${params.toString()}`, []);
 };
+
+export const deleteAirplaneSchema = (id, etag) => httpDelete(`/airplane-schemas/${id}`, etag);
 
 export const useAirplaneSchema = (id) => useGet(`/airplane-schemas/${id}`);
 

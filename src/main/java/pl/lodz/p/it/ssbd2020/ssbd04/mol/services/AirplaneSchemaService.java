@@ -142,12 +142,11 @@ public class AirplaneSchemaService {
      * Usuwa schemat samolotu.
      *
      * @param airplaneSchema schemat samolotu.
-     * @throws AppBaseException gdy schemat jest używany przez pewien lot..
+     * @throws AppBaseException gdy schemat jest używany przez pewien lot.
      */
     @RolesAllowed(Role.DeleteAirplaneSchema)
     public void delete(AirplaneSchema airplaneSchema) throws AppBaseException {
-        // throws: AirplaneSchemaInUse (is attached to a flight)
-        throw new UnsupportedOperationException();
+        airplaneSchemaFacade.remove(airplaneSchema);
     }
 
     /**

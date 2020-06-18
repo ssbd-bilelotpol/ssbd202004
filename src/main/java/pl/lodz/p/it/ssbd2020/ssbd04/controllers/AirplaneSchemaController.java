@@ -97,7 +97,7 @@ public class AirplaneSchemaController extends AbstractController {
      */
     @DELETE
     @Path("/{id}")
-    public void delete(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public void delete(@PathParam("id") Long id) throws AppBaseException {
+        repeat(airplaneSchemaEndpoint, () -> airplaneSchemaEndpoint.delete(id));
     }
 }
