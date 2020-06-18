@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Form, Placeholder, Message } from 'semantic-ui-react';
 import { Formik } from 'formik';
@@ -6,9 +6,7 @@ import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import styled from 'styled-components';
 import { AirportSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
-import RequireableDropdown from '../../shared/RequireableDropdown';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
-import { getCountryOptions } from '../../../i18n/countries';
 import DeleteAirport from './DeleteAirport';
 
 const StyledInput = styled(Form.Input)`
@@ -28,7 +26,6 @@ const StyledDiv = styled.div`
 
 const EditAirportForm = ({ airport, refetch, loading, onSave, fetchError, etag }) => {
     const { t } = useTranslation();
-    const countryOptions = useMemo(() => getCountryOptions(t), [t]);
     const [saved, setSaved] = useState(false);
     const [savingError, setSavingError] = useState();
     const [deleteError, setDeleteError] = useState();
@@ -100,7 +97,6 @@ const EditAirportForm = ({ airport, refetch, loading, onSave, fetchError, etag }
                             handleChange,
                             handleBlur,
                             handleSubmit,
-                            setFieldValue,
                             isSubmitting,
                         }) => (
                             <Form onSubmit={handleSubmit}>
@@ -109,6 +105,18 @@ const EditAirportForm = ({ airport, refetch, loading, onSave, fetchError, etag }
                                     disabled
                                     value={values.code}
                                     label={t('Airport code')}
+                                />
+                                <StyledInput
+                                    name="city"
+                                    value={values.city}
+                                    label={t('City')}
+                                    disabled
+                                />
+                                <StyledInput
+                                    name="country"
+                                    value={t(values.country)}
+                                    label={t('Country')}
+                                    disabled
                                 />
                                 <Form.Input
                                     name="name"
@@ -122,38 +130,6 @@ const EditAirportForm = ({ airport, refetch, loading, onSave, fetchError, etag }
                                         errors.name &&
                                         touched.name && {
                                             content: translate(errors.name),
-                                            pointing: 'below',
-                                        }
-                                    }
-                                />
-                                <Form.Input
-                                    name="city"
-                                    disabled={isSubmitting}
-                                    label={t('City')}
-                                    value={values.city}
-                                    control={AsteriskInput}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={
-                                        errors.city &&
-                                        touched.city && {
-                                            content: translate(errors.city),
-                                            pointing: 'below',
-                                        }
-                                    }
-                                />
-                                <RequireableDropdown
-                                    options={countryOptions}
-                                    name="country"
-                                    label={t('Country')}
-                                    value={values.country}
-                                    onChange={(_, value) => setFieldValue('country', value.value)}
-                                    disabled={isSubmitting}
-                                    asterisk
-                                    error={
-                                        errors.country &&
-                                        touched.country && {
-                                            content: translate(errors.country),
                                             pointing: 'below',
                                         }
                                     }

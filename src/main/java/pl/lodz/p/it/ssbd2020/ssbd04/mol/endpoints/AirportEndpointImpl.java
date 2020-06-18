@@ -92,8 +92,6 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
             throw AppBaseException.optimisticLock();
         }
 
-        airport.setCountry(airportDto.getCountry());
-        airport.setCity(airportDto.getCity());
         airport.setName(airportDto.getName());
 
         airportService.update(airport);

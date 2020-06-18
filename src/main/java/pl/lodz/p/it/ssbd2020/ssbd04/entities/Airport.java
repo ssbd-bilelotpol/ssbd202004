@@ -62,13 +62,13 @@ public class Airport extends AbstractEntity implements Serializable {
 
     @NotNull
     @Size(min = 2, max = 32)
-    @Column(nullable = false, length = 32)
+    @Column(nullable = false, length = 32, updatable = false)
     @AirportCountry
     private String country;
 
     @NotNull
     @Size(min = 2, max = 32)
-    @Column(nullable = false, length = 32)
+    @Column(nullable = false, length = 32, updatable = false)
     @AirportCity
     private String city;
 
