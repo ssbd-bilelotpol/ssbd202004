@@ -62,13 +62,12 @@ public class TicketController extends AbstractController {
     /**
      * Zwraca zakupiony bilet
      *
-     * @param ticketReturnDto parametry zwracania biletu
+     * @param id identyfikator zwracanego biletu
      */
     @DELETE
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void returnTicket(@NotNull @Valid TicketReturnDto ticketReturnDto) {
-        throw new UnsupportedOperationException();
+    public void returnTicket(@PathParam("id") Long id) throws AppBaseException {
+        repeat(ticketEndpoint, () -> ticketEndpoint.returnTicket(id));
     }
 
     /**

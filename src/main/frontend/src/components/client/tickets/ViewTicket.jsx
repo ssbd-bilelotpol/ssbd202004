@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HeaderSubHeader from 'semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader';
-import { Table, Placeholder, Message, Button } from 'semantic-ui-react';
+import { Table, Placeholder, Message } from 'semantic-ui-react';
 import Moment from 'react-moment';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { getLetterOfAlphabet } from '../../../utils';
-import { useTicket } from '../../../api/tickets';
+import { returnTicket, useTicket } from '../../../api/tickets';
 import { BlueHeader } from '../../shared/SimpleComponents';
 import { WideCard } from '../../shared/Flight';
+import { route } from '../../../routing';
+import ConfirmSubmit from '../../controls/ConfirmSubmit';
 
 const Ticket = ({ ticket }) => {
     const { t } = useTranslation();
+    const history = useHistory();
+    const makeCancellable = useCancellablePromise();
+
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState(false);
+
+    const handleCancelTicket = async () => {
+        setSaving(true);
+        try {
+            await makeCancellable(returnTicket(ticket.id));
+            history.push(route('panel.tickets'));
+        } catch (err) {
+            setError(err);
+        }
+        setSaving(false);
+    };
 
     return (
         <>
@@ -82,14 +101,22 @@ const Ticket = ({ ticket }) => {
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan="3">
-                                {t('Łącznie')}: {ticket.totalPrice} PLN
+                                {t('Total')}: {ticket.totalPrice} PLN
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>
                 </Table>
             </WideCard>
 
-            <Button negative>{t('Cancel ticket')}</Button>
+            {error && <Message negative>{t(error.message)}</Message>}
+            <ConfirmSubmit
+                onSubmit={handleCancelTicket}
+                loading={saving}
+                disabled={saving}
+                negative
+            >
+                {t('Cancel ticket')}
+            </ConfirmSubmit>
         </>
     );
 };

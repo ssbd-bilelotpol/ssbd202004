@@ -69,10 +69,10 @@ public interface TicketEndpoint extends TransactionStarter {
     /**
      * Zwraca zakupiony bilet
      *
-     * @param ticketReturnDto parametry zwracania biletu
+     * @param id identyfikator zwracanego biletu
      * @throws AppBaseException gdy nie powiedzie się zwracanie biletu
      */
-    void returnTicket(TicketReturnDto ticketReturnDto) throws AppBaseException;
+    void returnTicket(Long id) throws AppBaseException;
 
     /**
      * Aktualizuje dane biletu

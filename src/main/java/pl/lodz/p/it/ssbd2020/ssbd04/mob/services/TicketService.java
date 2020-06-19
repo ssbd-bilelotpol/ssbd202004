@@ -6,8 +6,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.ReportDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.facades.TicketFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -106,7 +104,7 @@ public class TicketService {
         Connection connection = ticket.getFlight().getConnection();
         connection.setProfit(connection.getProfit().subtract(ticket.getTotalPrice()));
         connectionFacade.edit(connection);
-        throw new UnsupportedOperationException();
+        ticketFacade.remove(ticket);
     }
 
     /**

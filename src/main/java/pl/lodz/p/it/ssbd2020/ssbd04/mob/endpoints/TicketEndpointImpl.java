@@ -167,8 +167,20 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
 
     @Override
     @RolesAllowed(Role.ReturnTicket)
-    public void returnTicket(TicketReturnDto ticketDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void returnTicket(Long id) throws AppBaseException {
+        Account account = accountService.getCurrentUser();
+        Ticket ticket = ticketService.findById(id);
+
+        if (!ticket.getAccount().getId().equals(account.getId())) {
+            throw ForbiddenException.forbidden();
+        }
+
+        LocalDateTime expirationTime = ticket.getFlight().getStartDateTime().minusHours(72);
+        if (LocalDateTime.now().isAfter(expirationTime)) {
+            throw TicketException.timeToReturnExpired();
+        }
+
+        ticketService.returnTicket(ticket);
     }
 
     @Override

@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.TicketException;
@@ -51,6 +52,8 @@ public class TicketFacade extends AbstractFacade<Ticket> {
             TypedQuery<Ticket> query = em.createNamedQuery("Ticket.findById", Ticket.class);
             query.setParameter("id", id);
             return query.getSingleResult();
+        } catch (NoResultException e) {
+            throw TicketException.notFound();
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }
@@ -124,7 +127,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
      */
     @RolesAllowed(Role.ReturnTicket)
     public void remove(Ticket ticket) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        super.remove(ticket);
     }
 
     /**
