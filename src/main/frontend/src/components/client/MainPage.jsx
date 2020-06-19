@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
-import { Image, Message, Label } from 'semantic-ui-react';
+import { Image, Message, Label, Menu, Icon } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 import SearchFlight from './purchase/SearchFlight';
 import TopMenu from '../TopMenu';
 import SelectFlight from './purchase/SelectFlight';
 import { PageContainer } from '../shared/SimpleComponents';
+import { route } from '../../routing';
+
+const MenuItems = () => {
+    const { t } = useTranslation();
+    return (
+        <>
+            <Menu.Item as={NavLink} to={route('panel.tickets')}>
+                <Icon name="calendar" />
+                {t('Dashboard')}
+            </Menu.Item>
+        </>
+    );
+};
 
 const MainPage = () => {
     const { t } = useTranslation();
@@ -12,7 +26,7 @@ const MainPage = () => {
 
     return (
         <>
-            <TopMenu clouds="bottom">
+            <TopMenu clouds="bottom" menuItems={MenuItems}>
                 <SearchFlight onSubmit={(values) => setSearchQuery(values)} />
             </TopMenu>
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Message, Placeholder } from 'semantic-ui-react';
-import { editCurrentAccountDetails, useCurrentAccountDetails } from '../../api/profiles';
-import AccountEditForm from '../shared/AccountEditForm';
+import { editCurrentAccountDetails, useCurrentAccountDetails } from '../../../api/profiles';
+import AccountEditForm from '../../shared/AccountEditForm';
 
 const Settings = () => {
     const { t } = useTranslation();

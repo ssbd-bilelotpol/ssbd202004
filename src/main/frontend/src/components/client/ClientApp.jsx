@@ -17,11 +17,11 @@ const ClientApp = () => {
                 <Route path={route('flights.purchase')}>
                     <PurchaseTickets />
                 </Route>
-                <Route path={path}>
-                    <MainPage />
-                </Route>
                 <Route path={route('panel')}>
                     <ClientDashboard />
+                </Route>
+                <Route path={path}>
+                    <MainPage />
                 </Route>
             </Switch>
         </>

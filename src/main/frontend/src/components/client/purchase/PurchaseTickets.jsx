@@ -28,6 +28,7 @@ import { buyTickets } from '../../../api/tickets';
 import { PassengerSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import { route } from '../../../routing';
+import { getLetterOfAlphabet } from '../../../utils';
 
 const SelectSeatsModal = ({ flight, count, selectedSeats, onChange }) => {
     const { t } = useTranslation();
@@ -120,10 +121,6 @@ const SelectSeatsModal = ({ flight, count, selectedSeats, onChange }) => {
     };
     const handleOpen = () => {
         setOpen(true);
-    };
-
-    const getLetterOfAlphabet = (num) => {
-        return String.fromCharCode('A'.charCodeAt(0) + num - 1);
     };
 
     return (

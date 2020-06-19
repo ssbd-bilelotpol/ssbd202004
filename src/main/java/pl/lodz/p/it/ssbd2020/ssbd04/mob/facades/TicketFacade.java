@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.facades;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
@@ -15,10 +16,10 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.List;
+
+import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GetTakenSeats;
 
 @Interceptors({TrackingInterceptor.class})
 @Stateless
@@ -46,7 +47,13 @@ public class TicketFacade extends AbstractFacade<Ticket> {
      */
     @RolesAllowed(Role.FindTicketById)
     public Ticket find(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            TypedQuery<Ticket> query = em.createNamedQuery("Ticket.findById", Ticket.class);
+            query.setParameter("id", id);
+            return query.getSingleResult();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**
@@ -70,7 +77,13 @@ public class TicketFacade extends AbstractFacade<Ticket> {
      */
     @RolesAllowed(Role.FindTicketsByAccount)
     public List<Ticket> findByAccount(Long accountId) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            TypedQuery<Ticket> query = em.createNamedQuery("Ticket.findByAccount", Ticket.class);
+            query.setParameter("accountId", accountId);
+            return query.getResultList();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**

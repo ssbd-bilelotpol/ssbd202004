@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.*;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.FlightException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatClassException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.AccountService;
@@ -59,7 +56,14 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
     @Override
     @RolesAllowed(Role.FindTicketById)
     public TicketDto findById(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        Ticket ticket = ticketService.findById(id);
+        Account account = accountService.getCurrentUser();
+
+        if (!ticket.getAccount().getId().equals(account.getId())) {
+            throw ForbiddenException.forbidden();
+        }
+
+        return new TicketDto(ticket);
     }
 
     @Override
@@ -83,7 +87,11 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
     @Override
     @RolesAllowed(Role.GetOwnTickets)
     public List<TicketDto> getOwnTickets() throws AppBaseException {
-        throw new UnsupportedOperationException();
+        Account account = accountService.getCurrentUser();
+        return ticketService.findByAccount(account)
+                .stream()
+                .map(TicketDto::new)
+                .collect(Collectors.toList());
     }
 
     @Override

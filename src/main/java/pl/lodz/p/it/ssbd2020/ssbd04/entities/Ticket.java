@@ -15,8 +15,9 @@ import java.util.Set;
  * Klasa encyjna odpowiedzialna za przechowywanie informacji o sprzedaży biletu
  */
 @NamedQueries({
-        @NamedQuery(name = "Ticket.findByFlight",
-                query = "SELECT ticket from Ticket ticket WHERE ticket.flight.id = :flightId"),
+        @NamedQuery(name = "Ticket.findByFlight", query = "SELECT ticket from Ticket ticket WHERE ticket.flight.id = :flightId"),
+        @NamedQuery(name = "Ticket.findByAccount", query = "SELECT ticket from Ticket ticket WHERE ticket.account.id = :accountId"),
+        @NamedQuery(name = "Ticket.findById", query = "SELECT ticket from Ticket ticket WHERE ticket.id = :id"),
 })
 @Entity
 @Table(

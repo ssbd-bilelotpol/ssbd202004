@@ -9,7 +9,7 @@ import CustomerServiceApp from './components/customerService/CustomerServiceApp'
 import ClientApp from './components/client/ClientApp';
 import UserApp from './components/user/UserApp';
 import Confirm from './components/client/Confirm';
-import PasswordReset from './components/client/PasswordReset';
+import PasswordReset from './components/client/settings/PasswordReset';
 import { route } from './routing';
 import { useTitle } from './components/Title';
 

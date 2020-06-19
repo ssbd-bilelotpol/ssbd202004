@@ -33,8 +33,8 @@ public class TicketController extends AbstractController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public TicketDto findById(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public TicketDto findById(@PathParam("id") Long id) throws AppBaseException {
+        return ticketEndpoint.findById(id);
     }
 
     /**

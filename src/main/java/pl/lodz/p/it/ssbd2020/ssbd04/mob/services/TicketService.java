@@ -43,7 +43,7 @@ public class TicketService {
      */
     @RolesAllowed(Role.FindTicketById)
     public Ticket findById(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return ticketFacade.find(id);
     }
 
     /**
@@ -67,7 +67,7 @@ public class TicketService {
      */
     @RolesAllowed(Role.FindTicketsByAccount)
     public List<Ticket> findByAccount(Account account) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return ticketFacade.findByAccount(account.getId());
     }
 
     /**
@@ -78,17 +78,6 @@ public class TicketService {
      */
     @RolesAllowed(Role.GetAllTickets)
     public List<Ticket> getAllTickets() throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Zwraca listę biletów aktualnie zalogowanego użytkownika
-     *
-     * @return lista biletów aktualnie zalogowanego użytkownika
-     * @throws AppBaseException gdy nie powiedzie się zwrócenie listy biletów
-     */
-    @RolesAllowed(Role.GetOwnTickets)
-    public List<Ticket> getOwnTickets() throws AppBaseException {
         throw new UnsupportedOperationException();
     }
 

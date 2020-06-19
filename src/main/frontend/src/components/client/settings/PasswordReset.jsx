@@ -13,9 +13,9 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { Formik } from 'formik';
-import AsteriskInput from '../controls/AsteriskInput';
-import { resetPasswordApi } from '../../api/auth';
-import { PasswordResetSchema } from '../../yup';
+import AsteriskInput from '../../controls/AsteriskInput';
+import { resetPasswordApi } from '../../../api/auth';
+import { PasswordResetSchema } from '../../../yup';
 
 const PasswordReset = () => {
     const { t } = useTranslation();

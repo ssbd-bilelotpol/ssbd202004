@@ -1,10 +1,13 @@
 import React from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import { Grid, Menu, Container, Card, Icon } from 'semantic-ui-react';
+import { Grid, Menu, Container, Card } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { route } from '../../routing';
 import TopMenu from '../TopMenu';
+import ListTickets from './tickets/ListTickets';
+import ViewTicket from './tickets/ViewTicket';
+import { Breadcrumbs } from '../Breadcrumbs';
 
 const DashboardContainer = styled(Container)`
     &&& {
@@ -24,38 +27,20 @@ const ContentCard = styled(Card)`
     }
 `;
 
-const MenuItems = () => {
-    const { t } = useTranslation();
-    return (
-        <>
-            <Menu.Item as="a">
-                <Icon name="plane" />
-                {t('Schedule')}
-            </Menu.Item>
-            <Menu.Item as={NavLink} to={route('panel.reservations')}>
-                <Icon name="calendar" />
-                {t('My reservations')}
-            </Menu.Item>
-        </>
-    );
-};
-
 const ClientDashboard = () => {
     const { t } = useTranslation();
     return (
         <>
-            <TopMenu clouds="center" menuItems={MenuItems} />
+            <TopMenu clouds="center" />
             <Container>
+                <Breadcrumbs />
                 <DashboardContainer>
                     <Grid>
                         <Grid.Column width={3}>
                             <ContentCard>
                                 <DashboardMenu secondary vertical pointing>
-                                    <Menu.Item as={NavLink} to={route('panel.dashboard')}>
-                                        {t('Dashboard')}
-                                    </Menu.Item>
-                                    <Menu.Item as={NavLink} to={route('panel.reservations')}>
-                                        {t('My reservations')}
+                                    <Menu.Item as={NavLink} to={route('panel.tickets')}>
+                                        {t('My tickets')}
                                     </Menu.Item>
                                 </DashboardMenu>
                             </ContentCard>
@@ -63,10 +48,15 @@ const ClientDashboard = () => {
                         <Grid.Column width={13}>
                             <ContentCard fluid>
                                 <Switch>
-                                    <Route path={route('panel.reservations')}>TODO</Route>
+                                    <Route path={route('panel.tickets.view')}>
+                                        <ViewTicket />
+                                    </Route>
+                                    <Route path={route('panel.tickets')}>
+                                        <ListTickets />
+                                    </Route>
 
                                     <Route exact>
-                                        <Redirect to={route('panel.dashboard')} />
+                                        <Redirect to={route('panel.tickets')} />
                                     </Route>
                                 </Switch>
                             </ContentCard>

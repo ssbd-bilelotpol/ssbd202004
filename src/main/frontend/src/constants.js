@@ -100,10 +100,17 @@ export const routes = {
                 path: '/dashboard',
                 breadcrumb: 'Dashboard',
             },
-            reservations: {
-                title: 'My reservations',
-                path: '/reservations',
-                breadcrumb: 'My reservations',
+            tickets: {
+                title: 'My tickets',
+                path: '/tickets',
+                breadcrumb: 'My tickets',
+                subroutes: {
+                    view: {
+                        title: 'View ticket',
+                        breadcrumb: 'View ticket',
+                        path: '/:id',
+                    },
+                },
             },
         },
     },

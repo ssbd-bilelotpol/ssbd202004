@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Icon } from 'semantic-ui-react';
+import { getLetterOfAlphabet } from '../../utils';
 
 const rowColToDigit = (seat, columns) => seat.row * columns + seat.col;
 
@@ -70,10 +71,6 @@ const EmptyRow = styled(({ row, length, ...rest }) => <div {...rest} />)`
     grid-row: ${(props) => props.row};
     grid-column: 1 / span ${(props) => props.length};
 `;
-
-const getLetterOfAlphabet = (num) => {
-    return String.fromCharCode('A'.charCodeAt(0) + num - 1);
-};
 
 const emptyBefore = (empties, num) => empties.filter((e) => e < num).length;
 

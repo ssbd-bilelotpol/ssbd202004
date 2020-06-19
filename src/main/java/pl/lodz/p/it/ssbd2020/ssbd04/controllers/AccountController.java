@@ -273,7 +273,7 @@ public class AccountController extends AbstractController {
     @Path("/self/tickets")
     @Produces(MediaType.APPLICATION_JSON)
     public List<TicketDto> getOwnTickets() throws AppBaseException {
-        throw new UnsupportedOperationException();
+        return repeat(ticketEndpoint, ticketEndpoint::getOwnTickets);
     }
 
     /**

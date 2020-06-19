@@ -75,6 +75,7 @@ public class I18n {
     public static final String PROCESSING_ERROR = "error.rest.processingError";
     public static final String RESOURCE_NOT_FOUND = "error.rest.resourceNotFound";
     public static final String UNAUTHORIZED = "error.rest.unauthorized";
+    public static final String FORBIDDEN = "error.rest.forbidden";
 
     public static final String AIRPLANE_SCHEMA_NOT_FOUND = "error.airplaneSchema.notFound";
     public static final String AIRPLANE_SCHEMA_INVALID_DATA = "error.airplaneSchema.invalidData";
