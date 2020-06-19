@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { roles } from './constants';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminApp from './components/admin/AdminApp';
@@ -13,11 +14,13 @@ import { route } from './routing';
 import { useTitle } from './components/Title';
 
 const App = () => {
+    const redirect = useSelector((state) => state.auth.redirect);
     useTitle();
 
     return (
         <>
             <Switch>
+                {redirect && <Redirect to={redirect} />}
                 <Route path={route('confirm')}>
                     <Confirm />
                 </Route>

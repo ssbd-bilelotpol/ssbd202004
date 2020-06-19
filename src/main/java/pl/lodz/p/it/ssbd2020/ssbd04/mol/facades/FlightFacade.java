@@ -23,7 +23,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +51,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
     public void create(Flight entity) throws AppBaseException {
         try {
             super.create(entity);
+            em.lock(entity.getAirplaneSchema(), LockModeType.OPTIMISTIC_FORCE_INCREMENT);
         } catch (ConstraintViolationException e) {
             if (e.getCause().getMessage().contains(Flight.CONSTRAINT_FLIGHT_CODE)) {
                 throw FlightException.exists();

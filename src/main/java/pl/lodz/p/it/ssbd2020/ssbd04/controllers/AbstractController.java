@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.RepeatableOptimisticLockException;
 
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
@@ -34,7 +35,7 @@ public abstract class AbstractController {
                 }
                 result = supplier.execute();
                 rollback = transactionStarter.isLastTransactionRollback();
-            } catch (EJBTransactionRolledbackException e) {
+            } catch (EJBTransactionRolledbackException | RepeatableOptimisticLockException e) {
                 rollback = true;
             }
         } while (rollback && ++retryCount <= config.getTransactionRetryThreshold());
@@ -60,7 +61,7 @@ public abstract class AbstractController {
                 }
                 procedure.execute();
                 rollback = transactionStarter.isLastTransactionRollback();
-            } catch (EJBTransactionRolledbackException e) {
+            } catch (EJBTransactionRolledbackException | RepeatableOptimisticLockException e) {
                 rollback = true;
             }
         } while (rollback && ++retryCount <= config.getTransactionRetryThreshold());

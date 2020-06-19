@@ -231,20 +231,20 @@
     <security-role-mapping>
         <role-name>getTakenSeats</role-name>
         <group-name>client</group-name>
-        <group-name>customer-service</group-name>
+        <group-name>customer_service</group-name>
         <group-name>manager</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
         <role-name>calculateConnectionProfit</role-name>
         <group-name>client</group-name>
-        <group-name>customer-service</group-name>
+        <group-name>customer_service</group-name>
         <group-name>manager</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
         <role-name>generateReport</role-name>
-        <group-name>customer-service</group-name>
+        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>

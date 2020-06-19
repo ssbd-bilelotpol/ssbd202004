@@ -1,11 +1,17 @@
 import React from 'react';
+import { Container } from 'semantic-ui-react';
 import TopMenu from '../TopMenu';
+import { Breadcrumbs } from '../Breadcrumbs';
+import CustomerServiceDashboard from './CustomerServiceDashboard';
 
 const CustomerServiceApp = () => {
     return (
         <>
             <TopMenu backgroundColor="#3b866e" />
-            <h1>Customer Service</h1>
+            <Container>
+                <Breadcrumbs />
+                <CustomerServiceDashboard />
+            </Container>
         </>
     );
 };

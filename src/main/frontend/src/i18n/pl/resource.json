@@ -217,6 +217,12 @@
     "BLACK": "CZARNY",
     "Delete": "Usuń",
     "Edit plane": "Edytuj samolot",
+    "Reports": "Raporty",
+    "Sales report for available connections": "Raport ze sprzedaży dla połączeń",
+    "No connections available": "Brak dostępnych połączeń",
+    "Connection ID": "ID połączenia",
+    "Profit": "Zysk",
+    "Customer Service": "Obsługa klienta",
     "Relation details": "Szczegóły relacji",
     "Relation updated successfully": "Relacja zaktualizowana pomyślnie",
     "Edit relation": "Edytuj relację"

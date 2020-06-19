@@ -3,15 +3,19 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.services;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.ReportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Przetwarzanie logiki biznesowej połączeń.
@@ -27,6 +31,16 @@ public class ConnectionService {
     @RolesAllowed(Role.CalculateConnectionProfit)
     public void calculateConnectionProfit(Connection connection) throws AppBaseException {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Zwraca listę z informacjami o zyskach na danych połączeniach
+     * @return lista z informacjami o zyskach na danych połączeniach
+     * @throws AppBaseException
+     */
+    @RolesAllowed({Role.GenerateReport})
+    public List<Connection> generateReport() throws AppBaseException {
+        return connectionFacade.findAll();
     }
 
 }

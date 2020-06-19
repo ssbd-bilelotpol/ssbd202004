@@ -1,11 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.RepeatableOptimisticLockException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -13,6 +16,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import java.util.List;
 
 
 @Interceptors({TrackingInterceptor.class})
@@ -35,7 +40,20 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @Override
     @RolesAllowed({Role.UpdateConnection, Role.CalculateConnectionProfit})
     public void edit(Connection entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            super.edit(entity);
+        } catch (AppBaseException e) {
+            if (e.getMessage().equals(I18n.DATABASE_OPTIMISTIC_LOCK)) {
+                throw RepeatableOptimisticLockException.optimisticLock();
+            }
+
+            throw e;
+        }
     }
 
+    @Override
+    @PermitAll
+    public List<Connection> findAll() throws AppBaseException {
+        return super.findAll();
+    }
 }

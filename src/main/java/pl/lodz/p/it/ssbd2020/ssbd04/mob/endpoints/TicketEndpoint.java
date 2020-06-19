@@ -83,6 +83,10 @@ public interface TicketEndpoint extends TransactionStarter {
      */
     void update(Long id, TicketUpdateDto ticketUpdateDto) throws AppBaseException;
 
-    ReportDto generateReport() throws AppBaseException;
-
+    /**
+     * Zwraca listę z informacjami o zyskach na danych połączeniach
+     * @return lista z informacjami o zyskach na danych połączeniach
+     * @throws AppBaseException gdy nie będzie połączenia z bazą danych
+     */
+    List<ReportDto> generateReport() throws AppBaseException;
 }

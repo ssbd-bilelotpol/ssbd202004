@@ -130,6 +130,12 @@ VALUES (-4, now(), now(), 0, 150, 3, 2);
 INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
 VALUES (-5, now(), now(), 0, 150, 2, 1);
 
+insert into connection_stats values (-1, 5);
+insert into connection_stats values (-2, 0);
+insert into connection_stats values (-3, -5);
+insert into connection_stats values (-4, 100);
+insert into connection_stats values (-5, 0);
+
 -- Schemas
 INSERT INTO public.airplane_schema (id, creation_date_time, modification_date_time, version, cols, rows, name)
 VALUES (-1, now(), now(), 0, 2, 3, 'Boeing 747');

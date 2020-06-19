@@ -1,12 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.services;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.ReportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.facades.TicketFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -28,6 +30,9 @@ public class TicketService {
 
     @Inject
     private TicketFacade ticketFacade;
+
+    @Inject
+    private ConnectionFacade connectionFacade;
 
     /**
      * Zwraca bilet o określonym ID
@@ -95,17 +100,23 @@ public class TicketService {
      */
     @RolesAllowed(Role.CreateTicket)
     public void buyTicket(Ticket ticket) throws AppBaseException {
+        Connection connection = ticket.getFlight().getConnection();
+        connection.setProfit(ticket.getTotalPrice().add(connection.getProfit()));
+        connectionFacade.edit(connection);
         ticketFacade.create(ticket);
     }
 
     /**
      * Zwraca zakupiony bilet
      *
-     * @param ticketReturnDto parametry zwracania biletu
+     * @param ticket parametry zwracania biletu
      * @throws AppBaseException gdy nie powiedzie się zwracanie biletu
      */
     @RolesAllowed(Role.ReturnTicket)
-    public void returnTicket(TicketReturnDto ticketReturnDto) throws AppBaseException {
+    public void returnTicket(Ticket ticket) throws AppBaseException {
+        Connection connection = ticket.getFlight().getConnection();
+        connection.setProfit(connection.getProfit().subtract(ticket.getTotalPrice()));
+        connectionFacade.edit(connection);
         throw new UnsupportedOperationException();
     }
 
@@ -119,10 +130,4 @@ public class TicketService {
     public void update(Ticket ticket) throws AppBaseException {
         throw new UnsupportedOperationException();
     }
-
-    @RolesAllowed(Role.GenerateReport)
-    public ReportDto generateReport() throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
 }

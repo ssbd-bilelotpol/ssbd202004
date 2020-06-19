@@ -70,6 +70,7 @@ public class Connection extends AbstractEntity implements Serializable {
 
     public Connection(@Digits(integer = 7, fraction = 2) @NotNull BigDecimal basePrice) {
         this.basePrice = basePrice;
+        this.profit = new BigDecimal(0);
     }
 
     public Airport getDestination() {

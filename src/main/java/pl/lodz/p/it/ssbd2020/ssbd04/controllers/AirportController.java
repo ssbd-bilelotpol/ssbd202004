@@ -122,14 +122,14 @@ public class AirportController extends AbstractController {
 
     /**
      * Modyfikuje istniejące lotnisko.
-     * @param id identyfikator lotniska, które ma zostać zmodyfikowane.
+     * @param code identyfikator lotniska, które ma zostać zmodyfikowane.
      * @param airportDto dane, które mają zostać zapisane.
      */
     @PUT
-    @Path("/{id}")
+    @Path("/{code}")
     @Consumes(MediaType.APPLICATION_JSON)
     @EtagBinding
-    public void update(@PathParam("id") @AirportCode String code, AirportDto airportDto) throws AppBaseException {
+    public void update(@PathParam("code") @AirportCode String code, AirportDto airportDto) throws AppBaseException {
         repeat(airportEndpoint, () -> airportEndpoint.update(code, airportDto));
     }
 }

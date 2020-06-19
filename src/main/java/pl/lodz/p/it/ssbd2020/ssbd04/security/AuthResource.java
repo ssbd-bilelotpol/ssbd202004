@@ -94,6 +94,11 @@ public class AuthResource {
         return Response.ok().entity(jwtProvider.create(result)).build();
     }
 
+    /**
+     * Weryfikuje czy aktualny użytkownik znajduje się w danej grupie.
+     * @param group nazwa grupy na którą chcemy
+     * @return
+     */
     @POST
     @Path("/change-role/{role}")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -791,13 +791,17 @@ GRANT
     SELECT ON CONNECTION TO ssbd04mok;
 
 GRANT
-    SELECT ON CONNECTION TO ssbd04mob;
+    SELECT,
+    UPDATE
+    ON CONNECTION TO ssbd04mob;
 
 GRANT
     SELECT ON CONNECTION_STATS TO ssbd04mok;
 
 GRANT
-    SELECT ON CONNECTION_STATS TO ssbd04mob;
+    SELECT,
+    UPDATE
+    ON CONNECTION_STATS TO ssbd04mob;
 
 GRANT
     USAGE, SELECT ON connection_id_seq TO ssbd04mol;
@@ -898,7 +902,7 @@ GRANT
     SELECT ON seat TO ssbd04mok;
 
 GRANT
-    SELECT ON seat TO ssbd04mob;
+    SELECT, UPDATE ON seat TO ssbd04mob;
 
 GRANT
     USAGE, SELECT ON seat_id_seq TO ssbd04mol;

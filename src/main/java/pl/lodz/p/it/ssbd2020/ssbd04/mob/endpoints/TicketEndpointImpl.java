@@ -9,10 +9,10 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.AccountService;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.ConnectionService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.FlightService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.SeatService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.TicketService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.RolesAllowed;
@@ -21,6 +21,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+
+import java.util.logging.Logger;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -37,11 +39,16 @@ import java.util.stream.Collectors;
 @Stateful
 public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoint {
 
+    private Logger LOGGER = Logger.getLogger(this.getClass().getName());
+
     @Inject
     private AccountService accountService;
 
     @Inject
     private TicketService ticketService;
+
+    @Inject
+    private ConnectionService connectionService;
 
     @Inject
     private FlightService flightService;
@@ -126,16 +133,16 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
             seats.add(seat);
         }
 
+        // Calculate ticket price
+        BigDecimal totalPrice = flight.getPrice().multiply(BigDecimal.valueOf(passengers.size()));
+        for (Seat seat : seats) {
+            totalPrice = totalPrice.add(seat.getSeatClass().getPrice());
+        }
+
         List<Passenger> destinationPassengers = passengers
                 .stream()
                 .map(dto -> new Passenger(dto.getFirstName(), dto.getLastName(), dto.getEmail(), dto.getPhoneNumber(), seats.pop()))
                 .collect(Collectors.toList());
-
-        // Calculate ticket price
-        BigDecimal totalPrice = flight.getPrice().multiply(BigDecimal.valueOf(destinationPassengers.size()));
-        for (Seat seat : seats) {
-            totalPrice = totalPrice.add(seat.getSeatClass().getPrice());
-        }
 
         Ticket destinationTicket = new Ticket(flight, totalPrice, currentUser, new HashSet<>());
         destinationTicket.setCreatedBy(currentUser);
@@ -164,8 +171,14 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
 
     @Override
     @RolesAllowed(Role.GenerateReport)
-    public ReportDto generateReport() throws AppBaseException {
-        return null;
+    public List<ReportDto> generateReport() throws AppBaseException {
+        List<Connection> connections = connectionService.generateReport();
+        return connections.stream().map(connection -> new ReportDto(
+                connection.getId(),
+                connection.getSource().getCode(),
+                connection.getDestination().getCode(),
+                connection.getProfit()
+        )).collect(Collectors.toList());
     }
 
 }

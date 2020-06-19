@@ -284,6 +284,21 @@ export const routes = {
     },
     [roles.customerService]: {
         path: '/customer-service',
+        breadcrumb: 'Customer Service',
+        title: roles.customerService,
+        subroutes: {
+            reports: {
+                path: '/reports',
+                breadcrumbs: 'Reports',
+                subroutes: {
+                    generate: {
+                        title: 'Generate report',
+                        breadcrumb: 'Generate report',
+                        path: '/generate',
+                    },
+                },
+            },
+        },
     },
     [roles.client]: {
         path: '/',
