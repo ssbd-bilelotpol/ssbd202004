@@ -18,3 +18,8 @@ export const useConnections = (filterData) => {
         ...value,
     };
 };
+
+export const useListConnections = (filterData) => {
+    const params = new URLSearchParams(filterData);
+    return useGet(`/connections?${params.toString()}`, []);
+};

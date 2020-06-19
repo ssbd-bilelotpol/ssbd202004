@@ -1,31 +1,10 @@
-import React from 'react';
-import {
-    Button,
-    Card,
-    Container,
-    Divider,
-    Grid,
-    Header,
-    Label,
-    GridColumn,
-    GridRow,
-    Placeholder,
-} from 'semantic-ui-react';
-import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import moment from 'moment';
+import { Button, Card, Grid, GridColumn, GridRow, Label, Placeholder } from 'semantic-ui-react';
 import Moment from 'react-moment';
-import { Trans, useTranslation } from 'react-i18next';
-import { useFlights } from '../../api/flights';
-
-const PageContainer = styled(Container)`
-    &&& {
-        margin-top: 25px;
-    }
-`;
-
-const BlueHeader = styled(Header)`
-    color: rgb(1, 90, 130);
-`;
+import React from 'react';
+import styled from 'styled-components';
+import { BlueHeader } from './SimpleComponents';
 
 export const WideCard = styled(Card)`
     &&& {
@@ -36,10 +15,18 @@ export const WideCard = styled(Card)`
     &&& > .card {
         border-radius: 0.28571429rem 0.28571429rem 0 0 !important;
     }
+
+    transition: box-shadow 0.3s !important;
+
+    ${({ selected }) =>
+        selected &&
+        `
+        box-shadow: 0px 0px 0px 3px #fbbd08 !important;
+    `}
 `;
 
 const BackgroundCard = styled(WideCard)`
-    z-index: -2;
+    z-index: 0;
 `;
 
 const PlaneDivider = styled.div`
@@ -63,14 +50,14 @@ const PlaneDivider = styled.div`
     }
 `;
 
-const Flight = ({ flight }) => {
+export const Flight = ({ flight, selected, passengersCount, onSelect, additionalPrice }) => {
     const { t } = useTranslation();
     const flightDuration = moment.utc(
         moment(flight.endDateTime).diff(moment(flight.startDateTime))
     );
 
     return (
-        <BackgroundCard>
+        <BackgroundCard selected={selected}>
             <Card.Content>
                 <Grid columns="equal">
                     <GridRow verticalAlign="middle">
@@ -98,10 +85,17 @@ const Flight = ({ flight }) => {
                             <BlueHeader as="h4">{t('Airplane')}</BlueHeader>
                             {flight.airplaneSchema.name}
                         </GridColumn>
+
                         <GridColumn textAlign="right">
                             <Button as="div" labelPosition="left">
-                                <Label basic>{flight.price} zł</Label>
-                                <Button icon>{t('Select')}</Button>
+                                <Label basic>
+                                    {flight.price * passengersCount + (additionalPrice || 0)} zł
+                                </Label>
+                                {onSelect && (
+                                    <Button onClick={onSelect} icon>
+                                        {selected ? t('Cancel') : t('Select')}
+                                    </Button>
+                                )}
                             </Button>
                         </GridColumn>
                     </GridRow>
@@ -111,7 +105,7 @@ const Flight = ({ flight }) => {
     );
 };
 
-const FlightPlaceholder = () => {
+export const FlightPlaceholder = () => {
     return (
         <WideCard>
             <Card.Content>
@@ -148,58 +142,3 @@ const FlightPlaceholder = () => {
         </WideCard>
     );
 };
-
-const SelectFlight = ({ searchQuery }) => {
-    const { t } = useTranslation();
-    const { data, loading } = useFlights(searchQuery);
-
-    return (
-        <PageContainer>
-            <BlueHeader as="h1">
-                <Trans
-                    i18nKey="from_to"
-                    from={searchQuery.departureAirport.city}
-                    to={searchQuery.destinationAirport.city}
-                >
-                    From {{ from: t(searchQuery.departureAirport.city) }} to{' '}
-                    {{ to: t(searchQuery.destinationAirport.city) }}
-                </Trans>
-            </BlueHeader>
-            {loading && (
-                <>
-                    <FlightPlaceholder />
-                    <FlightPlaceholder />
-                    <FlightPlaceholder />
-                </>
-            )}
-            {data && data.map((flight) => <Flight key={flight.code} flight={flight} />)}
-
-            {searchQuery.type === 'twoway' && (
-                <>
-                    <Divider />
-
-                    <BlueHeader as="h1">
-                        <Trans
-                            i18nKey="from_to"
-                            from={searchQuery.departureAirport.city}
-                            to={searchQuery.destinationAirport.city}
-                        >
-                            From {{ from: t(searchQuery.destinationAirport.city) }} to{' '}
-                            {{ to: t(searchQuery.destinationAirport.city) }}
-                        </Trans>
-                    </BlueHeader>
-                    {loading && (
-                        <>
-                            <FlightPlaceholder />
-                            <FlightPlaceholder />
-                            <FlightPlaceholder />
-                        </>
-                    )}
-                    {data && data.map((flight) => <Flight key={flight.code} flight={flight} />)}
-                </>
-            )}
-        </PageContainer>
-    );
-};
-
-export default SelectFlight;

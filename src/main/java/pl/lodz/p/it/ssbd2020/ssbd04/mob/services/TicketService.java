@@ -95,7 +95,7 @@ public class TicketService {
      */
     @RolesAllowed(Role.CreateTicket)
     public void buyTicket(Ticket ticket) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        ticketFacade.create(ticket);
     }
 
     /**

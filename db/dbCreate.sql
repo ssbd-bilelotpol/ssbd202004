@@ -230,6 +230,7 @@ CREATE TABLE passenger
     phone_number           character varying(15)       NOT NULL,
     seat_id                bigint                      NOT NULL,
     ticket_id              bigint                      NOT NULL,
+    flight_id              bigint                      NOT NULL,
     created_by             bigint,
     modified_by            bigint
 );
@@ -387,6 +388,9 @@ ALTER TABLE ONLY flight
 
 ALTER TABLE ONLY passenger
     ADD CONSTRAINT passenger_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY passenger
+    ADD CONSTRAINT passenger_seat_taken UNIQUE (flight_id, seat_id);
 
 ALTER TABLE ONLY seat_class_benefits
     ADD CONSTRAINT seat_class_benefits_pkey PRIMARY KEY (seat_class_id, benefit_id);
@@ -814,6 +818,8 @@ GRANT
 
 GRANT
     SELECT ON flight TO ssbd04mob;
+
+GRANT UPDATE (version) ON flight to ssbd04mob;
 
 ALTER SEQUENCE flight_seq OWNER TO ssbd04admin;
 

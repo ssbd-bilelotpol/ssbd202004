@@ -7,7 +7,7 @@ import { loginAction } from '../../actions/auth';
 import AsteriskInput from '../controls/AsteriskInput';
 import { LoginSchema } from '../../yup';
 
-const LoginForm = () => {
+const LoginForm = ({ redirect }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const error = useSelector((state) => state.auth.error);
@@ -21,7 +21,7 @@ const LoginForm = () => {
     };
 
     const handleSubmit = async (values) => {
-        await dispatch(loginAction(values.login, values.password));
+        await dispatch(loginAction(values.login, values.password, redirect));
     };
 
     return (

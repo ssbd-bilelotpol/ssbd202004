@@ -19,6 +19,7 @@ import java.util.Objects;
 @Entity
 @Table(indexes = {
         @Index(name = "passenger_seat_fk", columnList = "seat_id"),
+        @Index(name = "passenger_flight_fk", columnList = "flight_id"),
         @Index(name = "passenger_ticket_fk", columnList = "ticket_id")
 })
 public class Passenger extends AbstractEntity implements Serializable {
@@ -49,6 +50,11 @@ public class Passenger extends AbstractEntity implements Serializable {
     @Phone
     @Column(nullable = false, length = 15, name = "phone_number")
     private String phoneNumber;
+
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "flight_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "passenger_flight_fk"))
+    private Flight flight;
 
     @NotNull
     @ManyToOne(cascade = {CascadeType.REFRESH})
@@ -117,6 +123,18 @@ public class Passenger extends AbstractEntity implements Serializable {
         this.seat = seat;
     }
 
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -132,7 +150,7 @@ public class Passenger extends AbstractEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, phoneNumber, seat, ticket);
+        return Objects.hash(firstName, lastName, email, phoneNumber, seat);
     }
 
     @Override

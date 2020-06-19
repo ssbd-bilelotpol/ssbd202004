@@ -35,6 +35,7 @@ export default function auth(state = initialState, action) {
                     ...action.payload,
                 },
                 error: null,
+                redirect: action.payload.redirect,
             };
         case ACTION_LOGIN_FAILURE:
             return {

@@ -42,6 +42,19 @@ export const rolePriority = {
 };
 
 export const routes = {
+    flights: {
+        path: '/flights',
+        subroutes: {
+            purchase: {
+                path: '/purchase',
+                subroutes: {
+                    success: {
+                        path: '/success',
+                    },
+                },
+            },
+        },
+    },
     [roles.admin]: {
         title: roles.admin,
         path: '/admin',

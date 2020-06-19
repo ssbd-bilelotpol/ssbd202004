@@ -3,10 +3,10 @@ import { Container, Form, Input } from 'semantic-ui-react';
 import styled, { keyframes } from 'styled-components';
 import { fadeInDown } from 'react-animations';
 import { useTranslation } from 'react-i18next';
-import SemanticDatePicker from '../shared/Datepicker';
-import GroupedDropdown from '../shared/GroupedDropdown';
-import { useFindAirports } from '../../api/airports';
-import { useListFlightDates } from '../../api/flights';
+import SemanticDatePicker from '../../shared/Datepicker';
+import GroupedDropdown from '../../shared/GroupedDropdown';
+import { useFindAirports } from '../../../api/airports';
+import { useListFlightDates } from '../../../api/flights';
 
 const WhiteRadio = styled(Form.Radio)`
     &&& label {
@@ -67,7 +67,10 @@ const SearchFlight = ({ onSubmit }) => {
         }
     }, [departureAirport, destinationAirport]);
 
-    const { data: dates } = useListFlightDates();
+    const sinceDate = React.useMemo(() => new Date().toISOString(), []);
+    const { data: dates } = useListFlightDates({ from: sinceDate });
+    const convertedDates = React.useMemo(() => dates.map((date) => new Date(date)), [dates]);
+
     const { data: allAirports } = useFindAirports();
 
     const filterAirports = React.useCallback(
@@ -80,8 +83,9 @@ const SearchFlight = ({ onSubmit }) => {
             const filtered = airports.filter(
                 (e) =>
                     !query ||
-                    e.name.toLowerCase().includes(query.toLowerCase()) ||
-                    e.city.toLowerCase().includes(query.toLowerCase()) ||
+                    `${e.name.toLowerCase()} - ${e.city.toLowerCase()}`.includes(
+                        query.toLowerCase()
+                    ) ||
                     t(e.country).toLowerCase().includes(query.toLowerCase())
             );
 
@@ -106,6 +110,11 @@ const SearchFlight = ({ onSubmit }) => {
         filterAirports,
     ]);
 
+    const handleChangeType = (e, { value }) => {
+        setType(value);
+        setReturnDate(undefined);
+    };
+
     const entryRenderer = (e) => `${e.name} - ${e.city}`;
     const groupRenderer = (e) => t(e);
     return (
@@ -116,13 +125,13 @@ const SearchFlight = ({ onSubmit }) => {
                         label={t('One way')}
                         value="oneway"
                         checked={type === 'oneway'}
-                        onChange={(e, { value }) => setType(value)}
+                        onChange={handleChangeType}
                     />
                     <WhiteRadio
                         label={t('Return trip')}
                         value="twoway"
                         checked={type === 'twoway'}
-                        onChange={(e, { value }) => setType(value)}
+                        onChange={handleChangeType}
                     />
                 </Form.Group>
                 <Form.Group>
@@ -169,7 +178,8 @@ const SearchFlight = ({ onSubmit }) => {
                                 placeholderText={t('Departure date')}
                                 selected={departureDate}
                                 endDate={returnDate}
-                                includeDates={dates}
+                                maxDate={type === 'twoway' && returnDate}
+                                includeDates={convertedDates}
                                 selectsStart
                                 setFieldValue={(_, value) => setDepartureDate(value)}
                             />
@@ -181,7 +191,7 @@ const SearchFlight = ({ onSubmit }) => {
                                     selected={returnDate}
                                     startDate={departureDate}
                                     minDate={departureDate}
-                                    includeDates={dates}
+                                    includeDates={convertedDates}
                                     selectsEnd
                                     setFieldValue={(_, value) => setReturnDate(value)}
                                 />
@@ -197,6 +207,7 @@ const SearchFlight = ({ onSubmit }) => {
                                 icon="users"
                                 value={passengersCount}
                                 onChange={(e, { value }) => setPassengersCount(+value)}
+                                onKeyDown={(e) => e.preventDefault()}
                             />
                         </GrowingField>
 
@@ -205,14 +216,20 @@ const SearchFlight = ({ onSubmit }) => {
                                 onSubmit({
                                     departureAirport,
                                     destinationAirport,
-                                    departureDate,
-                                    returnDate,
+                                    departureDate: departureDate.toISOString(),
+                                    ...(type === 'twoway'
+                                        ? { returnDate: returnDate.toISOString() }
+                                        : {}),
                                     type,
                                     passengersCount,
                                 })
                             }
                             size="big"
-                            disabled={!bothSelected || !departureDate || !returnDate}
+                            disabled={
+                                !departureAirport ||
+                                !departureDate ||
+                                (type === 'twoway' && (!returnDate || !destinationAirport))
+                            }
                         >
                             {t('Search')}
                         </SearchButton>

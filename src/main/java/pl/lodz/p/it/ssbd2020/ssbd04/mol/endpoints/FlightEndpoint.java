@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 
 import javax.ejb.Local;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,14 +26,20 @@ public interface FlightEndpoint extends TransactionStarter {
             throws AppBaseException;
 
     /**
+     * Zwraca daty z istniejącymi lotami od danej daty
+     * @param from data od której wyszukiwane są daty
+     * @return daty
+     * @throws AppBaseException w przypadku błędu znajdywania dat
+     */
+    List<LocalDate> getDates(LocalDateTime from) throws AppBaseException;
+
+    /**
      * Zwraca loty o podanym identyfikatorze.
      * @param code identyfikator lotu
      * @return lot o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     FlightDto findByCode(String code) throws AppBaseException;
-
-    List<SeatDto> getTakenSeats(Long id) throws AppBaseException;
 
     /**
      * Tworzy i zapisuje w bazie lot.
@@ -56,4 +63,12 @@ public interface FlightEndpoint extends TransactionStarter {
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     void update(Long id, FlightDto flightDto) throws AppBaseException;
+
+    /**
+     * Zwraca listę zajętych miejsc
+     * @param code identyfikator lotu
+     * @return lista zajętych miejsc
+     * @throws AppBaseException w przypadku niepowodzenia listy miejsc
+     */
+    List<SeatDto> getTakenSeats(String code) throws AppBaseException;
 }

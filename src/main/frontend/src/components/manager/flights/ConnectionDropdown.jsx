@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash.debounce';
 import { useTranslation } from 'react-i18next';
-import { useListConnectionsByCodePhrase } from '../../../api/connections';
+import { useListConnections } from '../../../api/connections';
 import RequireableDropdown from '../../shared/RequireableDropdown';
 
 const ConnectionDropdown = ({ onChange, setError, asterisk, ...props }) => {
     const [phrase, setPhrase] = useState('');
     const { t } = useTranslation();
 
-    const { data, loading, error } = useListConnectionsByCodePhrase(phrase);
+    const { data, loading, error } = useListConnections({ phrase });
 
     useEffect(() => error && setError(error), [error, setError]);
 

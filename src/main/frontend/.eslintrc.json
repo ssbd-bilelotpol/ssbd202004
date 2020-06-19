@@ -8,7 +8,9 @@
         "react/jsx-props-no-spreading": "off",
         "react/jsx-wrap-multilines": "off",
         "import/prefer-default-export": "off",
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "react/no-array-index-key": "off",
+        "max-len": "off"
     },
     "env": {
         "browser": true,

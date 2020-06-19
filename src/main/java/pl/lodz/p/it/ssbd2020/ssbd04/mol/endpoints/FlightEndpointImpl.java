@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirplaneSchemaService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.ConnectionService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.FlightService;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.SeatService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
@@ -23,6 +24,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,14 +33,21 @@ import java.util.stream.Collectors;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @Stateful
 public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoint {
+
     @Inject
     private FlightService flightService;
+
     @Inject
     private ConnectionService connectionService;
+
     @Inject
     private AirplaneSchemaService schemaService;
+
     @Inject
     private EmailService emailService;
+
+    @Inject
+    private SeatService seatService;
 
     @Override
     @PermitAll
@@ -52,6 +61,12 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
                 .stream()
                 .map(FlightDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @PermitAll
+    public List<LocalDate> getDates(LocalDateTime from) throws AppBaseException {
+        return flightService.getDates(from);
     }
 
     @Override
@@ -89,8 +104,10 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
 
     @Override
     @RolesAllowed(Role.GetTakenSeats)
-    public List<SeatDto> getTakenSeats(Long id) throws AppBaseException {
-        // throws: FlightNotFound
-        throw new UnsupportedOperationException();
+    public List<SeatDto> getTakenSeats(String code) throws AppBaseException {
+        return seatService.getTakenSeats(flightService.findByCode(code))
+                .stream()
+                .map(s -> new SeatDto(s.getId(), s.getSeatClass().getName(), s.getCol(), s.getRow())).collect(Collectors.toList());
     }
+
 }

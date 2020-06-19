@@ -1,8 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.facades;
 
+import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.TicketException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -12,6 +16,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -82,12 +87,20 @@ public class TicketFacade extends AbstractFacade<Ticket> {
     /**
      * Tworzy bilet o wybranych parametrach
      *
-     * @param ticket parametry kupowanego biletu
+     * @param entity parametry kupowanego biletu
      * @throws AppBaseException gdy nie powiedzie się tworzenie nowego biletu
      */
     @RolesAllowed(Role.CreateTicket)
-    public void create(Ticket ticket) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void create(Ticket entity) throws AppBaseException {
+        try {
+            super.create(entity);
+            em.lock(entity.getFlight(), LockModeType.OPTIMISTIC_FORCE_INCREMENT);
+        } catch (ConstraintViolationException e) {
+            if (e.getConstraintName().equals(Ticket.CONSTRAINT_SEAT_TAKEN)) {
+                throw TicketException.seatTaken();
+            }
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     /**

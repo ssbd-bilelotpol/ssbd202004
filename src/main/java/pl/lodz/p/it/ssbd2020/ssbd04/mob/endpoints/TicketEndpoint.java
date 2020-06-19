@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 
 import javax.ejb.Local;
 import java.util.List;

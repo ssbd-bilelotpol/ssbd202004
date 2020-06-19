@@ -1,10 +1,10 @@
-package pl.lodz.p.it.ssbd2020.ssbd04.mob.services;
+package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.facades.FlightFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.SeatFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -16,27 +16,22 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
-/**
- * Przetwarzanie logiki biznesowej lotów.
- */
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class FlightService {
+public class SeatService {
 
     @Inject
-    private FlightFacade flightFacade;
+    private SeatFacade seatFacade;
 
-    /**
-     * Zwraca loty o podanym identyfikatorze.
-     * @param code identyfikator lotu
-     * @return lot o podanym identyfikatorze
-     * @throws AppBaseException w przypadku niepowodzenia operacji
-     */
     @PermitAll
-    public Flight findByCode(String code) throws AppBaseException {
-        return flightFacade.find(code);
+    public Seat findById(Long id) throws AppBaseException {
+        return seatFacade.find(id);
+    }
+
+    @RolesAllowed(Role.GetTakenSeats)
+    public List<Seat> getTakenSeats(Flight flight) throws AppBaseException {
+        return seatFacade.getTakenSeats(flight.getId());
     }
 
 }

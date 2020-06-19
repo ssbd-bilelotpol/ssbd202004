@@ -18,9 +18,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Przetwarzanie logiki biznesowej lotów.
@@ -62,6 +66,14 @@ public class FlightService {
                 return new ArrayList<>();
         }
         return flightFacade.find(code, connection, airplaneSchema, from, to);
+    }
+
+    @PermitAll
+    public List<LocalDate> getDates(LocalDateTime from) throws AppBaseException {
+        return flightFacade.getDates(from)
+                .stream()
+                .map(d -> new java.sql.Date(d.getTime()).toLocalDate())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -119,17 +131,6 @@ public class FlightService {
      */
     @RolesAllowed(Role.UpdateFlight)
     public void update(Flight flight, AirplaneSchema airplaneSchema) throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
-    @RolesAllowed(Role.GetTakenSeats)
-    public List<Seat> getTakenSeats(Flight flight) throws AppBaseException {
-        // tickets = ticketFacade.findByFlight(flight)
-        // seats = emptyList();
-        // for ticket in tickets:
-        //  for passenger in passengers:
-        //      seats.add(passenger.getSeat());
-        // return seats
         throw new UnsupportedOperationException();
     }
 

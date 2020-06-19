@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { get } from './index';
 
-export const useGet = (url, defaultValue = Object) => {
+export const useGet = (url, defaultValue = Object, shouldExecute = true) => {
     const [data, setData] = useState(defaultValue);
     const [error, setError] = useState();
     const [etag, setETag] = useState();
@@ -23,8 +23,12 @@ export const useGet = (url, defaultValue = Object) => {
     }, [url, makeCancellable]);
 
     useEffect(() => {
-        fetchData();
-    }, [url, fetchData]);
+        if (shouldExecute) {
+            fetchData();
+        } else {
+            setLoading(false);
+        }
+    }, [url, fetchData, shouldExecute]);
 
     return { data, etag, error, loading, refetch: fetchData };
 };

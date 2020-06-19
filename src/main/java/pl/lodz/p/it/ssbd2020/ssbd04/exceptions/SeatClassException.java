@@ -71,4 +71,15 @@ public class SeatClassException extends AppBaseException {
     public static SeatClassException benefitExists(SeatClass seatClass) {
         return new SeatClassException(SEAT_CLASS_BENEFIT_EXISTS, seatClass);
     }
+
+    /**
+     * Tworzy wyjątek reprezentujący niezgodność oczekiwanej ceny z aktualną ceną
+     *
+     * @param seatClass klasa siedzeń.
+     * @return wyjątek reprezentujący niezgodność oczekiwanej ceny z aktualną ceną
+     */
+    public static SeatClassException priceChanged(SeatClass seatClass) {
+        return new SeatClassException(SEAT_CLASS_PRICE_CHANGED, seatClass);
+    }
+
 }

@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
@@ -54,8 +55,8 @@ public class TicketController extends AbstractController {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void buyTicket(@NotNull @Valid TicketBuyDto ticketDto) {
-        throw new UnsupportedOperationException();
+    public void buyTicket(@NotNull @Valid TicketBuyDto ticketDto) throws AppBaseException {
+        repeat(ticketEndpoint, () -> ticketEndpoint.buyTicket(ticketDto));
     }
 
     /**

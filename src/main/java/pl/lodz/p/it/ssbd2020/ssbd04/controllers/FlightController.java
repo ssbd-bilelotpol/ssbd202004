@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,8 +24,12 @@ import java.util.List;
  */
 @Path("/flights")
 public class FlightController extends AbstractController {
+
     @Inject
     private FlightEndpoint flightEndpoint;
+
+    @Inject
+    private TicketEndpoint ticketEndpoint;
 
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
@@ -42,6 +48,13 @@ public class FlightController extends AbstractController {
         return repeat(flightEndpoint, () -> flightEndpoint.find(code, connectionId, airplaneId, from, to));
     }
 
+    @GET
+    @Path("/dates")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<LocalDate> getDates(@QueryParam("from") LocalDateTime from) throws AppBaseException {
+        return repeat(flightEndpoint, () -> flightEndpoint.getDates(from));
+    }
+
     /**
      * Zwraca loty o podanym identyfikatorze.
      * @param code identyfikator lotu
@@ -57,8 +70,8 @@ public class FlightController extends AbstractController {
     @GET
     @Path("/{id}/taken-seats")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SeatDto> getTakenSeats(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public List<SeatDto> getTakenSeats(@PathParam("id") String id) throws AppBaseException {
+        return repeat(flightEndpoint, () -> flightEndpoint.getTakenSeats(id));
     }
 
     /**

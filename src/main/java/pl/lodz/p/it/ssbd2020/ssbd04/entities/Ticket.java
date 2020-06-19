@@ -26,6 +26,7 @@ import java.util.Set;
         }
 )
 public class Ticket extends AbstractEntity implements Serializable {
+    public static final String CONSTRAINT_SEAT_TAKEN = "passenger_seat_taken";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_generator")

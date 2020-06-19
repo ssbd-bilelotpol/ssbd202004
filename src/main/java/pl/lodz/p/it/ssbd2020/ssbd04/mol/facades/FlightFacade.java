@@ -23,8 +23,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -131,6 +133,22 @@ public class FlightFacade extends AbstractFacade<Flight> {
     @RolesAllowed(Role.CalculateConnectionProfit)
     public List<Flight> findByConnection(Long connectionId) throws AppBaseException {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Zwraca daty z istniejącymi lotami od danej daty
+     * @param from data od której wyszukiwane są daty
+     * @return daty
+     * @throws AppBaseException w przypadku błędu znajdywania dat
+     */
+    public List<Date> getDates(LocalDateTime from) throws AppBaseException {
+        try {
+            TypedQuery<Date> flightTypedQuery = em.createNamedQuery("Flight.getDates", Date.class);
+            flightTypedQuery.setParameter("from", from);
+            return flightTypedQuery.getResultList();
+        } catch (PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @RolesAllowed(Role.UpdateAirplaneSchema)

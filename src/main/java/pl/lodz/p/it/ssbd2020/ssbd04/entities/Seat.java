@@ -10,6 +10,13 @@ import java.util.Objects;
 /**
  * Informacje o numerze siedzenia i jego umiejscowieniu na planie samolotu
  */
+@NamedQueries({
+        @NamedQuery(name = "Seat.findById", query = "SELECT seat from Seat seat WHERE seat.id = :id"),
+        @NamedQuery(name = "Seat.getTakenSeats", query = "SELECT seat from Seat seat, Passenger passenger, Ticket ticket " +
+                "WHERE passenger.seat.id = seat.id " +
+                "AND passenger.ticket.id = ticket.id " +
+                "AND ticket.flight.id = :flightId"),
+})
 @Entity
 @Table(
         indexes = {

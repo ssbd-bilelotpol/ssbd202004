@@ -8,20 +8,27 @@ const GroupedDropdown = (props) => {
 
     const [query, setQuery] = useState('');
     const [open, setOpen] = useState(false);
+    const [element, setElement] = useState();
 
     const handleQueryChange = (e, { searchQuery }) => {
         setQuery(searchQuery);
         onSearchChange(searchQuery);
+        onChange(undefined);
+        setElement(undefined);
     };
     const handleChange = (element) => {
         setOpen(false);
         setQuery(renderEntry(element));
         onSearchChange(renderEntry(element));
         onChange(element);
+        setElement(element);
     };
     const handleOpen = () => setOpen(true);
     const handleBlur = () => setOpen(false);
     const handleClose = () => {
+        if (element) {
+            return;
+        }
         setQuery('');
         onSearchChange('');
     };

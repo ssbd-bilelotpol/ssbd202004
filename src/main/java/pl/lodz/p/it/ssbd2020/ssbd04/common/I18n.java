@@ -49,7 +49,11 @@ public class I18n {
     public static final String CONNECTION_IN_USE = "error.connection.inUse";
     public static final String CONNECTION_NOT_FOUND = "error.connection.notFound";
     public static final String FLIGHT_EXISTS = "error.flight.exists";
+    public static final String FLIGHT_DEPARTED = "error.flight.departed";
+    public static final String FLIGHT_CANCELLED = "error.flight.cancelled";
     public static final String FLIGHT_NOT_FOUND = "error.flight.notFound";
+    public static final String FLIGHT_PRICE_CHANGED = "error.flight.priceChanged";
+    public static final String FLIGHT_DEPARTURE_TIME_CHANGED = "error.flight.departureTimeChanged";
 
     public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
     public static final String ACCOUNT_REGISTER_MAIL_CONTENT = "account.register.mail.content";
@@ -76,10 +80,12 @@ public class I18n {
     public static final String AIRPLANE_SCHEMA_INVALID_DATA = "error.airplaneSchema.invalidData";
     public static final String AIRPLANE_SCHEMA_IN_USE = "error.airplaneSchema.inUse";
 
+    public static final String SEAT_NOT_FOUND = "error.seat.notFound";
     public static final String SEAT_CLASS_NOT_FOUND = "error.seatClass.notFound";
     public static final String SEAT_CLASS_IN_USE = "error.seatClass.inUse";
     public static final String SEAT_CLASS_NAME_TAKEN = "error.seatClass.nameTaken";
     public static final String SEAT_CLASS_BENEFIT_EXISTS = "error.seatClass.benefitExists";
+    public static final String SEAT_CLASS_PRICE_CHANGED = "error.seatClass.priceChanged";
     public static final String MAIL_FOOTER = "mail.footer";
 
     public static final String TICKET_NOT_FOUND = "error.ticket.notFound";

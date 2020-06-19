@@ -45,6 +45,50 @@ export const RegisterSchema = Yup.object().shape({
     phoneNumber: Yup.string().required().min(9).max(15).matches(phoneRegex, 'incorrect_phone'),
 });
 
+export const PassengerSchema = Yup.object().shape({
+    passengers: Yup.array()
+        .of(
+            Yup.object().shape({
+                email: Yup.string().required().email().min(3).max(255),
+                firstName: Yup.string()
+                    .required()
+                    .min(1)
+                    .max(30)
+                    .matches(nameRegex, 'incorrect_name'),
+                lastName: Yup.string()
+                    .required()
+                    .min(1)
+                    .max(30)
+                    .matches(lastNameRegex, 'incorrect_lastName'),
+                phoneNumber: Yup.string()
+                    .required()
+                    .min(9)
+                    .max(15)
+                    .matches(phoneRegex, 'incorrect_phone'),
+            })
+        )
+        .min(1, 'too_short_passengers')
+        .max(25, 'too_many_passengers'),
+    destinationFlightSeats: Yup.mixed().test(
+        'match',
+        'Invalid seats or passengers count',
+        function (destinationFlightSeats) {
+            return (
+                destinationFlightSeats &&
+                destinationFlightSeats.length === this.parent.passengers.length
+            );
+        }
+    ),
+    returnFlightSeats: Yup.mixed().test('match', 'Invalid seats or passengers count', function (
+        returnFlightSeats
+    ) {
+        return (
+            this.parent.type === 'oneway' ||
+            (returnFlightSeats && returnFlightSeats.length === this.parent.passengers.length)
+        );
+    }),
+});
+
 export const LoginSchema = Yup.object().shape({
     login: Yup.string().min(3).required().matches(loginRegex, 'incorrect_login'),
     password: Yup.string().required(),

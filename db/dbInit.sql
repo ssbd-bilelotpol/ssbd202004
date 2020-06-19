@@ -127,6 +127,8 @@ INSERT INTO connection (id, creation_date_time, modification_date_time, version,
 VALUES (-3, now(), now(), 0, 150, 1, 4);
 INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
 VALUES (-4, now(), now(), 0, 150, 3, 2);
+INSERT INTO connection (id, creation_date_time, modification_date_time, version, base_price, destination_id, source_id)
+VALUES (-5, now(), now(), 0, 150, 2, 1);
 
 -- Schemas
 INSERT INTO public.airplane_schema (id, creation_date_time, modification_date_time, version, cols, rows, name)
@@ -163,4 +165,6 @@ VALUES (-5, '2020-07-01 20:00', '2020-07-02 03:00', '00005', -1, -2, 2999.99, 'A
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
 VALUES (-6, '2020-07-02 13:00', '2020-07-02 15:00', '00006', -1, -3, 859.99, 'ACTIVE', 0, now(), now());
-
+INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
+					status, version, creation_date_time, modification_date_time)
+VALUES (-7, '2020-07-01 09:00', '2020-07-01 13:00', '00007', -1, -5, 1999.99, 'ACTIVE', 0, now(), now());

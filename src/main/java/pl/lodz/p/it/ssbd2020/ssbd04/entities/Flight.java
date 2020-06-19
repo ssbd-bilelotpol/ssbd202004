@@ -18,6 +18,8 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Flight.findByCode",
                 query = "SELECT flight from Flight flight WHERE flight.flightCode = :code"),
+        @NamedQuery(name = "Flight.getDates",
+                query = "SELECT distinct cast(startDateTime as date) from Flight flight where startDateTime > :from"),
         @NamedQuery(name = "Flight.findByAirplaneSchema",
                 query = "SELECT flight from Flight flight WHERE flight.airplaneSchema.id = :schemaId"),
 })

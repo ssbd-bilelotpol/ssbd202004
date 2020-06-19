@@ -19,7 +19,7 @@ export const useAirplaneSchemas = (filterData) => {
 
 export const deleteAirplaneSchema = (id, etag) => httpDelete(`/airplane-schemas/${id}`, etag);
 
-export const useAirplaneSchema = (id) => useGet(`/airplane-schemas/${id}`);
+export const useAirplaneSchema = (id) => useGet(`/airplane-schemas/${id}`, null);
 
 export const updateAirplaneSchema = (id, data, etag) =>
     put(`/airplane-schemas/${id}`, { ...data.plane, name: data.name }, etag);
