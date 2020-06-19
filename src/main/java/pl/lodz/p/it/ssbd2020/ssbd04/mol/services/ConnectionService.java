@@ -85,6 +85,9 @@ public class ConnectionService {
      */
     @RolesAllowed(Role.CreateConnection)
     public Connection create(Connection connection, String destinationCode, String sourceCode) throws AppBaseException {
+        if (destinationCode.equals(sourceCode)) {
+            throw ConnectionException.sameSrcDst();
+        }
         try {
             connection.setDestination(airportFacade.find(destinationCode));
         } catch (AirportException e) {
@@ -107,7 +110,7 @@ public class ConnectionService {
      */
     @RolesAllowed(Role.DeleteConnection)
     public void delete(Connection connection) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        connectionFacade.remove(connection);
     }
 
     /**

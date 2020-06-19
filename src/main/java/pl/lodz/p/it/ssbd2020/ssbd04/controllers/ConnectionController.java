@@ -92,8 +92,8 @@ public class ConnectionController extends AbstractController {
     @DELETE
     @Path("/{id}")
     @EtagBinding
-    public void delete(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
+    public void delete(@PathParam("id") Long id) throws AppBaseException {
+        repeat(connectionEndpoint, () -> connectionEndpoint.delete(id));
     }
 
     /**

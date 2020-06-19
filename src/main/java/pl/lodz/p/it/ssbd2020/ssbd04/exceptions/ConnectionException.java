@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection.CONNECTION_NOT_UNIQUE;
+import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection.CONSTRAINT_IDENTICAL_SRC_DST;
 
 /**
  * Wyjątek odpowiadający hierarchii klas Connection.
@@ -74,10 +75,18 @@ public class ConnectionException extends AppBaseException {
     }
 
     /**
-     * Tworzy wyjątek reprezentujący sytuację, w której relacja nie istnieje.
+     * Tworzy wyjątek reprezentujący sytuację, w której istnieje już relacja o podanym lotnisku wylotu i przylotu.
      * @return stworzony wyjątek
      */
     public static ConnectionException notUnique() {
         return new ConnectionException(CONNECTION_NOT_UNIQUE);
+    }
+
+    /**
+     * Tworzy wyjątek reprezentujący sytuację, w której podano to samo lotnisko wyloty co przylotu.
+     * @return stworzony wyjątek
+     */
+    public static ConnectionException sameSrcDst() {
+        return new ConnectionException(CONSTRAINT_IDENTICAL_SRC_DST);
     }
 }

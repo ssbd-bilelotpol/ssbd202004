@@ -70,6 +70,7 @@ export default {
             'error.seatClass.priceChanged': 'Wystąpiła zmiana ceny klasy miejsc',
             'error.seat.notFound': 'Wybrane siedzenie nie istnieje',
             connection_unique: 'Taka relacja już istnieje',
+            identical_src_dst: 'Lotnisko wylotu nie może być takie samo jak lotnisko przylotu',
             ...translations,
             ...codesPl.countries,
         },

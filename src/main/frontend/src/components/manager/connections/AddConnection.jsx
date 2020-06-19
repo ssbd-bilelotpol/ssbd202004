@@ -99,7 +99,6 @@ const ConnectionAddForm = () => {
                             <AirportDropdown
                                 width={6}
                                 name="sourceCode"
-                                fluid
                                 placeholder={t('Source airport code')}
                                 value={values.sourceCode}
                                 onChange={(value) => {

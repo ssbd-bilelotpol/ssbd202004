@@ -58,7 +58,13 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
     @Override
     @RolesAllowed(Role.DeleteConnection)
     public void delete(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        Connection connection = connectionService.findById(id);
+        ConnectionDto currentConnectionDto = new ConnectionDto(connection);
+        if (!verifyEtag(currentConnectionDto)) {
+            throw AppBaseException.optimisticLock();
+        }
+
+        connectionService.delete(connection);
     }
 
     @Override

@@ -148,6 +148,14 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @Override
     @RolesAllowed({Role.DeleteConnection})
     public void remove(Connection entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        try {
+            super.remove(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getCause().getMessage().contains(Connection.CONSTRAINT_FLIGHT_CONNECTION_FK)) {
+                throw ConnectionException.inUse(entity);
+            }
+
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 }

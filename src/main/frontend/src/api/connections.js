@@ -1,4 +1,4 @@
-import { post, put } from './index';
+import { httpDelete, post, put } from './index';
 import { useGet } from './hooks';
 
 export const createConnection = (data) => post(`/connections`, data);
@@ -11,11 +11,12 @@ export const useConnections = (filterData) => {
         }
     });
     const value = useGet(`/connections?${params.toString()}`, []);
-    console.log(value);
     return {
         ...value,
     };
 };
+
+export const deleteConnection = (id, etag) => httpDelete(`/connections/${id}`, etag);
 
 export const useConnection = (id) => useGet(`/connections/${id}`);
 

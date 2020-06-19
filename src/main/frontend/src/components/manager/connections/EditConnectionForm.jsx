@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { ConnectionSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
+import DeleteConnection from './DeleteConnection';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -30,10 +31,17 @@ const StyledInput = styled(Form.Input)`
     }
 `;
 
-const EditConnectionForm = ({ connection, refetch, loading, onSave, fetchError }) => {
+const StyledDiv = styled.div`
+    &&& {
+        padding-top: 10px;
+    }
+`;
+
+const EditConnectionForm = ({ connection, refetch, loading, onSave, fetchError, etag }) => {
     const { t } = useTranslation();
     const [saved, setSaved] = useState(false);
     const [savingError, setSavingError] = useState();
+    const [deleteError, setDeleteError] = useState();
 
     const makeCancellable = useCancellablePromise();
 
@@ -48,6 +56,7 @@ const EditConnectionForm = ({ connection, refetch, loading, onSave, fetchError }
     const handleSave = async (values) => {
         setSaved(false);
         setSavingError();
+        setDeleteError();
         try {
             await makeCancellable(onSave(values));
             setSaved(true);
@@ -65,6 +74,7 @@ const EditConnectionForm = ({ connection, refetch, loading, onSave, fetchError }
             )}
             {savingError && <Message negative content={t(savingError.message)} />}
             {fetchError && <Message negative content={t(fetchError.message)} />}
+            {deleteError && <Message negative content={t(deleteError.message)} />}
             {loading ? (
                 <Placeholder>
                     <Placeholder.Line />
@@ -157,6 +167,13 @@ const EditConnectionForm = ({ connection, refetch, loading, onSave, fetchError }
                             </Form>
                         )}
                     </Formik>
+                    <StyledDiv>
+                        <DeleteConnection
+                            id={connection.id}
+                            etag={etag}
+                            setError={setDeleteError}
+                        />
+                    </StyledDiv>
                 </>
             )}
         </>

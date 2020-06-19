@@ -96,7 +96,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
             super.create(entity);
             em.lock(entity.getFlight(), LockModeType.OPTIMISTIC_FORCE_INCREMENT);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Ticket.CONSTRAINT_SEAT_TAKEN)) {
+            if (e.getCause().getMessage().contains(Ticket.CONSTRAINT_SEAT_TAKEN)) {
                 throw TicketException.seatTaken();
             }
             throw AppBaseException.databaseOperation(e);
