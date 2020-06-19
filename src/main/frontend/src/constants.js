@@ -305,6 +305,17 @@ export const routes = {
                     },
                 },
             },
+            tickets: {
+                title: 'Tickets',
+                path: '/tickets',
+                subroutes: {
+                    view: {
+                        title: 'View ticket',
+                        breadcrumb: 'View ticket',
+                        path: '/:id',
+                    },
+                },
+            },
         },
     },
     [roles.client]: {

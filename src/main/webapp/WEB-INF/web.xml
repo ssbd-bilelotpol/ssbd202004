@@ -166,6 +166,9 @@
         <role-name>findTicketById</role-name>
     </security-role>
     <security-role>
+        <role-name>findAnyTicketById</role-name>
+    </security-role>
+    <security-role>
         <role-name>getAllTickets</role-name>
     </security-role>
     <security-role>
@@ -176,6 +179,9 @@
     </security-role>
     <security-role>
         <role-name>returnTicket</role-name>
+    </security-role>
+    <security-role>
+        <role-name>returnAnyTicket</role-name>
     </security-role>
     <security-role>
         <role-name>updateTicket</role-name>

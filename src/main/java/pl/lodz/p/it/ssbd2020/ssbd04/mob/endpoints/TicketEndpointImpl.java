@@ -5,11 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.AccountService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.ConnectionService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.FlightService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.SeatService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.TicketService;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.RolesAllowed;
@@ -18,8 +14,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-
-import java.util.logging.Logger;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -35,8 +29,6 @@ import java.util.stream.Collectors;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @Stateful
 public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoint {
-
-    private Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
     @Inject
     private AccountService accountService;
@@ -54,12 +46,13 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
     private SeatService seatService;
 
     @Override
-    @RolesAllowed(Role.FindTicketById)
+    @RolesAllowed({Role.FindTicketById, Role.FindAnyTicketById})
     public TicketDto findById(Long id) throws AppBaseException {
         Ticket ticket = ticketService.findById(id);
         Account account = accountService.getCurrentUser();
 
-        if (!ticket.getAccount().getId().equals(account.getId())) {
+        boolean canAccessAny = accountService.hasRole(Role.FindAnyTicketById);
+        if (!canAccessAny && !ticket.getAccount().getId().equals(account.getId())) {
             throw ForbiddenException.forbidden();
         }
 
@@ -166,12 +159,13 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
     }
 
     @Override
-    @RolesAllowed(Role.ReturnTicket)
+    @RolesAllowed({Role.ReturnTicket, Role.ReturnAnyTicket})
     public void returnTicket(Long id) throws AppBaseException {
         Account account = accountService.getCurrentUser();
         Ticket ticket = ticketService.findById(id);
 
-        if (!ticket.getAccount().getId().equals(account.getId())) {
+        boolean canAccessAny = accountService.hasRole(Role.ReturnAnyTicket);
+        if (!canAccessAny && !ticket.getAccount().getId().equals(account.getId())) {
             throw ForbiddenException.forbidden();
         }
 

@@ -4,6 +4,8 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
 import GenerateReport from './reports/GenerateReport';
+import ViewTicket from '../shared/ViewTicket';
+import { WideCard } from '../shared/Flight';
 
 const CustomerServiceDashboard = () => {
     const { t } = useTranslation();
@@ -24,6 +26,11 @@ const CustomerServiceDashboard = () => {
             <Switch>
                 <Route exact path={route('customer_service')}>
                     <Redirect to={route('customer_service.reports.generate')} />
+                </Route>
+                <Route path={route('customer_service.tickets.view')}>
+                    <WideCard>
+                        <ViewTicket />
+                    </WideCard>
                 </Route>
                 <Route path={route('customer_service.reports.generate')}>
                     <GenerateReport />

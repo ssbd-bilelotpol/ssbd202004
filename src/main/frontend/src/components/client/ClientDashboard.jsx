@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { route } from '../../routing';
 import TopMenu from '../TopMenu';
 import ListTickets from './tickets/ListTickets';
-import ViewTicket from './tickets/ViewTicket';
 import { Breadcrumbs } from '../Breadcrumbs';
+import ViewTicket from '../shared/ViewTicket';
 
 const DashboardContainer = styled(Container)`
     &&& {

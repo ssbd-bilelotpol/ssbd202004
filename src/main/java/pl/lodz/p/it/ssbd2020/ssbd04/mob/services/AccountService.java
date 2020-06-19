@@ -46,4 +46,9 @@ public class AccountService {
         }
     }
 
+    @PermitAll
+    public boolean hasRole(String name) {
+        return securityContext.isCallerInRole(name);
+    }
+
 }

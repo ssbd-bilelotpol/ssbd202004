@@ -5,12 +5,12 @@ import Moment from 'react-moment';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
-import { getLetterOfAlphabet } from '../../../utils';
-import { returnTicket, useTicket } from '../../../api/tickets';
-import { BlueHeader } from '../../shared/SimpleComponents';
-import { WideCard } from '../../shared/Flight';
-import { route } from '../../../routing';
-import ConfirmSubmit from '../../controls/ConfirmSubmit';
+import { BlueHeader } from './SimpleComponents';
+import { WideCard } from './Flight';
+import { getLetterOfAlphabet } from '../../utils';
+import { returnTicket, useTicket } from '../../api/tickets';
+import { route } from '../../routing';
+import ConfirmSubmit from '../controls/ConfirmSubmit';
 
 const Ticket = ({ ticket }) => {
     const { t } = useTranslation();

@@ -55,10 +55,12 @@ public class Role {
     public static final String FindTicketsByFlight = "findTicketsByFlight";
     public static final String FindTicketsByAccount = "findTicketsByAccount";
     public static final String FindTicketById = "findTicketById";
+    public static final String FindAnyTicketById = "findAnyTicketById";
     public static final String GetAllTickets = "getAllTickets";
     public static final String GetOwnTickets = "getOwnTickets";
     public static final String CreateTicket = "createTicket";
     public static final String ReturnTicket = "returnTicket";
+    public static final String ReturnAnyTicket = "returnAnyTicket";
     public static final String UpdateTicket = "updateTicket";
 
     public static final String GenerateReport = "generateReport";
