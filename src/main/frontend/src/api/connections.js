@@ -1,10 +1,7 @@
-import { post } from './index';
+import { post, put } from './index';
 import { useGet } from './hooks';
 
 export const createConnection = (data) => post(`/connections`, data);
-
-export const useListConnectionsByCodePhrase = (phrase) =>
-    useGet(`/connections?phrase=${phrase}`, []);
 
 export const useConnections = (filterData) => {
     const params = new URLSearchParams(filterData);
@@ -14,12 +11,12 @@ export const useConnections = (filterData) => {
         }
     });
     const value = useGet(`/connections?${params.toString()}`, []);
+    console.log(value);
     return {
         ...value,
     };
 };
 
-export const useListConnections = (filterData) => {
-    const params = new URLSearchParams(filterData);
-    return useGet(`/connections?${params.toString()}`, []);
-};
+export const useConnection = (id) => useGet(`/connections/${id}`);
+
+export const updateConnection = (id, data, etag) => put(`/connections/${id}`, data, etag);

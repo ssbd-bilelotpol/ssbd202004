@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
+import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection.CONNECTION_NOT_UNIQUE;
 
 /**
  * Wyjątek odpowiadający hierarchii klas Connection.
@@ -70,5 +71,13 @@ public class ConnectionException extends AppBaseException {
      */
     public static ConnectionException notFound() {
         return new ConnectionException(CONNECTION_NOT_FOUND);
+    }
+
+    /**
+     * Tworzy wyjątek reprezentujący sytuację, w której relacja nie istnieje.
+     * @return stworzony wyjątek
+     */
+    public static ConnectionException notUnique() {
+        return new ConnectionException(CONNECTION_NOT_UNIQUE);
     }
 }

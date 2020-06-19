@@ -108,7 +108,7 @@ const ConnectionTable = ({ connections, loading }) => {
                                               {connection.destination.name} (
                                               {connection.destination.code})
                                           </Table.Cell>
-                                          <Table.Cell>{connection.price} PLN</Table.Cell>
+                                          <Table.Cell>{connection.basePrice} PLN</Table.Cell>
                                           <Table.Cell textAlign="center">
                                               <Button
                                                   as={Link}
@@ -131,8 +131,8 @@ const ConnectionTable = ({ connections, loading }) => {
 
 const ConnectionsList = () => {
     const [filterData, setFilterData] = useState({});
+    const { data, loading, error } = useConnections(filterData);
     const { t } = useTranslation();
-    const { data: connections, loading, error } = useConnections(filterData);
 
     return (
         <ContentCard fluid>
@@ -146,8 +146,8 @@ const ConnectionsList = () => {
                 />
             ) : (
                 <>
-                    <ConnectionTable connections={connections} loading={loading} />
-                    {connections && connections.length === 0 && (
+                    <ConnectionTable connections={data} loading={loading} />
+                    {!loading && data && data.length === 0 && (
                         <Message
                             header={t('No such relation')}
                             content={t('There are no results matching criteria')}

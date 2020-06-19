@@ -50,9 +50,9 @@ public class AccountFacade extends AbstractFacade<Account> {
         try {
             super.create(account);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Account.CONSTRAINT_LOGIN)) {
+            if (e.getCause().getMessage().contains(Account.CONSTRAINT_LOGIN)) {
                 throw AccountException.loginExists(e, account);
-            } else if (e.getConstraintName().equals(AccountDetails.CONSTRAINT_EMAIL)) {
+            } else if (e.getCause().getMessage().contains(AccountDetails.CONSTRAINT_EMAIL)) {
                 throw AccountException.emailExists(e, account);
             }
             throw AppBaseException.databaseOperation(e);
@@ -124,13 +124,14 @@ public class AccountFacade extends AbstractFacade<Account> {
         try {
             super.edit(entity);
         } catch (ConstraintViolationException e) {
-            switch (e.getConstraintName()) {
-                case Account.CONSTRAINT_LOGIN:
-                    throw AccountException.loginExists(e, entity);
-                case AccountDetails.CONSTRAINT_EMAIL:
-                    throw AccountException.emailExists(e, entity);
-                case AccountAccessLevel.CONSTRAINT_UNIQUE_ACCOUNT_ACCESS_LEVEL:
-                    throw AccountAccessLevelException.alreadyAssigned(e);
+            if (e.getCause().getMessage().contains(Account.CONSTRAINT_LOGIN)) {
+                throw AccountException.loginExists(e, entity);
+            }
+            else if (e.getCause().getMessage().contains(AccountDetails.CONSTRAINT_EMAIL)) {
+                throw AccountException.emailExists(e, entity);
+            }
+            else if (e.getCause().getMessage().contains(AccountAccessLevel.CONSTRAINT_UNIQUE_ACCOUNT_ACCESS_LEVEL)) {
+                throw AccountAccessLevelException.alreadyAssigned(e);
             }
             throw AppBaseException.databaseOperation(e);
         }

@@ -70,7 +70,7 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
         try {
             super.remove(airplaneSchema);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(AirplaneSchema.CONSTRAINT_IN_USE)) {
+            if (e.getCause().getMessage().contains(AirplaneSchema.CONSTRAINT_IN_USE)) {
                 throw AirplaneSchemaException.inUse(airplaneSchema);
             }
 

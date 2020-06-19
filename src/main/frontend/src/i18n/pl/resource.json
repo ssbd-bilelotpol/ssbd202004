@@ -216,5 +216,8 @@
     "GREY": "SZARY",
     "BLACK": "CZARNY",
     "Delete": "Usuń",
-    "Edit plane": "Edytuj samolot"
+    "Edit plane": "Edytuj samolot",
+    "Relation details": "Szczegóły relacji",
+    "Relation updated successfully": "Relacja zaktualizowana pomyślnie",
+    "Edit relation": "Edytuj relację"
 }

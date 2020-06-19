@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.ConnectionEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 
 import javax.inject.Inject;
@@ -90,6 +91,7 @@ public class ConnectionController extends AbstractController {
      */
     @DELETE
     @Path("/{id}")
+    @EtagBinding
     public void delete(@PathParam("id") Long id) {
         throw new UnsupportedOperationException();
     }
@@ -102,7 +104,8 @@ public class ConnectionController extends AbstractController {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(@PathParam("id") Long id, ConnectionDto connectionDto) {
-        throw new UnsupportedOperationException();
+    @EtagBinding
+    public void update(@PathParam("id") Long id, ConnectionCreateDto connectionDto) throws AppBaseException {
+        repeat(connectionEndpoint, () -> connectionEndpoint.update(id, connectionDto));
     }
 }

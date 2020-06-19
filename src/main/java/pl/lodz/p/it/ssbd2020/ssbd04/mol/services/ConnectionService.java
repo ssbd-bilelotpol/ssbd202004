@@ -31,6 +31,9 @@ public class ConnectionService {
     private ConnectionFacade connectionFacade;
 
     @Inject
+    private AccountService accountService;
+
+    @Inject
     private AirportFacade airportFacade;
 
     /**
@@ -92,6 +95,7 @@ public class ConnectionService {
         } catch (AirportException e) {
             throw ConnectionException.sourceAirportNotFound();
         }
+        connection.setCreatedBy(accountService.getCurrentUser());
         connectionFacade.create(connection);
         return connection;
     }
@@ -113,7 +117,8 @@ public class ConnectionService {
      */
     @RolesAllowed(Role.UpdateConnection)
     public void update(Connection connection) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        connection.setModifiedBy(accountService.getCurrentUser());
+        connectionFacade.edit(connection);
     }
 
     @RolesAllowed(Role.CalculateConnectionProfit)

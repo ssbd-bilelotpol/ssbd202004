@@ -53,7 +53,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
         try {
             super.create(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Flight.CONSTRAINT_FLIGHT_CODE)) {
+            if (e.getCause().getMessage().contains(Flight.CONSTRAINT_FLIGHT_CODE)) {
                 throw FlightException.exists();
             }
             throw AppBaseException.databaseOperation(e);

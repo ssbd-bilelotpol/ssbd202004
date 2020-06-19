@@ -63,9 +63,9 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
         try {
             super.create(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(SeatClass.CONSTRAINT_NAME)) {
+            if (e.getCause().getMessage().contains(SeatClass.CONSTRAINT_NAME)) {
                 throw SeatClassException.nameTaken(entity);
-            } else if (e.getConstraintName().equals(Benefit.CONSTRAINT_NAME)) {
+            } else if (e.getCause().getMessage().contains(Benefit.CONSTRAINT_NAME)) {
                 throw SeatClassException.benefitExists(entity);
             }
             throw AppBaseException.databaseOperation(e);
@@ -78,7 +78,7 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
         try {
             super.remove(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(SeatClass.CONSTRAINT_SEAT_CLASS_IN_USE)) {
+            if (e.getCause().getMessage().contains(SeatClass.CONSTRAINT_SEAT_CLASS_IN_USE)) {
                 throw SeatClassException.inUse(entity);
             }
             throw AppBaseException.databaseOperation(e);
@@ -91,7 +91,7 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
         try {
             super.edit(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Benefit.CONSTRAINT_NAME)) {
+            if (e.getCause().getMessage().contains(Benefit.CONSTRAINT_NAME)) {
                 throw SeatClassException.benefitExists(entity);
             }
             throw AppBaseException.databaseOperation(e);

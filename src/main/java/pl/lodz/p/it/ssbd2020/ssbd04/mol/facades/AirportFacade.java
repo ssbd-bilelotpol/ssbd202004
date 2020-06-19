@@ -40,7 +40,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
         try {
             super.create(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Airport.CONSTRAINT_CODE)) {
+            if (e.getCause().getMessage().contains(Airport.CONSTRAINT_CODE)) {
                 throw AirportException.codeNotUnique(entity);
             }
 
@@ -156,7 +156,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
         try {
             super.edit(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Airport.CONSTRAINT_CODE)) {
+            if (e.getCause().getMessage().contains(Airport.CONSTRAINT_CODE)) {
                 throw AirportException.codeNotUnique(entity);
             }
 
@@ -170,8 +170,8 @@ public class AirportFacade extends AbstractFacade<Airport> {
         try {
             super.remove(entity);
         } catch (ConstraintViolationException e) {
-            if (e.getConstraintName().equals(Airport.CONSTRAINT_DST_IN_USE)
-                    || e.getConstraintName().equals(Airport.CONSTRAINT_SRC_IN_USE)) {
+            if (e.getCause().getMessage().contains(Airport.CONSTRAINT_DST_IN_USE)
+                    || e.getCause().getMessage().contains(Airport.CONSTRAINT_SRC_IN_USE)) {
                 throw AirportException.inUse();
             }
 

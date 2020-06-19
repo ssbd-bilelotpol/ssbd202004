@@ -43,7 +43,7 @@
         <frontend.directory>src/main/frontend</frontend.directory>
         <frontend.directory.output>${frontend.directory}/build</frontend.directory.output>
         <jakartaee>8.0</jakartaee>
-        <hibernateVer>5.4.12.Final</hibernateVer>        
+        <hibernateVer>5.4.12.Final</hibernateVer>
         <hibernateValidatorVer>6.1.2.Final</hibernateValidatorVer>
         <jsonWebTokenVer>0.9.1</jsonWebTokenVer>
         <hibernateJpaModelGenVer>5.4.12.Final</hibernateJpaModelGenVer>

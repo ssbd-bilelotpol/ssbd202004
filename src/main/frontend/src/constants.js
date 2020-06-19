@@ -184,11 +184,11 @@ export const routes = {
                     },
                     connection: {
                         path: '/:id',
-                        breadcrumb: '{id|Loading}',
+                        breadcrumb: '{name|Loading}',
                         breadcrumbLink: false,
                         subroutes: {
                             edit: {
-                                title: 'Edit flight',
+                                title: 'Edit relation',
                                 path: '/edit',
                                 breadcrumb: 'Edit',
                             },

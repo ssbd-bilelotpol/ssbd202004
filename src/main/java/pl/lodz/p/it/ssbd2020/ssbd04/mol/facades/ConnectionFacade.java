@@ -1,9 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
+import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -18,6 +19,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
+
+import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection.CONNECTION_NOT_UNIQUE;
 
 @Interceptors({TrackingInterceptor.class})
 @Stateless
@@ -44,7 +47,14 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @RolesAllowed(Role.CreateConnection)
     @Override
     public void create(Connection entity) throws AppBaseException {
-        super.create(entity);
+        try {
+            super.create(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getCause().getMessage().contains(Connection.CONNECTION_NOT_UNIQUE)) {
+                throw ConnectionException.notUnique();
+            }
+            throw AppBaseException.databaseOperation(e);
+        }
     }
 
     @Override
@@ -132,7 +142,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @Override
     @RolesAllowed({Role.UpdateConnection, Role.CalculateConnectionProfit})
     public void edit(Connection entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+         super.edit(entity);
     }
 
     @Override

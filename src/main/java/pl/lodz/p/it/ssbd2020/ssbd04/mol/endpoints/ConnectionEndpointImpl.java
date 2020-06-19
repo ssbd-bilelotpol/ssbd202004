@@ -7,7 +7,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ConnectionException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.ConnectionDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.ConnectionService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
@@ -27,9 +26,6 @@ import java.util.stream.Collectors;
 public class ConnectionEndpointImpl extends AbstractEndpoint implements ConnectionEndpoint {
     @Inject
     private ConnectionService connectionService;
-
-    @Inject
-    private AccountService accountService;
 
     @Override
     @PermitAll
@@ -56,8 +52,6 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
     @RolesAllowed(Role.CreateConnection)
     public ConnectionDto create(ConnectionCreateDto connectionCreateDto) throws AppBaseException {
         Connection connection = new Connection(connectionCreateDto.getBasePrice());
-        connection.setCreatedBy(accountService.getCurrentUser());
-
         return new ConnectionDto(connectionService.create(connection, connectionCreateDto.getDestinationCode(), connectionCreateDto.getSourceCode()));
     }
 
@@ -69,7 +63,13 @@ public class ConnectionEndpointImpl extends AbstractEndpoint implements Connecti
 
     @Override
     @RolesAllowed(Role.UpdateConnection)
-    public void update(Long id, ConnectionDto ConnectionDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void update(Long id, ConnectionCreateDto connectionDto) throws AppBaseException {
+        Connection connection = connectionService.findById(id);
+        ConnectionDto currentConnectionDto = new ConnectionDto(connection);
+        if (!verifyEtag(currentConnectionDto)) {
+            throw AppBaseException.optimisticLock();
+        }
+        connection.setBasePrice(connectionDto.getBasePrice());
+        connectionService.update(connection);
     }
 }

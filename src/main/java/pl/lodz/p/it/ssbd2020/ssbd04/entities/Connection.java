@@ -36,6 +36,7 @@ import java.util.Objects;
 )
 @SecondaryTable(name = "connection_stats", pkJoinColumns = @PrimaryKeyJoinColumn(name = "connection_id", referencedColumnName = "id"))
 public class Connection extends AbstractEntity implements Serializable {
+    public static final String CONNECTION_NOT_UNIQUE = "connection_unique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

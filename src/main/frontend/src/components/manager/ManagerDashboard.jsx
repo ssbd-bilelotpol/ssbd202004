@@ -16,6 +16,7 @@ import AddAirport from './airports/AddAirport';
 import EditSeatClass from './seatClasses/EditSeatClass';
 import EditAirport from './airports/EditAirport';
 import EditPlane from './planes/EditPlane';
+import EditConnection from './connections/EditConnection';
 
 const ManagerDashboard = () => {
     const { t } = useTranslation();
@@ -116,6 +117,9 @@ const ManagerDashboard = () => {
                 </Route>
                 <Route path={route('manager.connections.add')}>
                     <AddConnection />
+                </Route>
+                <Route path={route('manager.connections.connection.edit')}>
+                    <EditConnection />
                 </Route>
                 <Route path={route('manager.planes.add')}>
                     <AddPlane />

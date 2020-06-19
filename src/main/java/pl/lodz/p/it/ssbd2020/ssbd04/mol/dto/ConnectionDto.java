@@ -12,7 +12,7 @@ public class ConnectionDto implements Signable {
 
     private Long id;
 
-    private BigDecimal price;
+    private BigDecimal basePrice;
 
     private AirportDto destination;
 
@@ -24,7 +24,7 @@ public class ConnectionDto implements Signable {
 
     public ConnectionDto(Connection connection) {
         this.id = connection.getId();
-        this.price = connection.getBasePrice();
+        this.basePrice = connection.getBasePrice();
         this.destination = new AirportDto(connection.getDestination());
         this.source = new AirportDto(connection.getSource());
         this.version = connection.getVersion();
@@ -38,12 +38,12 @@ public class ConnectionDto implements Signable {
         this.id = id;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getBasePrice() {
+        return basePrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setBasePrice(BigDecimal price) {
+        this.basePrice = price;
     }
 
     public void setVersion(Long version) {

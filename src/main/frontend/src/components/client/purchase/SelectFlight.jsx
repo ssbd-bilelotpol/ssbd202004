@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useFlights } from '../../../api/flights';
-import { useListConnections } from '../../../api/connections';
+import { useConnections } from '../../../api/connections';
 import Register from '../../login/Register';
 import Login from '../../login/Login';
 import { BlueHeader, PageContainer } from '../../shared/SimpleComponents';
@@ -16,12 +16,12 @@ const SelectFlight = ({ searchQuery, history }) => {
     const { t } = useTranslation();
     const loggedIn = useSelector((state) => state.auth.loggedIn);
 
-    const { data: toConnections, loading: toConnectionsLoading } = useListConnections({
+    const { data: toConnections, loading: toConnectionsLoading } = useConnections({
         sourceCode: searchQuery.departureAirport.code,
         destinationCode: searchQuery.destinationAirport.code,
     });
 
-    const { data: returnConnections, loading: returnConnectionsLoading } = useListConnections({
+    const { data: returnConnections, loading: returnConnectionsLoading } = useConnections({
         sourceCode: searchQuery.destinationAirport.code,
         destinationCode: searchQuery.departureAirport.code,
     });

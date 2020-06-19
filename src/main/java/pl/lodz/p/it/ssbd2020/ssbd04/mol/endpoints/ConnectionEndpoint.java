@@ -60,5 +60,5 @@ public interface ConnectionEndpoint extends TransactionStarter {
      * @param connectionDto dane, które mają zostać zapisane
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    void update(Long id, ConnectionDto connectionDto) throws AppBaseException;
+    void update(Long id, ConnectionCreateDto connectionDto) throws AppBaseException;
 }

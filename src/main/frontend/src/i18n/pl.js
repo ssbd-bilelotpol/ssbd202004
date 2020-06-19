@@ -69,6 +69,7 @@ export default {
             'error.airplaneSchema.invalidData': 'Podano nieprawidłowe dane samolotu',
             'error.seatClass.priceChanged': 'Wystąpiła zmiana ceny klasy miejsc',
             'error.seat.notFound': 'Wybrane siedzenie nie istnieje',
+            connection_unique: 'Taka relacja już istnieje',
             ...translations,
             ...codesPl.countries,
         },
