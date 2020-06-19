@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.json.bind.annotation.JsonbTransient;
 
 /**
  * Przenosi dane schematu samolotu do warstwy prezentacji.
@@ -15,6 +12,8 @@ public class AirplaneSchemaListDto {
     private String name;
     private int rows;
     private int columns;
+    @JsonbTransient
+    private Long version;
 
     public AirplaneSchemaListDto() {
 
@@ -25,6 +24,7 @@ public class AirplaneSchemaListDto {
         this.name = airplaneSchema.getName();
         this.rows = airplaneSchema.getRows();
         this.columns = airplaneSchema.getCols();
+        this.version = airplaneSchema.getVersion();
     }
 
     public Long getId() {
@@ -41,5 +41,9 @@ public class AirplaneSchemaListDto {
 
     public int getColumns() {
         return columns;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 }

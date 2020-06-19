@@ -6,10 +6,13 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.FlightException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightEditDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirplaneSchemaService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.ConnectionService;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.FlightService;
@@ -45,6 +48,8 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
 
     @Inject
     private EmailService emailService;
+    @Inject
+    private AccountService accountService;
 
     @Inject
     private SeatService seatService;
@@ -84,9 +89,10 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
                 null,
                 flightDto.getDepartureTime(),
                 flightDto.getArrivalTime(),
-                FlightStatus.ACTIVE);
+                FlightStatus.INACTIVE);
         Connection connection = connectionService.findById(flightDto.getConnectionId());
         AirplaneSchema airplaneSchema = schemaService.findById(flightDto.getAirplaneSchemaId());
+        flight.setCreatedBy(accountService.getCurrentUser());
         return new FlightDto(flightService.create(flight, connection, airplaneSchema));
     }
 
@@ -98,8 +104,18 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
 
     @Override
     @RolesAllowed(Role.UpdateFlight)
-    public void update(Long id, FlightDto flightDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void update(String code, FlightEditDto flightDto) throws AppBaseException {
+        Flight flight = flightService.findByCode(code, true);
+        if(flight == null) {
+            throw FlightException.notFound();
+        }
+        FlightDto currentFlightDto = new FlightDto(flight);
+        if(!verifyEtag(currentFlightDto)) {
+            throw AppBaseException.optimisticLock();
+        }
+        flight.setStatus(flightDto.getActive() ? FlightStatus.ACTIVE : FlightStatus.INACTIVE);
+        flight.setPrice(flightDto.getPrice());
+        flightService.update(flight, flightDto.getDepartureTime(), flightDto.getArrivalTime());
     }
 
     @Override

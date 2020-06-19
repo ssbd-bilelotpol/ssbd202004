@@ -16,6 +16,7 @@ import AddAirport from './airports/AddAirport';
 import EditSeatClass from './seatClasses/EditSeatClass';
 import EditAirport from './airports/EditAirport';
 import EditPlane from './planes/EditPlane';
+import EditFlight from './flights/EditFlight';
 import EditConnection from './connections/EditConnection';
 
 const ManagerDashboard = () => {
@@ -105,6 +106,9 @@ const ManagerDashboard = () => {
                 </Route>
                 <Route exact path={route('manager.flights')}>
                     <Redirect to={route('manager.flights.list')} />
+                </Route>
+                <Route path={route('manager.flights.flight.edit')}>
+                    <EditFlight />
                 </Route>
                 <Route path={route('manager.flights.list')}>
                     <FlightsList />

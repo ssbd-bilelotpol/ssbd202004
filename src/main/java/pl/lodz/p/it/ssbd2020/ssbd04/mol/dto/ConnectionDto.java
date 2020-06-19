@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
+import javax.json.bind.annotation.JsonbTransient;
 import java.math.BigDecimal;
 
 /**
@@ -18,6 +19,7 @@ public class ConnectionDto implements Signable {
 
     private AirportDto source;
 
+    @JsonbTransient
     private Long version;
 
     public ConnectionDto() {}
@@ -48,6 +50,10 @@ public class ConnectionDto implements Signable {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
     public AirportDto getSource() {

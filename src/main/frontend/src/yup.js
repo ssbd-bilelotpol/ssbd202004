@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import moment from 'moment';
 
 Yup.setLocale({
     mixed: {
@@ -152,18 +153,65 @@ export const FlightSchema = Yup.object().shape(
             .when(
                 'arrivalTime',
                 (arrivalTime, schema) =>
-                    arrivalTime && schema.max(arrivalTime, 'departure_after_arrival')
+                    arrivalTime &&
+                    schema.max(
+                        moment(arrivalTime).subtract(1, 'minutes'),
+                        'departure_after_arrival'
+                    )
             ),
         arrivalTime: Yup.date()
             .required()
             .when(
                 'departureTime',
                 (departureTime, schema) =>
-                    departureTime && schema.min(departureTime, 'arrival_before_departure')
+                    departureTime &&
+                    schema.min(moment(departureTime).add(1, 'minutes'), 'arrival_before_departure')
             ),
     },
     ['departureTime', 'arrivalTime']
 );
+export const FlightEditSchema = (departure, arrival) =>
+    Yup.object().shape(
+        {
+            price: Yup.number()
+                .required()
+                .min(0.01)
+                .test(
+                    'is-two-frac-digits',
+                    'price_format',
+                    (value) =>
+                        value &&
+                        (Number.isInteger(value) ||
+                            value.toFixed(2).length >= value.toString().length)
+                ),
+            departureTime: Yup.date()
+                .required()
+                .test('is-future', 'departure_min_date', (value) => value > new Date())
+                .min(departure, 'can_delay_only')
+                .when(
+                    'arrivalTime',
+                    (arrivalTime, schema) =>
+                        arrivalTime &&
+                        schema.max(
+                            moment(arrivalTime).subtract(1, 'minutes'),
+                            'departure_after_arrival'
+                        )
+                ),
+            arrivalTime: Yup.date()
+                .required()
+                .min(arrival, 'can_delay_only')
+                .when(
+                    'departureTime',
+                    (departureTime, schema) =>
+                        departureTime &&
+                        schema.min(
+                            moment(departureTime).add(1, 'minutes'),
+                            'arrival_before_departure'
+                        )
+                ),
+        },
+        ['departureTime', 'arrivalTime']
+    );
 
 export const ConnectionSchema = Yup.object().shape({
     sourceCode: Yup.string()

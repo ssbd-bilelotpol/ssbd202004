@@ -4,14 +4,17 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AccountFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.security.enterprise.SecurityContext;
+import java.util.List;
 
 /**
  * Przetwarzanie logiki biznesowej Kont.
@@ -39,5 +42,10 @@ public class AccountService {
         } catch (AppBaseException e) {
             return null;
         }
+    }
+
+    @RolesAllowed({Role.UpdateFlight})
+    public List<Account> getAccountsByTicketsOwnedForFlight(String flightCode) throws AppBaseException {
+        return accountFacade.getAccountsByTicketsOwnedForFlight(flightCode);
     }
 }

@@ -28,7 +28,7 @@ const StyledTable = styled(Table)`
 
 const StyledCheckbox = styled(Checkbox)`
     &&& {
-        margin-left: 8px;
+        padding-left: 0.5em;
     }
 `;
 

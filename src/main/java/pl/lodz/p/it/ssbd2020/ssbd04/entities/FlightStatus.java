@@ -13,10 +13,6 @@ public enum FlightStatus {
      */
     INACTIVE,
     /**
-     * DELAYED - lot został opóźniony.
-     */
-    DELAYED,
-    /**
      * CANCELLED - lot został anulowany i pasażerowie otrzymali zwrot środków.
      */
     CANCELLED

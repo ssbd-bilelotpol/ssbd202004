@@ -64,6 +64,14 @@ public class FlightException extends AppBaseException {
     }
 
     /**
+     * Tworzy wątek reprezentujący próbę zmiany daty lotu na wcześniejszą.
+     * @return stworzony wyjątek
+     */
+    public static FlightException cantMakeEarlier() {
+        return new FlightException(FLIGHT_MADE_EARLIER);
+    }
+
+    /**
      * Tworzy wyjątek reprezentujący niezgodność oczekiwanej ceny z aktualną ceną
      * @return wyjątek reprezentujący niezgodność oczekiwanej ceny z aktualną ceną
      */

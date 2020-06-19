@@ -134,8 +134,8 @@
     "Add existing benefits": "Dodaj istniejące korzyści",
     "Edit existing benefits": "Edytuj istniejące korzyści",
     "departure_min_date": "Data wylotu nieaktualna",
-    "arrival_before_departure": "Data przylotu przed datą wylotu",
-    "departure_after_arrival": "Data odlotu po dacie przylotu",
+    "arrival_before_departure": "Przylot musi nastąpić po odlocie",
+    "departure_after_arrival": "Odlot musi nastąpić przed przylotem",
     "Flight code": "Kod lotu",
     "Price": "Cena",
     "Buy": "Kup",
@@ -226,6 +226,10 @@
     "BLACK": "CZARNY",
     "Delete": "Usuń",
     "Edit plane": "Edytuj samolot",
+    "can_delay_only": "Data może zostać zmieniona tylko na późniejszą",
+    "Flight details": "Informacje o locie",
+    "Active": "Aktywny",
+    "Inactive": "Nieaktywny",
     "Reports": "Raporty",
     "Sales report for available connections": "Raport ze sprzedaży dla połączeń",
     "No connections available": "Brak dostępnych połączeń",
@@ -234,5 +238,8 @@
     "Customer Service": "Obsługa klienta",
     "Relation details": "Szczegóły relacji",
     "Relation updated successfully": "Relacja zaktualizowana pomyślnie",
-    "Edit relation": "Edytuj relację"
+    "Edit relation": "Edytuj relację",
+    "from_date": "Od",
+    "to_date": "Do",
+    "Edit flight": "Edytuj lot"
 }

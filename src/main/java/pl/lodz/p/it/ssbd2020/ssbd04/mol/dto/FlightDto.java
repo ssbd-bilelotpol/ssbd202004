@@ -2,15 +2,17 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
 import javax.json.bind.annotation.JsonbDateFormat;
+import javax.json.bind.annotation.JsonbTransient;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
  * Reprezentuje lot
  */
-public class FlightDto {
+public class FlightDto implements Signable {
     private String code;
     private BigDecimal price;
     private ConnectionDto connection;
@@ -20,6 +22,8 @@ public class FlightDto {
     @JsonbDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime endDateTime;
     private FlightStatus status;
+    @JsonbTransient
+    private Long version;
 
     public FlightDto() {
     }
@@ -32,6 +36,7 @@ public class FlightDto {
         this.startDateTime = flight.getStartDateTime();
         this.endDateTime = flight.getEndDateTime();
         this.status = flight.getStatus();
+        this.version = flight.getVersion();
     }
 
     public String getCode() {
@@ -88,5 +93,14 @@ public class FlightDto {
 
     public void setStatus(FlightStatus status) {
         this.status = status;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    @Override
+    public String createMessage() {
+        return String.format("%d.%s", this.version, this.code);
     }
 }

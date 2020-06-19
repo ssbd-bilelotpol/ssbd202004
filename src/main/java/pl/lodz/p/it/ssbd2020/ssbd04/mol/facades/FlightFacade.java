@@ -69,8 +69,16 @@ public class FlightFacade extends AbstractFacade<Flight> {
     @Override
     @PermitAll
     public Flight find(Object code) throws AppBaseException {
+        return find(code, false);
+    }
+
+    @PermitAll
+    public Flight find(Object code, Boolean pessimisticLock) throws AppBaseException {
         try {
             TypedQuery<Flight> flightTypedQuery = em.createNamedQuery("Flight.findByCode", Flight.class);
+            if(pessimisticLock) {
+                flightTypedQuery.setLockMode(LockModeType.PESSIMISTIC_WRITE);
+            }
             flightTypedQuery.setParameter("code", code);
             return flightTypedQuery.getSingleResult();
         } catch (NoResultException e) {
@@ -121,7 +129,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
     @Override
     @RolesAllowed({Role.UpdateFlight})
     public void edit(Flight entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        super.edit(entity);
     }
 
     @Override

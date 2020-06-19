@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,6 +36,7 @@ public class AirportDto implements Signable {
     @Size(min = 2, max = 32)
     private String city;
 
+    @JsonbTransient
     private Long version;
 
 

@@ -5,13 +5,16 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -44,8 +47,20 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
     }
 
+    @RolesAllowed({Role.UpdateFlight})
+    public List<Account> getAccountsByTicketsOwnedForFlight(String flightCode) throws AppBaseException {
+        try {
+            TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Flight.findAccountsByTicketsForFlight", Account.class);
+            accountTypedQuery.setParameter("code", flightCode);
+            return accountTypedQuery.getResultList();
+        } catch(PersistenceException e) {
+            throw AppBaseException.databaseOperation(e);
+        }
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return this.em;
     }
+
 }

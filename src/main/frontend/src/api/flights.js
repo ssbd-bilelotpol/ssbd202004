@@ -1,4 +1,4 @@
-import { post } from './index';
+import { post, put } from './index';
 import { useGet } from './hooks';
 
 export const createFlight = (data) => post(`/flights`, data);
@@ -33,3 +33,17 @@ export const useListFlightDates = (filterData) => {
 export const useTakenSeats = (flightCode) => {
     return useGet(`/flights/${flightCode}/taken-seats`, null);
 };
+
+export const useFlight = (code) => {
+    const value = useGet(`/flights/${code}`);
+    return {
+        ...value,
+        data: Object.keys(value.data).length !== 0 && {
+            ...value.data,
+            startDateTime: new Date(value.data.startDateTime),
+            endDateTime: new Date(value.data.endDateTime),
+        },
+    };
+};
+
+export const updateFlight = (code, data, etag) => put(`/flights/${code}`, data, etag);

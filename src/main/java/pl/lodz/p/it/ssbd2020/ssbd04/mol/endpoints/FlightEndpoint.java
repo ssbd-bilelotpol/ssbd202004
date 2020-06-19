@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightEditDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 
 import javax.ejb.Local;
@@ -58,11 +59,11 @@ public interface FlightEndpoint extends TransactionStarter {
 
     /**
      * Modyfikuje istniejący lot.
-     * @param id identyfikator lotu, który ma zostać zmodyfikowany
+     * @param code identyfikator lotu, który ma zostać zmodyfikowany
      * @param flightDto dane, które mają zostać zapisane
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    void update(Long id, FlightDto flightDto) throws AppBaseException;
+    void update(String code, FlightEditDto flightDto) throws AppBaseException;
 
     /**
      * Zwraca listę zajętych miejsc

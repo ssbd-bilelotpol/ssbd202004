@@ -67,7 +67,7 @@ public class EmailService {
                 .queryString("from", String.format("%s <%s>", senderName, config.getMailSender()))
                 .queryString("to", email)
                 .queryString("subject", subject)
-                .queryString("text", message)
+                .queryString("html", message)
                 .asJson();
 
         if (request.getStatus() != 200) {

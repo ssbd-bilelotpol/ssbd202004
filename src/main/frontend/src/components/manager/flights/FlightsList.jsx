@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Label, Message, Placeholder, Table } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
@@ -8,12 +8,14 @@ import debounce from 'lodash.debounce';
 import i18next from 'i18next';
 import moment from 'moment';
 import Moment from 'react-moment';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import { route } from '../../../routing';
 import { ContentCard } from '../../shared/Dashboard';
 import { useFlights } from '../../../api/flights';
 import ConnectionDropdown from './ConnectionDropdown';
 import SchemaDropdown from './SchemaDropdown';
 import SemanticDatePicker from '../../shared/Datepicker';
+import { flightStatus } from '../../../constants';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -80,7 +82,7 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                 />
                 <Form.Field width={3}>
                     <SemanticDatePicker
-                        placeholderText={t('From')}
+                        placeholderText={t('from_date')}
                         isClearable={filterData.from}
                         name="from"
                         selectsStart
@@ -94,7 +96,7 @@ const FlightSearchBar = ({ setFilterData, setError }) => {
                 </Form.Field>
                 <Form.Field width={3}>
                     <SemanticDatePicker
-                        placeholderText={t('To')}
+                        placeholderText={t('to_date')}
                         isClearable={filterData.to}
                         name="to"
                         selectsEnd
@@ -133,8 +135,11 @@ const FlightTable = ({ flights, loading }) => {
                             <Table.HeaderCell width={3} rowSpan="2" textAlign="center">
                                 {t('Airplane')}
                             </Table.HeaderCell>
-                            <Table.HeaderCell width={4} rowSpan="2" textAlign="center">
+                            <Table.HeaderCell width={3} rowSpan="2" textAlign="center">
                                 {t('Date')}
+                            </Table.HeaderCell>
+                            <Table.HeaderCell width={1} rowSpan="2" textAlign="center">
+                                {t('Active')}
                             </Table.HeaderCell>
                             <Table.HeaderCell width={1} rowSpan="2" textAlign="center">
                                 {t('Action')}
@@ -185,6 +190,13 @@ const FlightTable = ({ flights, loading }) => {
                                               />
                                           </Table.Cell>
                                           <Table.Cell textAlign="center">
+                                              {flight.status === flightStatus.active ? (
+                                                  <Icon name="check" />
+                                              ) : (
+                                                  <Icon name="ban" />
+                                              )}
+                                          </Table.Cell>
+                                          <Table.Cell textAlign="center">
                                               <Button
                                                   as={Link}
                                                   to={route('manager.flights.flight.edit', {
@@ -206,13 +218,15 @@ const FlightTable = ({ flights, loading }) => {
 
 const FlightsList = () => {
     const [filterData, setFilterData] = useState({});
+    const [error, setError] = useState();
     const { t } = useTranslation();
-    const { data: flights, loading, error } = useFlights(filterData);
+    const { data: flights, loading, error: flightsError } = useFlights(filterData);
+    useEffect(() => flightsError && setError(flightsError), [flightsError]);
 
     return (
         <ContentCard fluid>
             <Label attached="top">{t('Search for flights')}</Label>
-            <FlightSearchBar filterData={filterData} setFilterData={setFilterData} />
+            <FlightSearchBar setFilterData={setFilterData} setError={setError} />
             {error ? (
                 <Message
                     error
@@ -222,7 +236,7 @@ const FlightsList = () => {
             ) : (
                 <>
                     <FlightTable flights={flights} loading={loading} />
-                    {flights && flights.length === 0 && (
+                    {!loading && flights && flights.length === 0 && (
                         <Message
                             header={t('No such flight')}
                             content={t('There are no results matching criteria')}

@@ -22,6 +22,8 @@ import java.util.Objects;
                 query = "SELECT distinct cast(startDateTime as date) from Flight flight where startDateTime > :from"),
         @NamedQuery(name = "Flight.findByAirplaneSchema",
                 query = "SELECT flight from Flight flight WHERE flight.airplaneSchema.id = :schemaId"),
+        @NamedQuery(name = "Flight.findAccountsByTicketsForFlight",
+                query = "SELECT DISTINCT ticket.account FROM Ticket ticket JOIN ticket.flight flight WHERE flight.flightCode = :code")
 })
 @Entity
 @Table(
@@ -59,7 +61,7 @@ public class Flight extends AbstractEntity implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "airplane_schema_id", nullable = false, foreignKey = @ForeignKey(name = "flight_airplane_schema_fk"))
+    @JoinColumn(name = "airplane_schema_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "flight_airplane_schema_fk"))
     private AirplaneSchema airplaneSchema;
 
     @Column(nullable = false, name = "start_date_time")

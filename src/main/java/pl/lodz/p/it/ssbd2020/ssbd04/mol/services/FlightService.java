@@ -1,15 +1,19 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
+import pl.lodz.p.it.ssbd2020.ssbd04.common.I18n;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.FlightException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AirplaneSchemaFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.ConnectionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.FlightFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
+import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -18,13 +22,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 
 /**
  * Przetwarzanie logiki biznesowej lotów.
@@ -40,6 +44,14 @@ public class FlightService {
     private ConnectionFacade connectionFacade;
     @Inject
     private AirplaneSchemaFacade airplaneSchemaFacade;
+    @Inject
+    private AccountService accountService;
+    @Inject
+    private EmailService emailService;
+    @Inject
+    private I18n i18n;
+    @Inject
+    private Config config;
 
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
@@ -84,7 +96,19 @@ public class FlightService {
      */
     @PermitAll
     public Flight findByCode(String code) throws AppBaseException {
-        return flightFacade.find(code);
+        return findByCode(code, false);
+    }
+
+    /**
+     * Zwraca loty o podanym identyfikatorze.
+     * @param code identyfikator lotu
+     * @param pessimisticLock czy założyć blokadę pesymistyczną
+     * @return lot o podanym identyfikatorze
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
+    @PermitAll
+    public Flight findByCode(String code, Boolean pessimisticLock) throws AppBaseException {
+        return flightFacade.find(code, pessimisticLock);
     }
 
     /**
@@ -127,11 +151,33 @@ public class FlightService {
     /**
      * Modyfikuje istniejący lot.
      * @param flight zmodyfikowane dane lotu
+     * @param departureTime data wylotu
+     * @param arrivalTime data przylotu
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.UpdateFlight)
-    public void update(Flight flight, AirplaneSchema airplaneSchema) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void update(Flight flight, LocalDateTime departureTime, LocalDateTime arrivalTime) throws AppBaseException {
+        if(flight.getStartDateTime().isAfter(departureTime) || flight.getEndDateTime().isAfter(arrivalTime)) {
+            throw FlightException.cantMakeEarlier();
+        }
+        if(flight.getStartDateTime().isBefore(departureTime) || flight.getEndDateTime().isBefore(arrivalTime)) {
+            List<Account> accounts = accountService.getAccountsByTicketsOwnedForFlight(flight.getFlightCode());
+            for(Account a : accounts) {
+                emailService.sendEmail(
+                        a.getAccountDetails().getEmail(),
+                        i18n.getMessage(FLIGHT_TRACKER_MAIL_SENDER),
+                        i18n.getMessage(FLIGHT_DELAYED_MAIL_TITLE),
+                        String.format(i18n.getMessage(FLIGHT_DELAYED_MAIL_CONTENT),
+                                flight.getConnection().getSource().getCity(),
+                                flight.getConnection().getDestination().getCity(),
+                                flight.getFlightCode(),
+                                String.format("%s/panel/tickets/%s", config.getFrontendURL(), flight.getId())));
+            }
+        }
+        flight.setStartDateTime(departureTime);
+        flight.setEndDateTime(arrivalTime);
+        flight.setModifiedBy(accountService.getCurrentUser());
+        flightFacade.edit(flight);
     }
 
     @RolesAllowed(Role.CalculateConnectionProfit)

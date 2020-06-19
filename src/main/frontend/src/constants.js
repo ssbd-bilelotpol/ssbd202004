@@ -41,6 +41,11 @@ export const rolePriority = {
     [roles.client]: 3,
 };
 
+export const flightStatus = {
+    active: 'ACTIVE',
+    inactive: 'INACTIVE',
+    cancelled: 'CANCELLED',
+};
 export const routes = {
     flights: {
         path: '/flights',
@@ -219,7 +224,7 @@ export const routes = {
                     },
                     flight: {
                         path: '/:code',
-                        breadcrumb: '{code|Loading}',
+                        breadcrumb: '{flightCode|Loading}',
                         breadcrumbLink: false,
                         subroutes: {
                             edit: {

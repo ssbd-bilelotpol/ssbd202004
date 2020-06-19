@@ -20,8 +20,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection.CONNECTION_NOT_UNIQUE;
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

@@ -5,8 +5,10 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightEditDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.FlightEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.FlightCode;
 
 import javax.inject.Inject;
@@ -14,6 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +30,9 @@ public class FlightController extends AbstractController {
 
     @Inject
     private FlightEndpoint flightEndpoint;
+    @Inject
+    private MessageSigner messageSigner;
+
 
     @Inject
     private TicketEndpoint ticketEndpoint;
@@ -63,8 +69,13 @@ public class FlightController extends AbstractController {
     @GET
     @Path("/{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    public FlightDto findByCode(@PathParam("code") @Valid @FlightCode String code) throws AppBaseException {
-        return repeat(flightEndpoint, () -> flightEndpoint.findByCode(code));
+    public Response findByCode(@PathParam("code") @Valid @FlightCode String code) throws AppBaseException {
+        FlightDto flightDto = repeat(flightEndpoint, () -> flightEndpoint.findByCode(code));
+        return Response
+                .ok()
+                .entity(flightDto)
+                .tag(messageSigner.sign(flightDto))
+                .build();
     }
 
     @GET
@@ -88,24 +99,24 @@ public class FlightController extends AbstractController {
 
     /**
      * Usuwa lot o podanym identyfikatorze.
-     * @param id identyfikator lotu do usunięcia.
+     * @param code identyfikator lotu do usunięcia.
      */
     @DELETE
-    @Path("/{id}")
-    public void delete(@PathParam("id") Long id) {
+    @Path("/{code}")
+    public void delete(@PathParam("code") String code) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Modyfikuje istniejący lot.
-     * @param id identyfikator lotu, który ma zostać zmodyfikowany
+     * @param code identyfikator lotu, który ma zostać zmodyfikowany
      * @param flightDto dane, które mają zostać zapisane
      */
     @PUT
-    @Path("/{id}")
+    @Path("/{code}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(@PathParam("id") Long id, FlightDto flightDto) {
-        throw new UnsupportedOperationException();
+    public void update(@PathParam("code") String code, FlightEditDto flightDto) throws AppBaseException {
+        repeat(flightEndpoint, () -> flightEndpoint.update(code, flightDto));
     }
 
     @GET

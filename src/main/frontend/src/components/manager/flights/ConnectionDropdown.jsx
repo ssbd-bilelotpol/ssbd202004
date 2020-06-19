@@ -21,11 +21,10 @@ const ConnectionDropdown = ({ onChange, setError, asterisk, ...props }) => {
                 description: `${t(connection.source.country.toUpperCase())} - ${t(
                     connection.destination.country.toUpperCase()
                 )}`,
-                'data-price': connection.price,
+                'data-price': connection.basePrice,
             })),
         [data, t]
     );
-
     const getConnectionPrice = (code) =>
         code && connections.find((connection) => connection.value === code)['data-price'];
 

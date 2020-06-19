@@ -4,10 +4,14 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirplaneSchemaName;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.Utils.isNullOrEmpty;
@@ -39,6 +43,7 @@ public class AirplaneSchemaDto implements Signable {
     @NotNull
     private List<SeatDto> seats;
 
+    @JsonbTransient
     private Long version;
 
     public AirplaneSchemaDto() {
@@ -121,6 +126,10 @@ public class AirplaneSchemaDto implements Signable {
 
     public void setSeats(List<SeatDto> seats) {
         this.seats = seats;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
     @Override
