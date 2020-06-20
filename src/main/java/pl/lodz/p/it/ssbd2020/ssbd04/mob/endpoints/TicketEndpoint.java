@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 
 import javax.ejb.Local;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -84,9 +85,23 @@ public interface TicketEndpoint extends TransactionStarter {
     void update(Long id, TicketUpdateDto ticketUpdateDto) throws AppBaseException;
 
     /**
+     * Wyszukuje listę bilety na podstawie przekazanego kryterium.
+     *
+     * @param code kod lotu
+     * @param connectionId id połączenia
+     * @param airplaneId id lotniska
+     * @param from data, po której wylatuje lot
+     * @param to dat, przed którą wylatuje lot
+     * @return loty spełniające podane kryterium
+     */
+    List<TicketListDto> find(String code, Long connectionId, Long airplaneId,
+                             LocalDateTime from, LocalDateTime to) throws AppBaseException;
+
+    /**
      * Zwraca listę z informacjami o zyskach na danych połączeniach
      * @return lista z informacjami o zyskach na danych połączeniach
      * @throws AppBaseException gdy nie będzie połączenia z bazą danych
      */
     List<ReportDto> generateReport() throws AppBaseException;
+
 }

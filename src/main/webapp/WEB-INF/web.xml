@@ -159,6 +159,11 @@
     <security-role>
         <role-name>findTicketsByFlight</role-name>
     </security-role>
+
+    <security-role>
+        <role-name>findTicketsByFlights</role-name>
+    </security-role>
+    
     <security-role>
         <role-name>findTicketsByAccount</role-name>
     </security-role>

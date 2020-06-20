@@ -53,6 +53,7 @@ public class Role {
     public static final String CalculateConnectionProfit = "calculateConnectionProfit";
 
     public static final String FindTicketsByFlight = "findTicketsByFlight";
+    public static final String FindTicketsByFlights = "findTicketsByFlights";
     public static final String FindTicketsByAccount = "findTicketsByAccount";
     public static final String FindTicketById = "findTicketById";
     public static final String FindAnyTicketById = "findAnyTicketById";

@@ -319,6 +319,11 @@ export const routes = {
                         breadcrumb: 'View ticket',
                         path: '/:id',
                     },
+                    list: {
+                        title: 'Search for tickets',
+                        breadcrumb: 'Search for tickets',
+                        path: '/list',
+                    },
                 },
             },
         },

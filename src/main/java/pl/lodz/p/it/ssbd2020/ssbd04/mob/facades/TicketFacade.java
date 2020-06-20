@@ -2,11 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.facades;
 
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AccountException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.TicketException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -18,9 +14,10 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
-
-import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GetTakenSeats;
 
 @Interceptors({TrackingInterceptor.class})
 @Stateless
@@ -141,4 +138,26 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Zwraca bilety dla wybranych lotów
+     *
+     * @param flightIds identyfikator lotów
+     * @return bilety dla wybranych lotów
+     * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
+     */
+    @RolesAllowed(Role.FindTicketsByFlights)
+    public List<Ticket> findByFlights(List<Long> flightIds) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+        Root<Ticket> root = query.from(Ticket.class);
+
+        CriteriaBuilder.In<Long> inClause = builder.in(root.get("flight"));
+        for (Long id : flightIds) {
+            inClause.value(id);
+        }
+        query.select(root).where(inClause);
+
+        TypedQuery<Ticket> typedQuery = em.createQuery(query);
+        return typedQuery.getResultList();
+    }
 }

@@ -16,6 +16,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -116,5 +117,11 @@ public class TicketService {
     @RolesAllowed(Role.UpdateTicket)
     public void update(Ticket ticket) throws AppBaseException {
         throw new UnsupportedOperationException();
+    }
+
+    @RolesAllowed(Role.FindTicketsByFlights)
+    public List<Ticket> findByFlights(List<Long> flightIds) {
+        if (flightIds.size() == 0) return new ArrayList<>();
+        return ticketFacade.findByFlights(flightIds);
     }
 }

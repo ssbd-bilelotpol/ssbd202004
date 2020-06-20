@@ -34,8 +34,8 @@ const EditPlane = () => {
     const [savingError, setSavingError] = useState(null);
     const [deleteError, setDeleteError] = useState(null);
 
-    useTitle(airplaneSchema.name ? airplaneSchema.name : '');
-    useBreadcrumb({ name: airplaneSchema.name ? airplaneSchema.name : '' });
+    useTitle(airplaneSchema ? airplaneSchema.name : '');
+    useBreadcrumb({ name: airplaneSchema ? airplaneSchema.name : '' });
 
     const handleSubmit = async (values) => {
         setSaved(false);

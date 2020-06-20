@@ -41,7 +41,7 @@ public class FlightController extends AbstractController {
      * Wyszukuje loty na podstawie przekazanego kryterium.
      * @param code kod lotu
      * @param connectionId id połączenia
-     * @param airplaneId id lotniska
+     * @param airplaneId id samolotu
      * @param from data, po której wylatuje lot
      * @param to dat, przed którą wylatuje lot
      * @return loty spełniające podane kryterium

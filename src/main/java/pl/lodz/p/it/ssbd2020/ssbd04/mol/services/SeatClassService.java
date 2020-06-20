@@ -1,12 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatClassException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.BenefitFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.SeatClassFacade;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.SeatFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -32,6 +34,9 @@ public class SeatClassService {
 
     @Inject
     private BenefitFacade benefitFacade;
+
+    @Inject
+    private SeatFacade seatFacade;
 
     /**
      * Znajduje klasę miejsc na podstawie jej nazwy.
@@ -98,6 +103,8 @@ public class SeatClassService {
      */
     @RolesAllowed(Role.UpdateSeatClass)
     public SeatClass update(SeatClass seatClass, Set<Benefit> existingBenefits) throws AppBaseException {
+        List<Seat> seats = seatFacade.findBySeatClass(seatClass);
+        if (seats.size() > 0) throw SeatClassException.inUse(seatClass);
         seatClassFacade.edit(addExistingBenefits(seatClass, existingBenefits));
         return seatClass;
     }

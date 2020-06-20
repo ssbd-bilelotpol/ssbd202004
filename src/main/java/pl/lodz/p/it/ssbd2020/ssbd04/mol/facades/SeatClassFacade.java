@@ -2,10 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatClassException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -43,6 +41,7 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
         try {
             TypedQuery<SeatClass> seatClassTypedQuery = em.createNamedQuery("SeatClass.findByName", SeatClass.class);
             seatClassTypedQuery.setParameter("name", name);
+            seatClassTypedQuery.setLockMode(LockModeType.PESSIMISTIC_WRITE);
             return seatClassTypedQuery.getSingleResult();
         } catch (NoResultException e) {
             throw SeatClassException.notFound(e);
@@ -54,7 +53,11 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     @Override
     @PermitAll
     public List<SeatClass> findAll() throws AppBaseException {
-        return super.findAll();
+        List<SeatClass> seatClasses = super.findAll();
+        seatClasses
+                .stream()
+                .forEach(sc -> em.lock(sc, LockModeType.PESSIMISTIC_READ));
+        return seatClasses;
     }
 
     @Override
@@ -84,6 +87,7 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
             throw AppBaseException.databaseOperation(e);
         }
     }
+
 
     @Override
     @RolesAllowed(Role.UpdateSeatClass)

@@ -1,10 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketReturnDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketUpdateDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
 
 import javax.inject.Inject;
@@ -12,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -35,6 +33,25 @@ public class TicketController extends AbstractController {
     @Produces(MediaType.APPLICATION_JSON)
     public TicketDto findById(@PathParam("id") Long id) throws AppBaseException {
         return ticketEndpoint.findById(id);
+    }
+
+    /**
+     * Wyszukuje bilety na podstawie przekazanego kryterium.
+     *
+     * @param code         kod lotu
+     * @param connectionId id połączenia
+     * @param airplaneId   id lotniska
+     * @param from         data, po której wylatuje lot
+     * @param to           dat, przed którą wylatuje lot
+     * @return loty spełniające podane kryterium
+     */
+    @GET
+    @Path("/list")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TicketListDto> find(@QueryParam("code") String code, @QueryParam("connection") Long connectionId,
+                                    @QueryParam("airplane") Long airplaneId, @QueryParam("from") LocalDateTime from,
+                                    @QueryParam("to") LocalDateTime to) throws AppBaseException {
+        return repeat(ticketEndpoint, () -> ticketEndpoint.find(code, connectionId, airplaneId, from, to));
     }
 
     /**
@@ -73,7 +90,7 @@ public class TicketController extends AbstractController {
     /**
      * Aktualizuje dane biletu
      *
-     * @param id identyfikator biletu
+     * @param id              identyfikator biletu
      * @param ticketUpdateDto nowe dane biletu
      */
     @PUT

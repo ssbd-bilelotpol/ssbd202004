@@ -4,6 +4,7 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import Dashboard from '../shared/Dashboard';
 import { route } from '../../routing';
 import GenerateReport from './reports/GenerateReport';
+import TicketsList from './TicketsList';
 import ViewTicket from '../shared/ViewTicket';
 import { WideCard } from '../shared/Flight';
 
@@ -19,6 +20,15 @@ const CustomerServiceDashboard = () => {
                 },
             ],
         },
+        {
+            header: t('Tickets'),
+            items: [
+                {
+                    name: t('Search for tickets'),
+                    route: 'customer_service.tickets.list',
+                },
+            ],
+        },
     ];
 
     return (
@@ -26,6 +36,9 @@ const CustomerServiceDashboard = () => {
             <Switch>
                 <Route exact path={route('customer_service')}>
                     <Redirect to={route('customer_service.reports.generate')} />
+                </Route>
+                <Route path={route('customer_service.tickets.list')}>
+                    <TicketsList />
                 </Route>
                 <Route path={route('customer_service.tickets.view')}>
                     <WideCard>

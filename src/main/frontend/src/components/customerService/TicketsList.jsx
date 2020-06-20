@@ -1,21 +1,18 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Grid, Label, Message, Placeholder, Table } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import i18next from 'i18next';
 import moment from 'moment';
-import Moment from 'react-moment';
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
-import { route } from '../../../routing';
-import { ContentCard } from '../../shared/Dashboard';
-import { useFlights } from '../../../api/flights';
-import ConnectionDropdown from './ConnectionDropdown';
-import SchemaDropdown from './SchemaDropdown';
-import SemanticDatePicker from '../../shared/Datepicker';
-import { flightStatus } from '../../../constants';
+import { Link } from 'react-router-dom';
+import { ContentCard } from '../shared/Dashboard';
+import ConnectionDropdown from '../manager/flights/ConnectionDropdown';
+import SchemaDropdown from '../manager/flights/SchemaDropdown';
+import SemanticDatePicker from '../shared/Datepicker';
+import { useTickets } from '../../api/tickets';
+import { route } from '../../routing';
 
 const AlignedFormGroup = styled(Form.Group)`
     &&& {
@@ -33,6 +30,7 @@ const FlightSearchBar = ({ setFilterData, setError, dates }) => {
         from: '',
         to: '',
     });
+
     const debounceLoadData = useCallback(debounce(setFilterData, 250), []);
     const formatData = (data) => {
         const formattedData = { ...data };
@@ -73,16 +71,18 @@ const FlightSearchBar = ({ setFilterData, setError, dates }) => {
                     setError={setError}
                     clearable
                 />
-                <SchemaDropdown
-                    placeholder={t('Airplane')}
-                    name="airplaneId"
-                    value={filterData.airplane}
-                    setFieldValue={(_, value) => handleChange({ airplane: value })}
-                    setError={setError}
-                    clearable
-                />
+                <Form.Field>
+                    <SchemaDropdown
+                        placeholder={t('Airplane')}
+                        name="airplaneId"
+                        value={filterData.airplane}
+                        setFieldValue={(_, value) => handleChange({ airplane: value })}
+                        setError={setError}
+                        clearable
+                    />
+                </Form.Field>
                 <Label>
-                    {t('Flight date')}
+                    {t('Purchase date')}
                     <Grid columns={2}>
                         <Grid.Column>
                             <SemanticDatePicker
@@ -123,7 +123,7 @@ const FlightSearchBar = ({ setFilterData, setError, dates }) => {
     );
 };
 
-const FlightTable = ({ flights, loading }) => {
+const TicketsTable = ({ tickets, loading }) => {
     const { t } = useTranslation();
     const [init, setInit] = useState(true);
     if (init && !loading) {
@@ -132,39 +132,32 @@ const FlightTable = ({ flights, loading }) => {
 
     return (
         <>
-            {(init || (flights && flights.length > 0)) && (
-                <Table celled structured striped size="small">
+            {(init || (tickets && tickets.length > 0)) && (
+                <Table celled structured striped size="small" textAlign="center">
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell width={2} rowSpan="2" textAlign="center">
-                                {t('Code')}
+                                {t('Flight code')}
                             </Table.HeaderCell>
-                            <Table.HeaderCell width={6} colSpan="2" textAlign="center">
-                                {t('Connection')}
+                            <Table.HeaderCell width={4} rowSpan="2" textAlign="center">
+                                {t('Email')}
                             </Table.HeaderCell>
-                            <Table.HeaderCell width={3} rowSpan="2" textAlign="center">
-                                {t('Airplane')}
+                            <Table.HeaderCell width={4} rowSpan="2" textAlign="center">
+                                {t('Price')}
                             </Table.HeaderCell>
-                            <Table.HeaderCell width={3} rowSpan="2" textAlign="center">
-                                {t('Date')}
+                            <Table.HeaderCell width={4} rowSpan="2" textAlign="center">
+                                {t('Purchase date')}
                             </Table.HeaderCell>
-                            <Table.HeaderCell width={1} rowSpan="2" textAlign="center">
-                                {t('Active')}
-                            </Table.HeaderCell>
-                            <Table.HeaderCell width={1} rowSpan="2" textAlign="center">
+                            <Table.HeaderCell width={2} rowSpan="2" textAlign="center">
                                 {t('Action')}
                             </Table.HeaderCell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.HeaderCell textAlign="center">{t('Airports')}</Table.HeaderCell>
-                            <Table.HeaderCell textAlign="center">{t('Countries')}</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
                         {init
                             ? [...Array(5).keys()].map((value) => (
                                   <Table.Row key={value}>
-                                      {[...Array(6).keys()].map((value) => (
+                                      {[...Array(4).keys()].map((value) => (
                                           <Table.Cell key={value}>
                                               <Placeholder>
                                                   <Placeholder.Paragraph>
@@ -176,41 +169,21 @@ const FlightTable = ({ flights, loading }) => {
                                       ))}
                                   </Table.Row>
                               ))
-                            : flights
-                                  .sort((a, b) => a.startDateTime - b.startDateTime)
-                                  .map((flight) => (
-                                      <Table.Row key={flight.code} disabled={loading}>
-                                          <Table.Cell>{flight.code}</Table.Cell>
+                            : tickets
+                                  .sort((a, b) => a.flightCode - b.flightCode)
+                                  .map((ticket) => (
+                                      <Table.Row key={ticket.id} disabled={loading}>
+                                          <Table.Cell>{ticket.flightCode}</Table.Cell>
+                                          <Table.Cell>{ticket.email}</Table.Cell>
+                                          <Table.Cell>{ticket.totalPrice}</Table.Cell>
                                           <Table.Cell>
-                                              {flight.connection.source.code} -{' '}
-                                              {flight.connection.destination.code}
-                                          </Table.Cell>
-                                          <Table.Cell>
-                                              {t(flight.connection.source.country.toUpperCase())} -{' '}
-                                              {t(
-                                                  flight.connection.destination.country.toUpperCase()
-                                              )}
-                                          </Table.Cell>
-                                          <Table.Cell>{flight.airplaneSchema.name}</Table.Cell>
-                                          <Table.Cell>
-                                              <Moment
-                                                  date={flight.startDateTime}
-                                                  format="L LT"
-                                                  locale={i18next.language}
-                                              />
-                                          </Table.Cell>
-                                          <Table.Cell textAlign="center">
-                                              {flight.status === flightStatus.active ? (
-                                                  <Icon name="check" />
-                                              ) : (
-                                                  <Icon name="ban" />
-                                              )}
+                                              {new Date(ticket.date).toLocaleString()}
                                           </Table.Cell>
                                           <Table.Cell textAlign="center">
                                               <Button
                                                   as={Link}
-                                                  to={route('manager.flights.flight.edit', {
-                                                      code: flight.code,
+                                                  to={route('customer_service.tickets.view', {
+                                                      id: ticket.id,
                                                   })}
                                                   size="small"
                                               >
@@ -226,35 +199,37 @@ const FlightTable = ({ flights, loading }) => {
     );
 };
 
-const FlightsList = () => {
+const TicketsList = () => {
     const [filterData, setFilterData] = useState({});
-    const [error, setError] = useState();
     const { t } = useTranslation();
-    const { data: flights, loading, error: flightsError } = useFlights(filterData);
-    useEffect(() => flightsError && setError(flightsError), [flightsError]);
+    const { data: tickets, loading, error } = useTickets(filterData);
 
     return (
         <ContentCard fluid>
-            <Label attached="top">{t('Search for flights')}</Label>
+            <Label attached="top">{t('Search for tickets')}</Label>
             <FlightSearchBar
                 filterData={filterData}
                 setFilterData={setFilterData}
-                dates={flights.map((flight) => flight.startDateTime)}
+                dates={tickets.map((ticket) => ticket.date)}
             />
-            {error ? (
-                <Message
-                    error
-                    header={t('Failed to retrieve data')}
-                    content={error && t(error.message)}
-                />
-            ) : (
+            {!loading && (
                 <>
-                    <FlightTable flights={flights} loading={loading} />
-                    {!loading && flights && flights.length === 0 && (
+                    {error ? (
                         <Message
-                            header={t('No such flight')}
-                            content={t('There are no results matching criteria')}
+                            error
+                            header={t('Failed to retrieve data')}
+                            content={error && t(error.message)}
                         />
+                    ) : (
+                        <>
+                            <TicketsTable tickets={tickets} loading={loading} />
+                            {tickets && tickets.length === 0 && (
+                                <Message
+                                    header={t('No such ticket')}
+                                    content={t('There are no results matching criteria')}
+                                />
+                            )}
+                        </>
                     )}
                 </>
             )}
@@ -262,4 +237,4 @@ const FlightsList = () => {
     );
 };
 
-export default FlightsList;
+export default TicketsList;

@@ -195,4 +195,20 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
         )).collect(Collectors.toList());
     }
 
+    @Override
+    @RolesAllowed(Role.FindTicketsByFlights)
+    public List<TicketListDto> find(String code, Long connectionId, Long airplaneId,
+                                    LocalDateTime from, LocalDateTime to) throws AppBaseException {
+        List<Long> flightIds = flightService.find(code, connectionId, airplaneId)
+                .stream()
+                .map(Flight::getId)
+                .collect(Collectors.toList());
+        return ticketService.findByFlights(flightIds)
+                .stream()
+                .filter(t -> from == null || t.getCreationDateTime().isAfter(from))
+                .filter(t -> to == null || t.getCreationDateTime().isBefore(to))
+                .map(TicketListDto::new)
+                .collect(Collectors.toList());
+    }
+
 }

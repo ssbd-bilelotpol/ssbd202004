@@ -1,55 +1,61 @@
-Client
-TicketDetailsPage
+TicketSearchPage
 TicketController
 TicketEndpoint
+FlightService
+FlightFacade
 TicketService
 TicketFacade
-@Starter(Client)
+
+@Starter(CustomerService)
+
 if(validData) {
-  displaySuccess = TicketDetailsPage.updateTicket(ticket) {
-    successResponse = TicketController.update(id, modifiedTicket) {
-      successResponse = TicketEndpoint.update(id, modifiedTicket) {
-        // RW, Read Committed
-        while(1) {
-           success = TicketService.update(ticket) {
-            success = TicketFacade.edit(ticket)
-          }
+    displayTickets = TicketSearchPage.findTickets(query) {
+        ticketDtos = TicketController.find(query) {
+            ticketDtos = TicketEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    flights = FlightService.find(query) {
+                        flights = FlightFacade.find(query)
+                    }                    
+                  tickets = TicketService.find(flights) {
+                        tickets = TicketFacade.find(flights)
+                    }
+                }
+            }
         }
-
-      }
     }
-
-  }
+} else if(invalidData) {
+    displayError = TicketSearchPage.findTickets(query) {
+        error = TicketController.find(query)
+    }
+} else if(noSuchFlights) {
+    displayNoResults = TicketSearchPage.findTickets(query) {
+        emptyList = TicketController.find(query) {
+            emptyList = TicketEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                    emptyList = FlightService.find(query) {
+                        emptyList = FlightFacade.find(query)
+                    }
+                }
+            }
+        }
+    }
 }
-else if(seatTaken) {
-  displayError = TicketDetailsPage.updateTicket(ticket) {
-    seatTaken = TicketController.update(id, modifiedTicket) {
-      seatTaken = TicketEndpoint.update(id, modifiedTicket) {
-        // RW, Read Committed
-        while(1) {
-          error = TicketService.update(ticket) {
-            seatTaken = TicketFacade.edit(ticket)
-          }
+else if(noResult) {
+    displayNoResults = TicketSearchPage.findTickets(query) {
+        emptyList = TicketController.find(query) {
+            emptyList = TicketEndpoint.find(query) {
+                // RO, Read Committed
+                while(1) {
+                  flights = FlightService.find(query) {
+                        flights = FlightFacade.find(query)
+                    }                    
+                  emptyList = TicketService.find(flights) {
+                        emptyList = TicketFacade.find(flights)
+                    }
+                }
+            }
         }
-
-      }
     }
-
-  }
-}
-else if(notFound) {
-  displayError = TicketDetailsPage.updateTicket(ticket) {
-    notFound = TicketController.update(id, modifiedTicket) {
-     notFound = TicketEndpoint.update(id, modifiedTicket) {
-       // RW, Read Commited
-       while(1) {
-         error = TicketService.update(ticket) {
-          notFound = TicketFacade.edit(ticket)
-        }
-       }
-
-      }
-    }
-
-  }
 }

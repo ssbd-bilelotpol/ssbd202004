@@ -38,7 +38,7 @@ public class SeatClass extends AbstractEntity implements Serializable {
 
     @NotNull
     @Size(min = 2, max = 30)
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 30, updatable = false)
     @SeatClassName
     private String name;
 
