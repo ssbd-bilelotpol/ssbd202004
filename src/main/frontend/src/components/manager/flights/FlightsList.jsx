@@ -9,6 +9,7 @@ import i18next from 'i18next';
 import moment from 'moment';
 import Moment from 'react-moment';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import { route } from '../../../routing';
 import { ContentCard } from '../../shared/Dashboard';
 import { useFlights } from '../../../api/flights';
@@ -123,6 +124,18 @@ const FlightSearchBar = ({ setFilterData, setError, dates }) => {
     );
 };
 
+const FlightStatus = ({ t, flight }) => {
+    if (flight.status === flightStatus.cancelled) {
+        return <Popup trigger={<Icon name="ban" />} content={t('Cancelled')} size="mini" />;
+    }
+    if (moment(flight.startDateTime).isBefore(moment.now())) {
+        return <Popup trigger={<Icon name="plane" />} content={t('Took place')} size="mini" />;
+    }
+    if (flight.status === flightStatus.active) {
+        return <Popup trigger={<Icon name="check" />} content={t('Active')} size="mini" />;
+    }
+    return <Popup trigger={<Icon name="minus circle" />} content={t('Inactive')} size="mini" />;
+};
 const FlightTable = ({ flights, loading }) => {
     const { t } = useTranslation();
     const [init, setInit] = useState(true);
@@ -149,7 +162,7 @@ const FlightTable = ({ flights, loading }) => {
                                 {t('Date')}
                             </Table.HeaderCell>
                             <Table.HeaderCell width={1} rowSpan="2" textAlign="center">
-                                {t('Active')}
+                                {t('Status')}
                             </Table.HeaderCell>
                             <Table.HeaderCell width={1} rowSpan="2" textAlign="center">
                                 {t('Action')}
@@ -200,11 +213,7 @@ const FlightTable = ({ flights, loading }) => {
                                               />
                                           </Table.Cell>
                                           <Table.Cell textAlign="center">
-                                              {flight.status === flightStatus.active ? (
-                                                  <Icon name="check" />
-                                              ) : (
-                                                  <Icon name="ban" />
-                                              )}
+                                              <FlightStatus flight={flight} t={t} />
                                           </Table.Cell>
                                           <Table.Cell textAlign="center">
                                               <Button

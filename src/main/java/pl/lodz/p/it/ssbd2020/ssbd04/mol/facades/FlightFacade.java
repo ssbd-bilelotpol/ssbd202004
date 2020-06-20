@@ -3,10 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.Utils;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight_;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.FlightException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -95,11 +92,12 @@ public class FlightFacade extends AbstractFacade<Flight> {
      * @param airplaneSchema schemat samolotu
      * @param from data, po której zaczyna się lot
      * @param to data, przed którą zaczyna się lot
+     * @param flightStatus status lotu
      * @return lista lotów spełniających podane kryteria.
      */
     @PermitAll
     public List<Flight> find(String code, Connection connection, AirplaneSchema airplaneSchema, LocalDateTime from,
-                             LocalDateTime to) {
+                             LocalDateTime to, FlightStatus flightStatus) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Flight> query = builder.createQuery(Flight.class);
         Root<Flight> root = query.from(Flight.class);
@@ -118,6 +116,9 @@ public class FlightFacade extends AbstractFacade<Flight> {
         }
         if(to != null) {
             predicates.add(builder.lessThanOrEqualTo(root.get(Flight_.startDateTime), to));
+        }
+        if(flightStatus != null) {
+            predicates.add(builder.equal(root.get(Flight_.status), flightStatus));
         }
         query.where(builder.and(predicates.toArray(new Predicate[0])));
         query.select(root);

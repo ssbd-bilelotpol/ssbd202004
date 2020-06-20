@@ -11,6 +11,7 @@ import Login from '../../login/Login';
 import { BlueHeader, PageContainer } from '../../shared/SimpleComponents';
 import { Flight, FlightPlaceholder } from '../../shared/Flight';
 import { route } from '../../../routing';
+import { flightStatus } from '../../../constants';
 
 const SelectFlight = ({ searchQuery, history }) => {
     const { t } = useTranslation();
@@ -32,6 +33,7 @@ const SelectFlight = ({ searchQuery, history }) => {
             connection: receivedToConnections && toConnections[0].id,
             from: moment(searchQuery.departureDate).startOf('day').toISOString(),
             to: moment(searchQuery.departureDate).endOf('day').toISOString(),
+            status: flightStatus.active,
         },
         receivedToConnections
     );
@@ -42,6 +44,7 @@ const SelectFlight = ({ searchQuery, history }) => {
             connection: receivedReturnConnections && returnConnections[0].id,
             from: moment(searchQuery.returnDate).startOf('day').toISOString(),
             to: moment(searchQuery.returnDate).endOf('day').toISOString(),
+            status: flightStatus.active,
         },
         receivedReturnConnections
     );

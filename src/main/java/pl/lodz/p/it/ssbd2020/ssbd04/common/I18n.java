@@ -55,9 +55,12 @@ public class I18n {
     public static final String FLIGHT_MADE_EARLIER = "error.flight.madeEarlier";
     public static final String FLIGHT_PRICE_CHANGED = "error.flight.priceChanged";
     public static final String FLIGHT_DEPARTURE_TIME_CHANGED = "error.flight.departureTimeChanged";
+    public static final String FLIGHT_ALREADY_STARTED = "error.flight.alreadyStarted";
     public static final String FLIGHT_TRACKER_MAIL_SENDER = "flight.tracker.sender";
     public static final String FLIGHT_DELAYED_MAIL_TITLE = "flight.delayed.title";
     public static final String FLIGHT_DELAYED_MAIL_CONTENT = "flight.delayed.content";
+    public static final String FLIGHT_CANCELLED_MAIL_TITLE = "flight.cancelled.title";
+    public static final String FLIGHT_CANCELLED_MAIL_CONTENT = "flight.cancelled.content";
 
     public static final String ACCOUNT_REGISTER_MAIL_TITLE = "account.register.mail.title";
     public static final String ACCOUNT_REGISTER_MAIL_CONTENT = "account.register.mail.content";

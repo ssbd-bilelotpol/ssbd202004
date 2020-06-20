@@ -251,5 +251,10 @@
     "Purchase date": "Data zakupu",
     "Flight date": "Data lotu",
     "The start date should be after the end date": "Data początkowa powinna być po dacie końcowej",
-    "Edit flight": "Edytuj lot"
+    "Edit flight": "Edytuj lot",
+    "Email": "Email",
+    "Cancel flight": "Odwołaj lot",
+    "Cancelled": "Odwołany",
+    "Status": "Status",
+    "Took place": "Odbył się"
 }

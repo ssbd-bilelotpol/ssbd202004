@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
@@ -8,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightEditDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.FlightEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.FlightCode;
 
@@ -50,8 +52,9 @@ public class FlightController extends AbstractController {
     @Produces(MediaType.APPLICATION_JSON)
     public List<FlightDto> find(@QueryParam("code") String code, @QueryParam("connection") Long connectionId,
                                 @QueryParam("airplane") Long airplaneId, @QueryParam("from") LocalDateTime from,
-                                @QueryParam("to") LocalDateTime to) throws AppBaseException {
-        return repeat(flightEndpoint, () -> flightEndpoint.find(code, connectionId, airplaneId, from, to));
+                                @QueryParam("to") LocalDateTime to, @QueryParam("status") FlightStatus status)
+            throws AppBaseException {
+        return repeat(flightEndpoint, () -> flightEndpoint.find(code, connectionId, airplaneId, from, to, status));
     }
 
     @GET
@@ -102,9 +105,10 @@ public class FlightController extends AbstractController {
      * @param code identyfikator lotu do usunięcia.
      */
     @DELETE
+    @EtagBinding
     @Path("/{code}")
-    public void delete(@PathParam("code") String code) {
-        throw new UnsupportedOperationException();
+    public void cancel(@PathParam("code") String code) throws AppBaseException {
+        repeat(flightEndpoint, () -> flightEndpoint.cancel(code));
     }
 
     /**
@@ -113,6 +117,7 @@ public class FlightController extends AbstractController {
      * @param flightDto dane, które mają zostać zapisane
      */
     @PUT
+    @EtagBinding
     @Path("/{code}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void update(@PathParam("code") String code, FlightEditDto flightDto) throws AppBaseException {

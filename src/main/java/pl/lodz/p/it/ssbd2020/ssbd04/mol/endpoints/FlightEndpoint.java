@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
@@ -21,10 +22,11 @@ public interface FlightEndpoint extends TransactionStarter {
      * @param airplaneId id lotniska
      * @param from data, po której wylatuje lot
      * @param to dat, przed którą wylatuje lot
+     * @param status status lotu
      * @return loty spełniające podane kryterium
      */
-    List<FlightDto> find(String code, Long connectionId, Long airplaneId, LocalDateTime from, LocalDateTime to)
-            throws AppBaseException;
+    List<FlightDto> find(String code, Long connectionId, Long airplaneId, LocalDateTime from, LocalDateTime to,
+                         FlightStatus status) throws AppBaseException;
 
     /**
      * Zwraca daty z istniejącymi lotami od danej daty
@@ -52,10 +54,10 @@ public interface FlightEndpoint extends TransactionStarter {
 
     /**
      * Anuluje lot o podanym identyfikatorze.
-     * @param id identyfikator lotu do anulowania
+     * @param code identyfikator lotu do anulowania
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
-    void cancel(Long id) throws AppBaseException;
+    void cancel(String code) throws AppBaseException;
 
     /**
      * Modyfikuje istniejący lot.

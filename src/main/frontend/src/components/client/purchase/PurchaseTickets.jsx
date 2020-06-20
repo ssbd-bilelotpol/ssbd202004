@@ -167,7 +167,7 @@ const SelectSeatsModal = ({ flight, count, selectedSeats, onChange }) => {
                                                 <List.Content>
                                                     {seatClass.name}{' '}
                                                     <div>
-                                                        {t('Cena')}: {seatClass.price} PLN
+                                                        {t('Price')}: {seatClass.price} PLN
                                                     </div>
                                                     {seatClass.benefits.map((benefit) => (
                                                         <div>- {benefit.name}</div>

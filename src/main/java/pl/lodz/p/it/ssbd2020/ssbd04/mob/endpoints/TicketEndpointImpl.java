@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -109,7 +110,7 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
             throw FlightException.departureTimeChanged();
         }
 
-        if (flight.getStartDateTime().isBefore(LocalDateTime.now())) {
+        if (flight.getStartDateTime().isBefore(LocalDateTime.now(ZoneOffset.UTC))) {
             throw FlightException.alreadyDeparted();
         }
 
@@ -170,7 +171,7 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
         }
 
         LocalDateTime expirationTime = ticket.getFlight().getStartDateTime().minusHours(72);
-        if (LocalDateTime.now().isAfter(expirationTime)) {
+        if (LocalDateTime.now(ZoneOffset.UTC).isAfter(expirationTime)) {
             throw TicketException.timeToReturnExpired();
         }
 

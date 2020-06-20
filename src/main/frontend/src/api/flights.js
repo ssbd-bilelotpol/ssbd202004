@@ -1,4 +1,4 @@
-import { post, put } from './index';
+import { httpDelete, post, put } from './index';
 import { useGet } from './hooks';
 
 export const createFlight = (data) => post(`/flights`, data);
@@ -47,3 +47,5 @@ export const useFlight = (code) => {
 };
 
 export const updateFlight = (code, data, etag) => put(`/flights/${code}`, data, etag);
+
+export const cancelFlight = (code, etag) => httpDelete(`/flights/${code}`, etag);

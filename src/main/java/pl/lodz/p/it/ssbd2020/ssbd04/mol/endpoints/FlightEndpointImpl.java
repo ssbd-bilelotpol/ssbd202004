@@ -6,17 +6,12 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.FlightException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightEditDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AccountService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.AirplaneSchemaService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.ConnectionService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.FlightService;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.SeatService;
+import pl.lodz.p.it.ssbd2020.ssbd04.mol.services.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 import pl.lodz.p.it.ssbd2020.ssbd04.services.EmailService;
 
@@ -47,8 +42,6 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
     private AirplaneSchemaService schemaService;
 
     @Inject
-    private EmailService emailService;
-    @Inject
     private AccountService accountService;
 
     @Inject
@@ -57,12 +50,13 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
     @Override
     @PermitAll
     public List<FlightDto> find(String code, Long connection, Long airplane,
-                                LocalDateTime from, LocalDateTime to) throws AppBaseException {
+                                LocalDateTime from, LocalDateTime to, FlightStatus flightStatus) throws AppBaseException {
         return flightService.find(code,
                 connection,
                 airplane,
                 from,
-                to)
+                to,
+                flightStatus)
                 .stream()
                 .map(FlightDto::new)
                 .collect(Collectors.toList());
@@ -98,22 +92,26 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
 
     @Override
     @RolesAllowed(Role.CancelFlight)
-    public void cancel(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
+    public void cancel(String code) throws AppBaseException {
+        Flight flight = flightService.findByCode(code, true);
+        FlightDto currentFlightDto = new FlightDto(flight);
+        if(!verifyEtag(currentFlightDto)) {
+            throw AppBaseException.optimisticLock();
+        }
+        flightService.cancel(flight);
     }
 
     @Override
     @RolesAllowed(Role.UpdateFlight)
     public void update(String code, FlightEditDto flightDto) throws AppBaseException {
         Flight flight = flightService.findByCode(code, true);
-        if(flight == null) {
-            throw FlightException.notFound();
-        }
         FlightDto currentFlightDto = new FlightDto(flight);
         if(!verifyEtag(currentFlightDto)) {
             throw AppBaseException.optimisticLock();
         }
-        flight.setStatus(flightDto.getActive() ? FlightStatus.ACTIVE : FlightStatus.INACTIVE);
+        if(!flight.getStatus().equals(FlightStatus.CANCELLED)) {
+            flight.setStatus(flightDto.getActive() ? FlightStatus.ACTIVE : FlightStatus.INACTIVE);
+        }
         flight.setPrice(flightDto.getPrice());
         flightService.update(flight, flightDto.getDepartureTime(), flightDto.getArrivalTime());
     }

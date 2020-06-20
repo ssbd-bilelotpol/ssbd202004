@@ -7,10 +7,12 @@ import styled from 'styled-components';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import i18next from 'i18next';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
+import moment from 'moment';
 import { FlightEditSchema } from '../../../yup';
 import ConfirmSubmit from '../../controls/ConfirmSubmit';
 import { errorColor, errorLighterColor, flightStatus } from '../../../constants';
 import SemanticDatePicker from '../../shared/Datepicker';
+import CancelFlight from './CancelFlight';
 
 const StyledInput = styled(Form.Input)`
     &&& {
@@ -45,6 +47,9 @@ const SquishedInput = styled(Form.Input)`
         border-bottom-left-radius: 0 !important;
         border-top-left-radius: 0 !important;
     }
+    &&&.disabled {
+        opacity: 1;
+    }
 `;
 
 const StyledCheckbox = styled(Checkbox)`
@@ -54,7 +59,13 @@ const StyledCheckbox = styled(Checkbox)`
     }
 `;
 
-const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
+const StyledDiv = styled.div`
+    &&& {
+        padding-top: 10px;
+    }
+`;
+
+const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError, etag }) => {
     const { t } = useTranslation();
     const [saved, setSaved] = useState(false);
     const [savingError, setSavingError] = useState();
@@ -86,6 +97,18 @@ const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
             setSavingError(err);
         }
     };
+
+    const forbidEdits =
+        flight.status === flightStatus.cancelled ||
+        moment(flight.startDateTime).isBefore(moment.now());
+    let flightStatusText = t('Active');
+    if (flight.status === flightStatus.cancelled) {
+        flightStatusText = t('Cancelled');
+    } else if (moment(flight.startDateTime).isBefore(moment.now())) {
+        flightStatusText = t('Took place');
+    } else if (flight.status === flightStatus.inactive) {
+        flightStatusText = t('Inactive');
+    }
 
     return (
         <>
@@ -128,7 +151,7 @@ const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
                                   }
                         }
                         onSubmit={handleSave}
-                        validationSchema={validationSchema}
+                        validationSchema={!forbidEdits && validationSchema}
                     >
                         {({
                             values,
@@ -145,9 +168,9 @@ const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
                                     <StyledCheckbox
                                         toggle
                                         name="active"
-                                        label={values.active ? t('Active') : t('Inactive')}
+                                        label={flightStatusText}
                                         checked={values.active}
-                                        disabled={isSubmitting || fetchError}
+                                        disabled={forbidEdits || isSubmitting || fetchError}
                                         onChange={(_, data) =>
                                             setFieldValue('active', data.checked)
                                         }
@@ -202,7 +225,7 @@ const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.price}
-                                        disabled={isSubmitting || fetchError}
+                                        disabled={forbidEdits || isSubmitting || fetchError}
                                         error={
                                             touched.price &&
                                             errors.price && {
@@ -234,6 +257,7 @@ const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
                                             minDate={flight.startDateTime}
                                             locale={i18next.language}
                                             dateFormat="Pp"
+                                            disabled={forbidEdits || isSubmitting || fetchError}
                                             error={
                                                 touched.departureTime &&
                                                 errors.departureTime && {
@@ -257,6 +281,7 @@ const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
                                             minDate={flight.endDateTime}
                                             locale={i18next.language}
                                             dateFormat="Pp"
+                                            disabled={forbidEdits || isSubmitting || fetchError}
                                             error={
                                                 touched.arrivalTime &&
                                                 errors.arrivalTime && {
@@ -267,13 +292,25 @@ const EditFlightForm = ({ flight, refetch, loading, onSave, fetchError }) => {
                                         />
                                     </Form.Field>
                                 </AlignedFormGroup>
-                                <ConfirmSubmit
-                                    onSubmit={handleSubmit}
-                                    disabled={isSubmitting}
-                                    loading={isSubmitting}
-                                >
-                                    {t('Save')}
-                                </ConfirmSubmit>
+                                {!forbidEdits && (
+                                    <>
+                                        <ConfirmSubmit
+                                            onSubmit={handleSubmit}
+                                            disabled={forbidEdits || isSubmitting}
+                                            loading={isSubmitting}
+                                        >
+                                            {t('Save')}
+                                        </ConfirmSubmit>
+                                        <StyledDiv>
+                                            <CancelFlight
+                                                code={flight.code}
+                                                etag={etag}
+                                                setError={setDeleteError}
+                                                refetch={refetch}
+                                            />
+                                        </StyledDiv>
+                                    </>
+                                )}
                             </Form>
                         )}
                     </Formik>

@@ -29,6 +29,9 @@ const FullWidthDiv = styled.div`
     &&& > * {
         width: 100%;
     }
+    &&&.disabled {
+        opacity: 0.45;
+    }
 `;
 
 const DateInput = React.forwardRef(
@@ -64,6 +67,7 @@ const SemanticDatePicker = ({
     name,
     label,
     placeholderText,
+    disabled,
     ...props
 }) => {
     const ref = useRef(null);
@@ -73,11 +77,12 @@ const SemanticDatePicker = ({
     ]);
 
     return (
-        <FullWidthDiv>
+        <FullWidthDiv className={disabled && 'disabled'}>
             <DatePicker
                 onBlur={onBlur}
                 onChange={handleChange}
                 name={name}
+                disabled={disabled}
                 {...props}
                 customInput={
                     <DateInput

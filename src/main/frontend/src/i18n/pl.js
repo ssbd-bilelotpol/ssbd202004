@@ -70,6 +70,8 @@ export default {
             'error.seatClass.priceChanged': 'Wystąpiła zmiana ceny klasy miejsc',
             'error.seat.notFound': 'Wybrane siedzenie nie istnieje',
             'error.rest.forbidden': 'Brak dostępu',
+            'error.flight.cancelled': 'Lot jest odwołany',
+            'error.flight.alreadyStarted': 'Lot już się rozpoczął',
             connection_unique: 'Taka relacja już istnieje',
             identical_src_dst: 'Lotnisko wylotu nie może być takie samo jak lotnisko przylotu',
             ...translations,
