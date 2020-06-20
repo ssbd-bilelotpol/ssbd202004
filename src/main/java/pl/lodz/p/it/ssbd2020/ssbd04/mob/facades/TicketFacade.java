@@ -135,7 +135,8 @@ public class TicketFacade extends AbstractFacade<Ticket> {
      */
     @RolesAllowed(Role.UpdateTicket)
     public void edit(Ticket ticket) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        em.lock(ticket, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
+        super.edit(ticket);
     }
 
     /**

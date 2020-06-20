@@ -7,6 +7,7 @@ import GenerateReport from './reports/GenerateReport';
 import TicketsList from './TicketsList';
 import ViewTicket from '../shared/ViewTicket';
 import { WideCard } from '../shared/Flight';
+import EditTicket from './tickets/EditTicket';
 
 const CustomerServiceDashboard = () => {
     const { t } = useTranslation();
@@ -40,9 +41,12 @@ const CustomerServiceDashboard = () => {
                 <Route path={route('customer_service.tickets.list')}>
                     <TicketsList />
                 </Route>
+                <Route path={route('customer_service.tickets.view.edit')}>
+                    <EditTicket />
+                </Route>
                 <Route path={route('customer_service.tickets.view')}>
                     <WideCard>
-                        <ViewTicket />
+                        <ViewTicket editable />
                     </WideCard>
                 </Route>
                 <Route path={route('customer_service.reports.generate')}>

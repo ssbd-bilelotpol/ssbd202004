@@ -318,6 +318,13 @@ export const routes = {
                         title: 'View ticket',
                         breadcrumb: 'View ticket',
                         path: '/:id',
+                        subroutes: {
+                            edit: {
+                                title: 'Edit ticket',
+                                breadcrumb: 'Edit',
+                                path: '/edit',
+                            },
+                        },
                     },
                     list: {
                         title: 'Search for tickets',

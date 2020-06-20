@@ -1,4 +1,4 @@
-import { httpDelete, post } from './index';
+import { httpDelete, post, put } from './index';
 import { useGet } from './hooks';
 
 export const useTickets = (filterData, shouldExecute = true) => {
@@ -20,6 +20,7 @@ export const useTickets = (filterData, shouldExecute = true) => {
 };
 
 export const buyTickets = (data) => post(`/tickets`, data);
+export const updateTicket = (id, data, etag) => put(`/tickets/${id}`, data, etag);
 export const returnTicket = (id) => httpDelete(`/tickets/${id}`);
 
 export const useTicket = (id) => useGet(`/tickets/${id}`, null);

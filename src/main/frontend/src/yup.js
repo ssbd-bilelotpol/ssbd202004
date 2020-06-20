@@ -70,6 +70,32 @@ export const PassengerSchema = Yup.object().shape({
         )
         .min(1, 'too_short_passengers')
         .max(25, 'too_many_passengers'),
+});
+
+export const BuyTicketSchema = Yup.object().shape({
+    passengers: Yup.array()
+        .of(
+            Yup.object().shape({
+                email: Yup.string().required().email().min(3).max(255),
+                firstName: Yup.string()
+                    .required()
+                    .min(1)
+                    .max(30)
+                    .matches(nameRegex, 'incorrect_name'),
+                lastName: Yup.string()
+                    .required()
+                    .min(1)
+                    .max(30)
+                    .matches(lastNameRegex, 'incorrect_lastName'),
+                phoneNumber: Yup.string()
+                    .required()
+                    .min(9)
+                    .max(15)
+                    .matches(phoneRegex, 'incorrect_phone'),
+            })
+        )
+        .min(1, 'too_short_passengers')
+        .max(25, 'too_many_passengers'),
     destinationFlightSeats: Yup.mixed().test(
         'match',
         'Invalid seats or passengers count',

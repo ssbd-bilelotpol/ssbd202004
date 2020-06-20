@@ -25,7 +25,7 @@ import Plane from '../../shared/Plane';
 import { useAirplaneSchema } from '../../../api/airplaneSchemas';
 import { useSeatClasses } from '../../../api/seatClasses';
 import { buyTickets } from '../../../api/tickets';
-import { PassengerSchema } from '../../../yup';
+import { BuyTicketSchema } from '../../../yup';
 import AsteriskInput from '../../controls/AsteriskInput';
 import { route } from '../../../routing';
 import { getLetterOfAlphabet } from '../../../utils';
@@ -315,7 +315,7 @@ const PurchaseTickets = ({ location }) => {
                             ],
                             type: params.returnFlight ? 'twoway' : 'oneway',
                         }}
-                        validationSchema={PassengerSchema}
+                        validationSchema={BuyTicketSchema}
                         onSubmit={handleContinue}
                     >
                         {({

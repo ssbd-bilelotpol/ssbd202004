@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import HeaderSubHeader from 'semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader';
-import { Table, Placeholder, Message } from 'semantic-ui-react';
+import { Table, Placeholder, Message, Button } from 'semantic-ui-react';
 import Moment from 'react-moment';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useCancellablePromise from '@rodw95/use-cancelable-promise';
 import { BlueHeader } from './SimpleComponents';
@@ -12,7 +12,7 @@ import { returnTicket, useTicket } from '../../api/tickets';
 import { route } from '../../routing';
 import ConfirmSubmit from '../controls/ConfirmSubmit';
 
-const Ticket = ({ ticket }) => {
+const Ticket = ({ ticket, editable }) => {
     const { t } = useTranslation();
     const history = useHistory();
     const makeCancellable = useCancellablePromise();
@@ -24,7 +24,11 @@ const Ticket = ({ ticket }) => {
         setSaving(true);
         try {
             await makeCancellable(returnTicket(ticket.id));
-            history.push(route('panel.tickets'));
+            if (editable) {
+                history.push(route('customer_service.tickets.list'));
+            } else {
+                history.push(route('panel.tickets'));
+            }
         } catch (err) {
             setError(err);
         }
@@ -38,10 +42,35 @@ const Ticket = ({ ticket }) => {
                 {ticket.flight.connection.destination.name},{' '}
                 {ticket.flight.connection.destination.city} ({ticket.flight.code})
                 <HeaderSubHeader>
-                    <Moment format="DD.MM.YYYY HH:mm" date={ticket.flight.startDateTime} /> -{' '}
-                    <Moment format="DD.MM.YYYY HH:mm" date={ticket.flight.endDateTime} />
+                    <div>
+                        <Moment format="DD.MM.YYYY HH:mm" date={ticket.flight.startDateTime} /> -{' '}
+                        <Moment format="DD.MM.YYYY HH:mm" date={ticket.flight.endDateTime} />
+                    </div>
+                    {t('Flight status')}: {t(ticket.flight.status)}
                 </HeaderSubHeader>
             </BlueHeader>
+            <WideCard>
+                <BlueHeader>{t('Owner')}</BlueHeader>
+                <Table celled>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>{t('First name and last name')}</Table.HeaderCell>
+                            <Table.HeaderCell>{t('Email')}</Table.HeaderCell>
+                            <Table.HeaderCell>{t('Phone number')}</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                        <Table.Row>
+                            <Table.Cell>
+                                {ticket.account.firstName} {ticket.account.lastName}
+                            </Table.Cell>
+                            <Table.Cell>{ticket.account.email}</Table.Cell>
+                            <Table.Cell>{ticket.account.phoneNumber}</Table.Cell>
+                        </Table.Row>
+                    </Table.Body>
+                </Table>
+            </WideCard>
             <WideCard>
                 <BlueHeader>{t('Passengers')}</BlueHeader>
                 <Table celled>
@@ -72,6 +101,16 @@ const Ticket = ({ ticket }) => {
                         ))}
                     </Table.Body>
                 </Table>
+                {editable && (
+                    <Button
+                        as={Link}
+                        to={route('customer_service.tickets.view.edit', {
+                            id: ticket.id,
+                        })}
+                    >
+                        {t('Edit')}
+                    </Button>
+                )}
             </WideCard>
             <WideCard>
                 <BlueHeader>{t('Charges')}</BlueHeader>
@@ -121,14 +160,14 @@ const Ticket = ({ ticket }) => {
     );
 };
 
-const ViewTicket = () => {
+const ViewTicket = ({ editable }) => {
     const { t } = useTranslation();
     const { id } = useParams();
     const { data, loading, error } = useTicket(id);
 
     return (
         <>
-            {data && <Ticket ticket={data} />}
+            {data && <Ticket editable={editable} ticket={data} />}
             {error && <Message negative>{t(error.message)}</Message>}
             {loading && (
                 <WideCard>

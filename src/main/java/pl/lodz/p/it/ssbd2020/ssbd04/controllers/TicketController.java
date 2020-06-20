@@ -1,14 +1,20 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketUpdateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +28,9 @@ public class TicketController extends AbstractController {
     @Inject
     private TicketEndpoint ticketEndpoint;
 
+    @Inject
+    private MessageSigner messageSigner;
+
     /**
      * Zwraca bilet o określonym ID
      *
@@ -31,8 +40,13 @@ public class TicketController extends AbstractController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public TicketDto findById(@PathParam("id") Long id) throws AppBaseException {
-        return ticketEndpoint.findById(id);
+    public Response findById(@PathParam("id") Long id) throws AppBaseException {
+        TicketDto ticketDto = ticketEndpoint.findById(id);
+        return Response
+                .ok()
+                .entity(ticketDto)
+                .tag(messageSigner.sign(ticketDto))
+                .build();
     }
 
     /**
@@ -90,14 +104,14 @@ public class TicketController extends AbstractController {
     /**
      * Aktualizuje dane biletu
      *
-     * @param id              identyfikator biletu
+     * @param id identyfikator biletu
      * @param ticketUpdateDto nowe dane biletu
      */
     @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void update(@PathParam("id") Long id, @NotNull @Valid TicketUpdateDto ticketUpdateDto) {
-        throw new UnsupportedOperationException();
+    @EtagBinding
+    public void update(@PathParam("id") Long id, @NotNull @Valid TicketUpdateDto ticketUpdateDto) throws AppBaseException {
+        repeat(ticketEndpoint, () -> ticketEndpoint.update(id, ticketUpdateDto));
     }
 
 }

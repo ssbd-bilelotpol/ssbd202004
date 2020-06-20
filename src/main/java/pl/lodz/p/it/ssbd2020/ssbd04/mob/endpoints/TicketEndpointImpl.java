@@ -180,7 +180,29 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
     @Override
     @RolesAllowed(Role.UpdateTicket)
     public void update(Long id, TicketUpdateDto ticketUpdateDto) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        Ticket ticket = ticketService.findById(ticketUpdateDto.getTicketId());
+
+        TicketDto ticketDto = new TicketDto(ticket);
+        if (!verifyEtag(ticketDto)) throw AppBaseException.optimisticLock();
+
+        for (UpdatePassengerDto passengerDto : ticketUpdateDto.getPassengers()) {
+            List<Passenger> searchResults = ticket.getPassengers()
+                    .stream()
+                    .filter(passenger -> passenger.getId().equals(passengerDto.getId()))
+                    .collect(Collectors.toList());
+
+            if (searchResults.isEmpty()) {
+                throw PassengerException.notFound();
+            }
+
+            Passenger passenger = searchResults.get(0);
+            passenger.setFirstName(passengerDto.getFirstName());
+            passenger.setLastName(passengerDto.getLastName());
+            passenger.setEmail(passengerDto.getEmail());
+            passenger.setPhoneNumber(passengerDto.getPhoneNumber());
+        }
+
+        ticketService.update(ticket);
     }
 
     @Override

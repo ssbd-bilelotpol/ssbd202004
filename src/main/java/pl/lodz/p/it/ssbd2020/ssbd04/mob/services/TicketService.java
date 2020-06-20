@@ -116,7 +116,7 @@ public class TicketService {
      */
     @RolesAllowed(Role.UpdateTicket)
     public void update(Ticket ticket) throws AppBaseException {
-        throw new UnsupportedOperationException();
+        ticketFacade.edit(ticket);
     }
 
     @RolesAllowed(Role.FindTicketsByFlights)

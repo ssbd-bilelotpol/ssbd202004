@@ -85,6 +85,8 @@ public class I18n {
     public static final String AIRPLANE_SCHEMA_INVALID_DATA = "error.airplaneSchema.invalidData";
     public static final String AIRPLANE_SCHEMA_IN_USE = "error.airplaneSchema.inUse";
 
+    public static final String PASSENGER_NOT_FOUND = "error.passenger.notFound";
+
     public static final String SEAT_NOT_FOUND = "error.seat.notFound";
     public static final String SEAT_CLASS_NOT_FOUND = "error.seatClass.notFound";
     public static final String SEAT_CLASS_IN_USE = "error.seatClass.inUse";

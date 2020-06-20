@@ -187,7 +187,7 @@ const TicketsTable = ({ tickets, loading }) => {
                                                   })}
                                                   size="small"
                                               >
-                                                  {t('Edit')}
+                                                  {t('View')}
                                               </Button>
                                           </Table.Cell>
                                       </Table.Row>

@@ -1,24 +1,34 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.dto;
 
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Passenger;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.FirstName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.LastName;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.Phone;
 
-public class PassengerDto {
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+public class UpdatePassengerDto {
+
+    @NotNull
     private Long id;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private SeatDto seat;
 
-    public PassengerDto(Passenger passenger) {
-        this.id = passenger.getId();
-        this.email = passenger.getEmail();
-        this.firstName = passenger.getFirstName();
-        this.lastName = passenger.getLastName();
-        this.phoneNumber = passenger.getPhoneNumber();
-        this.seat = new SeatDto(passenger.getSeat());
-    }
+    @NotNull
+    @Size(min = 3, max = 255)
+    @Email
+    private String email;
+
+    @NotNull
+    @FirstName
+    private String firstName;
+
+    @NotNull
+    @LastName
+    private String lastName;
+
+    @NotNull
+    @Phone
+    private String phoneNumber;
 
     public String getEmail() {
         return email;
@@ -50,14 +60,6 @@ public class PassengerDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public SeatDto getSeat() {
-        return seat;
-    }
-
-    public void setSeat(SeatDto seat) {
-        this.seat = seat;
     }
 
     public Long getId() {
