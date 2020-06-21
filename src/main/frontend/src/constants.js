@@ -9,7 +9,7 @@ export const roleColors = {
     admin: '#b52738',
     manager: '#2e9ba8',
     customer_service: '#3b866e',
-    client: '',
+    client: '#025c83',
 };
 
 export const seatClassColors = [

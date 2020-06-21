@@ -43,7 +43,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
      * @return bilet o określonym ID
      * @throws AppBaseException gdy nie powiedzie się pobieranie informacji o bilecie
      */
-    @RolesAllowed(Role.FindTicketById)
+    @RolesAllowed({Role.FindTicketById, Role.FindAnyTicketById})
     public Ticket find(Long id) throws AppBaseException {
         try {
             TypedQuery<Ticket> query = em.createNamedQuery("Ticket.findById", Ticket.class);

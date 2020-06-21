@@ -59,8 +59,8 @@ const FlightSearchBar = ({ setFilterData, setError, dates }) => {
         <Form>
             <AlignedFormGroup>
                 <Form.Input
-                    placeholder={t('Flight code')}
-                    width={2}
+                    placeholder={t('Code')}
+                    width={3}
                     name="code"
                     onChange={(_, value) => handleChange({ code: value.value })}
                     value={filterData.code}
@@ -177,7 +177,7 @@ const FlightTable = ({ flights, loading }) => {
                         {init
                             ? [...Array(5).keys()].map((value) => (
                                   <Table.Row key={value}>
-                                      {[...Array(6).keys()].map((value) => (
+                                      {[...Array(7).keys()].map((value) => (
                                           <Table.Cell key={value}>
                                               <Placeholder>
                                                   <Placeholder.Paragraph>

@@ -39,7 +39,7 @@ public class TicketService {
      * @return bilet o określonym ID
      * @throws AppBaseException gdy nie powiedzie się pobieranie informacji o bilecie
      */
-    @RolesAllowed(Role.FindTicketById)
+    @RolesAllowed({Role.FindTicketById, Role.FindAnyTicketById})
     public Ticket findById(Long id) throws AppBaseException {
         return ticketFacade.find(id);
     }

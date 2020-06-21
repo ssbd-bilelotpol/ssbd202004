@@ -7,7 +7,7 @@ import CustomerServiceDashboard from './CustomerServiceDashboard';
 const CustomerServiceApp = () => {
     return (
         <>
-            <TopMenu backgroundColor="#3b866e" />
+            <TopMenu />
             <Container>
                 <Breadcrumbs />
                 <CustomerServiceDashboard />

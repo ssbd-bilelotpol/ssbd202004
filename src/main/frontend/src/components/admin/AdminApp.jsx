@@ -7,7 +7,7 @@ import { Breadcrumbs } from '../Breadcrumbs';
 const AdminApp = () => {
     return (
         <>
-            <TopMenu backgroundColor="#b52738" />
+            <TopMenu />
             <Container>
                 <Breadcrumbs />
                 <AdminDashboard />

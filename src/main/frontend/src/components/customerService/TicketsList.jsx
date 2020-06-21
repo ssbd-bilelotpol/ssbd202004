@@ -57,7 +57,7 @@ const FlightSearchBar = ({ setFilterData, setError, dates }) => {
             <AlignedFormGroup>
                 <Form.Input
                     placeholder={t('Code')}
-                    width={2}
+                    width={3}
                     name="code"
                     onChange={(_, value) => handleChange({ code: value.value })}
                     value={filterData.code}

@@ -139,7 +139,7 @@ const PlanesList = () => {
             ) : (
                 <>
                     <PlanesTable planes={planes} loading={loading} />
-                    {planes && planes.length === 0 && (
+                    {!loading && planes && planes.length === 0 && (
                         <Message
                             header={t('No such plane')}
                             content={t('There are no results matching criteria')}

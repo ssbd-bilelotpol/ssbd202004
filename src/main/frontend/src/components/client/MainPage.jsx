@@ -27,7 +27,7 @@ const MenuItems = () => {
 };
 
 const MainPage = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [searchQuery, setSearchQuery] = useState();
 
     return (
@@ -46,7 +46,9 @@ const MainPage = () => {
                         </Label>
                         {t('Bilelotpol is not restricted due to the coronavirus')}
                     </Message>
-                    <Image fluid src={`${process.env.PUBLIC_URL}/banner.png`} />
+                    {i18n.language === 'pl' && (
+                        <Image fluid src={`${process.env.PUBLIC_URL}/banner.png`} />
+                    )}
                 </PageContainer>
             )}
         </>

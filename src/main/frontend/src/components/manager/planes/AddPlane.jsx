@@ -35,10 +35,12 @@ const AddPlane = () => {
             setError(seatClassesError);
             return;
         }
-        if (seatClasses.length === 0) {
-            setError('There are no available seat classes. Add them first');
-        }
+
         if (seatClasses) {
+            if (seatClasses.length === 0) {
+                setError('There are no available seat classes. Add them first');
+                return;
+            }
             setAirplaneSchema({
                 name: '',
                 rows: 3,

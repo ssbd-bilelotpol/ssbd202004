@@ -12,6 +12,8 @@ import Confirm from './components/client/Confirm';
 import PasswordReset from './components/client/settings/PasswordReset';
 import { route } from './routing';
 import { useTitle } from './components/Title';
+import Footer from './Footer';
+import { PageContent } from './components/shared/SimpleComponents';
 
 const App = () => {
     const redirect = useSelector((state) => state.auth.redirect);
@@ -19,33 +21,39 @@ const App = () => {
 
     return (
         <>
-            <Switch>
-                {redirect && <Redirect to={redirect} />}
-                <Route path={route('confirm')}>
-                    <Confirm />
-                </Route>
-                <Route path={route('resetPassword')}>
-                    <PasswordReset />
-                </Route>
-                <ProtectedRoute role={roles.admin} path={route(roles.admin)}>
-                    <AdminApp />
-                </ProtectedRoute>
-                <ProtectedRoute role={roles.manager} path={route(roles.manager)}>
-                    <ManagerApp />
-                </ProtectedRoute>
-                <ProtectedRoute role={roles.customerService} path={route(roles.customerService)}>
-                    <CustomerServiceApp />
-                </ProtectedRoute>
-                <ProtectedRoute condition={(role) => role} path={route('user')}>
-                    <UserApp />
-                </ProtectedRoute>
-                <ProtectedRoute
-                    condition={(role) => !role || role === roles.client}
-                    path={route(roles.client)}
-                >
-                    <ClientApp />
-                </ProtectedRoute>
-            </Switch>
+            <PageContent>
+                <Switch>
+                    {redirect && <Redirect to={redirect} />}
+                    <Route path={route('confirm')}>
+                        <Confirm />
+                    </Route>
+                    <Route path={route('resetPassword')}>
+                        <PasswordReset />
+                    </Route>
+                    <ProtectedRoute role={roles.admin} path={route(roles.admin)}>
+                        <AdminApp />
+                    </ProtectedRoute>
+                    <ProtectedRoute role={roles.manager} path={route(roles.manager)}>
+                        <ManagerApp />
+                    </ProtectedRoute>
+                    <ProtectedRoute
+                        role={roles.customerService}
+                        path={route(roles.customerService)}
+                    >
+                        <CustomerServiceApp />
+                    </ProtectedRoute>
+                    <ProtectedRoute condition={(role) => role} path={route('user')}>
+                        <UserApp />
+                    </ProtectedRoute>
+                    <ProtectedRoute
+                        condition={(role) => !role || role === roles.client}
+                        path={route(roles.client)}
+                    >
+                        <ClientApp />
+                    </ProtectedRoute>
+                </Switch>
+            </PageContent>
+            <Footer />
         </>
     );
 };

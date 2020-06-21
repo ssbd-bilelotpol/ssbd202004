@@ -31,3 +31,7 @@ code {
   font-size: 1.1em !important;
   opacity: 0.7;
 }
+
+#root {
+  height: 100%;
+}

@@ -9,6 +9,7 @@ import Login from './login/Login';
 import Register from './login/Register';
 import LastAuth from './login/LastAuth';
 import { route } from '../routing';
+import { roleColors } from '../constants';
 
 const HeaderSegment = styled(({ clouds, backgroundColor, ...rest }) => <Segment {...rest} />)`
     &&& {
@@ -50,7 +51,7 @@ const InactiveMenuItem = styled(Menu.Item)`
     }
 `;
 
-const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) => {
+const TopMenu = ({ clouds, children, menuItems = () => {} }) => {
     const loggedIn = useSelector((state) => state.auth.loggedIn);
     const roles = useSelector((state) => state.auth.user.roles);
     const role = useSelector((state) => state.auth.user.role);
@@ -81,7 +82,7 @@ const TopMenu = ({ backgroundColor, clouds, children, menuItems = () => {} }) =>
     return (
         <>
             <HeaderSegment
-                backgroundColor={backgroundColor}
+                backgroundColor={roleColors[role]}
                 clouds={clouds}
                 inverted
                 textAlign="center"

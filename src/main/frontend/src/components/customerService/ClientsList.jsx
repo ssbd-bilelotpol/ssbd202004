@@ -43,7 +43,7 @@ const ClientSearchBar = ({ setFilterData }) => {
                     value={filterData.flightCode}
                 />
                 <Form.Input
-                    placeholder={t('Name')}
+                    placeholder={t(`Client's name`)}
                     width={8}
                     name="name"
                     onChange={(_, value) => handleChange({ name: value.value })}

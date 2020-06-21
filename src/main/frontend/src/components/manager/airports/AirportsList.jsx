@@ -148,7 +148,7 @@ const AirportsTable = ({ airports, loading }) => {
                         {init
                             ? [...Array(5).keys()].map((value) => (
                                   <Table.Row key={value}>
-                                      {[...Array(6).keys()].map((value) => (
+                                      {[...Array(5).keys()].map((value) => (
                                           <Table.Cell key={value}>
                                               <Placeholder>
                                                   <Placeholder.Paragraph>

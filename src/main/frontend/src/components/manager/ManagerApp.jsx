@@ -7,7 +7,7 @@ import ManagerDashboard from './ManagerDashboard';
 const ManagerApp = () => {
     return (
         <>
-            <TopMenu backgroundColor="#2e9ba8" />
+            <TopMenu />
             <Container>
                 <Breadcrumbs />
                 <ManagerDashboard />
