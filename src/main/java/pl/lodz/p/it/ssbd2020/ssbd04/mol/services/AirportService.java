@@ -72,11 +72,21 @@ public class AirportService {
         return airportFacade.findAll();
     }
 
+    /**
+     * Zwraca listę  z nazwami krajów dostępnych lotnisk.
+     * @return lista nazw krajów.
+     * @throws AppBaseException
+     */
     @PermitAll
     public List<String> getCountries() throws AppBaseException {
         return airportFacade.getCountries();
     }
 
+    /**
+     * Zwraca listę z nazwami miast dostępnych lotnisk.
+     * @return lista nazw miast
+     * @throws AppBaseException
+     */
     @PermitAll
     public List<String> getCities() throws AppBaseException {
         return airportFacade.getCities();

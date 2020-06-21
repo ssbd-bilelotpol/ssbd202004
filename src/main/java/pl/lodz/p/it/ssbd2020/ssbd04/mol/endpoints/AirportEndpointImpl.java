@@ -93,6 +93,7 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
         }
 
         airport.setName(airportDto.getName());
+        airport.setModifiedBy(accountService.getCurrentUser());
 
         airportService.update(airport);
     }
