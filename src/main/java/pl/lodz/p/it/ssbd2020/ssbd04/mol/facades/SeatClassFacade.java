@@ -36,6 +36,12 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
         return em;
     }
 
+    /**
+     * Wyszukuje klasę miejsc na podstawie nazwy
+     * @param name nazwa klasy miejsc
+     * @return obiekt klasy miejsc
+     * @throws AppBaseException gdy klasa miejsc nie została znaleziona, bądź wystąpił problem z bazą danych.
+     */
     @PermitAll
     public SeatClass findByName(String name) throws AppBaseException {
         try {
@@ -55,7 +61,6 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
     public List<SeatClass> findAll() throws AppBaseException {
         List<SeatClass> seatClasses = super.findAll();
         seatClasses
-                .stream()
                 .forEach(sc -> em.lock(sc, LockModeType.PESSIMISTIC_READ));
         return seatClasses;
     }

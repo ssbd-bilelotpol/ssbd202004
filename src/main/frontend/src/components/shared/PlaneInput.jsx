@@ -183,7 +183,7 @@ const PlaneInput = ({ value, seatClasses, onChange }) => {
                         {t('Columns')}: {columns}
                     </span>
                     <Card fluid>
-                        <Slider min={2} max={9} onChange={handleColumnsChange} value={columns} />
+                        <Slider min={2} max={8} onChange={handleColumnsChange} value={columns} />
                     </Card>
                 </GrowingSlider>
 

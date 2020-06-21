@@ -72,6 +72,7 @@ export default {
             'error.rest.forbidden': 'Brak dostępu',
             'error.flight.cancelled': 'Lot jest odwołany',
             'error.flight.alreadyStarted': 'Lot już się rozpoczął',
+            'error.airplaneSchema.nameTaken': 'Samolot o tej nazwie został już utworzony',
             connection_unique: 'Taka relacja już istnieje',
             identical_src_dst: 'Lotnisko wylotu nie może być takie samo jak lotnisko przylotu',
             ...translations,

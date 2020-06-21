@@ -118,7 +118,7 @@ export const BuyTicketSchema = Yup.object().shape({
 
 export const LoginSchema = Yup.object().shape({
     login: Yup.string().min(3).required().matches(loginRegex, 'incorrect_login'),
-    password: Yup.string().required(),
+    password: Yup.string().required().min(8).max(64),
 });
 
 export const SettingsSchema = Yup.object().shape({
@@ -254,7 +254,7 @@ export const ConnectionSchema = Yup.object().shape({
 export const PlaneSchema = Yup.object().shape({
     name: Yup.string().min(5).max(60).required().matches(planeRegex, 'incorrect_plane_name'),
     plane: Yup.object().shape({
-        columns: Yup.number().required().min(2).max(9),
+        columns: Yup.number().required().min(2).max(8),
         rows: Yup.number().required().min(3).max(40),
         emptyColumns: Yup.array().optional(),
         emptyRows: Yup.array().optional(),

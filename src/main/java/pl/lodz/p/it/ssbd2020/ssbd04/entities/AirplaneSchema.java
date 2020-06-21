@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirplaneSchemaName;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirplaneSchemaRowCol;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -22,9 +23,16 @@ import java.util.Set;
         )
 })
 @Entity
-@Table(name = "airplane_schema")
+@Table(
+        name = "airplane_schema",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = "name", name = AirplaneSchema.CONSTRAINT_SCHEMA_NAME),
+        }
+)
 public class AirplaneSchema extends AbstractEntity implements Serializable {
     public static final String CONSTRAINT_IN_USE = "flight_airplane_schema_fk";
+    public static final String CONSTRAINT_SCHEMA_NAME = "airplane_schema_name_unique";
+    public static final String CONSTRAINT_SEAT_USE = "passenger_seat_fk";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,10 +53,12 @@ public class AirplaneSchema extends AbstractEntity implements Serializable {
 
     @Column(nullable = false)
     @Min(value = 1)
+    @Max(40)
     private Integer rows;
 
     @Column(nullable = false)
     @Min(value = 1)
+    @Max(8)
     private Integer cols;
 
     @NotNull

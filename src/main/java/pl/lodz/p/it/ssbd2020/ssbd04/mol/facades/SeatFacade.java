@@ -1,7 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.*;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
+import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat_;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.SeatException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -16,11 +18,8 @@ import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.util.List;
-
-import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.GetTakenSeats;
 
 @Interceptors({TrackingInterceptor.class})
 @Stateless
@@ -39,6 +38,12 @@ public class SeatFacade extends AbstractFacade<Seat> {
         super(Seat.class);
     }
 
+    /**
+     * Zwraca listę zajętych siedzeń dla podanego lotu.
+     * @param flightId identyfikator lotu
+     * @return liste siedzeń
+     * @throws AppBaseException gdy wystąpi problem z bazą danych.
+     */
     @PermitAll
     @RolesAllowed(Role.GetTakenSeats)
     public List<Seat> getTakenSeats(Long flightId) throws AppBaseException {
@@ -54,8 +59,13 @@ public class SeatFacade extends AbstractFacade<Seat> {
         }
     }
 
+    /**
+     * Wyszukuje siedzenia przypisane do danej klasy miejsc
+     * @param seatClass klasa miejsc
+     * @return listę siedzeń
+     */
     @RolesAllowed(Role.UpdateSeatClass)
-    public List<Seat> findBySeatClass(SeatClass seatClass) throws AppBaseException {
+    public List<Seat> findBySeatClass(SeatClass seatClass) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Seat> query = builder.createQuery(Seat.class);
         Root<Seat> root = query.from(Seat.class);

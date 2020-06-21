@@ -20,7 +20,7 @@ public class SeatDto {
 
     @NotNull
     @Min(1)
-    @Max(9)
+    @Max(8)
     private Integer col;
 
     @NotNull

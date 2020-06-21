@@ -55,4 +55,13 @@ public class AirplaneSchemaException extends AppBaseException {
     public static AirplaneSchemaException inUse(AirplaneSchema airplaneSchema) {
         return new AirplaneSchemaException(AIRPLANE_SCHEMA_IN_USE, airplaneSchema);
     }
+
+    /**
+     * Tworzy wyjątek reprezentujący brak możliwości utworzenia
+     * schematu samolotu, ze względu na zajętą nazwę.
+     * @return wyjątek reprezentujący nieunikatową nazwę schematu samolotu
+     */
+    public static AirplaneSchemaException nameTaken() {
+        return new AirplaneSchemaException(AIRPLANE_SCHEMA_NAME_TAKEN);
+    }
 }

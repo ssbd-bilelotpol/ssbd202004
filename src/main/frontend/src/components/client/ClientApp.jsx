@@ -5,21 +5,23 @@ import { route } from '../../routing';
 import MainPage from './MainPage';
 import PurchaseTickets from './purchase/PurchaseTickets';
 import PurchaseSuccess from './purchase/PurchaseSuccess';
+import ProtectedRoute from '../ProtectedRoute';
+import { roles } from '../../constants';
 
 const ClientApp = () => {
     const { path } = useRouteMatch();
     return (
         <>
             <Switch>
-                <Route path={route('flights.purchase.success')}>
+                <ProtectedRoute role={roles.client} path={route('flights.purchase.success')}>
                     <PurchaseSuccess />
-                </Route>
-                <Route path={route('flights.purchase')}>
+                </ProtectedRoute>
+                <ProtectedRoute role={roles.client} path={route('flights.purchase')}>
                     <PurchaseTickets />
-                </Route>
-                <Route path={route('panel')}>
+                </ProtectedRoute>
+                <ProtectedRoute role={roles.client} path={route('panel')}>
                     <ClientDashboard />
-                </Route>
+                </ProtectedRoute>
                 <Route path={path}>
                     <MainPage />
                 </Route>

@@ -80,6 +80,8 @@ const SelectFlight = ({ searchQuery, history }) => {
             query.returnFlight = returnFlight.code;
         }
 
+        query.passengers = searchQuery.passengersCount;
+
         const params = new URLSearchParams(query).toString();
 
         return `${route('flights.purchase')}?${params}`;
@@ -160,7 +162,7 @@ const SelectFlight = ({ searchQuery, history }) => {
                     onClick={() => history.push(purchaseUrl)}
                     disabled={!toFlight || (searchQuery.type === 'twoway' && !returnFlight)}
                 >
-                    Continue
+                    {t('Continue')}
                 </Button>
             ) : (
                 <Button.Group fluid>

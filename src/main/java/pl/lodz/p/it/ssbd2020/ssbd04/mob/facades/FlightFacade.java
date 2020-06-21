@@ -20,7 +20,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,8 +61,6 @@ public class FlightFacade extends AbstractFacade<Flight> {
      * @param code kod lotu
      * @param connection połączenie
      * @param airplaneSchema schemat samolotu
-     * @param from data, po której zaczyna się lot
-     * @param to data, przed którą zaczyna się lot
      * @return lista lotów spełniających podane kryteria.
      */
     @PermitAll
@@ -71,7 +68,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Flight> query = builder.createQuery(Flight.class);
         Root<Flight> root = query.from(Flight.class);
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         if(!Utils.isNullOrEmpty(code)) {
             predicates.add(builder.like(root.get(Flight_.flightCode), code+"%"));
         }

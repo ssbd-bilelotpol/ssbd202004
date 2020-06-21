@@ -59,12 +59,6 @@ public class FlightFacade extends AbstractFacade<Flight> {
 
     @Override
     @PermitAll
-    public List<Flight> findAll() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    @PermitAll
     public Flight find(Object code) throws AppBaseException {
         return find(code, false);
     }
@@ -101,7 +95,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Flight> query = builder.createQuery(Flight.class);
         Root<Flight> root = query.from(Flight.class);
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         if(!Utils.isNullOrEmpty(code)) {
             predicates.add(builder.like(root.get(Flight_.flightCode), code+"%"));
         }
@@ -133,17 +127,6 @@ public class FlightFacade extends AbstractFacade<Flight> {
         super.edit(entity);
     }
 
-    @Override
-    @RolesAllowed({Role.CancelFlight})
-    public void remove(Flight entity) throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
-    @RolesAllowed(Role.CalculateConnectionProfit)
-    public List<Flight> findByConnection(Long connectionId) throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
     /**
      * Zwraca daty z istniejącymi lotami od danej daty
      * @param from data od której wyszukiwane są daty
@@ -160,6 +143,12 @@ public class FlightFacade extends AbstractFacade<Flight> {
         }
     }
 
+    /**
+     * Zwraca loty przypisane do danego schematu samolotu
+     * @param airplaneSchema schemat samolotu
+     * @return lista przypisanych lotów
+     * @throws AppBaseException gdy wystapi problem z bazą danych.
+     */
     @RolesAllowed(Role.UpdateAirplaneSchema)
     public List<Flight> findByAirplaneSchema(AirplaneSchema airplaneSchema) throws AppBaseException {
         try {

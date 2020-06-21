@@ -16,7 +16,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import java.util.List;
 
 
@@ -38,7 +37,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     }
 
     @Override
-    @RolesAllowed({Role.UpdateConnection, Role.CalculateConnectionProfit})
+    @RolesAllowed({Role.ReturnTicket, Role.CreateTicket})
     public void edit(Connection entity) throws AppBaseException {
         try {
             super.edit(entity);

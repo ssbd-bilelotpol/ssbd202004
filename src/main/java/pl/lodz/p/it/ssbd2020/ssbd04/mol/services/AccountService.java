@@ -44,7 +44,7 @@ public class AccountService {
         }
     }
 
-    @RolesAllowed({Role.UpdateFlight})
+    @RolesAllowed({Role.UpdateFlight, Role.CancelFlight})
     public List<Account> getAccountsByTicketsOwnedForFlight(String flightCode) throws AppBaseException {
         return accountFacade.getAccountsByTicketsOwnedForFlight(flightCode);
     }

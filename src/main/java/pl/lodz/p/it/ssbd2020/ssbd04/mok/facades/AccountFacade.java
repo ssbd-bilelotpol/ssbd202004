@@ -41,8 +41,8 @@ public class AccountFacade extends AbstractFacade<Account> {
     /**
      * Zapisuje konto w bazie danych i sprawdza, czy nie naruszono unikalności loginu i hasła.
      *
-     * @param account
-     * @throws AppBaseException
+     * @param account obiekt encji konta
+     * @throws AppBaseException gdy login lub email jest zajęty, bądź wystąpił problem z bazą danych.
      */
     @Override
     @PermitAll
@@ -85,6 +85,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
     }
 
+    /**
+     * Wyszukuje konto na podstawie loginu
+     * @param login podany login
+     * @return znalezione konto
+     * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
+     */
     @PermitAll
     public Account findByLogin(String login) throws AppBaseException {
         try {
@@ -99,6 +105,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
     }
 
+    /**
+     * Wyszukuje konto na podstawie emailu
+     * @param email podany email
+     * @return znalezione konto
+     * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
+     */
     @PermitAll
     public Account findByEmail(String email) throws AppBaseException {
         try {

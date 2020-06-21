@@ -57,25 +57,13 @@ public class TicketFacade extends AbstractFacade<Ticket> {
     }
 
     /**
-     * Zwraca bilety dla wybranego lotu
-     *
-     * @param flightId identyfikator lotu
-     * @return bilety dla wybranego lotu
-     * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
-     */
-    @RolesAllowed(Role.FindTicketsByFlight)
-    public Ticket findByFlight(Long flightId) throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * Zwraca bilety danego użytkownika
      *
      * @param accountId identyfikator użytkownika
      * @return bilety danego użytkownika
      * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
      */
-    @RolesAllowed(Role.FindTicketsByAccount)
+    @RolesAllowed({Role.FindTicketsByAccount, Role.GetOwnTickets})
     public List<Ticket> findByAccount(Long accountId) throws AppBaseException {
         try {
             TypedQuery<Ticket> query = em.createNamedQuery("Ticket.findByAccount", Ticket.class);
@@ -84,17 +72,6 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }
-    }
-
-    /**
-     * Zwraca listę wszystkich biletów
-     *
-     * @return lista wszystkich biletów
-     * @throws AppBaseException gdy nie powiedzie się zwrócenie listy biletów
-     */
-    @RolesAllowed(Role.GetAllTickets)
-    public List<Ticket> findAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -144,7 +121,6 @@ public class TicketFacade extends AbstractFacade<Ticket> {
      *
      * @param flightIds identyfikator lotów
      * @return bilety dla wybranych lotów
-     * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
      */
     @RolesAllowed(Role.FindTicketsByFlights)
     public List<Ticket> findByFlights(List<Long> flightIds) {

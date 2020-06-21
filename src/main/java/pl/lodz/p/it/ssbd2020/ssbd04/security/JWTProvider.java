@@ -1,9 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.Config;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;

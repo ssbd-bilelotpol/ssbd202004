@@ -115,7 +115,7 @@ public class FlightService {
      * Zwraca loty przypisane do danego schematu samolotu
      * @param airplaneSchema schemat samolotu
      * @return lista przypisanych lotów
-     * @throws AppBaseException
+     * @throws AppBaseException gdy wystapi problem z bazą danych.
      */
     @RolesAllowed(Role.UpdateAirplaneSchema)
     public List<Flight> findByAirplaneSchema(AirplaneSchema airplaneSchema) throws AppBaseException {
@@ -203,10 +203,5 @@ public class FlightService {
         flight.setEndDateTime(arrivalTime);
         flight.setModifiedBy(accountService.getCurrentUser());
         flightFacade.edit(flight);
-    }
-
-    @RolesAllowed(Role.CalculateConnectionProfit)
-    public List<Flight> findByConnection(Connection connection) throws AppBaseException {
-        throw new UnsupportedOperationException();
     }
 }

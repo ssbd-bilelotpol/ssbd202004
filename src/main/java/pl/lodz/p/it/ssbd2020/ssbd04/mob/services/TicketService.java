@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.services;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
@@ -45,17 +44,6 @@ public class TicketService {
         return ticketFacade.find(id);
     }
 
-    /**
-     * Zwraca bilety dla wybranego lotu
-     *
-     * @param flight lot
-     * @return bilety dla wybranego lotu
-     * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
-     */
-    @RolesAllowed(Role.FindTicketsByFlight)
-    public List<Ticket> findByFlight(Flight flight) throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * Zwraca bilety danego użytkownika
@@ -64,20 +52,9 @@ public class TicketService {
      * @return bilety danego użytkownika
      * @throws AppBaseException gdy nie powiedzie się pobieranie listy biletów
      */
-    @RolesAllowed(Role.FindTicketsByAccount)
+    @RolesAllowed({Role.FindTicketsByAccount, Role.GetOwnTickets})
     public List<Ticket> findByAccount(Account account) throws AppBaseException {
         return ticketFacade.findByAccount(account.getId());
-    }
-
-    /**
-     * Zwraca listę wszystkich biletów
-     *
-     * @return lista wszystkich biletów
-     * @throws AppBaseException gdy nie powiedzie się zwrócenie listy biletów
-     */
-    @RolesAllowed(Role.GetAllTickets)
-    public List<Ticket> getAllTickets() throws AppBaseException {
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -119,6 +96,11 @@ public class TicketService {
         ticketFacade.edit(ticket);
     }
 
+    /**
+     * Wyszukuje bilety przypisane do danych lotów
+     * @param flightIds lista lotów, dla których ma znaleźć bilety
+     * @return lista znalezionych lotów
+     */
     @RolesAllowed(Role.FindTicketsByFlights)
     public List<Ticket> findByFlights(List<Long> flightIds) {
         if (flightIds.size() == 0) return new ArrayList<>();

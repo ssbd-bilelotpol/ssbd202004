@@ -306,13 +306,13 @@ const PurchaseTickets = ({ location }) => {
                     <Formik
                         initialValues={{
                             passengers: [
-                                {
-                                    firstName: '',
-                                    lastName: '',
-                                    email: '',
-                                    phoneNumber: '',
-                                },
-                            ],
+                                ...Array(params.passengers >= 1 ? +params.passengers : 1).keys(),
+                            ].map(() => ({
+                                firstName: '',
+                                lastName: '',
+                                email: '',
+                                phoneNumber: '',
+                            })),
                             type: params.returnFlight ? 'twoway' : 'oneway',
                         }}
                         validationSchema={BuyTicketSchema}

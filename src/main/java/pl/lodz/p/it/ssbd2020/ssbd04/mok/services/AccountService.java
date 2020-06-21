@@ -55,9 +55,9 @@ public class AccountService {
     /**
      * Rejestruje konto, przypisując do niego dane personalne i wysyła żeton potwierdzający na e-mail.
      *
-     * @param account
-     * @param accountDetails
-     * @throws AppBaseException
+     * @param account obiekt encji konta
+     * @param accountDetails obiekt encji detali konta
+     * @throws AppBaseException gdy login, bądź email istnieje albo wystąpił problem z bazą danych.
      */
     @PermitAll
     public void register(Account account, AccountDetails accountDetails) throws AppBaseException {
@@ -74,8 +74,8 @@ public class AccountService {
     /**
      * Potwierdza konto na podstawie otrzymanego żetonu.
      *
-     * @param tokenId
-     * @throws AppBaseException
+     * @param tokenId obiekt tokenu
+     * @throws AppBaseException gyd wystąpi problem z bazą danych, bądź blokada optymistyczna.
      */
     @PermitAll
     public void confirm(UUID tokenId) throws AppBaseException {
@@ -84,11 +84,24 @@ public class AccountService {
         accountFacade.edit(account);
     }
 
+
+    /**
+     * Wyszukuje konto na podstawie loginu
+     * @param login podany login
+     * @return znalezione konto
+     * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
+     */
     @PermitAll
     public Account findByLogin(String login) throws AppBaseException {
         return accountFacade.findByLogin(login);
     }
 
+    /**
+     * Dodaje poziomy dostępu do danego konta
+     * @param account obiekt konta
+     * @param accountAccessLevels lista poziomów dostępu
+     * @throws AppBaseException gdy wystąpi problem z bazą danych, bądź blokada optymistyczna.
+     */
     @RolesAllowed({EditAccountAccessLevel})
     public void editAccountAccessLevel(Account account, Set<AccountAccessLevel> accountAccessLevels) throws AppBaseException {
         account.getAccountAccessLevel().retainAll(accountAccessLevels);
@@ -230,7 +243,7 @@ public class AccountService {
         accountFacade.edit(account);
     }
 
-    private void sendActiveStatusChangedEmail(Account account, boolean active) throws AppBaseException {
+    private void sendActiveStatusChangedEmail(Account account, boolean active) {
         String emailSubject = active ? I18n.ACCOUNT_UNBLOCKED_MAIL_TITLE : I18n.ACCOUNT_BLOCKED_MAIL_TITLE;
         String emailSender = active ? I18n.ACCOUNT_UNBLOCKED_MAIL_SENDER : I18n.ACCOUNT_BLOCKED_MAIL_SENDER;
         String message = active ? I18n.ACCOUNT_UNBLOCKED_MAIL_CONTENT : I18n.ACCOUNT_BLOCKED_MAIL_CONTENT;

@@ -260,5 +260,7 @@
     "Client": "Klient",
     "Client's name": "Imię i nazwisko klienta",
     "Clients": "Klienci",
-    "Search for clients": "Wyszukaj klientów"
+    "Search for clients": "Wyszukaj klientów",
+    "No such client": "Nie ma takiego klienta",
+    "There are no available seat classes. Add them first": "Klasy miejsc nie zostały dodane do systemu. Dodaj je przed tworzeniem samolotu"
 }

@@ -58,7 +58,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
      * Zwraca lotnisko o podanym kodzie.
      * @param code kod lotniska
      * @return obiekt lotniska
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @Override
     @PermitAll
@@ -79,7 +79,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
      * Zwraca lotniska, których kod pasuje do podanej frazy.
      * @param phrase fraza z kodem lotniska
      * @return lista lotnisk
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PermitAll
     public List<Airport> findByMatchingCode(String phrase) throws AppBaseException {
@@ -101,7 +101,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
      * @param country kraj.
      * @param name nazwa lotniska.
      * @return lista lotnisk spełniających podane kryteria.
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PermitAll
     public List<Airport> find(String name, String code, String country, String city) throws AppBaseException {
@@ -121,7 +121,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
     /**
      * Zwraca listę nazw krajów w bazie danych.
      * @return lista nazw krajów
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PermitAll
     public List<String> getCountries() throws AppBaseException {
@@ -137,7 +137,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
     /**
      * Zwraca listę nazw miast w bazie danych.
      * @return lista nazw miast
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PermitAll
     public List<String> getCities() throws AppBaseException {

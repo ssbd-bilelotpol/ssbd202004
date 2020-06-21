@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.common.Utils.*;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.Utils.isNullOrEmpty;
 
 /**
  * Przetwarzanie logiki biznesowej połączeń.
@@ -122,20 +122,5 @@ public class ConnectionService {
     public void update(Connection connection) throws AppBaseException {
         connection.setModifiedBy(accountService.getCurrentUser());
         connectionFacade.edit(connection);
-    }
-
-    @RolesAllowed(Role.CalculateConnectionProfit)
-    public void calculateConnectionProfit(Connection connection) throws AppBaseException {
-        // flights = flightService.findFlightsByConnection()
-        // profit = 0
-        // counter = 0
-        // for flight in flights:
-        //  tickets = ticketFacade.findByFlight(flight)
-        //  for ticket in tickets:
-        //      counter++
-        //      profit += ticket.price
-        // connection.profit = profit / counter
-        // connectionFacade.edit(connection);
-        throw new UnsupportedOperationException();
     }
 }

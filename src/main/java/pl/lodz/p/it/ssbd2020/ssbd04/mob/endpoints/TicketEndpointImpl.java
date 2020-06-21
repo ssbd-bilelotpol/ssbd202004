@@ -61,24 +61,6 @@ public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoi
     }
 
     @Override
-    @RolesAllowed(Role.FindTicketsByFlight)
-    public List<TicketDto> findByFlight(Long id) throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    @RolesAllowed(Role.FindTicketsByAccount)
-    public List<TicketDto> findByAccount(Long id) throws AppBaseException {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed(Role.GetAllTickets)
-    public List<TicketDto> getAllTickets() throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     @RolesAllowed(Role.GetOwnTickets)
     public List<TicketDto> getOwnTickets() throws AppBaseException {
         Account account = accountService.getCurrentUser();

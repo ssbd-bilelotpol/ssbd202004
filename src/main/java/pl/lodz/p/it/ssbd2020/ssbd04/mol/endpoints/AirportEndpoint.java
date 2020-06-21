@@ -4,10 +4,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.common.TransactionStarter;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 
-import javax.annotation.security.PermitAll;
 import javax.ejb.Local;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
@@ -37,21 +35,21 @@ public interface AirportEndpoint extends TransactionStarter {
      * Zwraca lotniska, których kod pasuje do podanej frazy.
      * @param phrase fraza z kodem lotniska
      * @return lista lotnisk
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     List<AirportDto> findByMatchingCode(String phrase) throws AppBaseException;
 
     /**
      * Zwraca listę  z nazwami krajów dostępnych lotnisk.
      * @return lista nazw krajów.
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     List<String> getCountries() throws AppBaseException;
 
     /**
      * Zwraca listę z nazwami miast dostępnych lotnisk.
      * @return lista nazw miast
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     List<String> getCities() throws AppBaseException;
 

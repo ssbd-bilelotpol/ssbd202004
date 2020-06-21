@@ -228,6 +228,7 @@ const SearchFlight = ({ onSubmit }) => {
                             disabled={
                                 !departureAirport ||
                                 !departureDate ||
+                                !destinationAirport ||
                                 (type === 'twoway' && (!returnDate || !destinationAirport))
                             }
                         >

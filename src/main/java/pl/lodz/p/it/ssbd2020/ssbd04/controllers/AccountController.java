@@ -48,7 +48,7 @@ public class AccountController extends AbstractController {
      * Rejestruje nowe konto.
      *
      * @param accountRegisterDto
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @POST
     public void register(@NotNull @Valid AccountRegisterDto accountRegisterDto) throws AppBaseException {
@@ -86,7 +86,7 @@ public class AccountController extends AbstractController {
      * Zwraca dane o ostatnim uwierzytelnieniu.
      *
      * @return dane o ostatnim uwierzytelnieniu.
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -99,7 +99,7 @@ public class AccountController extends AbstractController {
      * Potwierdza nowo zarejestrowane konto na podstawie żetonu.
      *
      * @param tokenId
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @POST
     @Path("/confirm/{tokenId}")
@@ -275,18 +275,4 @@ public class AccountController extends AbstractController {
     public List<TicketDto> getOwnTickets() throws AppBaseException {
         return repeat(ticketEndpoint, ticketEndpoint::getOwnTickets);
     }
-
-    /**
-     * Zwraca listę biletów posiadanych przez aktualnego użytkownika.
-     *
-     * @return bilety posiadane przez użytkownika
-     * @throws AppBaseException gdy nie udało się pobrać posiadanych biletów
-     */
-    @GET
-    @Path("/{login}/tickets")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<TicketDto> getOtherAccountTickets(@NotNull @PathParam("login") String login) throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
 }

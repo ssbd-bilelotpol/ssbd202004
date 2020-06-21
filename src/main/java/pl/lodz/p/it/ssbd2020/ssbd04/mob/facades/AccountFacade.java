@@ -31,6 +31,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         return em;
     }
 
+    /**
+     * Wyszukuje konto na podstawie loginu
+     * @param login szukany login
+     * @return znalezione konto
+     * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
+     */
     @PermitAll
     public Account findByLogin(String login) throws AppBaseException {
         try {

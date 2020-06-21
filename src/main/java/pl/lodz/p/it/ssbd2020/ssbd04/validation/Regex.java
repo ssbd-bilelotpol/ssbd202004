@@ -1,5 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.validation;
 
+/**
+ * Klasa agregująca wyrażenia regularne w całej aplikacji
+ */
 public class Regex {
     public static final String FIRST_NAME = "(?ui)^\\p{L}+([ -]\\p{L}*'?\\p{L}+)*$";
     public static final String LAST_NAME = "(?ui)^\\p{L}*'?\\p{L}+([ -]\\p{L}*'?\\p{L}+)*$";

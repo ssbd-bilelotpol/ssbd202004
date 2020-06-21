@@ -3,8 +3,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.*;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.PassengerDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.services.PassengerService;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.RolesAllowed;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 /**
  * Wykonuje konwersję klas DTO na model biznesowy
- * i jest granicą transakcji aplikacyjnej dla hierarchii klas Ticket.
+ * i jest granicą transakcji aplikacyjnej dla hierarchii klas Passenger.
  */
 @Interceptors({TrackingInterceptor.class})
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

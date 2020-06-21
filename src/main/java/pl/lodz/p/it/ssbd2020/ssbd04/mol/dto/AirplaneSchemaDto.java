@@ -32,7 +32,7 @@ public class AirplaneSchemaDto implements Signable {
     private Integer rows;
 
     @Min(2)
-    @Max(9)
+    @Max(8)
     @NotNull
     private Integer columns;
 

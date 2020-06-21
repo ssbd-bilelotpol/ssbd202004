@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.SeatClassEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
-import pl.lodz.p.it.ssbd2020.ssbd04.security.ReCAPTCHAService;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
 import javax.inject.Inject;

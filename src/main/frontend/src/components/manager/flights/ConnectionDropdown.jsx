@@ -10,7 +10,7 @@ const ConnectionDropdown = ({ onChange, setError, asterisk, ...props }) => {
 
     const { data, loading, error } = useConnections({ phrase });
 
-    useEffect(() => error && setError(error), [error, setError]);
+    useEffect(() => error && setError && setError(error), [error, setError]);
 
     const connections = useMemo(
         () =>

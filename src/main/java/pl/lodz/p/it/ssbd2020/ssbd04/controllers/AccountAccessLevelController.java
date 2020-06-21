@@ -31,7 +31,7 @@ public class AccountAccessLevelController extends AbstractController {
      *
      * @param login
      * @return lista poziomów dostępu
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,7 +49,7 @@ public class AccountAccessLevelController extends AbstractController {
      * @param login
      * @param accountAccessLevelDto
      * @return Zaktualizowany zbiór poziomów dostępu konta
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @EtagBinding
     @PUT

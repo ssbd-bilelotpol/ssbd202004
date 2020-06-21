@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.security;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**

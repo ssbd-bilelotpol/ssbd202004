@@ -5,7 +5,10 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.AirportDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.AirportEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
-import pl.lodz.p.it.ssbd2020.ssbd04.validation.*;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCity;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCode;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportCountry;
+import pl.lodz.p.it.ssbd2020.ssbd04.validation.AirportName;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -64,7 +67,7 @@ public class AirportController extends AbstractController {
      * Zwraca lotniska, których kod pasuje do podanej frazy.
      * @param phrase fraza z kodem lotniska
      * @return lista lotnisk
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Path("/{phrase}")
@@ -76,7 +79,7 @@ public class AirportController extends AbstractController {
     /**
      * Zwraca nazwy nazwy krajów dostępnych lotnisk.
      * @return nazwy krajów dostępnych lotnisk.
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Path("/countries")
@@ -88,7 +91,7 @@ public class AirportController extends AbstractController {
     /**
      * Zwraca nazwy miast dostępnych lotnisk.
      * @return nazwy miast dostępnych lotnisk
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Path("/cities")

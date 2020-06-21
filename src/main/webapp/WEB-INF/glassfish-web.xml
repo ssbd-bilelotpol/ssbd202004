@@ -217,11 +217,6 @@
     </security-role-mapping>
 
     <security-role-mapping>
-        <role-name>findTicketsByFlight</role-name>
-        <group-name>customer_service</group-name>
-    </security-role-mapping>
-
-    <security-role-mapping>
         <role-name>findTicketsByFlights</role-name>
         <group-name>customer_service</group-name>
     </security-role-mapping>
@@ -234,11 +229,6 @@
     <security-role-mapping>
         <role-name>findTicketById</role-name>
         <group-name>client</group-name>
-    </security-role-mapping>
-
-    <security-role-mapping>
-        <role-name>getAllTickets</role-name>
-        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>

@@ -3,8 +3,8 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketListDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketUpdateDto;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.*;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
@@ -66,17 +66,6 @@ public class TicketController extends AbstractController {
                                     @QueryParam("airplane") Long airplaneId, @QueryParam("from") LocalDateTime from,
                                     @QueryParam("to") LocalDateTime to) throws AppBaseException {
         return repeat(ticketEndpoint, () -> ticketEndpoint.find(code, connectionId, airplaneId, from, to));
-    }
-
-    /**
-     * Zwraca listę wszystkich biletów
-     *
-     * @return lista wszystkich biletów
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<TicketDto> getAllTickets() {
-        throw new UnsupportedOperationException();
     }
 
     /**

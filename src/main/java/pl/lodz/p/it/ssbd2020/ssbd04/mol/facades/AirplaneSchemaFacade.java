@@ -3,9 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mol.facades;
 import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirplaneSchemaException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirportException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
@@ -43,13 +41,16 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
     @RolesAllowed(Role.CreateAirplaneSchema)
     @Override
     public void create(AirplaneSchema entity) throws AppBaseException {
-        super.create(entity);
-    }
+        try {
+            super.create(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getCause().getMessage().contains(AirplaneSchema.CONSTRAINT_SCHEMA_NAME)) {
+                throw AirplaneSchemaException.nameTaken();
+            }
 
-    @Override
-    @RolesAllowed(Role.GetAllAirplaneSchemas)
-    public List<AirplaneSchema> findAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
+            throw e;
+        }
+
     }
 
     @Override
@@ -61,7 +62,15 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
     @Override
     @RolesAllowed({Role.UpdateAirplaneSchema})
     public void edit(AirplaneSchema entity) throws AppBaseException {
-        super.edit(entity);
+        try {
+            super.edit(entity);
+        } catch (ConstraintViolationException e) {
+            if (e.getCause().getMessage().contains(AirplaneSchema.CONSTRAINT_SCHEMA_NAME)) {
+                throw AirplaneSchemaException.nameTaken();
+            }
+
+            throw e;
+        }
     }
 
     @Override
@@ -70,7 +79,7 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
         try {
             super.remove(airplaneSchema);
         } catch (ConstraintViolationException e) {
-            if (e.getCause().getMessage().contains(AirplaneSchema.CONSTRAINT_IN_USE)) {
+            if (e.getCause().getMessage().contains(AirplaneSchema.CONSTRAINT_IN_USE) || e.getCause().getMessage().contains(AirplaneSchema.CONSTRAINT_SEAT_USE)) {
                 throw AirplaneSchemaException.inUse(airplaneSchema);
             }
 

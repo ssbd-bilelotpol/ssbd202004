@@ -55,7 +55,7 @@ public class AirportService {
      * Zwraca lotniska, których kod pasuje do podanej frazy.
      * @param phrase fraza z kodem lotniska
      * @return lista lotnisk
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PermitAll
     public List<Airport> findByMatchingCode(String phrase) throws AppBaseException {
@@ -65,7 +65,7 @@ public class AirportService {
     /**
      * Zwraca listę wszystkich lotnisk.
      * @return lista wszystkich lotnisk
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PermitAll
     public List<Airport> findAll() throws AppBaseException {

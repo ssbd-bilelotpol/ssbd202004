@@ -24,7 +24,7 @@ public class ReportsController extends AbstractController {
     /**
      * Zwraca listę z informacjami o zyskach na danych połączeniach
      * @return lista z informacjami o zyskach na danych połączeniach
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)

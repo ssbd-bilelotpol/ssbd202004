@@ -133,7 +133,7 @@ const ClientsList = () => {
                     <ClientsTable clients={data} loading={loading} />
                     {!loading && data && data.length === 0 && (
                         <Message
-                            header={t('No such relation')}
+                            header={t('No such client')}
                             content={t('There are no results matching criteria')}
                         />
                     )}

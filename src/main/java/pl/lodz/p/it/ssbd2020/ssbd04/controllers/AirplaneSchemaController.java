@@ -78,7 +78,6 @@ public class AirplaneSchemaController extends AbstractController {
      *
      * @param id  identyfikator schematu samolotu
      * @param dto dane schematu samolotu.
-     * @return zaaktualizowany schemat samolotu.
      * @throws AppBaseException gdy schemat jest już używany, zajdzie problem konkurencyjnej modyfikacji, bądź schemat nie istnieje.
      */
     @PUT

@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>pl.lodz.p.it.ssbd2020</groupId>
     <artifactId>ssbd04</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
-    <name>ssbd04-0.6.0</name>
+    <name>ssbd04-1.0.0</name>
 
     <developers>
         <developer>

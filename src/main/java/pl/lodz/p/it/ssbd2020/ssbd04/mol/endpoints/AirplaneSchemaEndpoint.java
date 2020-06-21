@@ -39,7 +39,6 @@ public interface AirplaneSchemaEndpoint extends TransactionStarter {
      *
      * @param id
      * @param airplaneSchemaDto dane schematu samolotu.
-     * @return zaaktualizowany schemat samolotu.
      * @throws AppBaseException gdy schemat jest już używany, zajdzie problem konkurencyjnej modyfikacji, bądź schemat nie istnieje.
      */
     void update(Long id, AirplaneSchemaDto airplaneSchemaDto) throws AppBaseException;

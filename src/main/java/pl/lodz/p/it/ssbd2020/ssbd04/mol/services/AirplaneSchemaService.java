@@ -1,15 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mol.services;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
-import pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AirplaneSchemaException;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.FlightException;
 import pl.lodz.p.it.ssbd2020.ssbd04.interceptors.TrackingInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.AirplaneSchemaFacade;
-import pl.lodz.p.it.ssbd2020.ssbd04.mol.facades.TicketFacade;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import javax.annotation.security.PermitAll;
@@ -32,9 +28,6 @@ import java.util.stream.Collectors;
 public class AirplaneSchemaService {
     @Inject
     private AirplaneSchemaFacade airplaneSchemaFacade;
-
-    @Inject
-    private TicketFacade ticketFacade;
 
     @Inject
     private AccountService accountService;
@@ -89,17 +82,6 @@ public class AirplaneSchemaService {
     }
 
     /**
-     * Pobiera wszystkie istniejące schematy samolotów.
-     *
-     * @return listę schematów samolotów.
-     * @throws AppBaseException gdy wystąpi błąd podczas pobierania z bazy danych.
-     */
-    @RolesAllowed(Role.GetAllAirplaneSchemas)
-    public List<AirplaneSchema> getAll() throws AppBaseException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * Znajduje schemat samolotu na podstawie identyfikatora.
      *
      * @param id identyfikator schematu samolotu.
@@ -117,7 +99,6 @@ public class AirplaneSchemaService {
      * @param airplaneSchema dane schematu samolotu.
      * @param emptyColumns lista pozycji na których znajdująsię puste przejścia w kolumnach
      * @param emptyRows lista pozycji na których znajdująsię puste przejścia w wierszach
-     * @return zaaktualizowany schemat samolotu.
      * @throws AppBaseException gdy schemat jest już używany, zajdzie problem konkurencyjnej modyfikacji.
      */
     @RolesAllowed(Role.UpdateAirplaneSchema)

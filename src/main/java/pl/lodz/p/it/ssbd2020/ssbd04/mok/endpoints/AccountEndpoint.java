@@ -23,7 +23,8 @@ public interface AccountEndpoint extends TransactionStarter {
      * Rejestruje nowe konto.
      *
      * @param accountRegisterDto obiekt zawierający login, hasło i wymagane dane konta.
-     * @throws AppBaseException gdy login lub e-mail już istnieje.
+      gdy login lub e-mail już istnieje.
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
     void register(AccountRegisterDto accountRegisterDto) throws AppBaseException;
@@ -32,7 +33,8 @@ public interface AccountEndpoint extends TransactionStarter {
      * Potwierdza konto na podstawie unikalnego identyfkatoru tokena wysłanego na adres e-mail.
      *
      * @param fromString unikalny identyfikator tokenu potwierdzające konto.
-     * @throws AppBaseException gdy potwierdzenie konta się nie powiedzie.
+      gdy potwierdzenie konta się nie powiedzie.
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
     void confirm(UUID fromString) throws AppBaseException;
@@ -43,7 +45,8 @@ public interface AccountEndpoint extends TransactionStarter {
      * @param login                 login jednoznacznie identyfikujący konto.
      * @param accountAccessLevelDto zawiera listę poziomów dostępów, które mają zostać przypisane użytkownikowi.
      * @return listę poziomów dostępów, które zostały przypisane do konta.
-     * @throws AppBaseException gdy modyfikacja nie powiedzie się.
+      gdy modyfikacja nie powiedzie się.
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(EditAccountAccessLevel)
     AccountAccessLevelDto editAccountAccessLevel(String login, AccountAccessLevelDto accountAccessLevelDto) throws AppBaseException;
@@ -53,7 +56,8 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login login jednoznacznie identyfikujący konto.
      * @return listę poziomów dostępów przypisanych do konta.
-     * @throws AppBaseException gdy pobieranie nie powiedzie się.
+      gdy pobieranie nie powiedzie się.
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(GetAccessLevels)
     AccountAccessLevelDto getAccessLevels(String login) throws AppBaseException;
@@ -62,7 +66,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Zwraca dane konta inicjującego żądanie.
      *
      * @return konto inicjujące żądanie.
-     * @throws AppBaseException gdy nie udało się pobrać danych konta.
+      gdy nie udało się pobrać danych konta.
      */
     @RolesAllowed(RetrieveOwnAccountDetails)
     AccountDto retrieveOwnAccountDetails() throws AppBaseException;
@@ -72,7 +76,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login login konta, którego dane zostaną zwrócone.
      * @return konto wybranego użytkownika.
-     * @throws AppBaseException gdy nie udało się pobrać danych konta.
+      gdy nie udało się pobrać danych konta.
      */
     @RolesAllowed(RetrieveOtherAccountDetails)
     AccountDto retrieveOtherAccountDetails(String login) throws AppBaseException;
@@ -82,7 +86,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param accountEditDto nowe dane konta w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu.
      * @return konto inicjujące żądanie z uwzględnionymi zmianami danych.
-     * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
+      gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
     @RolesAllowed(EditOwnAccountDetails)
     AccountDto editOwnAccountDetails(AccountEditDto accountEditDto) throws AppBaseException;
@@ -93,7 +97,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * @param login          login konta, którego dane zostaną zmodyfikowane.
      * @param accountEditDto nowe dane konta w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu.
      * @return wybrane konto z uwzględnionymi zmianami danych.
-     * @throws AppBaseException gdy zapisanie zmodyfikowanego konta nie powiodło się.
+      gdy zapisanie zmodyfikowanego konta nie powiodło się.
      */
     @RolesAllowed(EditOtherAccountDetails)
     AccountDto editOtherAccountDetails(String login, AccountEditDto accountEditDto) throws AppBaseException;
@@ -104,7 +108,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Użytkownik musi być aktywny, a jego rejestracja potwierdzona.
      *
      * @param email e-mail użytkownika.
-     * @throws AppBaseException w przypadku niepowodzenia operacji.
+      w przypadku niepowodzenia operacji.
      */
     @PermitAll
     void sendResetPasswordToken(String email) throws AppBaseException;
@@ -113,7 +117,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Resetuje hasło za pomocą tokenu resetującego.
      *
      * @param passwordResetDto token resetujący oraz nowe hasło.
-     * @throws AppBaseException w przypadku niepowodzenia operacji.
+      w przypadku niepowodzenia operacji.
      */
     @PermitAll
     void resetPassword(PasswordResetDto passwordResetDto) throws AppBaseException;
@@ -124,7 +128,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * @param login         login użytkownika.
      * @param lastIpAddress adres ip.
      * @param currentAuth   data logowania.
-     * @throws AppBaseException
+      gdy operacja się nie powiedzie
      */
     @PermitAll
     void updateAuthInfo(String login, String lastIpAddress, LocalDateTime currentAuth) throws AppBaseException;
@@ -149,7 +153,7 @@ public interface AccountEndpoint extends TransactionStarter {
     /**
      * Zwraca dane z ostatniego uwierzytelniania dla konta.
      *
-     * @return
+     * @return obiekt reprezentujący dane uwierzytelniania
      */
     @RolesAllowed(GetAccountAuthInfo)
     AccountAuthInfoDto getAccountAuthInfo() throws AppBaseException;
@@ -158,7 +162,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Zmienia hasło dla aktualnego użytkownika.
      *
      * @param accountPasswordDto obiekt który przechowuje nowe i stare hasła podane przez użytkownika.
-     * @throws AppBaseException jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
+      jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
      */
     @RolesAllowed(ChangeOwnAccountPassword)
     void changeOwnAccountPassword(AccountPasswordDto accountPasswordDto) throws AppBaseException;
@@ -168,7 +172,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login    login konta, dla którego zmieniane jest hasło.
      * @param password nowe hasło.
-     * @throws AppBaseException jeśli Etag się nie zgadza.
+      jeśli Etag się nie zgadza.
      */
     @RolesAllowed(ChangeOtherAccountPassword)
     void changeOtherAccountPassword(String login, String password) throws AppBaseException;
@@ -178,7 +182,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param name fraza, której poszukujemy. Jeśli name jest pustym ciągiem znaków lub null, to metoda zwraca wszystkie konta.
      * @return lista kont wraz z danymi szczegółowymi.
-     * @throws AppBaseException gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
+      gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
      */
     @RolesAllowed(FindAccountsByName)
     List<AccountDto> findByName(String name) throws AppBaseException;
@@ -188,7 +192,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login  login konta, dla którego zmieniamy status aktywności.
      * @param active wartość statusu aktywności konta, która ma zostać ustawiona.
-     * @throws AppBaseException gdy nie udało się zmienić statusu aktywności konta.
+      gdy nie udało się zmienić statusu aktywności konta.
      */
     @RolesAllowed(ChangeAccountActiveStatus)
     void changeAccountActiveStatus(String login, Boolean active) throws AppBaseException;
@@ -198,7 +202,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login    login konta, dla którego chcemy wysłać e-mail.
      * @param remoteIP adres IP, z którego nastąpiło logowanie
-     * @throws AppBaseException w przypadku gdy nie udało się wysłać maila.
+      w przypadku gdy nie udało się wysłać maila.
      */
     @PermitAll
     void notifyAboutAdminLogin(String login, String remoteIP) throws AppBaseException;

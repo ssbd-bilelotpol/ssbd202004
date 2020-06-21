@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightCreateDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.FlightDto;
@@ -123,12 +122,4 @@ public class FlightController extends AbstractController {
     public void update(@PathParam("code") String code, FlightEditDto flightDto) throws AppBaseException {
         repeat(flightEndpoint, () -> flightEndpoint.update(code, flightDto));
     }
-
-    @GET
-    @Path("/{id}/tickets")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<TicketDto> findTicketsForFlight(@PathParam("id") Long id) {
-        throw new UnsupportedOperationException();
-    }
-
 }

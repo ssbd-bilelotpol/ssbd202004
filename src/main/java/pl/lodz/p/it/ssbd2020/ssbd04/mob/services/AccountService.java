@@ -28,11 +28,21 @@ public class AccountService {
     @Inject
     private SecurityContext securityContext;
 
+    /**
+     * Wyszukuje konto na podstawie loginu
+     * @param login szukany login
+     * @return znalezione konto
+     * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
+     */
     @PermitAll
     public Account findByLogin(String login) throws AppBaseException {
         return accountFacade.findByLogin(login);
     }
 
+    /**
+     * Zwraca konto zalogowanego użytkownika wykonujacego ządanie
+     * @return konto zalogowanego użytkownika
+     */
     @PermitAll
     public Account getCurrentUser() {
         if (securityContext.getCallerPrincipal() == null) {

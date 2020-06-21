@@ -56,9 +56,9 @@ public class VerificationTokenFacade extends AbstractFacade<VerificationToken> {
     /**
      * Zwraca żetony, których data wygaśnięcia poprzedza daną datę.
      *
-     * @param dateTime
-     * @return
-     * @throws AppBaseException
+     * @param dateTime data wygaśnięcia
+     * @return lista żetonów
+     * @throws AppBaseException gdy wystąpi problem z bazą danych.
      */
     @PermitAll
     public List<VerificationToken> findExpiredBefore(LocalDateTime dateTime) throws AppBaseException {

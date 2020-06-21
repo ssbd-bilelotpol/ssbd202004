@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 
-import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
+import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.SEAT_NOT_FOUND;
 
 public class SeatException extends AppBaseException {
     private final SeatClass seatClass;

@@ -28,9 +28,11 @@ const GenerateReport = () => {
                         <TableBorder celled>
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.Cell>{t('Connection ID')}</Table.Cell>
-                                    <Table.Cell>{t('Connection')}</Table.Cell>
-                                    <Table.Cell>{t('Profit')}</Table.Cell>
+                                    <Table.HeaderCell width={2}>
+                                        {t('Connection ID')}
+                                    </Table.HeaderCell>
+                                    <Table.HeaderCell>{t('Connection')}</Table.HeaderCell>
+                                    <Table.HeaderCell>{t('Profit')}</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>

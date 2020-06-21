@@ -18,7 +18,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Set;
 

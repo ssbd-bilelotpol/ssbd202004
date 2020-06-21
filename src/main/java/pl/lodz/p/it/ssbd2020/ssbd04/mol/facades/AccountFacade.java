@@ -32,6 +32,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         super(Account.class);
     }
 
+    /**
+     * Wyszukuje konto na podstawie loginu
+     * @param login podany login
+     * @return znalezione konto
+     * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
+     */
     @PermitAll
     public Account findByLogin(String login) throws AppBaseException {
         try {
@@ -47,7 +53,13 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
     }
 
-    @RolesAllowed({Role.UpdateFlight})
+    /**
+     * Wyszukuje konta, które mają przypisane bilety na dany lot.
+     * @param flightCode kod lotu
+     * @return lista kont
+     * @throws AppBaseException gdy wystapi problem z bazą danych.
+     */
+    @RolesAllowed({Role.UpdateFlight, Role.CancelFlight})
     public List<Account> getAccountsByTicketsOwnedForFlight(String flightCode) throws AppBaseException {
         try {
             TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Flight.findAccountsByTicketsForFlight", Account.class);

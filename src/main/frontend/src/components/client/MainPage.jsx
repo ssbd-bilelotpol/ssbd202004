@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import { Image, Message, Label, Menu, Icon } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import SearchFlight from './purchase/SearchFlight';
 import TopMenu from '../TopMenu';
 import SelectFlight from './purchase/SelectFlight';
 import { PageContainer } from '../shared/SimpleComponents';
 import { route } from '../../routing';
+import { roles } from '../../constants';
 
 const MenuItems = () => {
     const { t } = useTranslation();
+
+    const role = useSelector((state) => state.auth.user.role);
     return (
         <>
-            <Menu.Item as={NavLink} to={route('panel.tickets')}>
-                <Icon name="calendar" />
-                {t('Dashboard')}
-            </Menu.Item>
+            {role === roles.client && (
+                <Menu.Item as={NavLink} to={route('panel.tickets')}>
+                    <Icon name="calendar" />
+                    {t('Dashboard')}
+                </Menu.Item>
+            )}
         </>
     );
 };

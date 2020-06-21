@@ -5,6 +5,9 @@ import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.TicketBuyDto;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * Sprawdza poprawność liczby pasażerów
+ */
 public class PassengerCountValidator implements ConstraintValidator<PassengerCount, TicketBuyDto> {
 
     @Override

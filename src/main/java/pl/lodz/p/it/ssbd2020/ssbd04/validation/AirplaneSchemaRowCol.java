@@ -3,12 +3,14 @@ package pl.lodz.p.it.ssbd2020.ssbd04.validation;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Sprawdza, czy listy pustych kolumn/wierszy zawierają poprawne wartości.
+ */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)

@@ -364,6 +364,9 @@ ALTER TABLE ONLY account
 ALTER TABLE ONLY airplane_schema
     ADD CONSTRAINT airplane_schema_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY airplane_schema
+    ADD CONSTRAINT airplane_schema_name_unique UNIQUE (name);
+
 ALTER TABLE ONLY airport
     ADD CONSTRAINT airport_pkey PRIMARY KEY (id);
 
