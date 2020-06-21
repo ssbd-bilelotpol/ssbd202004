@@ -46,7 +46,7 @@ const MainPage = () => {
                         </Label>
                         {t('Bilelotpol is not restricted due to the coronavirus')}
                     </Message>
-                    {i18n.language === 'pl' && (
+                    {(i18n.language === 'pl' || i18n.language === 'pl-PL') && (
                         <Image fluid src={`${process.env.PUBLIC_URL}/banner.png`} />
                     )}
                 </PageContainer>
