@@ -99,7 +99,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
      * @param ticket identyfikator biletu
      * @throws AppBaseException gdy nie powiedzie się zwracanie biletu
      */
-    @RolesAllowed(Role.ReturnTicket)
+    @RolesAllowed({Role.ReturnTicket, Role.ReturnAnyTicket})
     public void remove(Ticket ticket) throws AppBaseException {
         super.remove(ticket);
     }

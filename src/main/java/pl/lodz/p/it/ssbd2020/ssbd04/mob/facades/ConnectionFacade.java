@@ -37,7 +37,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     }
 
     @Override
-    @RolesAllowed({Role.ReturnTicket, Role.CreateTicket})
+    @RolesAllowed({Role.ReturnTicket, Role.ReturnAnyTicket, Role.CreateTicket})
     public void edit(Connection entity) throws AppBaseException {
         try {
             super.edit(entity);

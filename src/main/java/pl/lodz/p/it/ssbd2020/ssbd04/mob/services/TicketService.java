@@ -77,7 +77,7 @@ public class TicketService {
      * @param ticket parametry zwracania biletu
      * @throws AppBaseException gdy nie powiedzie się zwracanie biletu
      */
-    @RolesAllowed(Role.ReturnTicket)
+    @RolesAllowed({Role.ReturnTicket, Role.ReturnAnyTicket})
     public void returnTicket(Ticket ticket) throws AppBaseException {
         Connection connection = ticket.getFlight().getConnection();
         connection.setProfit(connection.getProfit().subtract(ticket.getTotalPrice()));
