@@ -8,6 +8,7 @@ import TicketsList from './TicketsList';
 import ViewTicket from '../shared/ViewTicket';
 import { WideCard } from '../shared/Flight';
 import EditTicket from './tickets/EditTicket';
+import ClientsList from './ClientsList';
 
 const CustomerServiceDashboard = () => {
     const { t } = useTranslation();
@@ -27,6 +28,15 @@ const CustomerServiceDashboard = () => {
                 {
                     name: t('Search for tickets'),
                     route: 'customer_service.tickets.list',
+                },
+            ],
+        },
+        {
+            header: t('Clients'),
+            items: [
+                {
+                    name: t('Search for clients'),
+                    route: 'customer_service.clients.list',
                 },
             ],
         },
@@ -51,6 +61,9 @@ const CustomerServiceDashboard = () => {
                 </Route>
                 <Route path={route('customer_service.reports.generate')}>
                     <GenerateReport />
+                </Route>
+                <Route path={route('customer_service.clients.list')}>
+                    <ClientsList />
                 </Route>
             </Switch>
         </Dashboard>

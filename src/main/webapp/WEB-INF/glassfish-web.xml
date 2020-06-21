@@ -18,7 +18,7 @@
         <group-name>admin</group-name>
         <group-name>manager</group-name>
         <group-name>client</group-name>
-        <group-name>customerService</group-name>
+        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
@@ -26,7 +26,7 @@
         <group-name>admin</group-name>
         <group-name>manager</group-name>
         <group-name>client</group-name>
-        <group-name>customerService</group-name>
+        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
@@ -39,7 +39,7 @@
         <group-name>admin</group-name>
         <group-name>manager</group-name>
         <group-name>client</group-name>
-        <group-name>customerService</group-name>
+        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
@@ -62,7 +62,7 @@
         <group-name>admin</group-name>
         <group-name>manager</group-name>
         <group-name>client</group-name>
-        <group-name>customerService</group-name>
+        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
@@ -70,7 +70,7 @@
         <group-name>admin</group-name>
         <group-name>manager</group-name>
         <group-name>client</group-name>
-        <group-name>customerService</group-name>
+        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
@@ -89,11 +89,16 @@
     </security-role-mapping>
 
     <security-role-mapping>
+        <role-name>findClientsByName</role-name>
+        <group-name>customer_service</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
         <role-name>refreshToken</role-name>
         <group-name>admin</group-name>
         <group-name>manager</group-name>
         <group-name>client</group-name>
-        <group-name>customerService</group-name>
+        <group-name>customer_service</group-name>
     </security-role-mapping>
 
     <security-role-mapping>

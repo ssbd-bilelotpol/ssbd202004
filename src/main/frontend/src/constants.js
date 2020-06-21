@@ -333,6 +333,17 @@ export const routes = {
                     },
                 },
             },
+            clients: {
+                title: 'Clients',
+                path: '/clients',
+                subroutes: {
+                    list: {
+                        title: 'Search for clients',
+                        breadcrumb: 'Search for clients',
+                        path: '/list',
+                    },
+                },
+            },
         },
     },
     [roles.client]: {

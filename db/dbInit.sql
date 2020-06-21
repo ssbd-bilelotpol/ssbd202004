@@ -174,3 +174,19 @@ VALUES (-6, '2020-07-02 13:00', '2020-07-02 15:00', '00006', -1, -3, 859.99, 'AC
 INSERT INTO flight (id, start_date_time, end_date_time, flight_code, airplane_schema_id, connection_id, price,
 					status, version, creation_date_time, modification_date_time)
 VALUES (-7, '2020-07-01 09:00', '2020-07-01 13:00', '00007', -1, -5, 1999.99, 'ACTIVE', 0, now(), now());
+
+-- Tickets
+INSERT INTO ticket (id, creation_date_time, modification_date_time, version, total_price, account_id, flight_id, created_by)
+    VALUES(-1, now(), now(), 0, 5000, -1, -1, -5);
+INSERT INTO ticket (id, creation_date_time, modification_date_time, version, total_price, account_id, flight_id, created_by)
+    VALUES(-2, now(), now(), 0, 1200, -2, -1, -5);
+INSERT INTO ticket (id, creation_date_time, modification_date_time, version, total_price, account_id, flight_id, created_by)
+    VALUES(-3, now(), now(), 0, 2500, -3, -1, -5);
+
+-- Passengers
+INSERT INTO  passenger (id, creation_date_time, modification_date_time,  version, email, first_name, last_name, phone_number, seat_id, ticket_id, flight_id, created_by)
+    VALUES (-1, now(), now(), 0, 'ks@lodz.pl', 'Konrad', 'Stępniak', 123456789, -1,  -1, -1, -5);
+INSERT INTO  passenger (id, creation_date_time, modification_date_time,  version, email, first_name, last_name, phone_number, seat_id, ticket_id, flight_id, created_by)
+    VALUES (-2, now(), now(), 0, 'jn@lodz.pl', 'Jakub', 'Nozderka', 123456789, -2,  -2, -1, -5);
+INSERT INTO  passenger (id, creation_date_time, modification_date_time,  version, email, first_name, last_name, phone_number, seat_id, ticket_id, flight_id, created_by)
+    VALUES (-3, now(), now(), 0, 'jz@lodz.pl', 'Jakub', 'Zygmunt', 123456789, -3,  -3, -1, -5);

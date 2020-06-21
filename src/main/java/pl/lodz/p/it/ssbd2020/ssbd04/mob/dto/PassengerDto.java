@@ -1,8 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Passenger;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
-public class PassengerDto {
+public class PassengerDto implements Signable {
 
     private Long id;
     private String email;
@@ -10,6 +11,8 @@ public class PassengerDto {
     private String lastName;
     private String phoneNumber;
     private SeatDto seat;
+    private FlightDto flight;
+    private Long ticketId;
 
     public PassengerDto(Passenger passenger) {
         this.id = passenger.getId();
@@ -18,6 +21,8 @@ public class PassengerDto {
         this.lastName = passenger.getLastName();
         this.phoneNumber = passenger.getPhoneNumber();
         this.seat = new SeatDto(passenger.getSeat());
+        this.flight = new FlightDto(passenger.getFlight());
+        this.ticketId = passenger.getTicket().getId();
     }
 
     public String getEmail() {
@@ -66,6 +71,27 @@ public class PassengerDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public FlightDto getFlight() {
+        return flight;
+    }
+
+    public void setFlight(FlightDto flight) {
+        this.flight = flight;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    @Override
+    public String createMessage() {
+        return String.format("%d.%s.%d", this.id, this.flight.getCode(), this.ticketId);
     }
 
 }

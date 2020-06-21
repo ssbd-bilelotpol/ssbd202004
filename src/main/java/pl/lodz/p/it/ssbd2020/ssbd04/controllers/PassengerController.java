@@ -1,0 +1,35 @@
+package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
+
+import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.dto.PassengerDto;
+import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.PassengerEndpoint;
+
+import javax.annotation.security.PermitAll;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+/**
+ * Odpowiada zasobom reprezentującym logikę przetwarzania kont.
+ * Konwertuje DTO na model biznesowy oraz zajmuje się walidacją danych.
+ */
+@Path("/clients")
+public class PassengerController extends AbstractController {
+    @Inject
+    PassengerEndpoint passengerEndpoint;
+
+    /**
+     * Wyszukuje pasażerów na podstawie przekazanego kryterium.
+     * @param flightCode kod lotniska.
+     * @param name imię i nazwisko pasażera.
+     * @return lotniska spełniające podane kryterium.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @PermitAll
+    public List<PassengerDto> getClients(@QueryParam("name") String name, @QueryParam("flightCode") String flightCode) throws AppBaseException {
+        return repeat(passengerEndpoint, () -> passengerEndpoint.find(name, flightCode));
+    }
+
+}

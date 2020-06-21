@@ -256,5 +256,9 @@
     "Cancel flight": "Odwołaj lot",
     "Cancelled": "Odwołany",
     "Status": "Status",
-    "Took place": "Odbył się"
+    "Took place": "Odbył się",
+    "Client": "Klient",
+    "Client's name": "Imię i nazwisko klienta",
+    "Clients": "Klienci",
+    "Search for clients": "Wyszukaj klientów"
 }

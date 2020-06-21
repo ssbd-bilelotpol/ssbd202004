@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.FirstName;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.LastName;
@@ -16,6 +15,12 @@ import java.util.Objects;
 /**
  * Klasa encyjna zawierająca informacje o szczegółach pasażera
  */
+@NamedQueries({
+        @NamedQuery(name = "Passenger.findByQuery",
+                query = "SELECT passenger from Passenger passenger WHERE LOWER(CONCAT(passenger.firstName, ' ', passenger.lastName)) LIKE LOWER(CONCAT('%', :name, '%')) " +
+                        "AND UPPER(passenger.flight.flightCode) LIKE UPPER(CONCAT('%', :flightCode, '%'))"),
+})
+
 @Entity
 @Table(indexes = {
         @Index(name = "passenger_seat_fk", columnList = "seat_id"),
@@ -121,6 +126,10 @@ public class Passenger extends AbstractEntity implements Serializable {
 
     public void setSeat(Seat seat) {
         this.seat = seat;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
     }
 
     public void setTicket(Ticket ticket) {

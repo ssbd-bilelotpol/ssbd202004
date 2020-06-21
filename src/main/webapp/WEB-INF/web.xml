@@ -82,6 +82,10 @@
     </security-role>
 
     <security-role>
+        <role-name>findClientsByName</role-name>
+    </security-role>
+
+    <security-role>
         <role-name>refreshToken</role-name>
     </security-role>
 
