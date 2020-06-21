@@ -1,6 +1,5 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import { roles } from './constants';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminApp from './components/admin/AdminApp';
@@ -16,14 +15,12 @@ import Footer from './Footer';
 import { PageContent } from './components/shared/SimpleComponents';
 
 const App = () => {
-    const redirect = useSelector((state) => state.auth.redirect);
     useTitle();
 
     return (
         <>
             <PageContent>
                 <Switch>
-                    {redirect && <Redirect to={redirect} />}
                     <Route path={route('confirm')}>
                         <Confirm />
                     </Route>

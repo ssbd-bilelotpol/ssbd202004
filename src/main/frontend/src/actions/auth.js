@@ -40,7 +40,7 @@ export const logoutAction = () => (dispatch) => {
     });
 };
 
-export const loginAction = (username, password, redirect) => async (dispatch) => {
+export const loginAction = (username, password) => async (dispatch) => {
     const begin = () => ({
         type: ACTION_LOGIN_BEGIN,
     });
@@ -50,7 +50,6 @@ export const loginAction = (username, password, redirect) => async (dispatch) =>
         payload: {
             ...user,
             tokenExp: jwtDecode(user.token).exp,
-            redirect,
         },
     });
 

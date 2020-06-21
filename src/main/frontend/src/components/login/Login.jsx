@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import LoginForm from './LoginForm';
 import PasswordResetRequestForm from './PasswordResetRequestForm';
 
-const Login = ({ dispatch, redirect, ...props }) => {
+const Login = ({ dispatch, ...props }) => {
     const { t } = useTranslation();
     const [recoveryMode, setRecoveryMode] = useState(false);
     return recoveryMode ? (
@@ -35,7 +35,7 @@ const Login = ({ dispatch, redirect, ...props }) => {
             </Modal.Header>
             <Modal.Content>
                 <Segment vertical>
-                    <LoginForm redirect={redirect} />
+                    <LoginForm />
                 </Segment>
                 <Segment vertical size="small" textAlign="right">
                     <Button basic color="blue" onClick={() => setRecoveryMode(true)}>

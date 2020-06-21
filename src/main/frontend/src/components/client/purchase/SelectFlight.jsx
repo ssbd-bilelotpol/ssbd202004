@@ -189,7 +189,6 @@ const SelectFlight = ({ searchQuery, history }) => {
                                 {t('Sign in')}
                             </Button>
                         }
-                        redirect={purchaseUrl}
                     />
                 </Button.Group>
             )}
