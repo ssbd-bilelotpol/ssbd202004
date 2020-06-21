@@ -13,7 +13,9 @@ displaySuccess = TicketsPanelPage.getOwnTickets() {
         account = AccountService.currentUser() {
           account = AccountFacade.findByLogin(login)
         }
-        tickets = TicketFacade.findByAccount(accountId)
+        tickets = TicketService.findByAccount(account) {
+          tickets = TicketFacade.findByAccount(accountId)
+        }
       }
     }
   }

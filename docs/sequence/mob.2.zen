@@ -12,33 +12,51 @@ if(validData) {
        successResponse = TicketEndpoint.returnTicket(ticketDto) {
         //RW, Read Committed
         while(1) {
-          success = TicketService.returnTicket(ticketId) {
-            ticket = TicketFacade.findById(ticketId)
-            success = TicketFacade.remove(ticket)
-
-            success = ConnectionService.calculateConnectionProfit() {
-              connection = ConnectionFacade.find(connectionId)
-              tickets = TicketFacade.find(connectionId)
-              calculate()
-              Connection.setProfit(profit)
-              success = ConnectionFacade.edit(connection)
+            account = AccountService.getCurrentUser() {
+              account = AccountFacade.findByLogin(login)
             }
-          }
+            ticket = TicketService.findById(id) {
+              ticket = TicketFacade.findById(ticketId)
+            }
+
+            success = TicketService.returnTicket(ticket) {
+              success = ConnectionFacade.edit(connection)
+              success = TicketFacade.remove(ticket)
+            }
         }
       }
     }
 
   }
-}
-else if(timeToReturnExpired) {
-  displayError = TicketsPanelPage.returnTicket(ticket) {
-    errorDeadlineExceeded = TicketController.returnTicket(ticket) {
-      errorDeadlineExceeded = TicketEndpoint.returnTicket(ticket) {
+} else if(forbidden) {
+  displayError = TicketsPanelPage.returnTicket(ticketDto) {
+    forbiddenError = TicketController.returnTicket(ticketDto) {
+       forbiddenError = TicketEndpoint.returnTicket(ticketDto) {
         //RW, Read Committed
         while(1) {
-          error = TicketService.returnTicket(ticketId) {
-            ticket = TicketFacade.findById(ticketId)
-          }
+            account = AccountService.getCurrentUser() {
+              account = AccountFacade.findByLogin(login)
+            }
+            ticket = TicketService.findById(id) {
+              ticket = TicketFacade.findById(ticketId)
+            }
+        }
+      }
+    }
+
+  }
+} else if(timeToReturnExpired) {
+  displayError = TicketsPanelPage.returnTicket(ticketDto) {
+    timeToReturnExpiredError = TicketController.returnTicket(ticketDto) {
+       timeToReturnExpiredError = TicketEndpoint.returnTicket(ticketDto) {
+        //RW, Read Committed
+        while(1) {
+            account = AccountService.getCurrentUser() {
+              account = AccountFacade.findByLogin(login)
+            }
+            ticket = TicketService.findById(id) {
+              ticket = TicketFacade.findById(ticketId)
+            }
         }
       }
     }

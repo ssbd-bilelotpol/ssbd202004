@@ -8,54 +8,18 @@ TicketFacade
 
 @Starter(CustomerService)
 
-if(validData) {
-    displayTickets = TicketSearchPage.findTickets(query) {
-        ticketDtos = TicketController.find(query) {
-            ticketDtos = TicketEndpoint.find(query) {
-                // RO, Read Committed
-                while(1) {
-                    flights = FlightService.find(query) {
-                        flights = FlightFacade.find(query)
-                    }                    
-                  tickets = TicketService.find(flights) {
-                        tickets = TicketFacade.find(flights)
-                    }
-                }
-            }
+displayTickets = TicketSearchPage.findTickets(query) {
+  ticketDtos = TicketController.find(query) {
+    ticketDtos = TicketEndpoint.find(code, connectionId, airplaneId, from, to) {
+      // RO, Read Committed
+      while(1) {
+        flightIds = FlightService.find(code, connectionId, airplaneId) {
+          flightIds = FlightFacade.find(code, connectionId, airplaneId)
         }
-    }
-} else if(invalidData) {
-    displayError = TicketSearchPage.findTickets(query) {
-        error = TicketController.find(query)
-    }
-} else if(noSuchFlights) {
-    displayNoResults = TicketSearchPage.findTickets(query) {
-        emptyList = TicketController.find(query) {
-            emptyList = TicketEndpoint.find(query) {
-                // RO, Read Committed
-                while(1) {
-                    emptyList = FlightService.find(query) {
-                        emptyList = FlightFacade.find(query)
-                    }
-                }
-            }
+        tickets = TicketService.findByFlights(flightsIds) {
+          tickets = TicketFacade.findByFlights(flightsIds)
         }
+      }
     }
-}
-else if(noResult) {
-    displayNoResults = TicketSearchPage.findTickets(query) {
-        emptyList = TicketController.find(query) {
-            emptyList = TicketEndpoint.find(query) {
-                // RO, Read Committed
-                while(1) {
-                  flights = FlightService.find(query) {
-                        flights = FlightFacade.find(query)
-                    }                    
-                  emptyList = TicketService.find(flights) {
-                        emptyList = TicketFacade.find(flights)
-                    }
-                }
-            }
-        }
-    }
+  }
 }

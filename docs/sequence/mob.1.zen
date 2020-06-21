@@ -2,17 +2,12 @@ Client
 BuyTicketPage
 TicketController
 TicketEndpoint
-AirplaneSchemaService
-AirplaneSchemaFacade
 TicketController
 TicketEndpoint
 TicketService
 TicketFacade
-Passenger
-Ticket
-ConnectionService
 ConnectionFacade
-Connection
+Ticket
 @Starter(Client)
 
 if(validData) {
@@ -22,27 +17,17 @@ if(validData) {
       success = TicketEndpoint.buyTicket(ticketDto){
                       //RW, Read Committed
       while(1) {
-        success = TicketService.buyTicket(ticketDto) {
-          account = AccountService.findByLogin(login) {
+        destinationFlight = FlightService.findByCode(code) {
+          destinationFlight = FlightFacade.find(code)
+        }
+        success = TicketEndpoint.buySingleTicket(destinationFlight, flightDto, passengers) {
+          account = AccountService.getCurrentUser() {
             account = AccountFacade.findByLogin(login)
           }
-
-          flight = FlightService.findById(id) {
-            flight = FlightFacade.find(id)
-          }
-          takenSeats = FlightService.getTakenSeats(flight)
-
-          ticket = Ticket."<<create>>"
-          success = TicketFacade.create(ticket){
-            success = Passenger."<<cascade persist>>"
-          }
-
-          success = ConnectionService.calculateConnectionProfit() {
-            connection = ConnectionFacade.find(connectionId)
-            tickets = TicketFacade.find(connectionId)
-            calculate()
-            Connection.setProfit(profit)
+          ticket = Ticket."<<create>>";
+          success = TicketService.buyTicket(ticket) {
             success = ConnectionFacade.edit(connection)
+            success = TicketFacade.create(ticket)
           }
         }
       }
@@ -52,27 +37,103 @@ if(validData) {
 }
 else if(seatTaken) {
   displayError = BuyTicketPage.buyTicket(ticketDto) {
-    errorSeatAlreadyTaken = TicketController.buyTicket(ticketDto) {
+    errorResponse = TicketController.buyTicket(ticketDto) {
+
       error = TicketEndpoint.buyTicket(ticketDto){
-                //RW, Read Committed
+                      //RW, Read Committed
       while(1) {
-        error = TicketService.buyTicket(ticketDto) {
-          account = AccountService.findByLogin(login) {
+        destinationFlight = FlightService.findByCode(code) {
+          destinationFlight = FlightFacade.find(code)
+        }
+        error = TicketEndpoint.buySingleTicket(destinationFlight, flightDto, passengers) {
+          account = AccountService.getCurrentUser() {
             account = AccountFacade.findByLogin(login)
           }
-
-          flight = FlightService.findById(id) {
-            flight = FlightFacade.find(id)
+          ticket = Ticket."<<create>>";
+          error = TicketService.buyTicket(ticket) {
+            success = ConnectionFacade.edit(connection)
+            error = TicketFacade.create(ticket)
           }
-          takenSeats = FlightService.getTakenSeats(flight)
         }
-      }
       }
         }
     }
   }
-else if(invalidData) {
+}
+else if(departureTimeChanged) {
   displayError = BuyTicketPage.buyTicket(ticketDto) {
-    error = TicketController.buyTicket(ticketDto)
+    errorResponse = TicketController.buyTicket(ticketDto) {
+
+      error = TicketEndpoint.buyTicket(ticketDto){
+                      //RW, Read Committed
+      while(1) {
+        destinationFlight = FlightService.findByCode(code) {
+          destinationFlight = FlightFacade.find(code)
+        }
+        error = TicketEndpoint.buySingleTicket(destinationFlight, flightDto, passengers) {
+          account = AccountService.getCurrentUser() {
+            account = AccountFacade.findByLogin(login)
+          }
+        }
+      }
+        }
+    }
+  }
+}else if(alreadyDeparted) {
+  displayError = BuyTicketPage.buyTicket(ticketDto) {
+    errorResponse = TicketController.buyTicket(ticketDto) {
+
+      error = TicketEndpoint.buyTicket(ticketDto){
+                      //RW, Read Committed
+      while(1) {
+        destinationFlight = FlightService.findByCode(code) {
+          destinationFlight = FlightFacade.find(code)
+        }
+        error = TicketEndpoint.buySingleTicket(destinationFlight, flightDto, passengers) {
+          account = AccountService.getCurrentUser() {
+            account = AccountFacade.findByLogin(login)
+          }
+        }
+      }
+        }
+    }
+  }
+}else if(cancelled) {
+  displayError = BuyTicketPage.buyTicket(ticketDto) {
+    errorResponse = TicketController.buyTicket(ticketDto) {
+
+      error = TicketEndpoint.buyTicket(ticketDto){
+                      //RW, Read Committed
+      while(1) {
+        destinationFlight = FlightService.findByCode(code) {
+          destinationFlight = FlightFacade.find(code)
+        }
+        error = TicketEndpoint.buySingleTicket(destinationFlight, flightDto, passengers) {
+          account = AccountService.getCurrentUser() {
+            account = AccountFacade.findByLogin(login)
+          }
+        }
+      }
+        }
+    }
+  }
+}else if(priceChanged) {
+  displayError = BuyTicketPage.buyTicket(ticketDto) {
+    errorResponse = TicketController.buyTicket(ticketDto) {
+
+      error = TicketEndpoint.buyTicket(ticketDto){
+                      //RW, Read Committed
+      while(1) {
+        destinationFlight = FlightService.findByCode(code) {
+          destinationFlight = FlightFacade.find(code)
+        }
+        error = TicketEndpoint.buySingleTicket(destinationFlight, flightDto, passengers) {
+          account = AccountService.getCurrentUser() {
+            account = AccountFacade.findByLogin(login)
+          }
+        }
+      }
+        }
+    }
   }
 }

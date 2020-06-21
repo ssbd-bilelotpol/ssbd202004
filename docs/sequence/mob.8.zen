@@ -1,16 +1,19 @@
-CustomerService
-TicketsForAccountPage
-AccountController
+Client
+TicketsPanelPage
+TicketController
 TicketEndpoint
 TicketService
 TicketFacade
 @Starter(CustomerService)
-if (validData) {
-  displaySuccess = TicketsForAccountPage.getOtherAccountTickets(accountId) {
-  successResponse = AccountController.getOtherAccountTickets(accountId) {
-    success = TicketEndpoint.findByAccount(accountId){
-      //RO, Read Committed
-      while(1) {
+
+displaySuccess = TicketsPanelPage.getOwnTickets() {
+  successTicketsResponse = TicketController.getOwnTickets() {
+    //RO, Read Committed
+    while(1) {
+      tickets = TicketService.getOwnTickets() {
+        account = AccountService.currentUser() {
+          account = AccountFacade.findByLogin(login)
+        }
         tickets = TicketService.findByAccount(account) {
           tickets = TicketFacade.findByAccount(accountId)
         }
@@ -18,18 +21,41 @@ if (validData) {
     }
   }
 }
-} else if (accountNotExist) {
-  displayError = TicketsForAccountPage.getOtherAccountTickets(accountId) {
-  errorResponse = AccountController.getOtherAccountTickets(accountId) {
-    error = TicketEndpoint.findByAccount(accountId){
+
+if (hasAccess) {
+    displaySuccess = TicketsPanelPage.findById(id) {
+    ticket = TicketController.findById(id) {
+      ticket = TicketEndpoint.findById(id) {
+        //RO, Read Committed
+        while(1) {
+          ticket = TicketService.findById(id) {
+            ticket = TicketFacade.find(id)
+          }
+
+          account = AccountService.currentUser() {
+            account = AccountFacade.findByLogin(login)
+          }
+        }
+      }
+    }
+  }
+}
+else if(forbidden) {
+  displayError = TicketsPanelPage.findById(id) {
+  forbiddenError = TicketController.findById(id) {
+    forbiddenError = TicketEndpoint.findById(id) {
       //RO, Read Committed
       while(1) {
-        error = TicketService.findByAccount(account) {
-          error = TicketFacade.findByAccount(accountId)
+        ticket = TicketService.findById(id) {
+          ticket = TicketFacade.find(id)
+        }
+
+        account = AccountService.currentUser() {
+          account = AccountFacade.findByLogin(login)
         }
       }
     }
   }
 }
 }
-​
+

@@ -6,15 +6,13 @@ ConnectionService
 ConnectionFacade
 @Starter(CustomerService)
 
-report = ReportsPanelPage.generateReport() {
-  report = ReportsController.generateReport() {
-    report = TicketEndpoint.generateReport() {
+reports = ReportsPanelPage.generateReport() {
+  reports = ReportsController.generateReport() {
+    reports = TicketEndpoint.generateReport() {
       // RO, Read Committed
       while(1) {
-        report = ConnectionService.generateReport() {
-          connections = ConnectionService.findAll() {
-            connection = ConnectionFacade.findAll()
-          }
+        reports = ConnectionService.generateReport() {
+          connection = ConnectionFacade.findAll()
         }
       }
 

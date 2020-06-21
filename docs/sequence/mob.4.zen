@@ -7,18 +7,6 @@ TicketFacade
 Ticket
 @Starter(CustomerService)
 
-displayTicketForm = EditTicketPage.update(ticketDto) {
-  successTicketResponse = TicketController.findById(tickedId) {
-    successTicketResponse = TicketEndpoint.findById(tickedId) {
-      //RO, Read Commited
-      while(1) {
-          ticket = TicketService.findById(tickedId) {
-          ticket = TicketFacade.find(tickedId)
-        }
-      }
-    }
-  }
-}
 if(validData) {
   displaySuccess = EditTicketPage.update(ticketDto) {
     successResponse = TicketController.update(id, ticketDto) {
@@ -28,7 +16,7 @@ if(validData) {
           ticket = TicketService.findById(tickedId) {
             ticket = TicketFacade.find(tickedId)
           }
-          Ticket.setData(ticketDto)
+          ticket = Ticket.setData(ticketDto)
           success = TicketService.update(ticket) {
             success = TicketFacade.edit(ticket)
           }
@@ -37,24 +25,18 @@ if(validData) {
     }
 
   }
-}
-else if(ticketNotFound) {
+} else if(invalidDAta) {
   displayError = EditTicketPage.update(ticketDto) {
-    errorNotFound = TicketController.update(id, editedTicket) {
-      errorNotFound = TicketEndpoint.update(id, editedTicket) {
+    errorResponse = TicketController.update(id, ticketDto) {
+      errorResponse = TicketEndpoint.update(id, ticketDto) {
         //RW, Read Committed
         while(1) {
-          error = TicketService.findById(tickedId) {
-            notFound = TicketFacade.find(tickedId)
+          ticket = TicketService.findById(tickedId) {
+            ticket = TicketFacade.find(tickedId)
           }
         }
       }
     }
 
-  }
-}
-else if(invalidData) {
-  displayError = EditTicketPage.update(ticketDto) {
-    errorInvalidData = TicketController.update(id, editedTicket)
   }
 }
