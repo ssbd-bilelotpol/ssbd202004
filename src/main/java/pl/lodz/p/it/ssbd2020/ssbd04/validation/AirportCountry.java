@@ -8,6 +8,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Weryfikuje kod kraju
+ */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Constraint(validatedBy = AirportCountryValidator.class)
 @Retention(RetentionPolicy.RUNTIME)

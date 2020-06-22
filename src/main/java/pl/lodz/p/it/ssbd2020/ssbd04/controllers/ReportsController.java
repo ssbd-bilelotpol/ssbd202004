@@ -23,6 +23,7 @@ public class ReportsController extends AbstractController {
 
     /**
      * Zwraca listę z informacjami o zyskach na danych połączeniach
+     *
      * @return lista z informacjami o zyskach na danych połączeniach
      * @throws AppBaseException gdy operacja się nie powiedzie
      */

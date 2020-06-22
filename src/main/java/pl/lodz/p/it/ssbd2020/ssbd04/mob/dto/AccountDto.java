@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.dto;
 
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Account;
 
+/**
+ * Reprezentuje informacje o użytkowniku
+ */
 public class AccountDto {
 
     private String login;

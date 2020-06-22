@@ -22,7 +22,8 @@ public class ConnectionDto implements Signable {
     @JsonbTransient
     private Long version;
 
-    public ConnectionDto() {}
+    public ConnectionDto() {
+    }
 
     public ConnectionDto(Connection connection) {
         this.id = connection.getId();

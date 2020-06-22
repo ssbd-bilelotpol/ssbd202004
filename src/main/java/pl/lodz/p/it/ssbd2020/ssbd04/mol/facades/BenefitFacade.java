@@ -17,7 +17,10 @@ import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
 
-
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Benefit
+ * przez zarządcę encji w kontekście trwałości.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @DenyAll
@@ -44,6 +47,7 @@ public class BenefitFacade extends AbstractFacade<Benefit> {
 
     /**
      * Wyszukuje dodatek na podstawie nazwy
+     *
      * @param name nazwa dodatku
      * @return lista dodatków
      * @throws AppBaseException gdy wystąpi problem z bazą danych, bądź dodatek nie istnieje.

@@ -18,7 +18,10 @@ import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
 
-
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy SeatClass
+ * przez zarządcę encji w kontekście trwałości.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -38,6 +41,7 @@ public class SeatClassFacade extends AbstractFacade<SeatClass> {
 
     /**
      * Wyszukuje klasę miejsc na podstawie nazwy
+     *
      * @param name nazwa klasy miejsc
      * @return obiekt klasy miejsc
      * @throws AppBaseException gdy klasa miejsc nie została znaleziona, bądź wystąpił problem z bazą danych.

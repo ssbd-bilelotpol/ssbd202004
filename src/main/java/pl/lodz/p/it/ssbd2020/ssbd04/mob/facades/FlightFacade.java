@@ -23,7 +23,10 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Flight
+ * przez zarządcę encji w kontekście trwałości
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -58,8 +61,9 @@ public class FlightFacade extends AbstractFacade<Flight> {
 
     /**
      * Zwraca wszystkie loty spełniające podane kryteria.
-     * @param code kod lotu
-     * @param connection połączenie
+     *
+     * @param code           kod lotu
+     * @param connection     połączenie
      * @param airplaneSchema schemat samolotu
      * @return lista lotów spełniających podane kryteria.
      */
@@ -69,13 +73,13 @@ public class FlightFacade extends AbstractFacade<Flight> {
         CriteriaQuery<Flight> query = builder.createQuery(Flight.class);
         Root<Flight> root = query.from(Flight.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(!Utils.isNullOrEmpty(code)) {
-            predicates.add(builder.like(root.get(Flight_.flightCode), code+"%"));
+        if (!Utils.isNullOrEmpty(code)) {
+            predicates.add(builder.like(root.get(Flight_.flightCode), code + "%"));
         }
-        if(connection != null) {
+        if (connection != null) {
             predicates.add(builder.equal(root.get(Flight_.connection), connection));
         }
-        if(airplaneSchema != null) {
+        if (airplaneSchema != null) {
             predicates.add(builder.equal(root.get(Flight_.airplaneSchema), airplaneSchema));
         }
         query.where(builder.and(predicates.toArray(new Predicate[0])));

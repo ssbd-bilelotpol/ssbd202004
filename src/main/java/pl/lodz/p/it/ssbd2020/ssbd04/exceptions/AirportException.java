@@ -15,23 +15,14 @@ public class AirportException extends AppBaseException {
         this.Airport = null;
     }
 
-    private AirportException(String message, Throwable cause, Airport Airport) {
-        super(message, cause);
-        this.Airport = Airport;
-    }
-
     private AirportException(String message, Airport Airport) {
         super(message);
         this.Airport = Airport;
     }
 
-    private AirportException(String message, Throwable cause) {
-        super(message, cause);
-        this.Airport = null;
-    }
-
     /**
      * Tworzy wyjątek odpowiadający sytuacji kiedy lotnisko o tym samym kodzie istnieje już w bazie.
+     *
      * @param airport lotnisko, które nie mogło zostać stworzone
      * @return stworzony wyjątek
      */
@@ -41,6 +32,7 @@ public class AirportException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący brak lotniska w bazie.
+     *
      * @return stworzony wyjątek
      */
     public static AirportException notFound() {
@@ -50,6 +42,7 @@ public class AirportException extends AppBaseException {
     /**
      * Tworzy wyjątek reprezentujący sytuację, w której czynność nie może zostać wykonana ze względu na inny obiekt
      * używający tego lotniska.
+     *
      * @return stworzony wyjątek
      */
     public static AirportException inUse() {

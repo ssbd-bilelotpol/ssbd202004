@@ -10,6 +10,13 @@ public class AppBaseRuntimeException extends RuntimeException {
         super(message, cause);
     }
 
+    /**
+     * Wyjątek reprezentujący błąd algorytmu podpisującego sygnaturę obiektów potrzebnych
+     * do mechanizmów blokad optymistycznych
+     *
+     * @param cause wyjątek powodujący błąd
+     * @return wyjątek typu AppBaseRuntimeException
+     */
     public static AppBaseRuntimeException signingAlgorithmError(Throwable cause) {
         return new AppBaseRuntimeException(MESSAGE_SIGNER_OPERATION, cause);
     }

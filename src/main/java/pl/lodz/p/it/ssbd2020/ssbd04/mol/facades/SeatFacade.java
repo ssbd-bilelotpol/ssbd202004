@@ -21,6 +21,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Seat
+ * przez zarządcę encji w kontekście trwałości.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -40,6 +44,7 @@ public class SeatFacade extends AbstractFacade<Seat> {
 
     /**
      * Zwraca listę zajętych siedzeń dla podanego lotu.
+     *
      * @param flightId identyfikator lotu
      * @return liste siedzeń
      * @throws AppBaseException gdy wystąpi problem z bazą danych.
@@ -61,6 +66,7 @@ public class SeatFacade extends AbstractFacade<Seat> {
 
     /**
      * Wyszukuje siedzenia przypisane do danej klasy miejsc
+     *
      * @param seatClass klasa miejsc
      * @return listę siedzeń
      */

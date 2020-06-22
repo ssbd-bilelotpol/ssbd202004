@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd04.entities;
 import pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;

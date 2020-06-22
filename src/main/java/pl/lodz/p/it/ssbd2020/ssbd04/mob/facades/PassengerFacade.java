@@ -17,6 +17,10 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Passenger
+ * przez zarządcę encji w kontekście trwałości
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -36,9 +40,11 @@ public class PassengerFacade extends AbstractFacade<Passenger> {
 
     /**
      * Wyszukuje pasażerów na podstawie przekazanego kryterium.
+     *
      * @param flightCode kod lotniska.
-     * @param name imię i nazwisko pasażera.
+     * @param name       imię i nazwisko pasażera.
      * @return lotniska spełniające podane kryterium.
+     * @throws AppBaseException gdy operacja się nie powiodła
      */
     @RolesAllowed(Role.FindClientsByName)
     public List<Passenger> find(String name, String flightCode) throws AppBaseException {

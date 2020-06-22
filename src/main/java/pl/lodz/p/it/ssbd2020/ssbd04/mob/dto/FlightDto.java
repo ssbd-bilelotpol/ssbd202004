@@ -85,5 +85,5 @@ public class FlightDto {
     public void setStatus(FlightStatus status) {
         this.status = status;
     }
-    
+
 }

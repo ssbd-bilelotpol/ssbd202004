@@ -17,9 +17,8 @@ import javax.security.enterprise.SecurityContext;
 import java.util.List;
 
 /**
- * Przetwarzanie logiki biznesowej Kont.
+ * Przetwarzanie logiki biznesowej Kont
  */
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -31,6 +30,11 @@ public class AccountService {
     @Inject
     private SecurityContext securityContext;
 
+    /**
+     * Zwraca zautoryzowanego użytkownika wykonującego żądanie
+     *
+     * @return konto użytkownika
+     */
     @PermitAll
     public Account getCurrentUser() {
         if (securityContext.getCallerPrincipal() == null) {
@@ -44,6 +48,13 @@ public class AccountService {
         }
     }
 
+    /**
+     * Zwraca konta, które mają bilety na wybrany lot.
+     *
+     * @param flightCode kod lotu
+     * @return lista kont
+     * @throws AppBaseException gdy operacja nie powiedzie się
+     */
     @RolesAllowed({Role.UpdateFlight, Role.CancelFlight})
     public List<Account> getAccountsByTicketsOwnedForFlight(String flightCode) throws AppBaseException {
         return accountFacade.getAccountsByTicketsOwnedForFlight(flightCode);

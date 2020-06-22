@@ -5,6 +5,9 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+/**
+ * Reprezentuje wybrane podczas zakupu biletu siedzenie
+ */
 public class SelectedSeatDto {
 
     @Digits(integer = 7, fraction = 2)

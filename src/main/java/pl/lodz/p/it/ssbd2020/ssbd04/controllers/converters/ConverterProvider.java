@@ -8,6 +8,9 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Dostarcza odpowiednie klasy umożliwiające konwersję niestandardowych adresów URL.
+ */
 @Provider
 public class ConverterProvider implements ParamConverterProvider {
     @Override

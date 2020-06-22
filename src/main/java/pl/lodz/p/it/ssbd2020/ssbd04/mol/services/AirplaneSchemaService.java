@@ -61,7 +61,9 @@ public class AirplaneSchemaService {
      * Tworzy nowy schemat samolotu z ustalonymi miejscami.
      *
      * @param airplaneSchema encja schematu samolotu.
-     * @param seats
+     * @param emptyColumns   lista pozycji na których znajdująsię puste przejścia w kolumnach
+     * @param emptyRows      lista pozycji na których znajdująsię puste przejścia w wierszach
+     * @param seats          lista siedzeń
      * @return stworzony schemat samolotu.
      * @throws AppBaseException gdy operacja tworzenia nie powiedzie się.
      */
@@ -97,8 +99,9 @@ public class AirplaneSchemaService {
      * Aktualizuje schemat samolotu.
      *
      * @param airplaneSchema dane schematu samolotu.
-     * @param emptyColumns lista pozycji na których znajdująsię puste przejścia w kolumnach
-     * @param emptyRows lista pozycji na których znajdująsię puste przejścia w wierszach
+     * @param emptyColumns   lista pozycji na których znajdująsię puste przejścia w kolumnach
+     * @param emptyRows      lista pozycji na których znajdująsię puste przejścia w wierszach
+     * @param seats          lista siedzeń
      * @throws AppBaseException gdy schemat jest już używany, zajdzie problem konkurencyjnej modyfikacji.
      */
     @RolesAllowed(Role.UpdateAirplaneSchema)
@@ -132,8 +135,10 @@ public class AirplaneSchemaService {
 
     /**
      * Szuka schematów samolotów których nazwa pasuje do podanej nazwy.
+     *
      * @param name podana nazwa
      * @return listę schematów samolotów
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(Role.GetAllAirplaneSchemas)
     public List<AirplaneSchema> findByName(String name) throws AppBaseException {

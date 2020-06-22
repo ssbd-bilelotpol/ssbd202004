@@ -14,6 +14,13 @@ import static javax.ws.rs.core.Response.Status.FORBIDDEN;
  */
 @Provider
 public class ForbiddenExceptionMapper implements ExceptionMapper<ForbiddenException> {
+
+    /**
+     * Odwzorowuje wyjątek ForbiddenException na kod 401 HTTP
+     *
+     * @param exception wyjątek typu ForbiddenException
+     * @return odpowiedź HTTP
+     */
     @Override
     public Response toResponse(ForbiddenException exception) {
         return Response.status(FORBIDDEN)

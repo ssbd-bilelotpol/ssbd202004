@@ -98,6 +98,7 @@ public class TicketService {
 
     /**
      * Wyszukuje bilety przypisane do danych lotów
+     *
      * @param flightIds lista lotów, dla których ma znaleźć bilety
      * @return lista znalezionych lotów
      */
@@ -106,4 +107,5 @@ public class TicketService {
         if (flightIds.size() == 0) return new ArrayList<>();
         return ticketFacade.findByFlights(flightIds);
     }
+
 }

@@ -9,6 +9,9 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Weryfikuje kolejność dat w obiekcie
+ */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = DateOrderValidator.class)

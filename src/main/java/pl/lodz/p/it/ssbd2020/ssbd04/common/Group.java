@@ -4,6 +4,9 @@ import pl.lodz.p.it.ssbd2020.ssbd04.security.Role;
 
 import java.util.Map;
 
+/**
+ * Reprezantuje poziomy dostępu.
+ */
 public class Group {
     public static final String ADMIN = "admin";
     public static final String MANAGER = "manager";

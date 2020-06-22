@@ -33,6 +33,7 @@ public class FlightException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację kiedy tworzony lot już istnieje.
+     *
      * @return stworzony wyjątek
      */
     public static FlightException exists() {
@@ -41,6 +42,7 @@ public class FlightException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację kiedy lot już się odbył
+     *
      * @return stworzony wyjątek
      */
     public static FlightException alreadyDeparted() {
@@ -49,6 +51,7 @@ public class FlightException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację kiedy lot był anulowany
+     *
      * @return stworzony wyjątek
      */
     public static FlightException cancelled() {
@@ -57,6 +60,7 @@ public class FlightException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący brak lotu w bazie.
+     *
      * @return stworzony wyjątek
      */
     public static FlightException notFound() {
@@ -65,6 +69,7 @@ public class FlightException extends AppBaseException {
 
     /**
      * Tworzy wątek reprezentujący próbę zmiany daty lotu na wcześniejszą.
+     *
      * @return stworzony wyjątek
      */
     public static FlightException cantMakeEarlier() {
@@ -73,6 +78,7 @@ public class FlightException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący niezgodność oczekiwanej ceny z aktualną ceną
+     *
      * @return wyjątek reprezentujący niezgodność oczekiwanej ceny z aktualną ceną
      */
     public static FlightException priceChanged() {
@@ -81,6 +87,7 @@ public class FlightException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący niezgodność z oczekiwaną datą wylotu
+     *
      * @return wyjątek reprezentujący niezgodność z oczekiwaną datą wylotu
      */
     public static FlightException departureTimeChanged() {

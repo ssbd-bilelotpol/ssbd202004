@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * Reprezentuje zwracany raport sprzedaży
+ */
 public class ReportDto implements Serializable {
 
     private Long id;
@@ -13,7 +16,8 @@ public class ReportDto implements Serializable {
 
     private BigDecimal profit;
 
-    public ReportDto() {}
+    public ReportDto() {
+    }
 
     public ReportDto(Long id, String sourceAirport, String destinationAirport, BigDecimal profit) {
         this.id = id;

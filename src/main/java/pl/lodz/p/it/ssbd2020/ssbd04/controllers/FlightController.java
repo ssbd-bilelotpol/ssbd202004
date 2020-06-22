@@ -40,12 +40,15 @@ public class FlightController extends AbstractController {
 
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
-     * @param code kod lotu
-     * @param connectionId id połączenia
-     * @param airplaneId id samolotu
-     * @param from data, po której wylatuje lot
-     * @param to dat, przed którą wylatuje lot
-     * @return loty spełniające podane kryterium
+     *
+     * @param code         kod lotu.
+     * @param connectionId id połączenia.
+     * @param airplaneId   id samolotu.
+     * @param from         data, po której wylatuje lot.
+     * @param to           dat, przed którą wylatuje lot.
+     * @param status       status szukanegu lotu.
+     * @return loty spełniające podane kryterium.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -56,6 +59,13 @@ public class FlightController extends AbstractController {
         return repeat(flightEndpoint, () -> flightEndpoint.find(code, connectionId, airplaneId, from, to, status));
     }
 
+    /**
+     * Zwraca listę dat, w których znajdują się loty w bazie danych.
+     *
+     * @param from data początku poszukiwań.
+     * @return lista dat.
+     * @throws AppBaseException gdy operacja nie powiedzie się.
+     */
     @GET
     @Path("/dates")
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,8 +75,10 @@ public class FlightController extends AbstractController {
 
     /**
      * Zwraca loty o podanym identyfikatorze.
-     * @param code identyfikator lotu
-     * @return lot o podanym identyfikatorze
+     *
+     * @param code identyfikator lotu.
+     * @return lot o podanym identyfikatorze.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Path("/{code}")
@@ -80,6 +92,13 @@ public class FlightController extends AbstractController {
                 .build();
     }
 
+    /**
+     * Zwraca listę zajętych siedzeń.
+     *
+     * @param id identyfikator lotu.
+     * @return lista zajętych siedzeń.
+     * @throws AppBaseException gdy operacja się nie powiedzie.
+     */
     @GET
     @Path("/{id}/taken-seats")
     @Produces(MediaType.APPLICATION_JSON)
@@ -89,8 +108,10 @@ public class FlightController extends AbstractController {
 
     /**
      * Tworzy i zapisuje w bazie lot.
+     *
      * @param flightDto dane nowego lotu.
      * @return stworzony lot.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -101,7 +122,9 @@ public class FlightController extends AbstractController {
 
     /**
      * Usuwa lot o podanym identyfikatorze.
+     *
      * @param code identyfikator lotu do usunięcia.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @DELETE
     @EtagBinding
@@ -112,8 +135,10 @@ public class FlightController extends AbstractController {
 
     /**
      * Modyfikuje istniejący lot.
-     * @param code identyfikator lotu, który ma zostać zmodyfikowany
-     * @param flightDto dane, które mają zostać zapisane
+     *
+     * @param code      identyfikator lotu, który ma zostać zmodyfikowany.
+     * @param flightDto dane, które mają zostać zapisane.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PUT
     @EtagBinding

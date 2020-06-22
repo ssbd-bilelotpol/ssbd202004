@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Służy do weryfikacji UUID przez BeanValidation.
+ * Służy do weryfikacji loginu przez BeanValidation.
  */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Constraint(validatedBy = {})

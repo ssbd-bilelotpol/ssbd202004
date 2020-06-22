@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Reprezentuje lot
+ * Reprezentuje dane edycji lotu
  */
 @DateOrder(before = "departureTime", after = "arrivalTime")
 public class FlightEditDto {

@@ -61,11 +61,11 @@ public interface TicketEndpoint extends TransactionStarter {
     /**
      * Wyszukuje listę bilety na podstawie przekazanego kryterium.
      *
-     * @param code kod lotu
+     * @param code         kod lotu
      * @param connectionId id połączenia
-     * @param airplaneId id lotniska
-     * @param from data, po której wylatuje lot
-     * @param to dat, przed którą wylatuje lot
+     * @param airplaneId   id lotniska
+     * @param from         data, po której wylatuje lot
+     * @param to           dat, przed którą wylatuje lot
      * @return loty spełniające podane kryterium
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
@@ -74,6 +74,7 @@ public interface TicketEndpoint extends TransactionStarter {
 
     /**
      * Zwraca listę z informacjami o zyskach na danych połączeniach
+     *
      * @return lista z informacjami o zyskach na danych połączeniach
      * @throws AppBaseException gdy nie będzie połączenia z bazą danych
      */

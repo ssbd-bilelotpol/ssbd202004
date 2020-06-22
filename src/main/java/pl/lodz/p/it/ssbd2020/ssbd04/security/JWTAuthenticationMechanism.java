@@ -39,11 +39,11 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
      * jeśli zasób jest chroniony i żądanie posiada poprawny nagłówek, deleguje sprawdzanie uprawnień do kontenera,
      * jeśli zasób nie jest chroniony, token nie jest sprawdzany.
      *
-     * @param request
-     * @param response
-     * @param context
-     * @return
-     * @throws AuthenticationException
+     * @param request  zapytanie
+     * @param response odpowiedź
+     * @param context  kontekts
+     * @return status uwierzytelniania
+     * @throws AuthenticationException gdy operacja nie powiedzie się
      */
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
@@ -85,7 +85,13 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
         return null;
     }
 
-    public static String extractToken(String requestContext){
+    /**
+     * Metoda wyciągająca JWT z nagłówka wiadomości
+     *
+     * @param requestContext nagłówek wiadomości
+     * @return JWT w postaci ciągu znaków
+     */
+    public static String extractToken(String requestContext) {
         return requestContext.substring(BEARER.length());
     }
 

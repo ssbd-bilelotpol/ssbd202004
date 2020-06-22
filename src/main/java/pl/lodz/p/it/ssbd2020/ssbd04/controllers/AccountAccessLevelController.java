@@ -27,11 +27,11 @@ public class AccountAccessLevelController extends AbstractController {
     private MessageSigner messageSigner;
 
     /**
-     * Pobiera zbiór poziomów dostępu dla konta
+     * Pobiera zbiór poziomów dostępu dla konta.
      *
-     * @param login
-     * @return lista poziomów dostępu
-     * @throws AppBaseException gdy operacja się nie powiedzie
+     * @param login nazwa użytkownika.
+     * @return lista poziomów dostępu.
+     * @throws AppBaseException gdy operacja się nie powiedzie.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,12 +44,12 @@ public class AccountAccessLevelController extends AbstractController {
     }
 
     /**
-     * Edytuje zbiór poziomów dostępu konta
+     * Edytuje zbiór poziomów dostępu konta.
      *
-     * @param login
-     * @param accountAccessLevelDto
-     * @return Zaktualizowany zbiór poziomów dostępu konta
-     * @throws AppBaseException gdy operacja się nie powiedzie
+     * @param login                 nazwa użytkownika.
+     * @param accountAccessLevelDto reprezentuje zbiór poziomów dostępu.
+     * @return Zaktualizowany zbiór poziomów dostępu konta.
+     * @throws AppBaseException gdy operacja się nie powiedzie.
      */
     @EtagBinding
     @PUT

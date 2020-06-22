@@ -8,6 +8,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
 
+/**
+ * Klasa zajmująca się interakcją z AccountService
+ */
 @Stateless
 public class AuthContext {
 
@@ -17,6 +20,11 @@ public class AuthContext {
     @Inject
     private SecurityContext securityContext;
 
+    /**
+     * Zwraca obecnego użytkownika
+     *
+     * @return obiekt Account dla obecnego użytkownika
+     */
     public Account currentUser() {
         if (securityContext.getCallerPrincipal() == null) {
             return null;

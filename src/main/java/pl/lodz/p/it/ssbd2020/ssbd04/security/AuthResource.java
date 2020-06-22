@@ -65,6 +65,7 @@ public class AuthResource {
      * @param loginData Obiekt, który jest deserializowany na podstawie danych w formacie JSON od klienta.
      * @return Gdy uwierzytelnienie się powiedzie, zwraca kod odpowiedzi 200 i token JWT.
      * W przeciwnym wypadku zwraca 401 Unauthorized.
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -96,8 +97,9 @@ public class AuthResource {
 
     /**
      * Weryfikuje czy aktualny użytkownik znajduje się w danej grupie.
+     *
      * @param group nazwa grupy na którą chcemy
-     * @return
+     * @return wiadomość z ustawioną nową rolą
      */
     @POST
     @Path("/change-role/{role}")
@@ -116,6 +118,12 @@ public class AuthResource {
         }
     }
 
+    /**
+     * Odświeża JWT
+     *
+     * @param requestContext kontekst aplikacji
+     * @return odpowiedź z odświeżonym JWT
+     */
     @POST
     @Path("/refresh-token")
     @RolesAllowed({RefreshToken})

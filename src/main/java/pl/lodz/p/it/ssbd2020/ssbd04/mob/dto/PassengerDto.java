@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.dto;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Passenger;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
+/**
+ * Reprezentuje pasażera
+ */
 public class PassengerDto implements Signable {
 
     private Long id;

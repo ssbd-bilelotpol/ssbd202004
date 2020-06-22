@@ -17,6 +17,10 @@ import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Airport
+ * przez zarządcę encji w kontekście trwałości.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -54,12 +58,6 @@ public class AirportFacade extends AbstractFacade<Airport> {
         return super.findAll();
     }
 
-    /**
-     * Zwraca lotnisko o podanym kodzie.
-     * @param code kod lotniska
-     * @return obiekt lotniska
-     * @throws AppBaseException gdy operacja się nie powiedzie
-     */
     @Override
     @PermitAll
     public Airport find(Object code) throws AppBaseException {
@@ -77,6 +75,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
 
     /**
      * Zwraca lotniska, których kod pasuje do podanej frazy.
+     *
      * @param phrase fraza z kodem lotniska
      * @return lista lotnisk
      * @throws AppBaseException gdy operacja się nie powiedzie
@@ -96,10 +95,11 @@ public class AirportFacade extends AbstractFacade<Airport> {
 
     /**
      * Zwraca wszystkie lotniska spełniające podane kryteria.
-     * @param city miasto.
-     * @param code kod lotniska.
+     *
+     * @param city    miasto.
+     * @param code    kod lotniska.
      * @param country kraj.
-     * @param name nazwa lotniska.
+     * @param name    nazwa lotniska.
      * @return lista lotnisk spełniających podane kryteria.
      * @throws AppBaseException gdy operacja się nie powiedzie
      */
@@ -120,6 +120,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
 
     /**
      * Zwraca listę nazw krajów w bazie danych.
+     *
      * @return lista nazw krajów
      * @throws AppBaseException gdy operacja się nie powiedzie
      */
@@ -136,6 +137,7 @@ public class AirportFacade extends AbstractFacade<Airport> {
 
     /**
      * Zwraca listę nazw miast w bazie danych.
+     *
      * @return lista nazw miast
      * @throws AppBaseException gdy operacja się nie powiedzie
      */

@@ -16,8 +16,9 @@ public interface PassengerEndpoint extends TransactionStarter {
 
     /**
      * Wyszukuje pasażerów na podstawie przekazanego kryterium.
+     *
      * @param flightCode kod lotniska.
-     * @param name imię i nazwisko pasażera.
+     * @param name       imię i nazwisko pasażera.
      * @return lotniska spełniające podane kryterium.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */

@@ -12,6 +12,9 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
+/**
+ * Przetwarzanie logiki biznesowej siedzeń
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -20,6 +23,13 @@ public class SeatService {
     @Inject
     private SeatFacade seatFacade;
 
+    /**
+     * Zwraca siedzenie o danym identyfikatorze
+     *
+     * @param id identyfikator siedzenia
+     * @return siedzenie
+     * @throws AppBaseException gdy operacja nie powiedzie się
+     */
     @PermitAll
     public Seat findById(Long id) throws AppBaseException {
         return seatFacade.find(id);

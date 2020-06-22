@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd04.mob.dto;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * Reprezentuje żądanie aktualizacji biletu
+ */
 public class TicketUpdateDto {
 
     @NotNull
@@ -11,7 +14,8 @@ public class TicketUpdateDto {
     @NotNull
     private List<UpdatePassengerDto> passengers;
 
-    public TicketUpdateDto() {}
+    public TicketUpdateDto() {
+    }
 
     public List<UpdatePassengerDto> getPassengers() {
         return passengers;

@@ -94,7 +94,7 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
     public void cancel(String code) throws AppBaseException {
         Flight flight = flightService.findByCode(code, true);
         FlightDto currentFlightDto = new FlightDto(flight);
-        if(!verifyEtag(currentFlightDto)) {
+        if (!verifyEtag(currentFlightDto)) {
             throw AppBaseException.optimisticLock();
         }
         flightService.cancel(flight);
@@ -105,10 +105,10 @@ public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoi
     public void update(String code, FlightEditDto flightDto) throws AppBaseException {
         Flight flight = flightService.findByCode(code, true);
         FlightDto currentFlightDto = new FlightDto(flight);
-        if(!verifyEtag(currentFlightDto)) {
+        if (!verifyEtag(currentFlightDto)) {
             throw AppBaseException.optimisticLock();
         }
-        if(!flight.getStatus().equals(FlightStatus.CANCELLED)) {
+        if (!flight.getStatus().equals(FlightStatus.CANCELLED)) {
             flight.setStatus(flightDto.getActive() ? FlightStatus.ACTIVE : FlightStatus.INACTIVE);
         }
         flight.setPrice(flightDto.getPrice());

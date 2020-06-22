@@ -55,12 +55,6 @@ INSERT INTO account (id, active, confirm, login, password, version, account_deta
 VALUES (-5, true, true, 'jnozderka', '$2y$12$WSEHsn4jxmPQAEAHUAPfMOTwRi52jbaBfA0QOoZHvPgkr2CoxQ5sS', 0, -5, now(), now());
 INSERT INTO account_access_level (access_level, version, account_id, modification_date_time, creation_date_time)
 VALUES ('admin', 0, -5, now(), now());
-INSERT INTO account_access_level (access_level, version, account_id, modification_date_time, creation_date_time)
-VALUES ('manager', 0, -5, now(), now());
-INSERT INTO account_access_level (access_level, version, account_id, modification_date_time, creation_date_time)
-VALUES ('customer_service', 0, -5, now(), now());
-INSERT INTO account_auth_info (last_ip_address, current_auth, last_success_auth, last_incorrect_auth, incorrect_auth_count, creation_date_time, modification_date_time, version, account_id)
-VALUES (null, null, null, null, 0, now(), now(), 0, -5);
 
 INSERT INTO account_details (id, email, first_name, last_name, phone_number, version, modification_date_time, creation_date_time)
 VALUES (-6, 'sz@lodz.pl', 'Stefan', 'Żaryn', '123456789', 0, now(), now());

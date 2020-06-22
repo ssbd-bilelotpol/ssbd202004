@@ -43,6 +43,7 @@ public class AirplaneSchemaController extends AbstractController {
 
     /**
      * Znajduje schematy samolotu na podstawie nazwy
+     *
      * @param name nazwa schematu samolotu
      * @return znalezione schematu samolotu
      * @throws AppBaseException gdy operacja nie powiedzie się, bądź schemat nie został znaleziony.

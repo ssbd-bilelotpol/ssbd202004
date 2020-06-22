@@ -89,8 +89,9 @@ public abstract class AbstractFacade<T> {
     /**
      * Szuka encji w bazie danych na podstawie obiektu klucza głównego.
      *
-     * @param id obiekt klucza głównego
-     * @return obiekt encji
+     * @param id obiekt klucza głównego.
+     * @return obiekt encji.
+     * @throws AppBaseException gdy wystapi błąd związany z bazą danych.
      */
     public T find(Object id) throws AppBaseException {
         try {
@@ -117,7 +118,7 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Pobiera liczbę wszystkich encji danego typu znajdujących się w bazie danych
+     * Pobiera liczbę wszystkich encji danego typu znajdujących się w bazie danych.
      *
      * @return liczba wszystkich encji danego typu.
      * @throws AppBaseException gdy wystapi błąd związany z bazą danych.

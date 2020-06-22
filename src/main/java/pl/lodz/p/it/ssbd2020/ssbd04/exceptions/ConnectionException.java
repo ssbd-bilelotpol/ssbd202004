@@ -17,23 +17,14 @@ public class ConnectionException extends AppBaseException {
         this.connection = null;
     }
 
-    private ConnectionException(String message, Throwable cause, Connection Connection) {
-        super(message, cause);
-        this.connection = Connection;
-    }
-
     private ConnectionException(String message, Connection Connection) {
         super(message);
         this.connection = Connection;
     }
 
-    private ConnectionException(String message, Throwable cause) {
-        super(message, cause);
-        this.connection = null;
-    }
-
     /**
      * Tworzy wyjątek reprezentujący sytuację kiedy tworzone połączenie już istnieje.
+     *
      * @return stworzony wyjątek
      */
     public static ConnectionException exists() {
@@ -42,6 +33,7 @@ public class ConnectionException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację, w której lotnisko docelowe nie istnieje.
+     *
      * @return stworzony wyjątek
      */
     public static ConnectionException destinationAirportNotFound() {
@@ -50,6 +42,7 @@ public class ConnectionException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację, w której lotnisko startowe nie istnieje.
+     *
      * @return stworzony wyjątek
      */
     public static ConnectionException sourceAirportNotFound() {
@@ -59,6 +52,7 @@ public class ConnectionException extends AppBaseException {
     /**
      * Tworzy wyjątek reprezentujacy sytuację, w której czynność nie może zostać wykonana ze względu na inny obiekt
      * używajacy tego połączenia.
+     *
      * @param connection połączenie, na którym nie udało się wykonać czynności
      * @return stworzony wyjątek
      */
@@ -68,6 +62,7 @@ public class ConnectionException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację, w której relacja nie istnieje.
+     *
      * @return stworzony wyjątek
      */
     public static ConnectionException notFound() {
@@ -76,6 +71,7 @@ public class ConnectionException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację, w której istnieje już relacja o podanym lotnisku wylotu i przylotu.
+     *
      * @return stworzony wyjątek
      */
     public static ConnectionException notUnique() {
@@ -84,6 +80,7 @@ public class ConnectionException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący sytuację, w której podano to samo lotnisko wyloty co przylotu.
+     *
      * @return stworzony wyjątek
      */
     public static ConnectionException sameSrcDst() {

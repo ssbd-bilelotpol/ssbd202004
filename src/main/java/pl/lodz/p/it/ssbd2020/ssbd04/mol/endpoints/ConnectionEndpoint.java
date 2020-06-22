@@ -16,14 +16,17 @@ import java.util.List;
 public interface ConnectionEndpoint extends TransactionStarter {
     /**
      * Wyszukuje połączenia pomiędzy lotniskami o danych kodach.
+     *
      * @param destinationCode kod lotniska przylotu
-     * @param sourceCode kod lotniska wylotu
+     * @param sourceCode      kod lotniska wylotu
      * @return połączenia spełniające podane kryterium
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     List<ConnectionDto> find(String destinationCode, String sourceCode) throws AppBaseException;
 
     /**
      * Wszykuje połączenie na podstawie frazy.
+     *
      * @param phrase fraza do szukania(np. WSZ - LDZ)
      * @return znalezione połączenia
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -33,6 +36,7 @@ public interface ConnectionEndpoint extends TransactionStarter {
 
     /**
      * Zwraca połączenie o podanym identyfikatorze.
+     *
      * @param id identyfikator połączenia
      * @return połączenie o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -41,6 +45,7 @@ public interface ConnectionEndpoint extends TransactionStarter {
 
     /**
      * Tworzy i zapisuje w bazie połączenie.
+     *
      * @param connectionCreateDto dane nowego połączenia
      * @return stworzone połączenie
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -49,6 +54,7 @@ public interface ConnectionEndpoint extends TransactionStarter {
 
     /**
      * Usuwa połączenie o podanym identyfikatorze.
+     *
      * @param id identyfikator połączenia do usunięcia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -56,7 +62,8 @@ public interface ConnectionEndpoint extends TransactionStarter {
 
     /**
      * Modyfikuje istniejące połączenie.
-     * @param id identyfikator połączenia, które ma zostać zmodyfikowane
+     *
+     * @param id            identyfikator połączenia, które ma zostać zmodyfikowane
      * @param connectionDto dane, które mają zostać zapisane
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */

@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Interceptor rejestrujący w dzienniku zdarzeń wywołania metod komponentów EJB.
+ */
 public class TrackingInterceptor {
     private static final Logger LOGGER = Logger.getLogger(TrackingInterceptor.class.getName());
     @Resource

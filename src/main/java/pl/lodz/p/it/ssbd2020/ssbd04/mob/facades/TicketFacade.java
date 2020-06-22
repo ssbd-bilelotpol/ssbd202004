@@ -19,6 +19,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Ticket
+ * przez zarządcę encji w kontekście trwałości
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

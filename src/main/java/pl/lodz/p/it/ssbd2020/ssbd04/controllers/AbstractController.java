@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  * Definiuje wspólne operacje dla wszystkich kontrolerów, zajmujących się obsługą usługi REST.
- * Umożliwai ponawianie transakcji.
+ * Umożliwia ponawianie transakcji.
  */
 public abstract class AbstractController {
     @Inject
@@ -20,6 +20,15 @@ public abstract class AbstractController {
 
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
+    /**
+     * Powtarza transakcję aplikacyjną.
+     *
+     * @param transactionStarter klasa rozpoczynająca transkację.
+     * @param supplier           metoda która zostanie wykonana.
+     * @param <T>                typ zwracanego parametru.
+     * @return wartość zwrócona przez wykonaną metodę.
+     * @throws AppBaseException gdy wystapi błąd związany z bazą danych.
+     */
     protected <T> T repeat(TransactionStarter transactionStarter, AppSupplier<T> supplier) throws AppBaseException {
         int retryCount = 0;
         boolean rollback;
@@ -47,6 +56,13 @@ public abstract class AbstractController {
         return result;
     }
 
+    /**
+     * Powtarza transakcję aplikacyjną.
+     *
+     * @param transactionStarter klasa rozpoczynająca transakcję.
+     * @param procedure          metoda która zostanie wywołana.
+     * @throws AppBaseException gdy operacja nie powiedzie się.
+     */
     protected void repeat(TransactionStarter transactionStarter, AppProcedure procedure) throws AppBaseException {
         int retryCount = 0;
         boolean rollback;
@@ -71,11 +87,17 @@ public abstract class AbstractController {
         }
     }
 
+    /**
+     * Interfejs funkcyjny, który zgłasza wyjątek bazowy AppBaseException.
+     */
     @FunctionalInterface
     public interface AppProcedure {
         void execute() throws AppBaseException;
     }
 
+    /**
+     * Interfejs funkcyjny, który zgłasza wyjątek bazowy AppBaseException.
+     */
     @FunctionalInterface
     public interface AppSupplier<T> {
         T execute() throws AppBaseException;

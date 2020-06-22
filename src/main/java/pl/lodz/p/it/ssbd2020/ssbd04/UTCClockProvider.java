@@ -4,6 +4,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.validation.ClockProvider;
 import java.time.Clock;
 
+/**
+ * Klasa dostarczająca zegar UTC dla walidatorów daty.
+ */
 @ApplicationScoped
 public class UTCClockProvider implements ClockProvider {
     private Clock clock = Clock.systemUTC();

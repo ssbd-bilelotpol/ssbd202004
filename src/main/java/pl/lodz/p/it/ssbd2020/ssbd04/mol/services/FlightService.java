@@ -31,7 +31,6 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
 /**
  * Przetwarzanie logiki biznesowej lotów.
  */
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -53,13 +52,15 @@ public class FlightService {
 
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
-     * @param code kod lotu
+     *
+     * @param code         kod lotu
      * @param connectionId id połączenia
-     * @param airplaneId id lotniska
-     * @param from data, po której wylatuje lot
-     * @param to dat, przed którą wylatuje lot
+     * @param airplaneId   id lotniska
+     * @param from         data, po której wylatuje lot
+     * @param to           dat, przed którą wylatuje lot
      * @param flightStatus status lotu
      * @return loty spełniające podane kryterium
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
     public List<Flight> find(String code, Long connectionId, Long airplaneId, LocalDateTime from, LocalDateTime to,
@@ -67,19 +68,26 @@ public class FlightService {
             throws AppBaseException {
         Connection connection = null;
         AirplaneSchema airplaneSchema = null;
-        if(connectionId != null) {
+        if (connectionId != null) {
             connection = connectionFacade.find(connectionId);
-            if(connection == null)
+            if (connection == null)
                 return new ArrayList<>();
         }
-        if(airplaneId != null) {
+        if (airplaneId != null) {
             airplaneSchema = airplaneSchemaFacade.find(airplaneId);
-            if(airplaneSchema == null)
+            if (airplaneSchema == null)
                 return new ArrayList<>();
         }
         return flightFacade.find(code, connection, airplaneSchema, from, to, flightStatus);
     }
 
+    /**
+     * Zwraca daty z istniejącymi lotami od danej daty
+     *
+     * @param from data od której wyszukiwane są daty
+     * @return daty
+     * @throws AppBaseException w przypadku błędu znajdywania dat
+     */
     @PermitAll
     public List<LocalDate> getDates(LocalDateTime from) throws AppBaseException {
         return flightFacade.getDates(from)
@@ -90,6 +98,7 @@ public class FlightService {
 
     /**
      * Zwraca loty o podanym identyfikatorze.
+     *
      * @param code identyfikator lotu
      * @return lot o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -101,7 +110,8 @@ public class FlightService {
 
     /**
      * Zwraca loty o podanym identyfikatorze.
-     * @param code identyfikator lotu
+     *
+     * @param code            identyfikator lotu
      * @param pessimisticLock czy założyć blokadę pesymistyczną
      * @return lot o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -113,6 +123,7 @@ public class FlightService {
 
     /**
      * Zwraca loty przypisane do danego schematu samolotu
+     *
      * @param airplaneSchema schemat samolotu
      * @return lista przypisanych lotów
      * @throws AppBaseException gdy wystapi problem z bazą danych.
@@ -124,8 +135,9 @@ public class FlightService {
 
     /**
      * Tworzy i zapisuje w bazie lot.
-     * @param flight nowy lot
-     * @param connection połączenie, którego lot dotyczy
+     *
+     * @param flight         nowy lot
+     * @param connection     połączenie, którego lot dotyczy
      * @param airplaneSchema schemat siedzeń przypisany do samolotu
      * @return stworzony lot
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -140,19 +152,20 @@ public class FlightService {
 
     /**
      * Anuluje lot o podanym identyfikatorze.
+     *
      * @param flight lotu do anulowania
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.CancelFlight)
     public void cancel(Flight flight) throws AppBaseException {
-        if(flight.getStartDateTime().isBefore(LocalDateTime.now(ZoneOffset.UTC))) {
+        if (flight.getStartDateTime().isBefore(LocalDateTime.now(ZoneOffset.UTC))) {
             throw FlightException.alreadyDeparted();
         }
-        if(flight.getStatus().equals(FlightStatus.CANCELLED)) {
+        if (flight.getStatus().equals(FlightStatus.CANCELLED)) {
             throw FlightException.cancelled();
         }
         List<Account> accounts = accountService.getAccountsByTicketsOwnedForFlight(flight.getFlightCode());
-        for(Account a : accounts) {
+        for (Account a : accounts) {
             emailService.sendTransactionalEmail(
                     a.getAccountDetails().getEmail(),
                     i18n.getMessage(FLIGHT_TRACKER_MAIL_SENDER),
@@ -169,25 +182,26 @@ public class FlightService {
 
     /**
      * Modyfikuje istniejący lot.
-     * @param flight zmodyfikowane dane lotu
+     *
+     * @param flight        zmodyfikowane dane lotu
      * @param departureTime data wylotu
-     * @param arrivalTime data przylotu
+     * @param arrivalTime   data przylotu
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.UpdateFlight)
     public void update(Flight flight, LocalDateTime departureTime, LocalDateTime arrivalTime) throws AppBaseException {
-        if(flight.getStatus().equals(FlightStatus.CANCELLED)) {
+        if (flight.getStatus().equals(FlightStatus.CANCELLED)) {
             throw FlightException.cancelled();
         }
-        if(flight.getStartDateTime().isBefore(LocalDateTime.now(ZoneOffset.UTC))) {
+        if (flight.getStartDateTime().isBefore(LocalDateTime.now(ZoneOffset.UTC))) {
             throw FlightException.alreadyDeparted();
         }
-        if(flight.getStartDateTime().isAfter(departureTime) || flight.getEndDateTime().isAfter(arrivalTime)) {
+        if (flight.getStartDateTime().isAfter(departureTime) || flight.getEndDateTime().isAfter(arrivalTime)) {
             throw FlightException.cantMakeEarlier();
         }
-        if(flight.getStartDateTime().isBefore(departureTime) || flight.getEndDateTime().isBefore(arrivalTime)) {
+        if (flight.getStartDateTime().isBefore(departureTime) || flight.getEndDateTime().isBefore(arrivalTime)) {
             List<Account> accounts = accountService.getAccountsByTicketsOwnedForFlight(flight.getFlightCode());
-            for(Account a : accounts) {
+            for (Account a : accounts) {
                 emailService.sendTransactionalEmail(
                         a.getAccountDetails().getEmail(),
                         i18n.getMessage(FLIGHT_TRACKER_MAIL_SENDER),

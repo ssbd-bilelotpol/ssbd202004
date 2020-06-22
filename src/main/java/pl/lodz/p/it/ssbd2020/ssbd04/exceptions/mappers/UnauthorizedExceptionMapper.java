@@ -14,6 +14,12 @@ import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
  */
 @Provider
 public class UnauthorizedExceptionMapper implements ExceptionMapper<UnauthorizedException> {
+    /**
+     * Odwzorowuje wyjątek UnauthorizedException na odpowiedź HTTP
+     *
+     * @param exception wyjatęk typu UnauthorizedException
+     * @return odpowiedź HTTP
+     */
     @Override
     public Response toResponse(UnauthorizedException exception) {
         return Response.status(UNAUTHORIZED)

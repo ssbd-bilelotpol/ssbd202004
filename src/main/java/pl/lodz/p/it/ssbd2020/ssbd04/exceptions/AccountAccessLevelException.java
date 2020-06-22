@@ -16,10 +16,21 @@ public class AccountAccessLevelException extends AppBaseException {
         super(message);
     }
 
+    /**
+     * Tworzy wyjątek reprezentujący brak poziomu dostępu
+     *
+     * @return wyjątek AccountAccessLevelException
+     */
     public static AccountAccessLevelException notFound() {
         return new AccountAccessLevelException(ACCOUNT_ACCESS_LEVEL_NOT_FOUND);
     }
 
+    /**
+     * Tworzy wyjątek reprezentujący próbę przypisania już istniejącego poziomu dostępu
+     *
+     * @param cause wyjątek powodujący stworzenie wyjątku
+     * @return wyjątek AccountAccessLevelException
+     */
     public static AccountAccessLevelException alreadyAssigned(Throwable cause) {
         return new AccountAccessLevelException(ACCOUNT_ACCESS_LEVEL_ALREADY_ASSIGNED, cause);
     }

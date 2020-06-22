@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * Reprezentuje połączenie
+ * Reprezentuje dane nowego połączenia
  */
 public class ConnectionCreateDto implements Signable {
 
@@ -26,7 +26,8 @@ public class ConnectionCreateDto implements Signable {
     @NotNull
     private String sourceCode;
 
-    public ConnectionCreateDto() {}
+    public ConnectionCreateDto() {
+    }
 
     public ConnectionCreateDto(BigDecimal basePrice, String sourceCode, String destinationCode) {
         this.basePrice = basePrice;

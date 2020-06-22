@@ -53,6 +53,7 @@ public class SeatClassService {
      * Zwraca wszystkie dostępne klasy miejsc, które mogą zostać przypisane do siedzeń.
      *
      * @return listę wszystkich klas miejsc.
+     * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @PermitAll
     public List<SeatClass> getAll() throws AppBaseException {
@@ -63,6 +64,7 @@ public class SeatClassService {
      * Zwraca wszystkie dostępne benefity, które mogą zostać przypisane do klasy miejsc.
      *
      * @return listę wszystkich klas miejsc.
+     * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     @RolesAllowed(Role.GetAllBenefits)
     public List<Benefit> getAllBenefits() throws AppBaseException {
@@ -72,8 +74,8 @@ public class SeatClassService {
     /**
      * Tworzy nową klasę miejsc.
      *
-     * @param seatClass dane klasy miejsc.
-     * @param existingBenefits  lista dodatków.
+     * @param seatClass        dane klasy miejsc.
+     * @param existingBenefits lista dodatków.
      * @return utworzoną klasę miejsc.
      * @throws AppBaseException gdy nazwa klasy miejsc jest już zajęta, bądź operacja nie powiodła się.
      */
@@ -97,7 +99,9 @@ public class SeatClassService {
     /**
      * Aktualizuję klasę miejsc.
      *
-     * @param seatClass klasa miejsc.
+     * @param seatClass        klasa miejsc.
+     * @param existingBenefits lista benefitów
+     * @return zaktualizowana klasa miejsc
      * @throws AppBaseException gdy klasa miejsc nie istnieje, bądź operacja nie powiodła się.
      */
     @RolesAllowed(Role.UpdateSeatClass)

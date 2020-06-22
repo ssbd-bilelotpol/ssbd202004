@@ -5,6 +5,9 @@ import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
+/**
+ * Klasa wykorzystywana przez interfejs znacznikowy walidatora kolejności dat w obiekcie
+ */
 public class DateOrderValidator implements ConstraintValidator<DateOrder, Object> {
     private String fieldBefore;
     private String fieldAfter;
@@ -14,9 +17,9 @@ public class DateOrderValidator implements ConstraintValidator<DateOrder, Object
         try {
             LocalDateTime first = getDate(fieldBefore, value);
             LocalDateTime second = getDate(fieldAfter, value);
-            if(first.isBefore(second))
+            if (first.isBefore(second))
                 return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
         return false;

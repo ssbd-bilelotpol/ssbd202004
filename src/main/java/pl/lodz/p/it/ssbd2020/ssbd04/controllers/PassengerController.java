@@ -24,9 +24,11 @@ public class PassengerController extends AbstractController {
 
     /**
      * Wyszukuje pasażerów na podstawie przekazanego kryterium.
+     *
      * @param flightCode kod lotniska.
-     * @param name imię i nazwisko pasażera.
+     * @param name       imię i nazwisko pasażera.
      * @return lotniska spełniające podane kryterium.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})

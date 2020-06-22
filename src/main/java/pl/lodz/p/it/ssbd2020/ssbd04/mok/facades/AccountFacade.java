@@ -87,6 +87,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     /**
      * Wyszukuje konto na podstawie loginu
+     *
      * @param login podany login
      * @return znalezione konto
      * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
@@ -107,6 +108,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     /**
      * Wyszukuje konto na podstawie emailu
+     *
      * @param email podany email
      * @return znalezione konto
      * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
@@ -138,11 +140,9 @@ public class AccountFacade extends AbstractFacade<Account> {
         } catch (ConstraintViolationException e) {
             if (e.getCause().getMessage().contains(Account.CONSTRAINT_LOGIN)) {
                 throw AccountException.loginExists(e, entity);
-            }
-            else if (e.getCause().getMessage().contains(AccountDetails.CONSTRAINT_EMAIL)) {
+            } else if (e.getCause().getMessage().contains(AccountDetails.CONSTRAINT_EMAIL)) {
                 throw AccountException.emailExists(e, entity);
-            }
-            else if (e.getCause().getMessage().contains(AccountAccessLevel.CONSTRAINT_UNIQUE_ACCOUNT_ACCESS_LEVEL)) {
+            } else if (e.getCause().getMessage().contains(AccountAccessLevel.CONSTRAINT_UNIQUE_ACCOUNT_ACCESS_LEVEL)) {
                 throw AccountAccessLevelException.alreadyAssigned(e);
             }
             throw AppBaseException.databaseOperation(e);

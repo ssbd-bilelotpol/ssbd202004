@@ -18,7 +18,8 @@ import java.util.List;
 
 
 /**
- * Odpowiada za logikę biznesową kont użytkownika w MOL.
+ * Klasa definiująca operacje wykonywane na encjach klasy Account
+ * przez zarządcę encji w kontekście trwałości.
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
@@ -34,6 +35,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     /**
      * Wyszukuje konto na podstawie loginu
+     *
      * @param login podany login
      * @return znalezione konto
      * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
@@ -55,6 +57,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     /**
      * Wyszukuje konta, które mają przypisane bilety na dany lot.
+     *
      * @param flightCode kod lotu
      * @return lista kont
      * @throws AppBaseException gdy wystapi problem z bazą danych.
@@ -65,7 +68,7 @@ public class AccountFacade extends AbstractFacade<Account> {
             TypedQuery<Account> accountTypedQuery = em.createNamedQuery("Flight.findAccountsByTicketsForFlight", Account.class);
             accountTypedQuery.setParameter("code", flightCode);
             return accountTypedQuery.getResultList();
-        } catch(PersistenceException e) {
+        } catch (PersistenceException e) {
             throw AppBaseException.databaseOperation(e);
         }
     }

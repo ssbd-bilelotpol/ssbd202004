@@ -14,6 +14,13 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
  */
 @Provider
 public class AppBaseExceptionMapper implements ExceptionMapper<AppBaseException> {
+
+    /**
+     * Odwzorowuje dowolny wyjątek biznesowy odpowiedź HTTP z kodem 400 i kodem błędu wyjątku.
+     *
+     * @param exception obiekt wyjątku biznesowego
+     * @return odpowiedź HTTP
+     */
     @Override
     public Response toResponse(AppBaseException exception) {
         return Response.status(BAD_REQUEST)

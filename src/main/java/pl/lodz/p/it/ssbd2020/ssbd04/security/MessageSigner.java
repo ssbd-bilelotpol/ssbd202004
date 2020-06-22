@@ -24,6 +24,9 @@ public class MessageSigner implements Serializable {
 
     private Mac hmac;
 
+    /**
+     * Metoda inicjalizująca mechanizm podpisywania HMAC SHA-256
+     */
     @PostConstruct
     public void init() {
         try {
@@ -36,10 +39,22 @@ public class MessageSigner implements Serializable {
         }
     }
 
+    /**
+     * Metoda kodująca ciąg znaków za pomocą Base64
+     *
+     * @param message wiadomość 
+     * @return zakodowana wiadomość
+     */
     public String sign(String message) {
         return Base64.encodeBase64String(hmac.doFinal(message.getBytes()));
     }
 
+    /**
+     * Metoda tworzoąca podpis HMAC SHA-256 obiektu
+     *
+     * @param signable obiekt która ma zostać podpisany
+     * @return ciąg znaków zakodowany w Base64
+     */
     public String sign(Signable signable) {
         String encodedMessage = Base64.encodeBase64String(signable.createMessage().getBytes());
         String signature = Base64.encodeBase64String(hmac.doFinal(encodedMessage.getBytes()));

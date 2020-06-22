@@ -47,8 +47,8 @@ public class AccountController extends AbstractController {
     /**
      * Rejestruje nowe konto.
      *
-     * @param accountRegisterDto
-     * @throws AppBaseException gdy operacja się nie powiedzie
+     * @param accountRegisterDto obiekt reprezentujący dane rejestracyjne
+     * @throws AppBaseException gdy wystapi błąd związany z bazą danych.
      */
     @POST
     public void register(@NotNull @Valid AccountRegisterDto accountRegisterDto) throws AppBaseException {
@@ -74,6 +74,7 @@ public class AccountController extends AbstractController {
      * Zwraca zbiór wszystkich kont wraz z ich danymi o ostatnim uwierzytelnieniu.
      *
      * @return zbiór z danymi o ostatnim uwierzytelnieniu.
+     * @throws AppBaseException gdy operacja się nie powiedzie.
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -98,7 +99,7 @@ public class AccountController extends AbstractController {
     /**
      * Potwierdza nowo zarejestrowane konto na podstawie żetonu.
      *
-     * @param tokenId
+     * @param tokenId identyfikator tokenu
      * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @POST
@@ -242,7 +243,7 @@ public class AccountController extends AbstractController {
     @Path("/{login}/password")
     @EtagBinding
     @Consumes(MediaType.APPLICATION_JSON)
-    public void changeAccountPassword(@NotNull @PathParam("login")  @Login @Valid String login, AccountPasswordDto accountPasswordDto) throws AppBaseException {
+    public void changeAccountPassword(@NotNull @PathParam("login") @Login @Valid String login, AccountPasswordDto accountPasswordDto) throws AppBaseException {
         repeat(
                 accountEndpoint,
                 () -> accountEndpoint.changeOtherAccountPassword(login, accountPasswordDto.getNewPassword())

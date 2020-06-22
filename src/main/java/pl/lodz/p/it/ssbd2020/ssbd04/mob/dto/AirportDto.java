@@ -12,7 +12,8 @@ public class AirportDto {
     private String country;
     private String city;
 
-    public AirportDto() {}
+    public AirportDto() {
+    }
 
     public AirportDto(Airport airport) {
         this.code = airport.getCode();

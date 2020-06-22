@@ -21,17 +21,17 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
 
 @NamedQueries({
         @NamedQuery(name = "Airport.findByQuery",
-            query = "SELECT airport from Airport airport WHERE LOWER(airport.code) LIKE LOWER(CONCAT('%', :code, '%')) " +
-                    "AND LOWER(airport.name) LIKE LOWER(CONCAT('%', :name, '%')) AND LOWER(airport.city) LIKE LOWER(CONCAT('%', :city, '%')) " +
-                    "AND LOWER(airport.country) LIKE LOWER(CONCAT('%', :country, '%'))"),
+                query = "SELECT airport from Airport airport WHERE LOWER(airport.code) LIKE LOWER(CONCAT('%', :code, '%')) " +
+                        "AND LOWER(airport.name) LIKE LOWER(CONCAT('%', :name, '%')) AND LOWER(airport.city) LIKE LOWER(CONCAT('%', :city, '%')) " +
+                        "AND LOWER(airport.country) LIKE LOWER(CONCAT('%', :country, '%'))"),
         @NamedQuery(name = "Airport.findByCode",
                 query = "SELECT airport from Airport airport WHERE airport.code = UPPER(:code)"),
         @NamedQuery(name = "Airport.findByMatchingCode",
                 query = "SELECT airport from Airport airport WHERE UPPER(airport.code) LIKE UPPER(CONCAT('%', :phrase, '%'))"),
         @NamedQuery(name = "Airport.getUniqueCities",
-            query = "SELECT DISTINCT airport.city from Airport airport"),
+                query = "SELECT DISTINCT airport.city from Airport airport"),
         @NamedQuery(name = "Airport.getUniqueCountries",
-            query = "SELECT DISTINCT airport.country from Airport airport")
+                query = "SELECT DISTINCT airport.country from Airport airport")
 })
 @Entity
 @Table(

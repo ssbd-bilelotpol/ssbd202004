@@ -33,11 +33,13 @@ public class AirportController extends AbstractController {
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param city miasto.
-     * @param code kod lotniska.
+     *
+     * @param city    miasto.
+     * @param code    kod lotniska.
      * @param country kraj.
-     * @param name nazwa lotniska.
+     * @param name    nazwa lotniska.
      * @return lotniska spełniające podane kryterium.
+     * @throws AppBaseException gdy operacja nie powiedzie się.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -48,8 +50,10 @@ public class AirportController extends AbstractController {
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.
+     *
      * @param code kod lotniska.
      * @return lotnisko o podanym identyfikatorze.
+     * @throws AppBaseException gdy operacja nie powiedzie się.
      */
     @GET
     @Path("/find/{code}")
@@ -65,6 +69,7 @@ public class AirportController extends AbstractController {
 
     /**
      * Zwraca lotniska, których kod pasuje do podanej frazy.
+     *
      * @param phrase fraza z kodem lotniska
      * @return lista lotnisk
      * @throws AppBaseException gdy operacja się nie powiedzie
@@ -78,6 +83,7 @@ public class AirportController extends AbstractController {
 
     /**
      * Zwraca nazwy nazwy krajów dostępnych lotnisk.
+     *
      * @return nazwy krajów dostępnych lotnisk.
      * @throws AppBaseException gdy operacja się nie powiedzie
      */
@@ -90,6 +96,7 @@ public class AirportController extends AbstractController {
 
     /**
      * Zwraca nazwy miast dostępnych lotnisk.
+     *
      * @return nazwy miast dostępnych lotnisk
      * @throws AppBaseException gdy operacja się nie powiedzie
      */
@@ -102,8 +109,10 @@ public class AirportController extends AbstractController {
 
     /**
      * Tworzy i zapisuje w bazie lotnisko.
+     *
      * @param airportDto dane nowego lotniska.
      * @return stworzone lotnisko.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -114,7 +123,9 @@ public class AirportController extends AbstractController {
 
     /**
      * Usuwa lotnisko o podanym identyfikatorze.
+     *
      * @param code identyfikator lotniska do usunięcia.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @DELETE
     @Path("/{code}")
@@ -125,8 +136,10 @@ public class AirportController extends AbstractController {
 
     /**
      * Modyfikuje istniejące lotnisko.
-     * @param code identyfikator lotniska, które ma zostać zmodyfikowane.
+     *
+     * @param code       identyfikator lotniska, które ma zostać zmodyfikowane.
      * @param airportDto dane, które mają zostać zapisane.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PUT
     @Path("/{code}")

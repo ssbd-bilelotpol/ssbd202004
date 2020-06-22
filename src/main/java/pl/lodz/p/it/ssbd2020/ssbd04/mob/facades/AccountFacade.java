@@ -13,7 +13,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 
-
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Account
+ * przez zarządcę encji w kontekście trwałości
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -33,6 +36,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     /**
      * Wyszukuje konto na podstawie loginu
+     *
      * @param login szukany login
      * @return znalezione konto
      * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.

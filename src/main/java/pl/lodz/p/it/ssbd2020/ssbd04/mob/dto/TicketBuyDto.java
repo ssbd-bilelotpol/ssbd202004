@@ -6,6 +6,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+/**
+ * Reprezentuje żądanie zakupu biletu
+ */
 @PassengerCount
 public class TicketBuyDto {
 
@@ -14,10 +17,11 @@ public class TicketBuyDto {
     private SelectedFlightDto returnFlight;
 
     @NotNull
-    @Size(min=1, max=25)
+    @Size(min = 1, max = 25)
     private List<CreatePassengerDto> passengers;
 
-    public TicketBuyDto() {}
+    public TicketBuyDto() {
+    }
 
     public List<CreatePassengerDto> getPassengers() {
         return passengers;

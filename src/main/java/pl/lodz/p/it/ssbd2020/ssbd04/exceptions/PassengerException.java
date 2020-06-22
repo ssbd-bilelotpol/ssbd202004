@@ -4,6 +4,9 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.Passenger;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.PASSENGER_NOT_FOUND;
 
+/**
+ * Wyjątek odpowiadający hierarchii klas Passenger.
+ */
 public class PassengerException extends AppBaseException {
     private final Passenger passenger;
 

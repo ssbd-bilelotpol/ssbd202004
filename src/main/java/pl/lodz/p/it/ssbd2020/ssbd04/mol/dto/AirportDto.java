@@ -40,7 +40,8 @@ public class AirportDto implements Signable {
     private Long version;
 
 
-    public AirportDto() {}
+    public AirportDto() {
+    }
 
     public AirportDto(Airport airport) {
         this.version = airport.getVersion();

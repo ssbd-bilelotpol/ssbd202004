@@ -20,6 +20,10 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Connection
+ * przez zarządcę encji w kontekście trwałości.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -39,6 +43,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Zapisuje w bazie połączenie.
+     *
      * @param entity nowe połączenie
      * @throws AppBaseException gdy połączenie już istnieje
      */
@@ -69,6 +74,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Wszykuje połączenie na podstawie frazy.
+     *
      * @param phrase fraza do szukania(np. WSZ - LDZ)
      * @return znalezione połączenia
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -86,8 +92,9 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Wyszukuje połączenia na podstawie ID lotnisk przylotu oraz wylotu.
+     *
      * @param destinationCode lotnisko przylotu
-     * @param sourceCode lotnisko wylotu
+     * @param sourceCode      lotnisko wylotu
      * @return znaleziona relacja
      * @throws AppBaseException gdy nie znaleziono połączenia
      */
@@ -105,6 +112,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Wyszukuje połączenia na podstawie ID lotniska przylotu.
+     *
      * @param destinationCode lotnisko przylotu
      * @return znaleziona relacja
      * @throws AppBaseException gdy nie znaleziono połączenia
@@ -122,6 +130,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
 
     /**
      * Wyszukuje połączenia na podstawie ID lotniska wylotu.
+     *
      * @param sourceCode lotnisko wylotu
      * @return znaleziona relacja
      * @throws AppBaseException gdy nie znaleziono połączenia
@@ -140,7 +149,7 @@ public class ConnectionFacade extends AbstractFacade<Connection> {
     @Override
     @RolesAllowed({Role.UpdateConnection, Role.CalculateConnectionProfit})
     public void edit(Connection entity) throws AppBaseException {
-         super.edit(entity);
+        super.edit(entity);
     }
 
     @Override

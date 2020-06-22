@@ -4,6 +4,9 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.SEAT_NOT_FOUND;
 
+/**
+ * Wyjątek odpowiadający hierarchii klas Passenger.
+ */
 public class SeatException extends AppBaseException {
     private final SeatClass seatClass;
 
@@ -29,7 +32,7 @@ public class SeatException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący brak danego siedzenia.
-     *
+     * @param cause przyczyna problemu
      * @return wyjątek reprezentujący brak danego siedzenia.
      */
     public static SeatException notFound(Throwable cause) {

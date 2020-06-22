@@ -27,6 +27,7 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * Zwraca wszystkie dostępne dodatki, które mogą zostać przypisane do klas miejsc.
      *
      * @return listę wszystkich dodatków.
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     List<BenefitDto> getAllBenefits() throws AppBaseException;
 
@@ -34,8 +35,9 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * Zwraca wszystkie dostępne klasy miejsc, które mogą zostać przypisane do siedzeń.
      *
      * @return listę wszystkich klas miejsc.
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
-    List<SeatClassDto> getAll() throws AppBaseException ;
+    List<SeatClassDto> getAll() throws AppBaseException;
 
     /**
      * Tworzy nową klasę miejsc.
@@ -58,6 +60,7 @@ public interface SeatClassEndpoint extends TransactionStarter {
      * Aktualizuję klasę miejsc.
      *
      * @param seatClassDto dane klasy miejsc.
+     * @return dto klasy miejsc
      * @throws AppBaseException gdy wystąpił problem konkurencyjnej modyfikacji, klasa miejsc nie istnieje, bądź operacja nie powiodła się.
      */
     SeatClassDto update(SeatClassDto seatClassDto) throws AppBaseException;

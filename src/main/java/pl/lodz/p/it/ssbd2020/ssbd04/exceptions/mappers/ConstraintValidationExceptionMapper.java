@@ -19,6 +19,12 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.REST_VALIDATION_ERROR;
 @Provider
 public class ConstraintValidationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
 
+    /**
+     * Odwzorowuje błędy BeanValidation na odpowiedź HTTP
+     *
+     * @param exception wyjątek BeanValidation
+     * @return odpowiedź HTTP
+     */
     @Override
     public Response toResponse(ConstraintViolationException exception) {
         Map<String, Set<String>> errors = new HashMap<>();

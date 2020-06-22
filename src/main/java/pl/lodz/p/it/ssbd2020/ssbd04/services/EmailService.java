@@ -18,6 +18,9 @@ import javax.enterprise.event.TransactionPhase;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
+/**
+ * Serwis dostarczający funkcjonalność wysyłania wiadomości email.
+ */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 @Interceptors({TrackingInterceptor.class})
@@ -32,6 +35,8 @@ public class EmailService {
     /**
      * Metoda do użytku wewnętrznego wysyłająca emaile po zatwierdzeniu transakcji.
      * Ze względu na wymagania Java EE jest publiczna, ale nie powinna być wywoływana z kodu.
+     * @param email zdarzenie emaila
+     * @throws AppBaseException gdy nie uda się wysłać emaila
      */
     @Asynchronous
     public void transactionalEmailListener(

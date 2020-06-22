@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema;
 import javax.json.bind.annotation.JsonbTransient;
 
 /**
- * Przenosi dane schematu samolotu do warstwy prezentacji.
+ * Przenosi część danych schematu samolotu do warstwy prezentacji
  */
 public class AirplaneSchemaListDto {
     private Long id;

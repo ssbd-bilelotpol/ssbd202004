@@ -38,9 +38,11 @@ public class ConnectionService {
 
     /**
      * Wyszukuje połączenia pomiędzy lotniskami o danych kodach.
+     *
      * @param destinationCode kod lotniska przylotu
-     * @param sourceCode kod lotniska wylotu
+     * @param sourceCode      kod lotniska wylotu
      * @return połączenia spełniające podane kryterium
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
     public List<Connection> find(String destinationCode, String sourceCode) throws AppBaseException {
@@ -57,7 +59,8 @@ public class ConnectionService {
 
     /**
      * Wszykuje połączenie na podstawie frazy.
-     * @param phrase fraza do szukania(np. WSZ - LDZ)
+     *
+     * @param phrase fraza do szukania (np. WSZ - LDZ)
      * @return znalezione połączenia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -68,6 +71,7 @@ public class ConnectionService {
 
     /**
      * Zwraca połączenie o podanym identyfikatorze.
+     *
      * @param id identyfikator połączenia
      * @return połączenie o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -79,7 +83,10 @@ public class ConnectionService {
 
     /**
      * Zapisuje w bazie połączenie.
-     * @param connection nowe połączenie
+     *
+     * @param connection      nowe połączenie
+     * @param destinationCode kod lotniska startowego
+     * @param sourceCode      kod lotniska docelowego
      * @return stworzone połączenie
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -105,6 +112,7 @@ public class ConnectionService {
 
     /**
      * Usuwa połączenie o podanym identyfikatorze.
+     *
      * @param connection połączenie do usunięcia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -115,6 +123,7 @@ public class ConnectionService {
 
     /**
      * Modyfikuje istniejące połączenie.
+     *
      * @param connection zmodyfikowane dane połączenia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */

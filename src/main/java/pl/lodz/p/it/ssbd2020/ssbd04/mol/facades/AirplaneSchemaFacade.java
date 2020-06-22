@@ -20,7 +20,10 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy AirplaneSchema
+ * przez zarządcę encji w kontekście trwałości.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -86,10 +89,13 @@ public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
             throw AppBaseException.databaseOperation(e);
         }
     }
+
     /**
      * Szuka schematów samolotów których nazwa pasuje do podanej nazwy.
+     *
      * @param name podana nazwa
      * @return listę schematów samolotów
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed({Role.GetAllAirplaneSchemas})
     public List<AirplaneSchema> findByName(String name) throws AppBaseException {

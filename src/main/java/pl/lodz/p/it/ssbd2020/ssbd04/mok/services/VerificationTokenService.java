@@ -97,7 +97,7 @@ public class VerificationTokenService {
      * @param tokenId token resetujący
      * @return konto powiązane z tokenem
      * @throws AppBaseException w przypadku niepowodzenia operacji
-     */ 
+     */
     public Account confirmPasswordReset(UUID tokenId) throws AppBaseException {
         VerificationToken verificationToken = verificationTokenFacade.find(tokenId.toString());
         if (!(verificationToken instanceof ResetPasswordToken)) {

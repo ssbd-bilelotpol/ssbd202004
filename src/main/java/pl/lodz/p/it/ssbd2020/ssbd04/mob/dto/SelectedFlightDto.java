@@ -9,6 +9,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Reprezentuje wybrany podczas zakupu biletu lot
+ */
 public class SelectedFlightDto {
 
     @NotNull

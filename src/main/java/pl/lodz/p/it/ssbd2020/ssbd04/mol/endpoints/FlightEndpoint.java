@@ -17,19 +17,22 @@ import java.util.List;
 public interface FlightEndpoint extends TransactionStarter {
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
-     * @param code kod lotu
+     *
+     * @param code         kod lotu
      * @param connectionId id połączenia
-     * @param airplaneId id lotniska
-     * @param from data, po której wylatuje lot
-     * @param to dat, przed którą wylatuje lot
-     * @param status status lotu
+     * @param airplaneId   id lotniska
+     * @param from         data, po której wylatuje lot
+     * @param to           dat, przed którą wylatuje lot
+     * @param status       status lotu
      * @return loty spełniające podane kryterium
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     List<FlightDto> find(String code, Long connectionId, Long airplaneId, LocalDateTime from, LocalDateTime to,
                          FlightStatus status) throws AppBaseException;
 
     /**
      * Zwraca daty z istniejącymi lotami od danej daty
+     *
      * @param from data od której wyszukiwane są daty
      * @return daty
      * @throws AppBaseException w przypadku błędu znajdywania dat
@@ -38,6 +41,7 @@ public interface FlightEndpoint extends TransactionStarter {
 
     /**
      * Zwraca loty o podanym identyfikatorze.
+     *
      * @param code identyfikator lotu
      * @return lot o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -46,6 +50,7 @@ public interface FlightEndpoint extends TransactionStarter {
 
     /**
      * Tworzy i zapisuje w bazie lot.
+     *
      * @param flightDto dane nowego lotu
      * @return stworzony lot
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -54,6 +59,7 @@ public interface FlightEndpoint extends TransactionStarter {
 
     /**
      * Anuluje lot o podanym identyfikatorze.
+     *
      * @param code identyfikator lotu do anulowania
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -61,7 +67,8 @@ public interface FlightEndpoint extends TransactionStarter {
 
     /**
      * Modyfikuje istniejący lot.
-     * @param code identyfikator lotu, który ma zostać zmodyfikowany
+     *
+     * @param code      identyfikator lotu, który ma zostać zmodyfikowany
      * @param flightDto dane, które mają zostać zapisane
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -69,6 +76,7 @@ public interface FlightEndpoint extends TransactionStarter {
 
     /**
      * Zwraca listę zajętych miejsc
+     *
      * @param code identyfikator lotu
      * @return lista zajętych miejsc
      * @throws AppBaseException w przypadku niepowodzenia listy miejsc

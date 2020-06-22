@@ -26,7 +26,7 @@ import java.util.Set;
 @Table(
         name = "airplane_schema",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = "name", name = AirplaneSchema.CONSTRAINT_SCHEMA_NAME),
+                @UniqueConstraint(columnNames = "name", name = AirplaneSchema.CONSTRAINT_SCHEMA_NAME),
         }
 )
 public class AirplaneSchema extends AbstractEntity implements Serializable {

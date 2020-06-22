@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Klasa abstrakcyjna definująca sposób sprawdzania wersji dostarczanego zasobu do endpointa
+ * Klasa abstrakcyjna definująca sposób sprawdzania wersji dostarczanego zasobu do endpointa.
  */
 public abstract class AbstractEndpoint {
 
@@ -32,16 +32,30 @@ public abstract class AbstractEndpoint {
     private String transactionId;
     private boolean lastTransactionRollback;
 
+    /**
+     * Weryfikuje poprawność nagłówka If-Match.
+     *
+     * @param signable obiekt typu Signable.
+     * @return wynik weryfikacji.
+     */
     protected boolean verifyEtag(Signable signable) {
         String sent = httpHeaders.getRequestHeader("If-Match").get(0).replaceAll("\"", "");
         String expected = messageSigner.sign(signable);
         return sent.equals(expected);
     }
 
+    /**
+     * Po zakończeniu transakcji, umożliwia odpytanie o jej status.
+     *
+     * @return true, jeśli transakcja została odwołana, w przeciwnym przypadku false.
+     */
     public boolean isLastTransactionRollback() {
         return lastTransactionRollback;
     }
 
+    /**
+     * Metoda, która wykonuje się przed rozpoczęciem transakcji.
+     */
     @AfterBegin
     public void afterBegin() {
         transactionId = Long.toString(System.currentTimeMillis())
@@ -50,6 +64,11 @@ public abstract class AbstractEndpoint {
                 new Object[]{transactionId, this.getClass().getName(), getIdentity()});
     }
 
+    /**
+     * Metoda, która wykonuje się po zakończeniu transakcji.
+     *
+     * @param committed zwraca, czy transakcja została zatwierdzona.
+     */
     @AfterCompletion
     public void afterCompletion(boolean committed) {
         lastTransactionRollback = !committed;

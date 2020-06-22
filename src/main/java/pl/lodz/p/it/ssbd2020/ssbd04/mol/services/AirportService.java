@@ -29,11 +29,13 @@ public class AirportService {
 
     /**
      * Wyszukuje lotniska na podstawie przekazanego kryterium.
-     * @param city miasto.
-     * @param code kod lotniska.
+     *
+     * @param city    miasto.
+     * @param code    kod lotniska.
      * @param country kraj.
-     * @param name nazwa lotniska.
+     * @param name    nazwa lotniska.
      * @return lotniska spełniające podane kryterium
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
     public List<AirportDto> find(String name, String code, String country, String city) throws AppBaseException {
@@ -42,6 +44,7 @@ public class AirportService {
 
     /**
      * Zwraca lotnisko o podanym identyfikatorze.
+     *
      * @param code identyfikator lotniska
      * @return lotnisko o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -53,6 +56,7 @@ public class AirportService {
 
     /**
      * Zwraca lotniska, których kod pasuje do podanej frazy.
+     *
      * @param phrase fraza z kodem lotniska
      * @return lista lotnisk
      * @throws AppBaseException gdy operacja się nie powiedzie
@@ -64,6 +68,7 @@ public class AirportService {
 
     /**
      * Zwraca listę wszystkich lotnisk.
+     *
      * @return lista wszystkich lotnisk
      * @throws AppBaseException gdy operacja się nie powiedzie
      */
@@ -74,8 +79,9 @@ public class AirportService {
 
     /**
      * Zwraca listę  z nazwami krajów dostępnych lotnisk.
+     *
      * @return lista nazw krajów.
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
     public List<String> getCountries() throws AppBaseException {
@@ -84,8 +90,9 @@ public class AirportService {
 
     /**
      * Zwraca listę z nazwami miast dostępnych lotnisk.
+     *
      * @return lista nazw miast
-     * @throws AppBaseException
+     * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
     public List<String> getCities() throws AppBaseException {
@@ -94,6 +101,7 @@ public class AirportService {
 
     /**
      * Zapisuje w bazie lotnisko.
+     *
      * @param airport lotnisko do zapisania.
      * @return stworzone lotnisko
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -106,6 +114,7 @@ public class AirportService {
 
     /**
      * Usuwa lotnisko o podanym identyfikatorze.
+     *
      * @param airport lotnisko do usunięcia
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
@@ -116,6 +125,7 @@ public class AirportService {
 
     /**
      * Modyfikuje istniejące lotnisko.
+     *
      * @param airport zmodyfikowane dane lotniska
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */

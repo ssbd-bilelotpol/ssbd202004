@@ -37,8 +37,8 @@ public class JWTProvider {
      * Tworzy nowy JWT na podstawie danych klienta po poprawnej autoryzacji.
      * Czas ważności tokenu i klucz, którym jest podpisywany pochodzi z obiektu zawierającego konfigurację aplikacji.
      *
-     * @param result
-     * @return
+     * @param result wynik uwierzytelniania
+     * @return JWT
      */
     public JWT create(CredentialValidationResult result) {
         String principal = result.getCallerPrincipal().getName();
@@ -56,8 +56,8 @@ public class JWTProvider {
     /**
      * Odświeża JWT, jeżeli czas ważności tokenu upływa za mniej niż połowę bazowego czasu.
      *
-     * @param token
-     * @return
+     * @param token JWT w formacie Base64
+     * @return nowe JWT
      */
     public JWT refresh(String token) {
         Claims claims = Jwts.parser()

@@ -16,7 +16,6 @@ import javax.security.enterprise.SecurityContext;
 /**
  * Przetwarzanie logiki biznesowej Kont.
  */
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -30,6 +29,7 @@ public class AccountService {
 
     /**
      * Wyszukuje konto na podstawie loginu
+     *
      * @param login szukany login
      * @return znalezione konto
      * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
@@ -41,6 +41,7 @@ public class AccountService {
 
     /**
      * Zwraca konto zalogowanego użytkownika wykonujacego ządanie
+     *
      * @return konto zalogowanego użytkownika
      */
     @PermitAll
@@ -56,6 +57,12 @@ public class AccountService {
         }
     }
 
+    /**
+     * Sprawdza czy użytkownik wykonujący żądanie posiada daną rolę
+     *
+     * @param name nazwa roli
+     * @return czy użytkownik ma role
+     */
     @PermitAll
     public boolean hasRole(String name) {
         return securityContext.isCallerInRole(name);

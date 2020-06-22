@@ -1,24 +1,19 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.mob.dto;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Reprezentuje bilet
+ * Reprezentuje listę biletów
  */
 public class TicketListDto {
 
     private Long id;
-
     private String flightCode;
-
     private String email;
-
     private BigDecimal totalPrice;
-
     private LocalDateTime date;
 
     public TicketListDto() {

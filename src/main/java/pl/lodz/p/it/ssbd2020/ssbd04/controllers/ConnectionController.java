@@ -34,16 +34,19 @@ public class ConnectionController extends AbstractController {
 
     /**
      * Wyszukuje połączenia pomiędzy lotniskami o danych kodach.
-     * @param destinationCode kod lotniska przylotu
-     * @param sourceCode kod lotniska wylotu
-     * @return połączenia spełniające podane kryterium
+     *
+     * @param destinationCode kod lotniska przylotu.
+     * @param sourceCode      kod lotniska wylotu.
+     * @param phrase          szukana nazwa lotniska.
+     * @return połączenia spełniające podane kryterium.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ConnectionDto> find(@QueryParam("destinationCode") String destinationCode,
                                     @QueryParam("sourceCode") String sourceCode,
                                     @QueryParam("phrase") String phrase) throws AppBaseException {
-        if(Utils.isNullOrEmpty(sourceCode) && Utils.isNullOrEmpty(destinationCode)) {
+        if (Utils.isNullOrEmpty(sourceCode) && Utils.isNullOrEmpty(destinationCode)) {
             return repeat(connectionEndpoint, () -> connectionEndpoint.findByPhrase(phrase));
         }
         return repeat(connectionEndpoint, () -> connectionEndpoint.find(destinationCode, sourceCode));
@@ -51,8 +54,10 @@ public class ConnectionController extends AbstractController {
 
     /**
      * Zwraca połączenie o podanym identyfikatorze.
-     * @param id identyfikator połączenia
-     * @return połączenie o podanym identyfikatorze
+     *
+     * @param id identyfikator połączenia.
+     * @return połączenie o podanym identyfikatorze.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Path("/{id}")
@@ -67,15 +72,17 @@ public class ConnectionController extends AbstractController {
                     .build();
         }
         return Response.ok()
-            .entity(connectionDto)
-            .tag(messageSigner.sign(connectionDto))
-            .build();
+                .entity(connectionDto)
+                .tag(messageSigner.sign(connectionDto))
+                .build();
     }
 
     /**
      * Tworzy i zapisuje w bazie połączenie.
-     * @param connectionCreateDto dane nowego połączenia
-     * @return stworzone połączenie
+     *
+     * @param connectionCreateDto dane nowego połączenia.
+     * @return stworzone połączenie.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -86,7 +93,9 @@ public class ConnectionController extends AbstractController {
 
     /**
      * Usuwa połączenie o podanym identyfikatorze.
-     * @param id identyfikator połączenia do usunięcia
+     *
+     * @param id identyfikator połączenia do usunięcia.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @DELETE
     @Path("/{id}")
@@ -97,8 +106,10 @@ public class ConnectionController extends AbstractController {
 
     /**
      * Modyfikuje istniejące połączenie.
-     * @param id identyfikator połączenia, które ma zostać zmodyfikowane
-     * @param connectionDto dane, które mają zostać zapisane
+     *
+     * @param id            identyfikator połączenia, które ma zostać zmodyfikowane.
+     * @param connectionDto dane, które mają zostać zapisane.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PUT
     @Path("/{id}")

@@ -27,6 +27,7 @@ public class ConnectionService {
 
     /**
      * Zwraca listę z informacjami o zyskach na danych połączeniach
+     *
      * @return lista z informacjami o zyskach na danych połączeniach
      * @throws AppBaseException gdy wystąpi problem z bazą danych
      */

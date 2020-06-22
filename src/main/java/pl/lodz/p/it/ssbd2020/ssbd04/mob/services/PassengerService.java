@@ -11,13 +11,11 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import javax.security.enterprise.SecurityContext;
 import java.util.List;
 
 /**
- * Przetwarzanie logiki biznesowej Kont.
+ * Przetwarzanie logiki biznesowej pasażerów.
  */
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -26,14 +24,13 @@ public class PassengerService {
     @Inject
     private PassengerFacade passengerFacade;
 
-    @Inject
-    private SecurityContext securityContext;
-
     /**
      * Wyszukuje pasażerów na podstawie przekazanego kryterium.
-     * @param name imię i nazwisko pasażera.
+     *
+     * @param name       imię i nazwisko pasażera.
      * @param flightCode kod lotniska.
      * @return lotniska spełniające podane kryterium.
+     * @throws AppBaseException gdy operacja się nie powiodła
      */
     @PermitAll
     public List<Passenger> find(String name, String flightCode) throws AppBaseException {

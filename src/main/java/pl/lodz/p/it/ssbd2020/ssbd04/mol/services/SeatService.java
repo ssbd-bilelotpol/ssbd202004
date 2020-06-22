@@ -16,6 +16,9 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
+/**
+ * Przetwarzanie logiki biznesowej siedzeń.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -24,11 +27,25 @@ public class SeatService {
     @Inject
     private SeatFacade seatFacade;
 
+    /**
+     * Wyszukuje miejsce na podstawie id
+     *
+     * @param id id miejsca
+     * @return obiekt miejsca
+     * @throws AppBaseException w przypadku niepowodzenia operacji
+     */
     @PermitAll
     public Seat findById(Long id) throws AppBaseException {
         return seatFacade.find(id);
     }
 
+    /**
+     * Zwraca listę zajętych siedzeń dla podanego lotu.
+     *
+     * @param flight lot
+     * @return liste siedzeń
+     * @throws AppBaseException gdy wystąpi problem z bazą danych.
+     */
     @RolesAllowed(Role.GetTakenSeats)
     public List<Seat> getTakenSeats(Flight flight) throws AppBaseException {
         return seatFacade.getTakenSeats(flight.getId());

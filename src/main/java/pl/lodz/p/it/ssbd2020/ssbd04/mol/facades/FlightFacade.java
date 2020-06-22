@@ -25,7 +25,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy Flight
+ * przez zarządcę encji w kontekście trwałości.
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -63,11 +66,19 @@ public class FlightFacade extends AbstractFacade<Flight> {
         return find(code, false);
     }
 
+    /**
+     * Szuka encji w bazie danych na podstawie obiektu klucza głównego.
+     *
+     * @param code            obiekt klucza głównego
+     * @param pessimisticLock flaga określająca czy założyć blokadę pesymistyczną
+     * @return obiekt lotu
+     * @throws AppBaseException gdy operacja nie powiedzie się
+     */
     @PermitAll
     public Flight find(Object code, Boolean pessimisticLock) throws AppBaseException {
         try {
             TypedQuery<Flight> flightTypedQuery = em.createNamedQuery("Flight.findByCode", Flight.class);
-            if(pessimisticLock) {
+            if (pessimisticLock) {
                 flightTypedQuery.setLockMode(LockModeType.PESSIMISTIC_WRITE);
             }
             flightTypedQuery.setParameter("code", code);
@@ -81,12 +92,13 @@ public class FlightFacade extends AbstractFacade<Flight> {
 
     /**
      * Zwraca wszystkie loty spełniające podane kryteria.
-     * @param code kod lotu
-     * @param connection połączenie
+     *
+     * @param code           kod lotu
+     * @param connection     połączenie
      * @param airplaneSchema schemat samolotu
-     * @param from data, po której zaczyna się lot
-     * @param to data, przed którą zaczyna się lot
-     * @param flightStatus status lotu
+     * @param from           data, po której zaczyna się lot
+     * @param to             data, przed którą zaczyna się lot
+     * @param flightStatus   status lotu
      * @return lista lotów spełniających podane kryteria.
      */
     @PermitAll
@@ -96,22 +108,22 @@ public class FlightFacade extends AbstractFacade<Flight> {
         CriteriaQuery<Flight> query = builder.createQuery(Flight.class);
         Root<Flight> root = query.from(Flight.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(!Utils.isNullOrEmpty(code)) {
-            predicates.add(builder.like(root.get(Flight_.flightCode), code+"%"));
+        if (!Utils.isNullOrEmpty(code)) {
+            predicates.add(builder.like(root.get(Flight_.flightCode), code + "%"));
         }
-        if(connection != null) {
+        if (connection != null) {
             predicates.add(builder.equal(root.get(Flight_.connection), connection));
         }
-        if(airplaneSchema != null) {
+        if (airplaneSchema != null) {
             predicates.add(builder.equal(root.get(Flight_.airplaneSchema), airplaneSchema));
         }
-        if(from != null) {
+        if (from != null) {
             predicates.add(builder.greaterThanOrEqualTo(root.get(Flight_.startDateTime), from));
         }
-        if(to != null) {
+        if (to != null) {
             predicates.add(builder.lessThanOrEqualTo(root.get(Flight_.startDateTime), to));
         }
-        if(flightStatus != null) {
+        if (flightStatus != null) {
             predicates.add(builder.equal(root.get(Flight_.status), flightStatus));
         }
         query.where(builder.and(predicates.toArray(new Predicate[0])));
@@ -129,6 +141,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
 
     /**
      * Zwraca daty z istniejącymi lotami od danej daty
+     *
      * @param from data od której wyszukiwane są daty
      * @return daty
      * @throws AppBaseException w przypadku błędu znajdywania dat
@@ -145,6 +158,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
 
     /**
      * Zwraca loty przypisane do danego schematu samolotu
+     *
      * @param airplaneSchema schemat samolotu
      * @return lista przypisanych lotów
      * @throws AppBaseException gdy wystapi problem z bazą danych.

@@ -36,6 +36,7 @@ public class TicketController extends AbstractController {
      *
      * @param id identyfikator biletu
      * @return bilet o określonym ID
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Path("/{id}")
@@ -58,6 +59,7 @@ public class TicketController extends AbstractController {
      * @param from         data, po której wylatuje lot
      * @param to           dat, przed którą wylatuje lot
      * @return loty spełniające podane kryterium
+     * @throws AppBaseException gdy operacja się nie powiodła
      */
     @GET
     @Path("/list")
@@ -72,6 +74,7 @@ public class TicketController extends AbstractController {
      * Tworzy bilet o wybranych parametrach
      *
      * @param ticketDto parametry kupowanego biletu
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -83,6 +86,7 @@ public class TicketController extends AbstractController {
      * Zwraca zakupiony bilet
      *
      * @param id identyfikator zwracanego biletu
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @DELETE
     @Path("/{id}")
@@ -93,8 +97,9 @@ public class TicketController extends AbstractController {
     /**
      * Aktualizuje dane biletu
      *
-     * @param id identyfikator biletu
+     * @param id              identyfikator biletu
      * @param ticketUpdateDto nowe dane biletu
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @PUT
     @Path("/{id}")

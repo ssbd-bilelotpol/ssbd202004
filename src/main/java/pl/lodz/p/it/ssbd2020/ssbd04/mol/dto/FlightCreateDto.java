@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Reprezentuje lot
+ * Reprezentuje dane nowego lotu
  */
 @DateOrder(before = "departureTime", after = "arrivalTime")
 public class FlightCreateDto {

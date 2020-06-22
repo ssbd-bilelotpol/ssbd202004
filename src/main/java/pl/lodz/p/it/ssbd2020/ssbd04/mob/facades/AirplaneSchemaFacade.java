@@ -13,7 +13,10 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
+/**
+ * Klasa definiująca operacje wykonywane na encjach klasy AirplaneSchema
+ * przez zarządcę encji w kontekście trwałości
+ */
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

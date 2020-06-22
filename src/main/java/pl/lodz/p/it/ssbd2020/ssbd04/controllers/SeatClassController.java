@@ -32,6 +32,7 @@ public class SeatClassController extends AbstractController {
      * Zwraca wszystkie dostępne klasy miejsc, które mogą zostać przypisane do siedzeń.
      *
      * @return listę wszystkich klas miejsc.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,6 +44,7 @@ public class SeatClassController extends AbstractController {
      * Zwraca wszystkie dostępne dodatki, które mogą zostać przypisane do klas miejsc.
      *
      * @return listę wszystkich dodatków.
+     * @throws AppBaseException gdy operacja się nie powiedzie
      */
     @GET
     @Path("/benefits")
@@ -99,6 +101,8 @@ public class SeatClassController extends AbstractController {
      * Aktualizuję klasę miejsc.
      *
      * @param seatClassDto dane klasy miejsc.
+     * @param name         nazwa klasy miejsc.
+     * @return odpowiedź HTTP
      * @throws AppBaseException gdy wystąpił problem konkurencyjnej modyfikacji, klasa miejsc nie istnieje, bądź operacja nie powiodła się.
      */
     @PUT

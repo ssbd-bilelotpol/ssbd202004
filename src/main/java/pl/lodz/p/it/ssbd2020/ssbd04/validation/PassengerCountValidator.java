@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Sprawdza poprawność liczby pasażerów
+ * Klasa wykorzystywana przez interfejs znacznikowy walidatora liczby pasażerów
  */
 public class PassengerCountValidator implements ConstraintValidator<PassengerCount, TicketBuyDto> {
 

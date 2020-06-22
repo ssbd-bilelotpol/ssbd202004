@@ -55,7 +55,7 @@ public class AccountService {
     /**
      * Rejestruje konto, przypisując do niego dane personalne i wysyła żeton potwierdzający na e-mail.
      *
-     * @param account obiekt encji konta
+     * @param account        obiekt encji konta
      * @param accountDetails obiekt encji detali konta
      * @throws AppBaseException gdy login, bądź email istnieje albo wystąpił problem z bazą danych.
      */
@@ -87,6 +87,7 @@ public class AccountService {
 
     /**
      * Wyszukuje konto na podstawie loginu
+     *
      * @param login podany login
      * @return znalezione konto
      * @throws AppBaseException gdy konto nie zostało znalezione, lub wystąpił problem z bazą danych.
@@ -98,7 +99,8 @@ public class AccountService {
 
     /**
      * Dodaje poziomy dostępu do danego konta
-     * @param account obiekt konta
+     *
+     * @param account             obiekt konta
      * @param accountAccessLevels lista poziomów dostępu
      * @throws AppBaseException gdy wystąpi problem z bazą danych, bądź blokada optymistyczna.
      */
@@ -144,6 +146,7 @@ public class AccountService {
      * Zwraca listę wszystkich kont wraz z ich danymi szczegółowymi.
      *
      * @return lista wszystkich kont wraz z danymi szczegółowymi.
+     * @throws AppBaseException gdy operacja się nie powiodła
      */
     @RolesAllowed(GetAllAccounts)
     public List<Account> getAll() throws AppBaseException {
@@ -208,6 +211,7 @@ public class AccountService {
      *
      * @param login             login użytkownika.
      * @param lastIncorrectAuth data logowania.
+     * @throws AppBaseException gdy operacja się nie powiodła
      */
     @PermitAll
     public void updateAuthInfo(String login, LocalDateTime lastIncorrectAuth) throws AppBaseException {

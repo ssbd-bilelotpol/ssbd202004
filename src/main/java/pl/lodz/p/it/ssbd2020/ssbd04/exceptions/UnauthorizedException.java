@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd04.exceptions;
 
 import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.UNAUTHORIZED;
 
+/**
+ * Reprezentuje wyjątek zabraniający wykonanie danej metody biznesowej
+ */
 public class UnauthorizedException extends AppBaseException {
     private UnauthorizedException(String message, Throwable cause) {
         super(message, cause);

@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * Przetwarzanie logiki biznesowej lotów.
  */
-
 @Interceptors({TrackingInterceptor.class})
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -31,13 +30,14 @@ public class FlightService {
     private FlightFacade flightFacade;
 
     @Inject
-    ConnectionFacade connectionFacade;
+    private ConnectionFacade connectionFacade;
 
     @Inject
-    AirplaneSchemaFacade airplaneSchemaFacade;
+    private AirplaneSchemaFacade airplaneSchemaFacade;
 
     /**
      * Zwraca loty o podanym identyfikatorze.
+     *
      * @param code identyfikator lotu
      * @return lot o podanym identyfikatorze
      * @throws AppBaseException w przypadku niepowodzenia operacji
@@ -49,24 +49,26 @@ public class FlightService {
 
     /**
      * Wyszukuje loty na podstawie przekazanego kryterium.
-     * @param code kod lotu
+     *
+     * @param code         kod lotu
      * @param connectionId id połączenia
-     * @param airplaneId id lotniska
+     * @param airplaneId   id lotniska
      * @return loty spełniające podane kryterium
+     * @throws AppBaseException gdy operacja się nie powiodła
      */
     @PermitAll
     public List<Flight> find(String code, Long connectionId, Long airplaneId)
             throws AppBaseException {
         Connection connection = null;
         AirplaneSchema airplaneSchema = null;
-        if(connectionId != null) {
+        if (connectionId != null) {
             connection = connectionFacade.find(connectionId);
-            if(connection == null)
+            if (connection == null)
                 return new ArrayList<>();
         }
-        if(airplaneId != null) {
+        if (airplaneId != null) {
             airplaneSchema = airplaneSchemaFacade.find(airplaneId);
-            if(airplaneSchema == null)
+            if (airplaneSchema == null)
                 return new ArrayList<>();
         }
         return flightFacade.find(code, connection, airplaneSchema);

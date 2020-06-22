@@ -16,19 +16,9 @@ public class AirplaneSchemaException extends AppBaseException {
         this.airplaneSchema = null;
     }
 
-    private AirplaneSchemaException(String message, Throwable cause, AirplaneSchema airplaneSchema) {
-        super(message, cause);
-        this.airplaneSchema = airplaneSchema;
-    }
-
     private AirplaneSchemaException(String message, AirplaneSchema airplaneSchema) {
         super(message);
         this.airplaneSchema = airplaneSchema;
-    }
-
-    private AirplaneSchemaException(String message, Throwable cause) {
-        super(message, cause);
-        this.airplaneSchema = null;
     }
 
     public static AirplaneSchemaException invalidData() {
@@ -59,6 +49,7 @@ public class AirplaneSchemaException extends AppBaseException {
     /**
      * Tworzy wyjątek reprezentujący brak możliwości utworzenia
      * schematu samolotu, ze względu na zajętą nazwę.
+     *
      * @return wyjątek reprezentujący nieunikatową nazwę schematu samolotu
      */
     public static AirplaneSchemaException nameTaken() {
