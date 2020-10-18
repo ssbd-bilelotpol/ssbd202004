@@ -2,15 +2,23 @@ version: '3.1'
 
 services:
   db:
-    image: mariadb
+    build: docker-mariadb
     restart: always
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ssbd04
+      MYSQL_USER: ssbd04
+      MYSQL_PASSWORD: 12345678
+      MYSQL_DATABASE: ssbd04
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
   wildfly:
     build:
-      context: .
+      context: docker-wildfly
       args:
         WILDFLY_USERNAME: admin
         WILDFLY_PASSWORD: ssbd04
