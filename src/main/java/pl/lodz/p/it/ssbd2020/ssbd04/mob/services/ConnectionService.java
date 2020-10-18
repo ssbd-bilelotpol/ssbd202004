@@ -18,7 +18,7 @@ import java.util.List;
  * Przetwarzanie logiki biznesowej połączeń.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "ConnectionServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class ConnectionService {
 

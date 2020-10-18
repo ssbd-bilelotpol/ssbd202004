@@ -1,0 +1,45 @@
+<server>
+    <featureManager>
+        <feature>servlet-4.0</feature>
+        <feature>appSecurity-3.0</feature>
+        <feature>restConnector-2.0</feature>
+        <feature>jdbc-4.2</feature>
+        <feature>ejb-3.2</feature>
+        <feature>jaxrs-2.1</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint" httpPort="9080" httpsPort="9443"/>
+
+    <library id="jdbcLib">
+        <fileset dir="/config/drivers/" includes="*.jar"/>
+    </library>
+
+    <dataSource id="DefaultDataSource" jndiName="jdbc/ssbd04mokDS">
+        <jdbcDriver libraryRef="jdbcLib"/>
+        <properties serverName="db" portNumber="3306"
+                    databaseName="ssbd04"
+                    user="ssbd04mok"
+                    password="0r2v03rlhfim4xhdd"/>
+    </dataSource>
+    <dataSource id="MOL" jndiName="jdbc/ssbd04molDS">
+        <jdbcDriver libraryRef="jdbcLib"/>
+        <properties serverName="db" portNumber="3306"
+                    databaseName="ssbd04"
+                    user="ssbd04mol"
+                    password="4lc8faovny1rm8ga3"/>
+    </dataSource>
+    <dataSource id="MOB" jndiName="jdbc/ssbd04mobDS">
+        <jdbcDriver libraryRef="jdbcLib"/>
+        <properties serverName="db" portNumber="3306"
+                    databaseName="ssbd04"
+                    user="ssbd04mob"
+                    password="n1b67mgir4yw34xh5"/>
+    </dataSource>
+    <dataSource id="Auth" jndiName="jdbc/ssbd04authDS">
+        <jdbcDriver libraryRef="jdbcLib"/>
+        <properties serverName="db" portNumber="3306"
+                    databaseName="ssbd04"
+                    user="ssbd04auth"
+                    password="8sU6QvyXld5AVSXA"/>
+    </dataSource>
+</server>

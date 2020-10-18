@@ -490,21 +490,21 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON account_details TO ssbd04mok@localhost;
+        DELETE ON account_details TO ssbd04mok@'%';
 GRANT
-    SELECT ON account_details TO ssbd04mol@localhost;
+    SELECT ON account_details TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON account_details TO ssbd04mob@localhost;
+    SELECT ON account_details TO ssbd04mob@'%';
 
 GRANT
-    USAGE, SELECT ON account_details_seq TO ssbd04mok@localhost;
+    USAGE, SELECT ON account_details_seq TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON account_details_seq TO ssbd04mob@localhost;
+    SELECT ON account_details_seq TO ssbd04mob@'%';
 
 GRANT
-    SELECT ON account_details_seq TO ssbd04mol@localhost;
+    SELECT ON account_details_seq TO ssbd04mol@'%';
 
 -- AccountAuthInfo
 
@@ -512,13 +512,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON account_auth_info TO ssbd04mok@localhost;
+        DELETE ON account_auth_info TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON account_auth_info TO ssbd04mol@localhost;
+    SELECT ON account_auth_info TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON account_auth_info TO ssbd04mob@localhost;
+    SELECT ON account_auth_info TO ssbd04mob@'%';
 
 -- Account
 
@@ -526,30 +526,30 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON account TO ssbd04mok@localhost;
+        DELETE ON account TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON account TO ssbd04mol@localhost;
+    SELECT ON account TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON account TO ssbd04mob@localhost;
+    SELECT ON account TO ssbd04mob@'%';
 
 
 GRANT
-    USAGE, SELECT ON account_seq TO ssbd04mok@localhost;
+    USAGE, SELECT ON account_seq TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON account_seq TO ssbd04mob@localhost;
+    SELECT ON account_seq TO ssbd04mob@'%';
 
 GRANT
-    SELECT ON account_seq TO ssbd04mol@localhost;
+    SELECT ON account_seq TO ssbd04mol@'%';
 
 -- VerificationToken
 
 GRANT
     SELECT,
         INSERT,
-        DELETE ON verification_token TO ssbd04mok@localhost;
+        DELETE ON verification_token TO ssbd04mok@'%';
 
 -- AccountAccessLevel
 
@@ -557,13 +557,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON account_access_level TO ssbd04mok@localhost;
+        DELETE ON account_access_level TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON account_access_level TO ssbd04mol@localhost;
+    SELECT ON account_access_level TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON account_access_level TO ssbd04mob@localhost;
+    SELECT ON account_access_level TO ssbd04mob@'%';
 
 -- AirplaneSchema
 
@@ -571,13 +571,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON airplane_schema TO ssbd04mol@localhost;
+        DELETE ON airplane_schema TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON airplane_schema TO ssbd04mok@localhost;
+    SELECT ON airplane_schema TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON airplane_schema TO ssbd04mob@localhost;
+    SELECT ON airplane_schema TO ssbd04mob@'%';
 
 
 -- Airport
@@ -586,13 +586,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON airport TO ssbd04mol@localhost;
+        DELETE ON airport TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON airport TO ssbd04mok@localhost;
+    SELECT ON airport TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON airport TO ssbd04mob@localhost;
+    SELECT ON airport TO ssbd04mob@'%';
 
 
 -- Connection
@@ -601,29 +601,29 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON CONNECTION TO ssbd04mol@localhost;
+        DELETE ON connection TO ssbd04mol@'%';
 
 GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON CONNECTION_STATS TO ssbd04mol@localhost;
+        DELETE ON connection_stats TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON CONNECTION TO ssbd04mok@localhost;
-
-GRANT
-    SELECT,
-        UPDATE
-        ON CONNECTION TO ssbd04mob@localhost;
-
-GRANT
-    SELECT ON CONNECTION_STATS TO ssbd04mok@localhost;
+    SELECT ON connection TO ssbd04mok@'%';
 
 GRANT
     SELECT,
         UPDATE
-        ON CONNECTION_STATS TO ssbd04mob@localhost;
+        ON connection TO ssbd04mob@'%';
+
+GRANT
+    SELECT ON connection_stats TO ssbd04mok@'%';
+
+GRANT
+    SELECT,
+        UPDATE
+        ON connection_stats TO ssbd04mob@'%';
 
 
 -- Flight
@@ -632,22 +632,22 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON flight TO ssbd04mol@localhost;
+        DELETE ON flight TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON flight TO ssbd04mok@localhost;
+    SELECT ON flight TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON flight TO ssbd04mob@localhost;
+    SELECT ON flight TO ssbd04mob@'%';
 
-GRANT UPDATE (version) ON flight to ssbd04mob@localhost;
+GRANT UPDATE (version) ON flight to ssbd04mob@'%';
 
-
-GRANT
-    USAGE, SELECT ON flight_seq TO ssbd04mol@localhost;
 
 GRANT
-    SELECT ON flight_seq TO ssbd04mob@localhost;
+    USAGE, SELECT ON flight_seq TO ssbd04mol@'%';
+
+GRANT
+    SELECT ON flight_seq TO ssbd04mob@'%';
 
 -- Benefit
 
@@ -655,13 +655,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON benefit TO ssbd04mol@localhost;
+        DELETE ON benefit TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON benefit TO ssbd04mok@localhost;
+    SELECT ON benefit TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON benefit TO ssbd04mob@localhost;
+    SELECT ON benefit TO ssbd04mob@'%';
 
 -- SeatClass
 
@@ -669,13 +669,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON seat_class TO ssbd04mol@localhost;
+        DELETE ON seat_class TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON seat_class TO ssbd04mok@localhost;
+    SELECT ON seat_class TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON seat_class TO ssbd04mob@localhost;
+    SELECT ON seat_class TO ssbd04mob@'%';
 
 
 -- Seat
@@ -685,13 +685,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON seat TO ssbd04mol@localhost;
+        DELETE ON seat TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON seat TO ssbd04mok@localhost;
+    SELECT ON seat TO ssbd04mok@'%';
 
 GRANT
-    SELECT, UPDATE ON seat TO ssbd04mob@localhost;
+    SELECT, UPDATE ON seat TO ssbd04mob@'%';
 
 
 -- Ticket
@@ -700,20 +700,20 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON ticket TO ssbd04mob@localhost;
+        DELETE ON ticket TO ssbd04mob@'%';
 
 GRANT
-    SELECT ON ticket TO ssbd04mok@localhost;
+    SELECT ON ticket TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON ticket TO ssbd04mol@localhost;
+    SELECT ON ticket TO ssbd04mol@'%';
 
 
 GRANT
-    USAGE, SELECT ON ticket_seq TO ssbd04mob@localhost;
+    USAGE, SELECT ON ticket_seq TO ssbd04mob@'%';
 
 GRANT
-    SELECT ON ticket_seq TO ssbd04mol@localhost;
+    SELECT ON ticket_seq TO ssbd04mol@'%';
 
 -- Passenger
 
@@ -721,19 +721,19 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON passenger TO ssbd04mob@localhost;
+        DELETE ON passenger TO ssbd04mob@'%';
 
 GRANT
-    SELECT ON passenger TO ssbd04mok@localhost;
+    SELECT ON passenger TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON passenger TO ssbd04mol@localhost;
+    SELECT ON passenger TO ssbd04mol@'%';
 
 GRANT
-    USAGE, SELECT ON passenger_seq TO ssbd04mob@localhost;
+    USAGE, SELECT ON passenger_seq TO ssbd04mob@'%';
 
 GRANT
-    SELECT ON passenger_seq TO ssbd04mol@localhost;
+    SELECT ON passenger_seq TO ssbd04mol@'%';
 
 -- SeatClass <-> Benefit
 
@@ -741,13 +741,13 @@ GRANT
     SELECT,
         INSERT,
         UPDATE,
-        DELETE ON seat_class_benefits TO ssbd04mol@localhost;
+        DELETE ON seat_class_benefits TO ssbd04mol@'%';
 
 GRANT
-    SELECT ON seat_class_benefits TO ssbd04mok@localhost;
+    SELECT ON seat_class_benefits TO ssbd04mok@'%';
 
 GRANT
-    SELECT ON seat_class_benefits TO ssbd04mob@localhost;
+    SELECT ON seat_class_benefits TO ssbd04mob@'%';
 
 -- Auth
 
@@ -757,4 +757,4 @@ FROM account a
          INNER JOIN account_access_level b on a.id = b.account_id
 WHERE confirm = true;
 
-GRANT SELECT ON auth_view TO ssbd04auth@localhost;
+GRANT SELECT ON auth_view TO ssbd04auth@'%';

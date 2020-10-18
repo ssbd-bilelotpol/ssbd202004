@@ -18,7 +18,7 @@ import javax.persistence.PersistenceContext;
  * przez zarządcę encji w kontekście trwałości
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "AirplaneSchemaFacadeMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
 

@@ -22,7 +22,7 @@ import java.util.List;
  * przez zarządcę encji w kontekście trwałości.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "AccountFacadeMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountFacade extends AbstractFacade<Account> {
 

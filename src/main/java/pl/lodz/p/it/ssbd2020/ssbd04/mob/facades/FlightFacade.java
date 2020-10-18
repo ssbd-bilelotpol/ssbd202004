@@ -28,7 +28,7 @@ import java.util.List;
  * przez zarządcę encji w kontekście trwałości
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "FlightFacadeMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class FlightFacade extends AbstractFacade<Flight> {
 

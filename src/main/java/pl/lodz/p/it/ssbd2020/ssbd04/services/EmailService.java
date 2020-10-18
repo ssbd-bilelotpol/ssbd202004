@@ -17,15 +17,19 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.event.TransactionPhase;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Serwis dostarczający funkcjonalność wysyłania wiadomości email.
  */
 @Stateless
-@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 @Interceptors({TrackingInterceptor.class})
 @PermitAll
 public class EmailService {
+    private static final Logger LOGGER = Logger.getLogger(EmailService.class.getName());
+
     @Inject
     private Config config;
 
@@ -40,8 +44,12 @@ public class EmailService {
      */
     @Asynchronous
     public void transactionalEmailListener(
-            @Observes(during = TransactionPhase.AFTER_SUCCESS) EmailEvent email) throws AppBaseException {
-        sendEmail(email.getEmail(), email.getSenderName(), email.getSubject(), email.getMessage());
+            @Observes(during = TransactionPhase.AFTER_SUCCESS) EmailEvent email) {
+        try {
+            sendEmail(email.getEmail(), email.getSenderName(), email.getSubject(), email.getMessage());
+        } catch (AppBaseException e) {
+            LOGGER.log(Level.INFO, "Failed to send an email asynchronously");
+        }
     }
 
     /**

@@ -22,7 +22,7 @@ import java.util.List;
  * Przetwarzanie logiki biznesowej lotów.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "FlightServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class FlightService {
 

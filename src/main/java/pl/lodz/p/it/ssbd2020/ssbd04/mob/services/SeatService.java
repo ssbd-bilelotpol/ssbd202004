@@ -16,7 +16,7 @@ import javax.interceptor.Interceptors;
  * Przetwarzanie logiki biznesowej siedzeń
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "SeatServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class SeatService {
 

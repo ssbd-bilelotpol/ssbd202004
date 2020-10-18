@@ -11,21 +11,13 @@ services:
       MYSQL_USER: ssbd04
       MYSQL_PASSWORD: 12345678
       MYSQL_DATABASE: ssbd04
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8090:8080
-  wildfly:
+  openliberty:
     build:
-      context: docker-wildfly
-      args:
-        WILDFLY_USERNAME: admin
-        WILDFLY_PASSWORD: ssbd04
-    image: wildfly
+      context: docker-openliberty
+    image: openliberty
     restart: always
     ports:
-      - "8080:8080"
-      - "9990:9990"
+      - "9080:9080"
+      - "9443:9443"
     volumes:
-      - "./deployments:/opt/jboss/wildfly/standalone/deployments"
+      - "./deployments:/config/dropins"

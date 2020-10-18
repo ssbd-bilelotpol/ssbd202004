@@ -17,7 +17,7 @@ import javax.security.enterprise.SecurityContext;
  * Przetwarzanie logiki biznesowej Kont.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "AccountServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountService {
 

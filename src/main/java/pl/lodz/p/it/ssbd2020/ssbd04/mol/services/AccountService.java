@@ -20,7 +20,7 @@ import java.util.List;
  * Przetwarzanie logiki biznesowej Kont
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "AccountServiceMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountService {
 

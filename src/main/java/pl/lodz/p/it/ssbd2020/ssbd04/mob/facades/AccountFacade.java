@@ -18,7 +18,7 @@ import javax.persistence.*;
  * przez zarządcę encji w kontekście trwałości
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "AccountFacadeMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountFacade extends AbstractFacade<Account> {
 

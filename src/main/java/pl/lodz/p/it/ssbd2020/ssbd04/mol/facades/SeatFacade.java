@@ -50,7 +50,6 @@ public class SeatFacade extends AbstractFacade<Seat> {
      * @throws AppBaseException gdy wystąpi problem z bazą danych.
      */
     @PermitAll
-    @RolesAllowed(Role.GetTakenSeats)
     public List<Seat> getTakenSeats(Long flightId) throws AppBaseException {
         try {
             TypedQuery<Seat> seatTypedQuery = em.createNamedQuery("Seat.getTakenSeats", Seat.class);
