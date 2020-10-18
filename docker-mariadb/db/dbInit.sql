@@ -125,12 +125,12 @@ insert into connection_stats values (-4, 0);
 insert into connection_stats values (-5, 0);
 
 -- Schemas
-INSERT INTO public.airplane_schema (id, creation_date_time, modification_date_time, version, cols, rows, name)
+INSERT INTO airplane_schema (id, creation_date_time, modification_date_time, version, cols, `rows`, name)
 VALUES (-1, now(), now(), 0, 2, 3, 'Boeing 747');
 
 -- Seats
-INSERT INTO public.seat
-    (id, creation_date_time, modification_date_time, version, row, col, airplane_schema_id, seat_class_id, created_by)
+INSERT INTO seat
+    (id, creation_date_time, modification_date_time, version, `row`, col, airplane_schema_id, seat_class_id, created_by)
     VALUES
     (-1, now(), now(), 0, 1, 1, -1, 1, -1),
     (-2, now(), now(), 0, 1, 2, -1, 1, -1),
