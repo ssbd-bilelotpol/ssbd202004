@@ -11,6 +11,9 @@ services:
   wildfly:
     build:
       context: .
+      args:
+        WILDFLY_USERNAME: admin
+        WILDFLY_PASSWORD: ssbd04
     image: wildfly
     restart: always
     ports:
