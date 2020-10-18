@@ -3,15 +3,15 @@
   <ID>JAVA</ID>
   <OriginalElement>pl.lodz.p.it.ssbd2020.ssbd04</OriginalElement>
   <nodes>
-    <node x="3661.0" y="297.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit</node>
     <node x="1369.0" y="286.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.Seat</node>
+    <node x="3661.0" y="297.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit</node>
     <node x="3049.0" y="253.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.Connection</node>
     <node x="821.0" y="308.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken</node>
     <node x="1084.0" y="275.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket</node>
     <node x="1940.0" y="242.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.Account</node>
     <node x="1646.0" y="242.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight</node>
-    <node x="1808.0000000000002" y="0.0">pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity</node>
     <node x="1904.184523809524" y="522.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ManagerAccessLevel</node>
+    <node x="1808.0000000000002" y="0.0">pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity</node>
     <node x="3903.0" y="264.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo</node>
     <node x="2274.5" y="522.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.CustomerServiceAccessLevel</node>
     <node x="2746.5" y="522.0">pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AdminAccessLevel</node>
@@ -29,11 +29,35 @@
   </nodes>
   <notes />
   <edges>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
+      <point x="0.0" y="-93.0" />
+      <point x="359.5" y="172.0" />
+      <point x="1838.321428571429" y="172.0" />
+      <point x="-111.17857142857133" y="71.0" />
+    </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.ResetPasswordToken" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken">
+      <point x="0.0" y="-26.0" />
+      <point x="1037.25" y="497.0" />
+      <point x="1003.25" y="497.0" />
+      <point x="60.75" y="49.0" />
+    </edge>
     <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ClientAccessLevel" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel">
       <point x="0.0" y="-26.0" />
       <point x="2636.0" y="497.0" />
       <point x="2569.5" y="497.0" />
       <point x="51.5" y="38.0" />
+    </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ManagerAccessLevel" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel">
+      <point x="0.0" y="-26.0" />
+      <point x="1998.684523809524" y="497.0" />
+      <point x="2363.5" y="497.0" />
+      <point x="-154.5" y="38.0" />
+    </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
+      <point x="0.0" y="-82.0" />
+      <point x="3529.0" y="182.0" />
+      <point x="2040.464285714286" y="182.0" />
+      <point x="90.96428571428578" y="71.0" />
     </edge>
     <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
       <point x="0.0" y="-60.0" />
@@ -59,17 +83,41 @@
       <point x="1959.607142857143" y="222.0" />
       <point x="10.107142857142662" y="71.0" />
     </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
+      <point x="0.0" y="-82.0" />
+      <point x="1216.5" y="202.0" />
+      <point x="1898.964285714286" y="202.0" />
+      <point x="-50.53571428571422" y="71.0" />
+    </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
+      <point x="0.0" y="-49.0" />
+      <point x="942.5" y="192.0" />
+      <point x="1878.7500000000002" y="192.0" />
+      <point x="-70.75" y="71.0" />
+    </edge>
     <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Passenger" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
       <point x="0.0" y="-104.0" />
       <point x="90.5" y="162.0" />
       <point x="1818.1071428571431" y="162.0" />
       <point x="-131.3928571428571" y="71.0" />
     </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
+      <point x="0.0" y="-115.0" />
+      <point x="1783.0" y="222.0" />
+      <point x="1939.392857142857" y="222.0" />
+      <point x="-10.107142857143117" y="71.0" />
+    </edge>
     <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AdminAccessLevel" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel">
       <point x="0.0" y="-26.0" />
       <point x="2833.0" y="497.0" />
       <point x="2672.5" y="497.0" />
       <point x="154.5" y="38.0" />
+    </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
+      <point x="0.0" y="-104.0" />
+      <point x="669.5" y="182.0" />
+      <point x="1858.5357142857144" y="182.0" />
+      <point x="-90.96428571428578" y="71.0" />
     </edge>
     <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.AirplaneSchema" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
       <point x="0.0" y="-115.0" />
@@ -83,65 +131,17 @@
       <point x="2020.2500000000002" y="192.0" />
       <point x="70.75" y="71.0" />
     </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
-      <point x="0.0" y="-93.0" />
-      <point x="4030.5" y="162.0" />
-      <point x="2080.892857142858" y="162.0" />
-      <point x="131.39285714285734" y="71.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.SeatClass" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
-      <point x="0.0" y="-93.0" />
-      <point x="359.5" y="172.0" />
-      <point x="1838.321428571429" y="172.0" />
-      <point x="-111.17857142857133" y="71.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.ResetPasswordToken" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken">
-      <point x="0.0" y="-26.0" />
-      <point x="1037.25" y="497.0" />
-      <point x="1003.25" y="497.0" />
-      <point x="60.75" y="49.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.ManagerAccessLevel" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel">
-      <point x="0.0" y="-26.0" />
-      <point x="1998.684523809524" y="497.0" />
-      <point x="2363.5" y="497.0" />
-      <point x="-154.5" y="38.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
-      <point x="0.0" y="-82.0" />
-      <point x="3529.0" y="182.0" />
-      <point x="2040.464285714286" y="182.0" />
-      <point x="90.96428571428578" y="71.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
-      <point x="0.0" y="-49.0" />
-      <point x="942.5" y="192.0" />
-      <point x="1878.7500000000002" y="192.0" />
-      <point x="-70.75" y="71.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Ticket" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
-      <point x="0.0" y="-82.0" />
-      <point x="1216.5" y="202.0" />
-      <point x="1898.964285714286" y="202.0" />
-      <point x="-50.53571428571422" y="71.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Flight" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
-      <point x="0.0" y="-115.0" />
-      <point x="1783.0" y="222.0" />
-      <point x="1939.392857142857" y="222.0" />
-      <point x="-10.107142857143117" y="71.0" />
-    </edge>
-    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
-      <point x="0.0" y="-104.0" />
-      <point x="669.5" y="182.0" />
-      <point x="1858.5357142857144" y="182.0" />
-      <point x="-90.96428571428578" y="71.0" />
-    </edge>
     <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.CustomerServiceAccessLevel" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.access_levels.AccountAccessLevel">
       <point x="0.0" y="-26.0" />
       <point x="2400.0" y="497.0" />
       <point x="2466.5" y="497.0" />
       <point x="-51.5" y="38.0" />
+    </edge>
+    <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountAuthInfo" target="pl.lodz.p.it.ssbd2020.ssbd04.common.AbstractEntity">
+      <point x="0.0" y="-93.0" />
+      <point x="4030.5" y="162.0" />
+      <point x="2080.892857142858" y="162.0" />
+      <point x="131.39285714285734" y="71.0" />
     </edge>
     <edge source="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.RegisterToken" target="pl.lodz.p.it.ssbd2020.ssbd04.entities.verification_tokens.VerificationToken">
       <point x="0.0" y="-26.0" />
@@ -150,7 +150,7 @@
       <point x="-60.75" y="49.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.3764273397542231" x="1543.4581149386224" y="1107.3771631791728" />
+  <settings layout="Hierarchic Group" zoom="0.5037197024238061" x="2073.5" y="481.5" />
   <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
