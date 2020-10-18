@@ -1,13 +1,13 @@
 FROM jboss/wildfly
 
-RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/com/mysql/main
+# RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/com/mysql/main
 USER root
 RUN yum install wget -y
 USER jboss
 RUN wget https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-8.0.21.tar.gz -O /opt/jboss/mysql-driver.tar.gz
 RUN tar -xzvf /opt/jboss/mysql-driver.tar.gz
-RUN cp -v /opt/jboss/mysql-connector-java-8.0.21/mysql-connector-java-8.0.21.jar /opt/jboss/wildfly/modules/system/layers/base/com/mysql/main/
-COPY ./docker/module.xml /opt/jboss/wildfly/modules/system/layers/base/com/mysql/main/
+COPY ./docker/add_module.cli /opt/jboss/
+RUN /opt/jboss/wildfly/bin/jboss_cli.sh --connect --file=/opt/jboss/add_module.cli
 
 ARG WILDFLY_USERNAME
 ARG WILDFLY_PASSWORD
