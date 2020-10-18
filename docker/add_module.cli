@@ -1,0 +1,6 @@
+batch
+
+module add --name=com.mysql --resources=/opt/jboss/mysql-connector-java-8.0.21/mysql-connector-java-8.0.21.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql,driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
+
+run-batch
