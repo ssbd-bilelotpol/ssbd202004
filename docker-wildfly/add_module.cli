@@ -2,21 +2,11 @@ batch
 
 module add --name=com.mysql --resources=/opt/jboss/mysql-connector-java-8.0.21/mysql-connector-java-8.0.21.jar --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql,driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
-/subsystem=security/security-domain=app:add(cache-type="default")
-cd ./subsystem=security/security-domain=app
-./authentication=classic:add(
-login-modules=[{
-    code="RoleMapping",
-    flag="required",
-    module-options={
-    rolesProperties="file:${jboss.server.config.dir}/app.properties",
-    replaceRole="false"
-    }
-}
-])
 data-source add --name=ssbd04mokDS --jndi-name=java:/jdbc/ssbd04mokDS --driver-name=mysql --connection-url=jdbc:mysql://db:3306/ssbd04 --user-name=ssbd04mok --password=0r2v03rlhfim4xhdd
 data-source add --name=ssbd04molDS --jndi-name=java:/jdbc/ssbd04molDS --driver-name=mysql --connection-url=jdbc:mysql://db:3306/ssbd04 --user-name=ssbd04mol --password=4lc8faovny1rm8ga3
 data-source add --name=ssbd04mobDS --jndi-name=java:/jdbc/ssbd04mobDS --driver-name=mysql --connection-url=jdbc:mysql://db:3306/ssbd04 --user-name=ssbd04mob --password=n1b67mgir4yw34xh5
 data-source add --name=ssbd04authDS --jndi-name=java:/jdbc/ssbd04authDS --driver-name=mysql --connection-url=jdbc:mysql://db:3306/ssbd04 --user-name=ssbd04auth --password=8sU6QvyXld5AVSXA
 
+/subsystem=security/security-domain=app:add(cache-type="default")
+/subsystem=security/security-domain=app/authentication=classic:add(login-modules=[{code="RoleMapping",flag="required",module-options={rolesProperties="file:${jboss.server.config.dir}/app.properties",replaceRole="false"}}])
 run-batch
