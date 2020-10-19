@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.common;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.AfterBegin;
 import javax.ejb.AfterCompletion;
 import javax.inject.Inject;
@@ -49,6 +50,7 @@ public abstract class AbstractEndpoint {
      *
      * @return true, jeśli transakcja została odwołana, w przeciwnym przypadku false.
      */
+    @PermitAll
     public boolean isLastTransactionRollback() {
         return lastTransactionRollback;
     }

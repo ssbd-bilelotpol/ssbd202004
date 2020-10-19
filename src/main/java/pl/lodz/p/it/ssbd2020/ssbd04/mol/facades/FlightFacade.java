@@ -148,6 +148,7 @@ public class FlightFacade extends AbstractFacade<Flight> {
      * @return daty
      * @throws AppBaseException w przypadku błędu znajdywania dat
      */
+    @PermitAll
     public List<Date> getDates(LocalDateTime from) throws AppBaseException {
         try {
             TypedQuery<Date> flightTypedQuery = em.createNamedQuery("Flight.getDates", Date.class);
