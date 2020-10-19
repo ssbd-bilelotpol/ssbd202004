@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,15 @@ import java.util.List;
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class FlightService {
 
+    @Named("FlightFacadeMOB")
     @Inject
     private FlightFacade flightFacade;
 
+    @Named("ConnectionFacadeMOB")
     @Inject
     private ConnectionFacade connectionFacade;
 
+    @Named("AirplaneSchemaFacadeMOB")
     @Inject
     private AirplaneSchemaFacade airplaneSchemaFacade;
 

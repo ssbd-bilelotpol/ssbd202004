@@ -13,6 +13,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,18 +32,22 @@ import java.util.stream.Collectors;
 @Stateful
 public class TicketEndpointImpl extends AbstractEndpoint implements TicketEndpoint {
 
+    @Named("AccountServiceMOB")
     @Inject
     private AccountService accountService;
 
     @Inject
     private TicketService ticketService;
 
+    @Named("ConnectionServiceMOB")
     @Inject
     private ConnectionService connectionService;
 
+    @Named("FlightServiceMOB")
     @Inject
     private FlightService flightService;
 
+    @Named("SeatServiceMOB")
     @Inject
     private SeatService seatService;
 

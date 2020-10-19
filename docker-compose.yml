@@ -11,6 +11,11 @@ services:
       MYSQL_USER: ssbd04
       MYSQL_PASSWORD: 12345678
       MYSQL_DATABASE: ssbd04
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-u", "ssbd04", "-p12345678"]
+      timeout: 5s
+      interval: 10s
+      retries: 20
   openliberty:
     build:
       context: docker-openliberty
@@ -21,3 +26,9 @@ services:
       - "9443:9443"
     volumes:
       - "./deployments:/config/dropins"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WLP_LOGGING_CONSOLE_LOGLEVEL: info
+      WLP_LOGGING_CONSOLE_SOURCE: message,trace,accessLog,ffdc,audit

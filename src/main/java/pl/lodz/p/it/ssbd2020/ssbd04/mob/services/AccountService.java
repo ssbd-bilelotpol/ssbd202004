@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.security.enterprise.SecurityContext;
 
@@ -21,7 +22,8 @@ import javax.security.enterprise.SecurityContext;
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountService {
 
-    @Inject
+    @Named("AccountFacadeMOB")
+    @Inject()
     private AccountFacade accountFacade;
 
     @Inject

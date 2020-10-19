@@ -4,7 +4,8 @@ FROM jboss/wildfly
 USER root
 RUN yum install wget vim -y
 USER jboss
-RUN wget https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-8.0.21.tar.gz -O /opt/jboss/mysql-driver.tar.gz
+RUN wget https://cdn.
+mysql.com//Downloads/Connector-J/mysql-connector-java-8.0.21.tar.gz -O /opt/jboss/mysql-driver.tar.gz
 RUN tar -xzvf /opt/jboss/mysql-driver.tar.gz
 COPY ./add_module.cli /opt/jboss/
 

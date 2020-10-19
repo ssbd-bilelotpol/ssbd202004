@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.security.enterprise.SecurityContext;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountService {
 
+    @Named("AccountFacadeMOL")
     @Inject
     private AccountFacade accountFacade;
 
