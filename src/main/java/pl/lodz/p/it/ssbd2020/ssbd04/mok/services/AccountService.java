@@ -39,7 +39,6 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "AccountServiceMOK")
 @Named("AccountServiceMOK")
-@Named("AccountServiceMOK")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountService {
 

@@ -12,6 +12,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
