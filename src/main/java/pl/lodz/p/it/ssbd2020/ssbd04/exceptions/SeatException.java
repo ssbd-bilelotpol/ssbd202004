@@ -32,6 +32,7 @@ public class SeatException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący brak danego siedzenia.
+     *
      * @param cause przyczyna problemu
      * @return wyjątek reprezentujący brak danego siedzenia.
      */

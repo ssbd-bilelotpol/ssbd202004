@@ -19,6 +19,7 @@ import javax.persistence.*;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "AccountFacadeMOB")
+@Named("AccountFacadeMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountFacade extends AbstractFacade<Account> {
 

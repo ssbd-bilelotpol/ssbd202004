@@ -33,13 +33,17 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.common.I18n.*;
  * Przetwarzanie logiki biznesowej lotów.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "FlightServiceMOL")
+@Named("FlightServiceMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class FlightService {
+    @Named("FlightFacadeMOL")
     @Inject
     private FlightFacade flightFacade;
+    @Named("ConnectionFacadeMOL")
     @Inject
     private ConnectionFacade connectionFacade;
+    @Named("AirplaneSchemaFacadeMOL")
     @Inject
     private AirplaneSchemaFacade airplaneSchemaFacade;
     @Named("AccountServiceMOL")

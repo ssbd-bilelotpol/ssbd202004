@@ -25,9 +25,11 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.common.Utils.isNullOrEmpty;
  * Przetwarzanie logiki biznesowej połączeń.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "ConnectionServiceMOL")
+@Named("ConnectionServiceMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class ConnectionService {
+    @Named("ConnectionFacadeMOL")
     @Inject
     private ConnectionFacade connectionFacade;
 

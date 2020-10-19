@@ -18,6 +18,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class SeatClassEndpointImpl extends AbstractEndpoint implements SeatClass
     @Inject
     private SeatClassService seatClassService;
 
+    @Named("AccountServiceMOL")
     @Inject
     private AccountService accountService;
 

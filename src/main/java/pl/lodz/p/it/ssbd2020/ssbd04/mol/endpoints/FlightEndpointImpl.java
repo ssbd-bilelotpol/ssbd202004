@@ -20,6 +20,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,18 +32,22 @@ import java.util.stream.Collectors;
 @Stateful
 public class FlightEndpointImpl extends AbstractEndpoint implements FlightEndpoint {
 
+    @Named("FlightServiceMOL")
     @Inject
     private FlightService flightService;
 
+    @Named("ConnectionServiceMOL")
     @Inject
     private ConnectionService connectionService;
 
     @Inject
     private AirplaneSchemaService schemaService;
 
+    @Named("AccountServiceMOL")
     @Inject
     private AccountService accountService;
 
+    @Named("SeatServiceMOL")
     @Inject
     private SeatService seatService;
 

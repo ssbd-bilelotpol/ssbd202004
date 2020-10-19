@@ -15,6 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +23,8 @@ import java.util.List;
 import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.FindAccountsByName;
 
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "AccountFacadeMOK")
+@Named("AccountFacadeMOK")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountFacade extends AbstractFacade<Account> {
 

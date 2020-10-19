@@ -12,6 +12,7 @@ public class ForbiddenException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący brak dostępu do metody (logika biznesowa)
+     *
      * @return ForbiddenException
      */
     public static ForbiddenException forbidden() {

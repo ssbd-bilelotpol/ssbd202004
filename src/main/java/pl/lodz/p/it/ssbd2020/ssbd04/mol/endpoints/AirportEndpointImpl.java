@@ -15,6 +15,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class AirportEndpointImpl extends AbstractEndpoint implements AirportEndp
     @Inject
     private AirportService airportService;
 
+    @Named("AccountServiceMOL")
     @Inject
     private AccountService accountService;
 

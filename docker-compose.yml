@@ -27,8 +27,7 @@ services:
     volumes:
       - "./deployments:/config/dropins"
     depends_on:
-      db:
-        condition: service_healthy
+            - db
     environment:
       WLP_LOGGING_CONSOLE_LOGLEVEL: info
       WLP_LOGGING_CONSOLE_SOURCE: message,trace,accessLog,ffdc,audit

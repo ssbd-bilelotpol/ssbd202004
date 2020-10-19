@@ -14,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,7 +27,8 @@ import java.util.List;
  * przez zarządcę encji w kontekście trwałości.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "SeatFacadeMOL")
+@Named("SeatFacadeMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class SeatFacade extends AbstractFacade<Seat> {
 

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AirplaneSchemaService {
+    @Named("AirplaneSchemaFacadeMOL")
     @Inject
     private AirplaneSchemaFacade airplaneSchemaFacade;
 

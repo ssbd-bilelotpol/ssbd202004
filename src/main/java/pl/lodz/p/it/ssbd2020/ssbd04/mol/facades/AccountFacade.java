@@ -23,6 +23,7 @@ import java.util.List;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "AccountFacadeMOL")
+@Named("AccountFacadeMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountFacade extends AbstractFacade<Account> {
 

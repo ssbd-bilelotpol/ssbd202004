@@ -22,6 +22,7 @@ import java.util.List;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "AccountServiceMOL")
+@Named("AccountServiceMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountService {
 

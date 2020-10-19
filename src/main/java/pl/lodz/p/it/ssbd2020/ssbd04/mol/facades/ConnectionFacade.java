@@ -25,7 +25,8 @@ import java.util.List;
  * przez zarządcę encji w kontekście trwałości.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "ConnectionFacadeMOL")
+@Named("ConnectionFacadeMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class ConnectionFacade extends AbstractFacade<Connection> {
 

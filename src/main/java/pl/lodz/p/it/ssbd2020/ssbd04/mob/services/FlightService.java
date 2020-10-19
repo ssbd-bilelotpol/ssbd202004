@@ -24,6 +24,7 @@ import java.util.List;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "FlightServiceMOB")
+@Named("FlightServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class FlightService {
 

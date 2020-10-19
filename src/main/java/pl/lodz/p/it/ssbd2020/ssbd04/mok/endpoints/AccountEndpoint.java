@@ -23,7 +23,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Rejestruje nowe konto.
      *
      * @param accountRegisterDto obiekt zawierający login, hasło i wymagane dane konta.
-      gdy login lub e-mail już istnieje.
+     *                           gdy login lub e-mail już istnieje.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
@@ -33,7 +33,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Potwierdza konto na podstawie unikalnego identyfkatoru tokena wysłanego na adres e-mail.
      *
      * @param fromString unikalny identyfikator tokenu potwierdzające konto.
-      gdy potwierdzenie konta się nie powiedzie.
+     *                   gdy potwierdzenie konta się nie powiedzie.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
@@ -45,7 +45,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * @param login                 login jednoznacznie identyfikujący konto.
      * @param accountAccessLevelDto zawiera listę poziomów dostępów, które mają zostać przypisane użytkownikowi.
      * @return listę poziomów dostępów, które zostały przypisane do konta.
-      gdy modyfikacja nie powiedzie się.
+     * gdy modyfikacja nie powiedzie się.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(EditAccountAccessLevel)
@@ -56,7 +56,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login login jednoznacznie identyfikujący konto.
      * @return listę poziomów dostępów przypisanych do konta.
-      gdy pobieranie nie powiedzie się.
+     * gdy pobieranie nie powiedzie się.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(GetAccessLevels)
@@ -66,7 +66,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Zwraca dane konta inicjującego żądanie.
      *
      * @return konto inicjujące żądanie.
-      gdy nie udało się pobrać danych konta.
+     * gdy nie udało się pobrać danych konta.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(RetrieveOwnAccountDetails)
@@ -77,7 +77,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login login konta, którego dane zostaną zwrócone.
      * @return konto wybranego użytkownika.
-      gdy nie udało się pobrać danych konta.
+     * gdy nie udało się pobrać danych konta.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(RetrieveOtherAccountDetails)
@@ -88,7 +88,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param accountEditDto nowe dane konta w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu.
      * @return konto inicjujące żądanie z uwzględnionymi zmianami danych.
-      gdy zapisanie zmodyfikowanego konta nie powiodło się.
+     * gdy zapisanie zmodyfikowanego konta nie powiodło się.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(EditOwnAccountDetails)
@@ -100,7 +100,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * @param login          login konta, którego dane zostaną zmodyfikowane.
      * @param accountEditDto nowe dane konta w których skład wchodzi jedynie imie, nazwisko oraz numer telefonu.
      * @return wybrane konto z uwzględnionymi zmianami danych.
-      gdy zapisanie zmodyfikowanego konta nie powiodło się.
+     * gdy zapisanie zmodyfikowanego konta nie powiodło się.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(EditOtherAccountDetails)
@@ -121,7 +121,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * Resetuje hasło za pomocą tokenu resetującego.
      *
      * @param passwordResetDto token resetujący oraz nowe hasło.
-      w przypadku niepowodzenia operacji.
+     *                         w przypadku niepowodzenia operacji.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
@@ -133,7 +133,7 @@ public interface AccountEndpoint extends TransactionStarter {
      * @param login         login użytkownika.
      * @param lastIpAddress adres ip.
      * @param currentAuth   data logowania.
-      gdy operacja się nie powiedzie
+     *                      gdy operacja się nie powiedzie
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll
@@ -171,8 +171,8 @@ public interface AccountEndpoint extends TransactionStarter {
      * Zmienia hasło dla aktualnego użytkownika.
      *
      * @param accountPasswordDto obiekt który przechowuje nowe i stare hasła podane przez użytkownika.
-      jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
-     @throws AppBaseException gdy operacja się nie powiodła
+     *                           jeśli Etag się nie zgadza, lub podane stare hasło nie jest zgodne z tym z bazy danych.
+     * @throws AppBaseException gdy operacja się nie powiodła
      */
     @RolesAllowed(ChangeOwnAccountPassword)
     void changeOwnAccountPassword(AccountPasswordDto accountPasswordDto) throws AppBaseException;
@@ -182,7 +182,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login    login konta, dla którego zmieniane jest hasło.
      * @param password nowe hasło.
-      jeśli Etag się nie zgadza.
+     *                 jeśli Etag się nie zgadza.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(ChangeOtherAccountPassword)
@@ -193,7 +193,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param name fraza, której poszukujemy. Jeśli name jest pustym ciągiem znaków lub null, to metoda zwraca wszystkie konta.
      * @return lista kont wraz z danymi szczegółowymi.
-      gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
+     * gdy nie udało się znaleźć żadnego konta zgodnego z podaną frazą.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(FindAccountsByName)
@@ -204,7 +204,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login  login konta, dla którego zmieniamy status aktywności.
      * @param active wartość statusu aktywności konta, która ma zostać ustawiona.
-      gdy nie udało się zmienić statusu aktywności konta.
+     *               gdy nie udało się zmienić statusu aktywności konta.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @RolesAllowed(ChangeAccountActiveStatus)
@@ -215,7 +215,7 @@ public interface AccountEndpoint extends TransactionStarter {
      *
      * @param login    login konta, dla którego chcemy wysłać e-mail.
      * @param remoteIP adres IP, z którego nastąpiło logowanie
-      w przypadku gdy nie udało się wysłać maila.
+     *                 w przypadku gdy nie udało się wysłać maila.
      * @throws AppBaseException gdy operacja nie powiedzie się
      */
     @PermitAll

@@ -20,6 +20,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,6 +39,7 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.security.Role.*;
 @Stateful
 public class AccountEndpointImpl extends AbstractEndpoint implements AccountEndpoint {
 
+    @Named("AccountServiceMOK")
     @Inject
     private AccountService accountService;
 

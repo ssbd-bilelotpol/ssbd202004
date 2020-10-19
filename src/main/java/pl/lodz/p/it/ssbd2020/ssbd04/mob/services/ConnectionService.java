@@ -20,6 +20,7 @@ import java.util.List;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "ConnectionServiceMOB")
+@Named("ConnectionServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class ConnectionService {
 

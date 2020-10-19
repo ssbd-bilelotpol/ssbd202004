@@ -39,6 +39,7 @@ public class EmailService {
     /**
      * Metoda do użytku wewnętrznego wysyłająca emaile po zatwierdzeniu transakcji.
      * Ze względu na wymagania Java EE jest publiczna, ale nie powinna być wywoływana z kodu.
+     *
      * @param email zdarzenie emaila
      * @throws AppBaseException gdy nie uda się wysłać emaila
      */

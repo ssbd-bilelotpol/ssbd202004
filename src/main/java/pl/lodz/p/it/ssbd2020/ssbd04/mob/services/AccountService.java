@@ -19,6 +19,7 @@ import javax.security.enterprise.SecurityContext;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "AccountServiceMOB")
+@Named("AccountServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountService {
 

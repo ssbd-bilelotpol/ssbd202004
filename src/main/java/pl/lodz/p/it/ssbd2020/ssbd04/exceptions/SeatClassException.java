@@ -33,6 +33,7 @@ public class SeatClassException extends AppBaseException {
 
     /**
      * Tworzy wyjątek reprezentujący brak danej klasy siedzeń.
+     *
      * @param cause przyczyna problemu
      * @return wyjątek reprezentujący brak danej klasy siedzeń.
      */

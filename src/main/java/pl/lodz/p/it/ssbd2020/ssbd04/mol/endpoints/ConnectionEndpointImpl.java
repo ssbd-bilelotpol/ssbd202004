@@ -16,6 +16,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @Stateful
 public class ConnectionEndpointImpl extends AbstractEndpoint implements ConnectionEndpoint {
+    @Named("ConnectionServiceMOL")
     @Inject
     private ConnectionService connectionService;
 

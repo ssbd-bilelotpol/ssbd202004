@@ -36,8 +36,7 @@ public interface AirplaneSchemaEndpoint extends TransactionStarter {
     /**
      * Aktualizuje schemat samolotu.
      *
-     *
-     * @param id identyfikator schematu samolotu
+     * @param id                identyfikator schematu samolotu
      * @param airplaneSchemaDto dane schematu samolotu.
      * @throws AppBaseException gdy schemat jest już używany, zajdzie problem konkurencyjnej modyfikacji, bądź schemat nie istnieje.
      */
@@ -53,6 +52,7 @@ public interface AirplaneSchemaEndpoint extends TransactionStarter {
 
     /**
      * Szuka schematów samolotu po nazwie.
+     *
      * @param name część nazwy schematu samolotu
      * @return lista obiektów reprezentujących schematy samolotu
      * @throws AppBaseException gdy operacja nie powiedzie się

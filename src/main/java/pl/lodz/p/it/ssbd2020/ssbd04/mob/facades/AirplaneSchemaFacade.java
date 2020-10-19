@@ -19,6 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "AirplaneSchemaFacadeMOB")
+@Named("AirplaneSchemaFacadeMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AirplaneSchemaFacade extends AbstractFacade<AirplaneSchema> {
 

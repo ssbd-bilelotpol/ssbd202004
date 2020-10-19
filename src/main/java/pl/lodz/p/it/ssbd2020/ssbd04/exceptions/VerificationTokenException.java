@@ -25,6 +25,7 @@ public class VerificationTokenException extends AppBaseException {
 
     /**
      * Wyjątek reprezentujący próbę wykonania operacji na niewłaściwym tokenie
+     *
      * @param token identyfikator tokenu
      * @return wyjątek typu VerificationTicketException
      */
@@ -34,6 +35,7 @@ public class VerificationTokenException extends AppBaseException {
 
     /**
      * Wyjątek reprezentujący próbę wykonania operacji na niewłaściwym tokenie
+     *
      * @param verificationToken przyczyna problemu
      * @return wyjątek typu VerificationTicketException
      */
@@ -43,6 +45,7 @@ public class VerificationTokenException extends AppBaseException {
 
     /**
      * Wyjątek reprezentujący próbę potwierdzenia już potwierdzonego konta
+     *
      * @param verificationToken przyczyna problemu
      * @return wyjątek typu VerificationTicketException
      */
@@ -52,6 +55,7 @@ public class VerificationTokenException extends AppBaseException {
 
     /**
      * Wyjątek reprezentujący niemożność wysłania maila podczas rejestracji
+     *
      * @param verificationToken przyczyna problemu
      * @return wyjątek typu VerificationTicketException
      */
@@ -61,6 +65,7 @@ public class VerificationTokenException extends AppBaseException {
 
     /**
      * Wyjątek reprezentujący próbę wykorzystania wygasłego tokenu
+     *
      * @param verificationToken przyczyna problemu
      * @return wyjątek typu VerificationTicketException
      */

@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
@@ -20,10 +21,12 @@ import java.util.List;
  * Przetwarzanie logiki biznesowej siedzeń.
  */
 @Interceptors({TrackingInterceptor.class})
-@Stateless
+@Stateless(name = "SeatServiceMOL")
+@Named("SeatServiceMOL")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class SeatService {
 
+    @Named("SeatFacadeMOL")
     @Inject
     private SeatFacade seatFacade;
 

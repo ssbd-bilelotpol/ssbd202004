@@ -18,6 +18,7 @@ import javax.interceptor.Interceptors;
  */
 @Interceptors({TrackingInterceptor.class})
 @Stateless(name = "SeatServiceMOB")
+@Named("SeatServiceMOB")
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class SeatService {
 
