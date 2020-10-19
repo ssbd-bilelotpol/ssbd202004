@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "/ssbd04",
+  "homepage": "/ssbd04-1.0",
   "private": true,
   "dependencies": {
     "@rodw95/use-cancelable-promise": "^0.0.2",

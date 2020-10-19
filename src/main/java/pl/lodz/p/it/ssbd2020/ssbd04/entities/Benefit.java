@@ -21,6 +21,7 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Benefit.CONSTRAINT_NAME;
 })
 @Entity
 @Table(
+        name = "benefit",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "name", name = CONSTRAINT_NAME),
         }

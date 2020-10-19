@@ -22,11 +22,14 @@ import java.util.Objects;
 })
 
 @Entity
-@Table(indexes = {
+@Table(
+    name = "passenger",
+    indexes = {
         @Index(name = "passenger_seat_fk", columnList = "seat_id"),
         @Index(name = "passenger_flight_fk", columnList = "flight_id"),
         @Index(name = "passenger_ticket_fk", columnList = "ticket_id")
-})
+    }
+)
 public class Passenger extends AbstractEntity implements Serializable {
 
     @Id

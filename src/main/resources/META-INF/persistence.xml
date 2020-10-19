@@ -2,7 +2,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 >
     <persistence-unit name="ssbd04mokPU" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:/jdbc/ssbd04mokDS</jta-data-source>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Account</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails</class>
@@ -20,14 +20,14 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
         </properties>
     </persistence-unit>
 
     <persistence-unit name="ssbd04molPU" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:/jdbc/ssbd04molDS</jta-data-source>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Account</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails</class>
@@ -47,14 +47,14 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
         </properties>
     </persistence-unit>
     
     <persistence-unit name="ssbd04mobPU" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:/jdbc/ssbd04mobDS</jta-data-source>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.Account</class>
         <class>pl.lodz.p.it.ssbd2020.ssbd04.entities.AccountDetails</class>
@@ -74,7 +74,7 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
         </properties>

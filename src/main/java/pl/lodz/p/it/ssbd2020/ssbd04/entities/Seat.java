@@ -19,10 +19,11 @@ import java.util.Objects;
 })
 @Entity
 @Table(
-        indexes = {
-                @Index(name = "seat_seat_class_fk", columnList = "seat_class_id"),
-                @Index(name = "seat_airplane_schema_fk", columnList = "airplane_schema_id")
-        }
+    name = "seat",
+    indexes = {
+            @Index(name = "seat_seat_class_fk", columnList = "seat_class_id"),
+            @Index(name = "seat_airplane_schema_fk", columnList = "airplane_schema_id")
+    }
 )
 public class Seat extends AbstractEntity implements Serializable {
 

@@ -18,14 +18,18 @@ services:
       retries: 20
   openliberty:
     build:
-      context: docker-openliberty
-    image: openliberty
+      context: docker-wildfly
+      args:
+        WILDFLY_USERNAME: admin
+        WILDFLY_PASSWORD: ssbd04
+    image: wildfly
     restart: always
     ports:
-      - "9080:9080"
-      - "9443:9443"
+      - "9990:9990"
+      - "8080:8080"
+      - "8443:8443"
     volumes:
-      - "./deployments:/config/dropins"
+      - "./deployments:/opt/jboss/wildfly/standalone/deployments"
     depends_on:
             - db
     environment:

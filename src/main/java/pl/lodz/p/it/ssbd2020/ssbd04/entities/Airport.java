@@ -35,6 +35,7 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Airport.CONSTRAINT_CODE;
 })
 @Entity
 @Table(
+        name = "airport",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "code", name = CONSTRAINT_CODE),
         }

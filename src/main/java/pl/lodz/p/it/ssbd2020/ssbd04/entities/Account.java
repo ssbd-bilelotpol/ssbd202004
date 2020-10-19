@@ -27,6 +27,7 @@ import static pl.lodz.p.it.ssbd2020.ssbd04.entities.Account.CONSTRAINT_LOGIN;
 })
 @Entity
 @Table(
+        name = "account",
         indexes = {@Index(name = "account_account_details_fk", columnList = "account_details_id")},
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "login", name = CONSTRAINT_LOGIN),

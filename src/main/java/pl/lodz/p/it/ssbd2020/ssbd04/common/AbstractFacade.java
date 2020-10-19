@@ -16,8 +16,7 @@ import java.util.List;
  * Klasa abstrakcyjna definiująca główne operacje wykonywane na encjach
  * przez zarządcę encji w kontekście trwałości.
  * Wymaga zdefiniowania własnego zarządcy encji z definicją jednostki trwałości.
- *
- * @param <T> klasa encyjna
+ ** @param <T> klasa encyjna
  */
 @DenyAll
 public abstract class AbstractFacade<T> {

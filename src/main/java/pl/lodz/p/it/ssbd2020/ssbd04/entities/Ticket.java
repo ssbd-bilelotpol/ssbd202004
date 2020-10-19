@@ -21,6 +21,7 @@ import java.util.Set;
 })
 @Entity
 @Table(
+        name = "ticket",
         indexes = {
                 @Index(name = "ticket_flight_fk", columnList = "flight_id"),
                 @Index(name = "ticket_account_fk", columnList = "account_id")

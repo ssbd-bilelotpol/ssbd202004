@@ -29,6 +29,7 @@ import java.util.Objects;
 
 @Entity
 @Table(
+        name = "connection",
         indexes = {
                 @Index(name = "connection_airport_dst_fk", columnList = "destination_id"),
                 @Index(name = "connection_airport_src_fk", columnList = "source_id")
