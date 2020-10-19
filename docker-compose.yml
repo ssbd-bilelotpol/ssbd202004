@@ -30,8 +30,9 @@ services:
       - "8443:8443"
     volumes:
       - "./deployments:/opt/jboss/wildfly/standalone/deployments"
+      # - "./docker-wildfly/configuration:/opt/jboss/wildfly/standalone/configuration"
     depends_on:
-            - db
+      - db
     environment:
       WLP_LOGGING_CONSOLE_LOGLEVEL: info
       WLP_LOGGING_CONSOLE_SOURCE: message,trace,accessLog,ffdc,audit
