@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.BenefitDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.dto.SeatClassDto;
 import pl.lodz.p.it.ssbd2020.ssbd04.mol.endpoints.SeatClassEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd04.security.EtagBinding;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.validation.SeatClassName;
 
@@ -109,6 +110,7 @@ public class SeatClassController extends AbstractController {
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @EtagBinding
     public Response update(@NotNull @PathParam("name") String name, @NotNull @Valid SeatClassDto seatClassDto) throws AppBaseException {
         SeatClassDto seatClassEditDto = repeat(seatClassEndpoint, () -> seatClassEndpoint.update(seatClassDto));
         return Response.ok()

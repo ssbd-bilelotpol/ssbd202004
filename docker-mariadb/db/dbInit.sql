@@ -1,5 +1,8 @@
 -- Accounts
 -- bcrypt(12345678) = $2y$12$WSEHsn4jxmPQAEAHUAPfMOTwRi52jbaBfA0QOoZHvPgkr2CoxQ5sS
+
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 DELETE
 FROM account_access_level;
 DELETE

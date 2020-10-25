@@ -23,6 +23,9 @@
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.connection.useUnicode" value="true" />
+            <property name="hibernate.connection.characterEncoding" value="UTF-8" />
+            <property name="hibernate.globally_quoted_identifiers" value="true"/>
         </properties>
     </persistence-unit>
 
@@ -50,6 +53,9 @@
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.connection.useUnicode" value="true" />
+            <property name="hibernate.connection.characterEncoding" value="UTF-8" />
+            <property name="hibernate.globally_quoted_identifiers" value="true"/>
         </properties>
     </persistence-unit>
     
@@ -77,6 +83,9 @@
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.connection.useUnicode" value="true" />
+            <property name="hibernate.connection.characterEncoding" value="UTF-8" />
+            <property name="hibernate.globally_quoted_identifiers" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
