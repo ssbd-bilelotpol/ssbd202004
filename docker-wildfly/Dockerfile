@@ -16,6 +16,5 @@ ENV WILDFLY_PASSWORD=${WILDFLY_PASSWORD}
 
 RUN /opt/jboss/wildfly/bin/add-user.sh -u "${WILDFLY_USERNAME}" -p "${WILDFLY_PASSWORD}" --silent
 
-COPY configuration/app.properties /opt/jboss/wildfly/standalone/configuration/app.properties
 RUN (/opt/jboss/wildfly/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0 &) && /opt/jboss/wildfly/bin/jboss-cli.sh -c &>/dev/null; while [[ $? -ne 0 ]]; do sleep 1; /opt/jboss/wildfly/bin/jboss-cli.sh -c &>/dev/null; done; /opt/jboss/wildfly/bin/jboss-cli.sh -c --file=/opt/jboss/add_module.cli
 ENTRYPOINT /opt/jboss/wildfly/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0 --debug
