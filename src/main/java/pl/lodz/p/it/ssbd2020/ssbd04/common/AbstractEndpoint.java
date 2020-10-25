@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.common;
 
+import pl.lodz.p.it.ssbd2020.ssbd04.security.HeaderContainer;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.MessageSigner;
 import pl.lodz.p.it.ssbd2020.ssbd04.security.Signable;
 
@@ -23,8 +24,8 @@ public abstract class AbstractEndpoint {
     @Inject
     protected MessageSigner messageSigner;
 
-    @Context
-    private HttpHeaders httpHeaders;
+    @Inject
+    private HeaderContainer headerContainer;
 
     @Inject
     private SecurityContext securityContext;
@@ -40,7 +41,7 @@ public abstract class AbstractEndpoint {
      * @return wynik weryfikacji.
      */
     protected boolean verifyEtag(Signable signable) {
-        String sent = httpHeaders.getRequestHeader("If-Match").get(0).replaceAll("\"", "");
+        String sent = headerContainer.getHeaders().getRequestHeader("If-Match").get(0).replaceAll("\"", "");
         String expected = messageSigner.sign(signable);
         return sent.equals(expected);
     }

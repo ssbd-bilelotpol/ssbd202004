@@ -6,6 +6,8 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
@@ -19,8 +21,15 @@ public class EtagFilter implements ContainerRequestFilter {
     @Inject
     private MessageSigner messageSigner;
 
+    @Inject
+    private HeaderContainer headerContainer;
+
+    @Context
+    private HttpHeaders httpHeaders;
+
     @Override
     public void filter(ContainerRequestContext requestContext) {
+        headerContainer.setHeaders(httpHeaders);
         String header = requestContext.getHeaderString("If-Match");
         if (header == null || header.isEmpty() || !header.contains(".")) {
             requestContext.abortWith(Response.status(Response.Status.BAD_REQUEST)
