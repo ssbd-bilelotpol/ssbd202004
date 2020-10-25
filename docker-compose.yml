@@ -17,7 +17,7 @@ services:
       timeout: 5s
       interval: 10s
       retries: 20
-  openliberty:
+  wildfly:
     build:
       context: docker-wildfly
       args:
