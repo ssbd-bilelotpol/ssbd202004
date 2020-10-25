@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.exceptions.mappers;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.UnauthorizedException;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -23,6 +24,7 @@ public class UnauthorizedExceptionMapper implements ExceptionMapper<Unauthorized
     @Override
     public Response toResponse(UnauthorizedException exception) {
         return Response.status(UNAUTHORIZED)
+                .type(MediaType.APPLICATION_JSON)
                 .entity(new ErrorResponse(exception.getMessage())).build();
     }
 }

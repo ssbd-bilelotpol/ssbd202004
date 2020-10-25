@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd04.exceptions.mappers;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ForbiddenException;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -24,6 +25,7 @@ public class ForbiddenExceptionMapper implements ExceptionMapper<ForbiddenExcept
     @Override
     public Response toResponse(ForbiddenException exception) {
         return Response.status(FORBIDDEN)
+                .type(MediaType.APPLICATION_JSON)
                 .entity(new ErrorResponse(exception.getMessage())).build();
     }
 }

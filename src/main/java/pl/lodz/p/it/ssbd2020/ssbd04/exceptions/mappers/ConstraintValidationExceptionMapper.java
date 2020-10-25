@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.ErrorResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -36,6 +37,7 @@ public class ConstraintValidationExceptionMapper implements ExceptionMapper<Cons
         }
 
         return Response.status(BAD_REQUEST)
+                .type(MediaType.APPLICATION_JSON)
                 .entity(new ErrorResponse(REST_VALIDATION_ERROR, errors)).build();
     }
 
