@@ -1,4 +1,4 @@
-FROM jboss/wildfly
+FROM jboss/wildfly:21.0.0.Final
 
 # RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/com/mysql/main
 USER root
@@ -18,4 +18,4 @@ RUN /opt/jboss/wildfly/bin/add-user.sh -u "${WILDFLY_USERNAME}" -p "${WILDFLY_PA
 
 COPY configuration/app.properties /opt/jboss/wildfly/standalone/configuration/app.properties
 RUN (/opt/jboss/wildfly/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0 &) && /opt/jboss/wildfly/bin/jboss-cli.sh -c &>/dev/null; while [[ $? -ne 0 ]]; do sleep 1; /opt/jboss/wildfly/bin/jboss-cli.sh -c &>/dev/null; done; /opt/jboss/wildfly/bin/jboss-cli.sh -c --file=/opt/jboss/add_module.cli
-ENTRYPOINT /opt/jboss/wildfly/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0
+ENTRYPOINT /opt/jboss/wildfly/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0 --debug

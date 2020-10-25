@@ -13,6 +13,7 @@ import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticatio
 import javax.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +23,13 @@ import java.util.logging.Logger;
  */
 @RequestScoped
 public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
+
+    private static final Map<String, List<String>> rolesMapping = new HashMap<>(){{
+        put("admin", Arrays.asList("editAccountAccessLevel", "getAccessLevels", "retrieveOwnAccountDetails", "changeRole", "retrieveOtherAccountDetails", "editOwnAccountDetails", "editOtherAccountDetails", "getAllAccounts", "getAllAccountsAuthInfo", "getAccountAuthInfo", "changeOwnAccountPassword", "changeOtherAccountPassword", "changeAccountActiveStatus", "findAccountsByName", "refreshToken", "ADMIN"));
+        put("manager", Arrays.asList("retrieveOwnAccountDetails", "changeRole", "editOwnAccountDetails", "getAccountAuthInfo", "changeOwnAccountPassword", "refreshToken", "createSeatClass", "deleteSeatClass", "updateSeatClass", "findSeatClassByName", "getAllBenefits", "createAirplaneSchema", "updateAirplaneSchema", "deleteAirplaneSchema", "getAllAirplaneSchemas", "createAirport", "deleteAirport", "updateAirport", "createConnection", "deleteConnection", "updateConnection", "createFlight", "cancelFlight", "updateFlight", "getTakenSeats", "calculateConnectionProfit", "MANAGER"));
+        put("client", Arrays.asList("retrieveOwnAccountDetails", "changeRole", "editOwnAccountDetails", "getAccountAuthInfo", "changeOwnAccountPassword", "refreshToken", "createTicket", "returnTicket", "getOwnTickets", "findTicketById", "getTakenSeats", "calculateConnectionProfit", "CLIENT"));
+        put("customer_service", Arrays.asList("retrieveOwnAccountDetails", "changeRole", "editOwnAccountDetails", "getAccountAuthInfo", "changeOwnAccountPassword", "findClientsByName", "refreshToken", "returnAnyTicket", "findTicketsByAccount", "findTicketsByFlights", "findAnyTicketById", "findTicketById", "updateTicket", "getTakenSeats", "calculateConnectionProfit", "generateReport", "CUSTOMER_SERVICE"));
+    }};
 
     private static final Logger LOGGER = Logger.getLogger(JWTAuthenticationMechanism.class.getName());
     public final static String AUTHORIZATION_HEADER = "Authorization";
@@ -49,7 +57,12 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
         JWT jwt = extractToken(request);
         if (jwt != null) {
-            return CORS(context).notifyContainerAboutLogin(jwt.getPrincipal(), jwt.getAuthorities());
+            Set<String> allRoles = new HashSet<>();
+            for (String group : jwt.getAuthorities()) {
+                allRoles.addAll(rolesMapping.get(group));
+            }
+
+            return CORS(context).notifyContainerAboutLogin(jwt.getPrincipal(), allRoles);
         } else if (!context.isProtected()) {
             return CORS(context).doNothing();
         }

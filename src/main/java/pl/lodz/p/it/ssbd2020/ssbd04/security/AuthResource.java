@@ -121,14 +121,14 @@ public class AuthResource {
     /**
      * Odświeża JWT
      *
-     * @param requestContext kontekst aplikacji
      * @return odpowiedź z odświeżonym JWT
      */
     @POST
     @Path("/refresh-token")
     @RolesAllowed({RefreshToken})
-    public Response refreshToken(ContainerRequestContext requestContext) {
-        String currentToken = extractToken(requestContext.getHeaderString(AUTHORIZATION_HEADER));
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response refreshToken() {
+        String currentToken = extractToken(httpServletRequest.getHeader(AUTHORIZATION_HEADER));
         JWT refreshedToken = jwtProvider.refresh(currentToken);
         LOGGER.log(Level.INFO, "User {0} with IP {1} refreshed token",
                 new Object[]{securityContext.getCallerPrincipal().getName(), httpServletRequest.getRemoteAddr()});

@@ -17,6 +17,7 @@ create or replace table account_seq
 (
     next_val bigint null
 );
+insert into account_seq (next_val) values (0);
 
 CREATE TABLE account_access_level
 (
@@ -156,6 +157,7 @@ create or replace table flight_seq
 (
     next_val bigint null
 );
+insert into flight_seq (next_val) values (0);
 
 CREATE TABLE passenger
 (
@@ -180,6 +182,7 @@ create or replace table passenger_seq
 (
     next_val bigint null
 );
+insert into passenger_seq (next_val) values (0);
 
 CREATE TABLE seat
 (
@@ -234,6 +237,7 @@ create or replace table ticket_seq
 (
     next_val bigint null
 );
+insert into ticket_seq (next_val) values (0);
 
 
 CREATE TABLE verification_token
@@ -536,7 +540,7 @@ GRANT
 
 
 GRANT
-    USAGE, SELECT ON account_seq TO ssbd04mok@'%';
+    USAGE, SELECT, INSERT, UPDATE ON account_seq TO ssbd04mok@'%';
 
 GRANT
     SELECT ON account_seq TO ssbd04mob@'%';
@@ -644,7 +648,7 @@ GRANT UPDATE (version) ON flight to ssbd04mob@'%';
 
 
 GRANT
-    USAGE, SELECT ON flight_seq TO ssbd04mol@'%';
+    USAGE, SELECT, INSERT, UPDATE ON flight_seq TO ssbd04mol@'%';
 
 GRANT
     SELECT ON flight_seq TO ssbd04mob@'%';
@@ -710,7 +714,7 @@ GRANT
 
 
 GRANT
-    USAGE, SELECT ON ticket_seq TO ssbd04mob@'%';
+    USAGE, SELECT, INSERT, UPDATE ON ticket_seq TO ssbd04mob@'%';
 
 GRANT
     SELECT ON ticket_seq TO ssbd04mol@'%';
@@ -730,7 +734,7 @@ GRANT
     SELECT ON passenger TO ssbd04mol@'%';
 
 GRANT
-    USAGE, SELECT ON passenger_seq TO ssbd04mob@'%';
+    USAGE, SELECT, INSERT, UPDATE ON passenger_seq TO ssbd04mob@'%';
 
 GRANT
     SELECT ON passenger_seq TO ssbd04mol@'%';
