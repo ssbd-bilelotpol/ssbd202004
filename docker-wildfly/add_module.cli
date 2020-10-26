@@ -7,8 +7,4 @@ data-source add --name=ssbd04molDS --jndi-name=java:/jdbc/ssbd04molDS --driver-n
 data-source add --name=ssbd04mobDS --jndi-name=java:/jdbc/ssbd04mobDS --driver-name=mysql --connection-url=jdbc:mysql://db:3306/ssbd04?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8 --user-name=ssbd04mob --password=n1b67mgir4yw34xh5
 data-source add --name=ssbd04authDS --jndi-name=java:/jdbc/ssbd04authDS --driver-name=mysql --connection-url=jdbc:mysql://db:3306/ssbd04?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8 --user-name=ssbd04auth --password=8sU6QvyXld5AVSXA
 
-/subsystem=security/security-domain=app:add(cache-type="default")
-/subsystem=security/security-domain=app/authentication=classic:add(login-modules=[{code="RoleMapping",flag="required",module-options={rolesProperties="file:///opt/jboss/wildfly/standalone/configuration/app.properties",replaceRole="false"}}])
-/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=url-charset,value="utf-8")
-/subsystem=undertow/servlet-container=default:write-attribute(name="default-encoding", value="utf-8")
 run-batch
