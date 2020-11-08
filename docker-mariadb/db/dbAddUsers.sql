@@ -1,4 +1,0 @@
-CREATE USER ssbd04mok@'%' IDENTIFIED BY '0r2v03rlhfim4xhdd';
-CREATE USER ssbd04mol@'%' IDENTIFIED BY '4lc8faovny1rm8ga3';
-CREATE USER ssbd04mob@'%' IDENTIFIED BY 'n1b67mgir4yw34xh5';
-CREATE USER ssbd04auth@'%' IDENTIFIED BY '8sU6QvyXld5AVSXA';
