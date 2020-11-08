@@ -5,8 +5,8 @@ services:
     build: docker-mariadb
     restart: always
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_USER
@@ -17,6 +17,8 @@ services:
       timeout: 5s
       interval: 10s
       retries: 20
+    networks:
+      - internal_network
   wildfly:
     build:
       context: docker-wildfly
@@ -37,10 +39,7 @@ services:
     image: wildfly
     restart: always
     ports:
-      - "9990:9990"
-      - "8080:8080"
       - "8443:8443"
-      - "8787:8787"
     volumes:
       - "./deployments:/opt/jboss/wildfly/standalone/deployments"
     depends_on:
@@ -49,3 +48,12 @@ services:
     environment:
       - WLP_LOGGING_CONSOLE_LOGLEVEL
       - WLP_LOGGING_CONSOLE_SOURCE
+    networks:
+      - internal_network
+      - public_network
+
+networks:
+  internal_network:
+    internal: true
+  public_network:
+    driver: bridge
