@@ -52,12 +52,13 @@ services:
       - WLP_LOGGING_CONSOLE_SOURCE
     networks:
       - internal_network
+      - public_network
   nginx:
     image: nginx
     volumes:
       - ./templates:/etc/nginx/templates
+      - "./certs:/etc/nginx/certs"
     ports:
-      - "8080:8080"
       - "443:443"
     networks:
       - internal_network
