@@ -38,8 +38,8 @@ services:
         MYSQL_PASSWORD_AUTH: "${MYSQL_PASSWORD_AUTH}"
     image: wildfly
     restart: always
-    ports:
-      - "8443:8443"
+    expose:
+      - "8080"
     volumes:
       - "./deployments:/opt/jboss/wildfly/standalone/deployments"
     depends_on:
@@ -50,7 +50,19 @@ services:
       - WLP_LOGGING_CONSOLE_SOURCE
     networks:
       - internal_network
+  nginx:
+    image: nginx
+    volumes:
+      - ./templates:/etc/nginx/templates
+    ports:
+      - "8080:8080"
+      - "443:443"
+    networks:
+      - internal_network
       - public_network
+    depends_on:
+      - wildfly
+    restart: always
 
 networks:
   internal_network:
