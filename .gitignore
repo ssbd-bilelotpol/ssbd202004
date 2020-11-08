@@ -113,3 +113,4 @@ derby.log
 yarn.lock
 package-lock.json
 deployments
+db-data

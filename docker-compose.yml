@@ -17,6 +17,8 @@ services:
       timeout: 5s
       interval: 10s
       retries: 20
+    volumes: 
+      - "./db-data:/var/lib/mysql"
     networks:
       - internal_network
   wildfly:
