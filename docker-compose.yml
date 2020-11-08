@@ -8,12 +8,12 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: ssbd04
-      MYSQL_USER: ssbd04
-      MYSQL_PASSWORD: 12345678
-      MYSQL_DATABASE: ssbd04
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-u", "ssbd04", "-p12345678"]
+      test: ["CMD", "mysqladmin" ,"ping", "-u", "${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
       timeout: 5s
       interval: 10s
       retries: 20
@@ -21,8 +21,19 @@ services:
     build:
       context: docker-wildfly
       args:
-        WILDFLY_USERNAME: admin
-        WILDFLY_PASSWORD: ssbd04
+        WILDFLY_USERNAME: "${WILDFLY_USERNAME}"
+        WILDFLY_PASSWORD: "${WILDFLY_PASSWORD}"
+        MYSQL_USER: "${MYSQL_USER}"
+        MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+        MYSQL_DATABASE: "${MYSQL_DATABASE}"
+        MYSQL_USER_MOK: "${MYSQL_USER_MOK}"
+        MYSQL_PASSWORD_MOK: "${MYSQL_PASSWORD_MOK}"
+        MYSQL_USER_MOB: "${MYSQL_USER_MOB}"
+        MYSQL_PASSWORD_MOB: "${MYSQL_PASSWORD_MOB}"
+        MYSQL_USER_MOL: "${MYSQL_USER_MOL}"
+        MYSQL_PASSWORD_MOL: "${MYSQL_PASSWORD_MOL}"
+        MYSQL_USER_AUTH: "${MYSQL_USER_AUTH}"
+        MYSQL_PASSWORD_AUTH: "${MYSQL_PASSWORD_AUTH}"
     image: wildfly
     restart: always
     ports:
@@ -32,10 +43,9 @@ services:
       - "8787:8787"
     volumes:
       - "./deployments:/opt/jboss/wildfly/standalone/deployments"
-      # - "./docker-wildfly/configuration:/opt/jboss/wildfly/standalone/configuration"
     depends_on:
             db:
-                    condition: service_healthy
+              condition: service_healthy
     environment:
-      WLP_LOGGING_CONSOLE_LOGLEVEL: info
-      WLP_LOGGING_CONSOLE_SOURCE: message,trace,accessLog,ffdc,audit
+      - WLP_LOGGING_CONSOLE_LOGLEVEL
+      - WLP_LOGGING_CONSOLE_SOURCE
