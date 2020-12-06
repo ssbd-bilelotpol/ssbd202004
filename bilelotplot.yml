@@ -1,0 +1,188 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-storage
+  labels:
+    app: bilelotpol
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wildfly-storage
+  labels:
+    app: bilelotpol
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bilelotpol-db
+  labels:
+    app: bilelotpol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bilelotpol
+  template:
+    metadata:
+      labels:
+        app: bilelotpol
+        tier: database
+    spec:
+      containers:
+        - name: bilelotpol-db
+          image: th7nder/bilelotpol-db:0.2
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "ssbd04"
+            - name: MYSQL_USER
+              value: "ssbd04"
+            - name: MYSQL_PASSWORD
+              value: "12345678"
+            - name: MYSQL_DATABASE
+              value: "ssbd04"
+          volumeMounts:
+            - name: mariadb-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mariadb-data
+          persistentVolumeClaim:
+            claimName: mariadb-storage
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    app: bilelotpol
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: bilelotpol
+    tier: database
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bilelotpol-wildfly
+  labels:
+    app: bilelotpol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bilelotpol
+      tier: backend-app
+  template:
+    metadata:
+      labels:
+        app: bilelotpol
+        tier: backend-app
+    spec:
+      containers:
+        - name: bilelotpol-wildfly
+          image: th7nder/bilelotpol-wildfly:0.3
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: wildfly-data
+              mountPath: /opt/jboss/wildfly/standalone/deployments
+      volumes:
+        - name: wildfly-data
+          persistentVolumeClaim:
+            claimName: wildfly-storage
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bilelotpol-wildfly
+  labels:
+    app: bilelotpol
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: bilelotpol
+    tier: backend-app
+  clusterIP: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: bilelotpol
+  labels:
+    app: bilelotpol
+spec:
+  to:
+    kind: Service
+    name: bilelotpol-wildfly
+  tls:
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      MIIDLDCCAhQCCQCW9g+gjq/LtjANBgkqhkiG9w0BAQsFADBYMQswCQYDVQQGEwJQ
+      TDEOMAwGA1UECgwFUMOFwoExDjAMBgNVBAsMBUZUSU1TMQ0wCwYDVQQHDARMb2R6
+      MRowGAYDVQQDDBF3d3cudHVhMjAyMDA0LmNvbTAeFw0yMDExMDgxOTU3MzhaFw0y
+      MTA5MDQxOTU3MzhaMFgxCzAJBgNVBAYTAlBMMQ4wDAYDVQQKDAVQw4XCgTEOMAwG
+      A1UECwwFRlRJTVMxDTALBgNVBAcMBExvZHoxGjAYBgNVBAMMEXd3dy50dWEyMDIw
+      MDQuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsg3pkFkcGN2i
+      4dLpcZoP4dmM4EXzSlqfo0piTbRiYqM6tjpobWrMQCpnzdS85RiCWBpxlijY5zsZ
+      fOF1y93BEDuCzCZQQ8PJDsjlHsI4rYTycoG/BSA3lpRXS2CBIdOb5vbYuBxpgDNo
+      Y9+adOse+D3nowa9tkd/HxCbdFXdNeysaz1MO/CSBl0mFYIQcanRWGD/f4UWBnqq
+      87vwmgC0MoibtRnrJjQtBFzlEJS/ErXU/CRv7l+EnbhKawgP0koSTgIUAZcRc3h9
+      jKf/jUt26JzL6QDtXNgcsjE72K3eaBU9r3Q4tv6kq9ikE2lXoBLQSVOlLetqoza5
+      eyGrP/h13wIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBBIg3oJGJsldj1+76TBZhY
+      2oUejwF0Ty/Vd0bmQ9/1x+y45YQZTsOM8Rja6LTzGSCaAAERdAcu3wMIdZVb5OgB
+      7HUj4XlMXZTj3Qpt1Vps+3EpaWg7Gob1UuDmRsxRHVAR9UyxZHIxTJf3kwh29ZTJ
+      zsoYTsK9osXLvphzmFNgdUpoEqqTDIcvei2Bb0+K+DtjHni8jGXaT5x1qvPCw03F
+      5qnnXd0pf+JpIWCPGn4kOY/D+q2xYEGCoDU8Hs6wNCmYSWAtfKoR9glIJzrneYsW
+      vtOEDqfDRGQM2HgmtsGy7VwXUy7NMX958ZvtXrQ2iV+bdhlbTMrpVWAQ0Dj/Frkw
+      -----END CERTIFICATE-----
+    insecureEdgeTerminationPolicy: Redirect
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCyDemQWRwY3aLh
+      0ulxmg/h2YzgRfNKWp+jSmJNtGJiozq2OmhtasxAKmfN1LzlGIJYGnGWKNjnOxl8
+      4XXL3cEQO4LMJlBDw8kOyOUewjithPJygb8FIDeWlFdLYIEh05vm9ti4HGmAM2hj
+      35p06x74PeejBr22R38fEJt0Vd017KxrPUw78JIGXSYVghBxqdFYYP9/hRYGeqrz
+      u/CaALQyiJu1GesmNC0EXOUQlL8StdT8JG/uX4SduEprCA/SShJOAhQBlxFzeH2M
+      p/+NS3bonMvpAO1c2ByyMTvYrd5oFT2vdDi2/qSr2KQTaVegEtBJU6Ut62qjNrl7
+      Ias/+HXfAgMBAAECggEATvRWXrj0+Z3GbYb+F27ungK/MnAySwVWhq0kXDqh6gVh
+      so7B4csa2VU0hJRSUvCEVBcdyS1ByX9udO7xMj6aLt2EyYwvyWzXCiRRXUtYoLE0
+      ZUxdbSN1IuOStg0MFfjkyA0r2rBWpA+nuancrv3X1NJ2ldcWZu7bUuYlWPf+SLt1
+      ThkiWKrvn4M1RuDBqOHHG0eSfNQxIHaI5KB5GzFC1R2ucGyu3hVCBgmWjU8zOf94
+      F4+LytDCFoBpqmwC10WaOQUvOSC/KhLXBLMQ39wSadbSNhG6KLYaLI8J7AnnIkf7
+      TwKK/O5Bh1KOABmcZfpC/DIl5Ese4Z7LzZHi+V98yQKBgQDoaT6G+l8zkRtr6cpz
+      sX90ku4cu5lnE3r8qIgWq3M8ddkQ+v96Xtly7xmpGPYyqT6aXHBBmhxSuqMXyTCH
+      bKpJW2l66wPhHnsJLxmm29Es1Fo+ySAikBog87/hsTrUN0SMj72ADfc0rS+dLGT2
+      P3K0ZdMIwWnypaX+auaKgSBDYwKBgQDEIE/l5TqUX9NnioLeJLnPJcdU20++8NEs
+      uEyrM+cwEDDoJWWCPYbb/Iw/UMusLPoEKn5jx4GrZ9t4dooZT/DwPUaTIWkNcN7l
+      JuCit2ga5gurn1h/F0Oycl2rIpRaqOh2W9Y9eqNu2nIL+r53ofuZokmrDUMZW2k8
+      aZD8KMByVQKBgQCvNNgcbZdjipr/iWpEOaV6PmIfaxXEbR0kZ/DgFjRzeexALth2
+      ahbH3JSds+G2Y3x8Zf+ClSmQ/H6DKfrZvQPK9YzZS17LUW0ziTxvW/ufLh8ygfEl
+      3Ti1asxW2oMdBOU6igo0BVM9dOoWNSePtFlGwhSL3zN9537yA6j09U9bPQKBgEAg
+      5J8iPe5ICwL/Gl1ymsLt8mh/sWqYqXy64m7UcNKZaLRvjepxHciOonkNfRtWNYXp
+      MxyDHpYiRnP0JqGyLvEOyCXRtdzsPCWneaoa2FJ7R/OdDb24qK0PkiskCmg+dIxG
+      6R1/HTNhAAuEuIS7lV4d34KrunXvGtDjH8IjvRFlAoGANyCxKfkqlfV7SdBFJ94j
+      5Mqh+cCK6VrDo+Nt06qJtrcRPD6yJ5VXpMDo9rXzf7dcohHiU/lF4qp717WzYtew
+      WTLNvPtoH+ZM2OMHBEFn8HFCnQ9Dp8j8He5IQ8AqzraRzniT2DVkGNMTwVmkJcPg
+      bTsDr+TlRk5fZZxrIACv9NE=
+      -----END PRIVATE KEY-----
+    termination: edge
