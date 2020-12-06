@@ -55,8 +55,7 @@ services:
     volumes:
       - "./deployments:/opt/jboss/wildfly/standalone/deployments"
     depends_on:
-            db:
-              condition: service_healthy
+      - db
     environment:
       - WLP_LOGGING_CONSOLE_LOGLEVEL
       - WLP_LOGGING_CONSOLE_SOURCE

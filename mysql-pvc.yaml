@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: mysql-template
+  annotations:
+    description: "Our mysql database"
+    iconClass: "icon-mysql-database"
+  labels:
+    app: bilelotpol
+objects:
+- kind: BuildConfig
+	apiVersion: v1
+	metadata:
+		name: "mariadb-build"
+	spec:
+		strategy:
+			dockerStrategy:
+				dockerfilePath: docker-mariadb/Dockerfile
+- kind: PersistentVolumeClaim
+	apiVersion: v1
+	metadata:
+		name: mysql-pvc
+	labels:
+		app: bilelotpol
+	spec:
+		accessModes:
+		- ReadWriteOnce 
+		resources:
+		  requests:
+		    storage: 1Gi
+- kind: Pod
+	apiVersion: v1
+	metadata:
+		name: mysql
+	labels:
+		app: bilelotpol
+	spec:
+		containers:
+		
