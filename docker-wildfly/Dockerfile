@@ -38,4 +38,7 @@ ENV MYSQL_PASSWORD_AUTH=${MYSQL_PASSWORD_AUTH}
 RUN /opt/jboss/wildfly/bin/add-user.sh -u "${WILDFLY_USERNAME}" -p "${WILDFLY_PASSWORD}" --silent
 
 RUN (/opt/jboss/wildfly/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0 &) && /opt/jboss/wildfly/bin/jboss-cli.sh -c &>/dev/null; while [[ $? -ne 0 ]]; do sleep 1; /opt/jboss/wildfly/bin/jboss-cli.sh -c &>/dev/null; done; sh /opt/jboss/add_module.sh &>/dev/null
+USER root
+RUN chgrp -R 0 /opt/jboss && chmod -R g=u /opt/jboss
+USER jboss
 ENTRYPOINT /opt/jboss/wildfly/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0 --debug
