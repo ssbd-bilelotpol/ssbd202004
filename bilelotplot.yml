@@ -186,3 +186,32 @@ spec:
       bTsDr+TlRk5fZZxrIACv9NE=
       -----END PRIVATE KEY-----
     termination: edge
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    prom: monitor
+  name: bilelotpol-service-monitor
+  namespace: bilelotpol
+spec:
+  endpoints:
+      - interval: 30s
+        scheme: http
+        port: "9990"
+  selector:
+    matchLabels:
+      app: bilelotpol
+      tier: backend-app
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    prom: prom
+  name: bilelotpol-prometheus
+  namespace: bilelotpol
+spec:
+  serviceMonitorSelector:
+    matchLabels:
+      prom: monitor
