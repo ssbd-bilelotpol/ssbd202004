@@ -119,6 +119,12 @@ spec:
           volumeMounts:
             - name: wildfly-data
               mountPath: /opt/jboss/wildfly/standalone/deployments
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 9990
+            initialDelaySeconds: 120
+            timeoutSeconds: 1
       volumes:
         - name: wildfly-data
           persistentVolumeClaim:
@@ -212,9 +218,9 @@ metadata:
   namespace: bilelotpol
 spec:
   endpoints:
-      - interval: 30s
-        scheme: http
-        targetPort: 9990
+    - interval: 30s
+      scheme: http
+      targetPort: 9990
   selector:
     matchLabels:
       service: backend
