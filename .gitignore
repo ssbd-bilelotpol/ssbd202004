@@ -1,6 +1,5 @@
 # Directories #
 build/
-bin/
 target/
 libs/
 tmp/

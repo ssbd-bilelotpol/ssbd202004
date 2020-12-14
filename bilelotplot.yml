@@ -92,6 +92,38 @@ spec:
     tier: database
   clusterIP: None
 ---
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: bilelotpol-app
+---
+kind: BuildConfig
+apiVersion: v1
+metadata:
+  name: bilelotpol-build
+spec:
+  runPolicy: Serial
+  source:
+    type: Git
+    git:
+      uri: "https://github.com/ssbd-bilelotpol/ssbd202004.git"
+      ref: "openshift"
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: s2i-bilelotpol:latest
+      runtimeImage:
+        kind: ImageStreamTag
+        name: s2i-bilelotpol-runtime:latest
+      runtimeArtifacts:
+        - sourcePath: /opt/app-root/bilelotpol.war
+  output:
+    to:
+      kind: ImageStreamTag
+      name: bilelotpol-app:latest
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -112,13 +144,9 @@ spec:
     spec:
       containers:
         - name: bilelotpol-wildfly
-          image: th7nder/bilelotpol-wildfly:0.3
+          image: image-registry.openshift-image-registry.svc:5000/bilelotpol/bilelotpol-app:latest
           ports:
-            - containerPort: 8080
             - containerPort: 9990
-          volumeMounts:
-            - name: wildfly-data
-              mountPath: /opt/jboss/wildfly/standalone/deployments
           livenessProbe:
             httpGet:
               path: /health/live
