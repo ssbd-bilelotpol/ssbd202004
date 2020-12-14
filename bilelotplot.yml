@@ -24,6 +24,20 @@ spec:
     requests:
       storage: 256Mi
 ---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: view
+  namespace: bilelotpol
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: bilelotpol
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -101,6 +115,7 @@ spec:
           image: th7nder/bilelotpol-wildfly:0.3
           ports:
             - containerPort: 8080
+            - containerPort: 9990
           volumeMounts:
             - name: wildfly-data
               mountPath: /opt/jboss/wildfly/standalone/deployments
@@ -116,6 +131,7 @@ metadata:
   name: bilelotpol-wildfly
   labels:
     app: bilelotpol
+    service: backend
 spec:
   ports:
     - port: 8080
@@ -198,11 +214,10 @@ spec:
   endpoints:
       - interval: 30s
         scheme: http
-        port: "9990"
+        targetPort: 9990
   selector:
     matchLabels:
-      app: bilelotpol
-      tier: backend-app
+      service: backend
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
