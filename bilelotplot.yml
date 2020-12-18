@@ -97,32 +97,58 @@ kind: ImageStream
 metadata:
   name: bilelotpol-app
 ---
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: bilelotpol-build
+---
 kind: BuildConfig
 apiVersion: v1
 metadata:
   name: bilelotpol-build
 spec:
-  runPolicy: Serial
   source:
-    type: Git
     git:
-      uri: "https://github.com/ssbd-bilelotpol/ssbd202004.git"
-      ref: "openshift"
+      uri: https://github.com/ssbd-bilelotpol/ssbd202004.git
+      ref: openshift
   strategy:
-    type: Source
     sourceStrategy:
       from:
         kind: ImageStreamTag
         name: s2i-bilelotpol:latest
-      runtimeImage:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: bilelotpol-build:latest
+---
+kind: BuildConfig
+apiVersion: v1
+metadata:
+  name: bilelotpol-runtime-build
+spec:
+  source:
+    dockerfile: |-
+      FROM s2i-bilelotpol-runtime:latest
+      COPY bilelotpol.war /opt/app-root/bilelotpol.war
+    images:
+      - from:
+          kind: ImageStreamTag
+          name: bilelotpol-build:latest
+        paths:
+          - sourcePath: /opt/app-root/bilelotpol.war
+            destinationDir: "."
+  strategy:
+    dockerStrategy:
+      from:
         kind: ImageStreamTag
         name: s2i-bilelotpol-runtime:latest
-      runtimeArtifacts:
-        - sourcePath: /opt/app-root/bilelotpol.war
   output:
     to:
       kind: ImageStreamTag
       name: bilelotpol-app:latest
+  triggers:
+    - imageChange: {}
+      type: ImageChange
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -144,7 +170,7 @@ spec:
     spec:
       containers:
         - name: bilelotpol-wildfly
-          image: image-registry.openshift-image-registry.svc:5000/bilelotpol/bilelotpol-app:latest
+          image: image-registry.openshift-image-registry.svc:5000/test/bilelotpol-app:latest
           ports:
             - containerPort: 9990
           livenessProbe:
