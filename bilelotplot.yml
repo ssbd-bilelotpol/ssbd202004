@@ -129,7 +129,7 @@ spec:
   source:
     dockerfile: |-
       FROM s2i-bilelotpol-runtime:latest
-      COPY bilelotpol.war /opt/app-root/bilelotpol.war
+      COPY bilelotpol.war /opt/jboss/wildfly/standalone/deployments/bilelotpol.war
     images:
       - from:
           kind: ImageStreamTag
