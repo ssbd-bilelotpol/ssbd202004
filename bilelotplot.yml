@@ -11,19 +11,6 @@ spec:
     requests:
       storage: 512Mi
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: wildfly-storage
-  labels:
-    app: bilelotpol
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 256Mi
----
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -96,11 +83,15 @@ apiVersion: v1
 kind: ImageStream
 metadata:
   name: bilelotpol-app
+spec:
+  dockerImageRepository: docker.io/bilelotpol/bilelotpol-app
 ---
 apiVersion: v1
 kind: ImageStream
 metadata:
   name: bilelotpol-build
+spec:
+  dockerImageRepository: docker.io/bilelotpol/bilelotpol-build
 ---
 kind: BuildConfig
 apiVersion: v1
@@ -114,12 +105,14 @@ spec:
   strategy:
     sourceStrategy:
       from:
-        kind: ImageStreamTag
-        name: s2i-bilelotpol:latest
+        kind: DockerImage
+        name: docker.io/bilelotpol/s2i-bilelotpol:latest
   output:
     to:
-      kind: ImageStreamTag
-      name: bilelotpol-build:latest
+      kind: DockerImage
+      name: docker.io/bilelotpol/bilelotpol-build:latest
+    pushSecret:
+      name: dockerhub
 ---
 kind: BuildConfig
 apiVersion: v1
@@ -128,24 +121,26 @@ metadata:
 spec:
   source:
     dockerfile: |-
-      FROM s2i-bilelotpol-runtime:latest
+      FROM docker.io/bilelotpol/s2i-bilelotpol-runtime:latest
       COPY bilelotpol.war /opt/jboss/wildfly/standalone/deployments/bilelotpol.war
     images:
       - from:
-          kind: ImageStreamTag
-          name: bilelotpol-build:latest
+          kind: DockerImage
+          name: docker.io/bilelotpol/bilelotpol-build:latest
         paths:
           - sourcePath: /opt/app-root/bilelotpol.war
             destinationDir: "."
   strategy:
     dockerStrategy:
       from:
-        kind: ImageStreamTag
-        name: s2i-bilelotpol-runtime:latest
+        kind: DockerImage
+        name: docker.io/bilelotpol/s2i-bilelotpol-runtime:latest
   output:
     to:
-      kind: ImageStreamTag
-      name: bilelotpol-app:latest
+      kind: DockerImage
+      name: docker.io/bilelotpol/bilelotpol-app:latest
+    pushSecret:
+      name: dockerhub
   triggers:
     - imageChange: {}
       type: ImageChange
@@ -170,7 +165,7 @@ spec:
     spec:
       containers:
         - name: bilelotpol-wildfly
-          image: image-registry.openshift-image-registry.svc:5000/test/bilelotpol-app:latest
+          image: docker.io/bilelotpol/bilelotpol-app:latest
           ports:
             - containerPort: 9990
           livenessProbe:
@@ -179,10 +174,6 @@ spec:
               port: 9990
             initialDelaySeconds: 120
             timeoutSeconds: 1
-      volumes:
-        - name: wildfly-data
-          persistentVolumeClaim:
-            claimName: wildfly-storage
       restartPolicy: Always
 ---
 apiVersion: v1

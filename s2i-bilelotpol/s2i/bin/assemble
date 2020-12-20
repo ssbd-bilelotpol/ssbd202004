@@ -24,6 +24,9 @@ fi
 echo "---> Building application from source..."
 pushd /tmp/src/ >/dev/null
 export JAVA_HOME=/usr/lib/jvm/java-11
+
+mv src/main/resources/config.properties.example src/main/resources/config.properties
+mv src/main/frontend/.env.example src/main/frontend/.env
 mvn package
 
 mv target/ssbd04-1.0.war /opt/app-root/bilelotpol.war
