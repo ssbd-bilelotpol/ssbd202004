@@ -108,6 +108,11 @@
             <artifactId>wildfly-microprofile-health-smallrye</artifactId>
             <version>21.0.0.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-microprofile-metrics-smallrye</artifactId>
+            <version>21.0.0.Final</version>
+        </dependency>
     </dependencies>
 
     <build>

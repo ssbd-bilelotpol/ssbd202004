@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd04.controllers;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import pl.lodz.p.it.ssbd2020.ssbd04.entities.FlightStatus;
 import pl.lodz.p.it.ssbd2020.ssbd04.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd04.mob.endpoints.TicketEndpoint;
@@ -21,6 +22,9 @@ import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static java.lang.Math.atan;
+import static java.lang.Math.tan;
 
 /**
  * Odpowiada zasobom reprezentującym logikę przetwarzania lotów.
@@ -52,11 +56,24 @@ public class FlightController extends AbstractController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Counted(name = "flight-searches", description = "How many times flights were searched", absolute = true)
     public List<FlightDto> find(@QueryParam("code") String code, @QueryParam("connection") Long connectionId,
                                 @QueryParam("airplane") Long airplaneId, @QueryParam("from") LocalDateTime from,
                                 @QueryParam("to") LocalDateTime to, @QueryParam("status") FlightStatus status)
             throws AppBaseException {
         return repeat(flightEndpoint, () -> flightEndpoint.find(code, connectionId, airplaneId, from, to, status));
+    }
+
+
+    @GET
+    @Path("/fib")
+    public void fibonacci() {
+        long now = System.currentTimeMillis();
+        while (now + 30 * 1000 > System.currentTimeMillis()) {
+            for (int i = 0; i < 10; i++) {
+                atan(tan(atan(tan(atan(123456789.123456789)))));
+            }
+        }
     }
 
     /**
