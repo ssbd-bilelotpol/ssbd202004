@@ -15,7 +15,6 @@ public class HealthCheckService implements HealthCheck {
     @Inject
     private State state;
 
-
     public HealthCheckResponse call() {
         if (state.getState()) return HealthCheckResponse.named("ssbd04-tua").up().build();
         return HealthCheckResponse.named("ssbd04-tua").down().build();

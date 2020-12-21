@@ -7,7 +7,7 @@ import java.io.Serializable;
 @ApplicationScoped
 public class State implements Serializable {
 
-    private boolean state;
+    private boolean state = true;
 
     public boolean getState() {
         return state;
@@ -15,10 +15,5 @@ public class State implements Serializable {
 
     public void switchState() {
         state = !state;
-    }
-
-    @PostConstruct
-    private void init(){
-        state = true;
     }
 }
