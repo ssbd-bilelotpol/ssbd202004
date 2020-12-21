@@ -46,11 +46,11 @@ public class EmailService {
     @Asynchronous
     public void transactionalEmailListener(
             @Observes(during = TransactionPhase.AFTER_SUCCESS) EmailEvent email) {
-        try {
-            sendEmail(email.getEmail(), email.getSenderName(), email.getSubject(), email.getMessage());
-        } catch (AppBaseException e) {
-            LOGGER.log(Level.INFO, "Failed to send an email asynchronously");
-        }
+        // try {
+        //     sendEmail(email.getEmail(), email.getSenderName(), email.getSubject(), email.getMessage());
+        // } catch (AppBaseException e) {
+        //     LOGGER.log(Level.INFO, "Failed to send an email asynchronously");
+        // }
     }
 
     /**
@@ -76,17 +76,17 @@ public class EmailService {
      * @throws AppBaseException w przypadku niepowodzenia operacji
      */
     public void sendEmail(String email, String senderName, String subject, String message) throws AppBaseException {
-        HttpResponse<JsonNode> request = Unirest.post(config.getApiServer() + "/messages")
-                .basicAuth("api", config.getMailApiKey())
-                .queryString("from", String.format("%s <%s>", senderName, config.getMailSender()))
-                .queryString("to", email)
-                .queryString("subject", subject)
-                .queryString("html", message)
-                .asJson();
+        // HttpResponse<JsonNode> request = Unirest.post(config.getApiServer() + "/messages")
+        //         .basicAuth("api", config.getMailApiKey())
+        //         .queryString("from", String.format("%s <%s>", senderName, config.getMailSender()))
+        //         .queryString("to", email)
+        //         .queryString("subject", subject)
+        //         .queryString("html", message)
+        //         .asJson();
 
-        if (request.getStatus() != 200) {
-            throw AppBaseException.emailError();
-        }
+        // if (request.getStatus() != 200) {
+        //     throw AppBaseException.emailError();
+        // }
     }
 
     private static class EmailEvent {
